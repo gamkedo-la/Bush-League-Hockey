@@ -5,38 +5,21 @@ using UnityEngine;
 public class GameSystem : MonoBehaviour
 {
     [Header("Main Camera")]
-    private Camera mainCamera;
-    [SerializeField] float zoom;
-    [SerializeField] GameObject focalObject;
-    [SerializeField] [Range(0.0f, 1f)] float cameraRotationSpeed;
+    public Camera mainCamera;
+    [SerializeField] [Range(15f, .5f)] float zoom;
+    private GameObject focalObject;
+    [SerializeField] [Range(0.0f, 0.2f)] float cameraRotationSpeed;
     private Vector3 lineToDesiredTarget;
     private Quaternion desiredCameraRotation;
     [Header("Game Management")]
+    public GameObject puckObject;
+    public Rigidbody puckRigidBody;
     private int homeScore = 0;
     private int awayScore = 0;
-    private int posessionIndex = 0; //  0 free puck, 1 home posession, 2 away posession
-    private List<TeamMember> membersCompetingForPosession;
-    private TeamMember memberWithPosession;
     private void Awake(){
-        mainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
-    }
-    public bool CompeteForPosession(TeamMember memberCompetingForPosession){
-        // player can take posession
-        // does player already have posession
-        // add player to membersCompetingForPosession if they aren't there already
-        return true;
-    }
-    public bool MemberLostPosession(){
-        memberWithPosession = null;
-        return true;
-    }
-    public bool TeamHasPosession(int TeamIndex){
-        return TeamIndex == posessionIndex;
-    }
-    private void HandlePosession(){
-        // how many players competing for posession
-        // if there is only one they win
-        // otherwise 
+        mainCamera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
+        focalObject = puckObject;
+        puckRigidBody = puckObject.GetComponent<Rigidbody>();
     }
     private void HandleCameraFocus(){
         lineToDesiredTarget = Vector3.Normalize(focalObject.transform.position - mainCamera.transform.position);
@@ -48,7 +31,6 @@ public class GameSystem : MonoBehaviour
         // (max: rink width, min: everone at center ice)
     }
     void Update(){
-        HandlePosession();
         HandleCameraFocus();
         HandleCameraZoom();
     }

@@ -5,23 +5,13 @@ using UnityEngine;
 public class TeamMember : MonoBehaviour
 {
     private GameSystem gameSystem;
-    public bool memberHasPosession = false;
-    private GameObject puckObject;
-    public int teamIndex; // 1 home, 2 away
-    private void Awake() {
+    public bool isHomeTeam; // 1 home, 2 away
+    private void Awake(){
         gameSystem = GameObject.Find("GameSystem").GetComponent<GameSystem>();
+        SetIsHomeTeam(true);
     }
-    public void SetTeamIndex(int index){
-        teamIndex = index;
+    public void SetIsHomeTeam(bool isHome){
+        isHomeTeam = isHome;
     }
-    public void TakePosession(){
-        Debug.Log("Taking Posession");
-        gameSystem.
-        memberHasPosession = true;
-    }
-    public void LosePosession(){
-        Debug.Log("Lost Posession");
-        memberHasPosession = false;
-        puckObject.transform.SetParent(gameSystem.transform, true);
-    }
+    
 }
