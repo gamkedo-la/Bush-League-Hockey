@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 public class PosessionCollider : MonoBehaviour
 {
-    [SerializeField] GameObject thisPlayer;
+    [SerializeField] GameObject thisPlayerObject;
     private GameSystem gameSystem;
     private TeamMember teamMember;
     private Skater skater;
     private void Awake(){
         gameSystem = GameObject.Find("GameSystem").GetComponent<GameSystem>();
-        teamMember = thisPlayer.GetComponent<TeamMember>();
-        skater = thisPlayer.GetComponent<Skater>();
+        teamMember = thisPlayerObject.GetComponent<TeamMember>();
+        skater = thisPlayerObject.GetComponent<Skater>();
     }
     private void OnTriggerStay(Collider other){
         if(other.tag == "puck"){
@@ -18,11 +18,10 @@ public class PosessionCollider : MonoBehaviour
             skater?.ControlPuck();
         }
     }
-    void OnTriggerExit(Collider other)
-    {
-        if (other.tag == "puck"){
+    void OnTriggerExit(Collider other){
+        if(other.tag == "puck"){
             Debug.Log("I can't control it anymore :(");
-            skater?.ResetFirstTouch();
+            StartCoroutine(skater?.CooldownFirstTouch());
         }
     }
 }
