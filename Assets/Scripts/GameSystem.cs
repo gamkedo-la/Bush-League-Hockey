@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 public class GameSystem : MonoBehaviour
 {
     [Header("Main Camera")]
@@ -21,6 +20,9 @@ public class GameSystem : MonoBehaviour
         focalObject = puckObject;
         puckRigidBody = puckObject.GetComponent<Rigidbody>();
     }
+    private void HandleCameraPositioning(){
+        mainCamera.transform.position = new Vector3((puckObject.transform.position.x / 2.5f), mainCamera.transform.position.y, mainCamera.transform.position.z);
+    }
     private void HandleCameraFocus(){
         lineToDesiredTarget = Vector3.Normalize(focalObject.transform.position - mainCamera.transform.position);
         desiredCameraRotation = Quaternion.LookRotation(lineToDesiredTarget, Vector3.up);
@@ -31,6 +33,7 @@ public class GameSystem : MonoBehaviour
         // (max: rink width, min: everone at center ice)
     }
     void Update(){
+        // HandleCameraPositioning();
         HandleCameraFocus();
         HandleCameraZoom();
     }

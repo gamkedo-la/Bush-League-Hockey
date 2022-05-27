@@ -25,8 +25,4 @@ public class PlayerController : MonoBehaviour
     public void OnMove(InputAction.CallbackContext context){
         selectedSkater.MoveInput(context.ReadValue<Vector2>());
     }
-    void Update()
-    {
-        // 
-    }
 }
