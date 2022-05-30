@@ -71,7 +71,6 @@ public class Skater : MonoBehaviour
         forwardForce = inputVector.y * Vector3.Normalize(transform.position - gameSystem.mainCamera.transform.position);
         sideForce = inputVector.x * Vector3.Cross(gameSystem.mainCamera.transform.forward, -gameSystem.mainCamera.transform.up);
         movementPointer = Vector3.Normalize(new Vector3((forwardForce.x + sideForce.x), 0f, (forwardForce.z + sideForce.z)));
-        // Shot pointer, same input Vector2D, new Vector3(input.x, 0f, input.z)
         puckLaunchDirection = new Vector3(inputVector.x, 0.2f, inputVector.y);
     }
     public void HandleMove(){

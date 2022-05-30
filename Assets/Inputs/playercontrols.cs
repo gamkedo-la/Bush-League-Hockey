@@ -44,9 +44,9 @@ public class @Playercontrols : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": ""LobShot"",
-                    ""type"": ""Button"",
+                    ""type"": ""Value"",
                     ""id"": ""e669a48c-72e0-4c15-b5f3-1fa3799c0f60"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": ""Double"",
                     ""processors"": """",
                     ""interactions"": """"
                 }
@@ -186,6 +186,17 @@ public class @Playercontrols : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""ce20d5d4-bccb-4f88-9382-14943b3ea2c3"",
+                    ""path"": ""<Gamepad>/leftStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""PS4;Gamepad"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""c1f7a91b-d0fd-4a62-997e-7fb9b69bf235"",
                     ""path"": ""<Gamepad>/rightStick"",
                     ""interactions"": """",
@@ -274,6 +285,17 @@ public class @Playercontrols : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""42ca2ecb-225c-4205-812e-82460d155a72"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""PS4;Gamepad"",
+                    ""action"": ""Fire"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""38462461-d72b-4d60-9855-549fda55bf4b"",
                     ""path"": ""<Gamepad>/leftTrigger"",
                     ""interactions"": """",
@@ -290,6 +312,17 @@ public class @Playercontrols : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""LobShot"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2f314ff0-a3bd-46d1-a831-ccc807d27506"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""PS4;Gamepad"",
                     ""action"": ""LobShot"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -863,6 +896,17 @@ public class @Playercontrols : IInputActionCollection, IDisposable
                     ""isOR"": false
                 }
             ]
+        },
+        {
+            ""name"": ""PS4"",
+            ""bindingGroup"": ""PS4"",
+            ""devices"": [
+                {
+                    ""devicePath"": ""<DualShockGamepad>"",
+                    ""isOptional"": false,
+                    ""isOR"": false
+                }
+            ]
         }
     ]
 }");
@@ -1134,6 +1178,15 @@ public class @Playercontrols : IInputActionCollection, IDisposable
         {
             if (m_XRSchemeIndex == -1) m_XRSchemeIndex = asset.FindControlSchemeIndex("XR");
             return asset.controlSchemes[m_XRSchemeIndex];
+        }
+    }
+    private int m_PS4SchemeIndex = -1;
+    public InputControlScheme PS4Scheme
+    {
+        get
+        {
+            if (m_PS4SchemeIndex == -1) m_PS4SchemeIndex = asset.FindControlSchemeIndex("PS4");
+            return asset.controlSchemes[m_PS4SchemeIndex];
         }
     }
     public interface IPlayerActions

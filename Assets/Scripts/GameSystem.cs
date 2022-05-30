@@ -20,6 +20,13 @@ public class GameSystem : MonoBehaviour
         focalObject = puckObject;
         puckRigidBody = puckObject.GetComponent<Rigidbody>();
     }
+    public void JoinNewPlayer(){
+        Debug.Log("New player joining");
+        // Pause game
+        // Instantiate the player controller
+        // open choose sides menu
+        // all players accept
+    }
     private void HandleCameraPositioning(){
         mainCamera.transform.position = new Vector3((puckObject.transform.position.x / 2.5f), mainCamera.transform.position.y, mainCamera.transform.position.z);
     }
@@ -29,11 +36,12 @@ public class GameSystem : MonoBehaviour
         mainCamera.transform.rotation = Quaternion.Lerp(mainCamera.transform.rotation, desiredCameraRotation, cameraRotationSpeed);
     }
     private void HandleCameraZoom(){
-        // total horizontal distance between the players and the puck 
+        // total horizontal distance between the players and the puck
+        // 
         // (max: rink width, min: everone at center ice)
     }
     void Update(){
-        // HandleCameraPositioning();
+        HandleCameraPositioning();
         HandleCameraFocus();
         HandleCameraZoom();
     }
