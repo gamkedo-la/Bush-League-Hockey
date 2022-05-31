@@ -44,9 +44,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d667c22cb386c144a650a1dd6eb833d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedSkater: {fileID: 0}
   mainCamera: {fileID: 0}
-  isHomeTeam: 0
+  selectedSkater: {fileID: 0}
+  goaltender: {fileID: 0}
+  isHomeTeam: 1
 --- !u!114 &1326392306507441093
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -152,7 +153,7 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: e669a48c-72e0-4c15-b5f3-1fa3799c0f60
     m_ActionName: Player/LobShot[/DualShock4GamepadHID/leftTrigger,/Mouse/rightButton]
-  m_NeverAutoSwitchControlSchemes: 0
+  m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1

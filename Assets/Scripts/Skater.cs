@@ -12,8 +12,8 @@ public class Skater : MonoBehaviour
     [SerializeField] float skaterMaximumSpeed;
     [SerializeField] float skaterTurnSpeed;
     private Vector3 movementPointer;
-    private Vector3 forwardForce;
-    private Vector3 sideForce;
+    private Vector3 cameraForward;
+    private Vector3 cameraRight;
     private Quaternion desiredRotation;
     private Quaternion rotationThisFrame;
     [Header("Puck Control")]
@@ -21,11 +21,7 @@ public class Skater : MonoBehaviour
     [SerializeField] GameObject puckPositionMarker;
     private FixedJoint puckHandleJoint;
     private bool isFirstTouch = true;
-    private float stickHandleFrequency = 0.5f; // m/s * Vector3.Normalize(target.transform.position - current.transform.position)
-    private float stickHandleForce = 3f;
     private float posessionCooldownTime = 1.5F;
-    private Vector3 puckToMarkerPointer;
-    private Vector3 puckToMarkerForce;
     [Header("Shooting / Passing")]
     private float shotPower;
     private Vector3 puckLaunchDirection;
@@ -41,13 +37,16 @@ public class Skater : MonoBehaviour
                 ObjectFactory.AddComponent<FixedJoint>(puckPositionMarker);
                 puckHandleJoint = puckPositionMarker.GetComponent<FixedJoint>();
                 puckHandleJoint.connectedBody = gameSystem.puckRigidBody;
-                puckHandleJoint.breakForce = 2000f;
+                puckHandleJoint.breakForce = 2500f;
             }
         }
     }
     public IEnumerator CooldownFirstTouch(){
         yield return new WaitForSeconds(posessionCooldownTime);
         isFirstTouch = true;
+    }
+    public void SetShotDirection(Vector2 movementInput){
+        puckLaunchDirection = new Vector3(movementInput.x, 0.15f, movementInput.y);
     }
     public void ShotInput(InputAction.CallbackContext ctx){
         // player has posession?
@@ -67,18 +66,15 @@ public class Skater : MonoBehaviour
             // cannot affect puck unless it's in a "strike-zone" 
         }
     }
-    public void MoveInput(Vector2 inputVector){
-        forwardForce = inputVector.y * Vector3.Normalize(transform.position - gameSystem.mainCamera.transform.position);
-        sideForce = inputVector.x * Vector3.Cross(gameSystem.mainCamera.transform.forward, -gameSystem.mainCamera.transform.up);
-        movementPointer = Vector3.Normalize(new Vector3((forwardForce.x + sideForce.x), 0f, (forwardForce.z + sideForce.z)));
-        puckLaunchDirection = new Vector3(inputVector.x, 0.2f, inputVector.y);
+    public void MoveSkater(Vector3 pointer){
+        movementPointer = pointer;
     }
     public void HandleMove(){
         // Find angle between forward and movementPointer
         // direction and acceleration are a function of y axis rotation
-        // +-90: can change direction not accelerate
-        // +-90 to +-155: backward component of force is amplified, side force as usual
-        // +-155 to +-180: 
+        // +-90: can change direction with constant speed
+        // +-90 to +-155: Carving, decelerate hard along forward axis 
+        // +-155 to +-180: Hard stop, quickly decelerate to 0
         if(movementPointer.magnitude > 0.1f){
             skaterRigidBody.AddForce(movementPointer * skaterSpeed);
         }
