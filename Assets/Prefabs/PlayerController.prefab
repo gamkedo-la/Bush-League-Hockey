@@ -44,10 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d667c22cb386c144a650a1dd6eb833d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainCamera: {fileID: 0}
   selectedSkater: {fileID: 0}
   goaltender: {fileID: 0}
-  isHomeTeam: 1
+  isHomeTeam: 0
 --- !u!114 &1326392306507441093
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -77,7 +76,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1326392306507441094}
         m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: OnMove
+        m_MethodName: MovementInputHandler
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -95,9 +94,9 @@ MonoBehaviour:
     m_ActionName: Player/Look[/Mouse/delta]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: Skater, Assembly-CSharp
-        m_MethodName: ShotInput
+      - m_Target: {fileID: 1326392306507441094}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: ShootButtonInput
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -153,7 +152,7 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: e669a48c-72e0-4c15-b5f3-1fa3799c0f60
     m_ActionName: Player/LobShot[/DualShock4GamepadHID/leftTrigger,/Mouse/rightButton]
-  m_NeverAutoSwitchControlSchemes: 1
+  m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1

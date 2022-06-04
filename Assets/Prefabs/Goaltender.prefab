@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 3007017574672762255}
   - component: {fileID: 3007017574672762352}
   - component: {fileID: 3007017574672762251}
+  - component: {fileID: 7572892403236936459}
   m_Layer: 0
   m_Name: Goaltender
   m_TagString: Untagged
@@ -126,3 +127,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2835e1381b3c3748bbe7000afa61ad7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  movementSpeed: 4
+  minXPosition: -15.8
+  maxXPosition: -14.072
+  minZPosition: -1.8
+  maxZPosition: 1.75
+  yRotation: 0
+  myNet: {fileID: 0}
+--- !u!114 &7572892403236936459
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3007017574672762353}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aaeeee279c1b86c4f8bcf4db74a536be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isHomeTeam: 0

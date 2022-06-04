@@ -8,7 +8,7 @@ public class Skater : MonoBehaviour
     private GameSystem gameSystem;
     [Header("Skating Control")]
     private Rigidbody skaterRigidBody;
-    [SerializeField] float skaterSpeed;
+    [SerializeField] float skaterAcceleration;
     [SerializeField] float skaterMaximumSpeed;
     [SerializeField] float skaterTurnSpeed;
     private Vector3 movementPointer;
@@ -20,7 +20,7 @@ public class Skater : MonoBehaviour
     [SerializeField] Collider skaterPosessionTrigger;
     [SerializeField] GameObject puckPositionMarker;
     private FixedJoint puckHandleJoint;
-    private bool isFirstTouch = true;
+    private bool isFirstTouch = true, hasPosession = false;
     private float posessionCooldownTime = 1.5F;
     [Header("Shooting / Passing")]
     private float shotPower;
@@ -32,6 +32,7 @@ public class Skater : MonoBehaviour
     public void ControlPuck(){
         if(isFirstTouch){
             isFirstTouch = false;
+            hasPosession = true;
             gameSystem.puckObject.transform.position = puckPositionMarker.transform.position;
             if(!puckPositionMarker.GetComponent<FixedJoint>()){
                 ObjectFactory.AddComponent<FixedJoint>(puckPositionMarker);
@@ -41,29 +42,19 @@ public class Skater : MonoBehaviour
             }
         }
     }
-    public IEnumerator CooldownFirstTouch(){
+    public IEnumerator LostPosession(){
+        hasPosession = false;
         yield return new WaitForSeconds(posessionCooldownTime);
         isFirstTouch = true;
     }
     public void SetShotDirection(Vector2 movementInput){
         puckLaunchDirection = new Vector3(movementInput.x, 0.15f, movementInput.y);
     }
-    public void ShotInput(InputAction.CallbackContext ctx){
-        // player has posession?
-        if(!isFirstTouch){
-            if(ctx.performed){
-                // release puck, current shot meter, current movementPointer
-                // remove fixed joint
-                Destroy(puckHandleJoint);
-                shotPower = 10f;
-                gameSystem.puckObject.GetComponent<Rigidbody>().AddForce(puckLaunchDirection * shotPower, ForceMode.Impulse);
-            }
-            if(ctx.started){
-                Debug.Log("Winding up shot");
-            }
-        } else {
-            // one timer wind up
-            // cannot affect puck unless it's in a "strike-zone" 
+    public void ShootPuck(){
+        if(hasPosession){
+            Destroy(puckHandleJoint);
+            shotPower = 7.5f;
+            gameSystem.puckObject.GetComponent<Rigidbody>().AddForce(puckLaunchDirection * shotPower, ForceMode.Impulse);
         }
     }
     public void MoveSkater(Vector3 pointer){
@@ -76,7 +67,7 @@ public class Skater : MonoBehaviour
         // +-90 to +-155: Carving, decelerate hard along forward axis 
         // +-155 to +-180: Hard stop, quickly decelerate to 0
         if(movementPointer.magnitude > 0.1f){
-            skaterRigidBody.AddForce(movementPointer * skaterSpeed);
+            skaterRigidBody.AddForce(movementPointer * skaterAcceleration);
         }
         if(skaterRigidBody.velocity.magnitude > 0.1f){
             desiredRotation = Quaternion.LookRotation(skaterRigidBody.velocity, Vector3.up);

@@ -6,6 +6,11 @@ TagManager:
   tags:
   - puck
   - homeNet
+  - awaySkater
+  - homeSkater
+  - homeGoaltender
+  - awayGoaltender
+  - awayNet
   layers:
   - Default
   - TransparentFX

@@ -1,43 +1,85 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 public class GameSystem : MonoBehaviour
 {
     [Header("Main Camera")]
-    public Camera mainCamera;
+    [HideInInspector] public Camera mainCamera;
+    private Vector3 cameraPausePosition;
+    private Quaternion cameraPauseRotation;
     [SerializeField] [Range(15f, .5f)] float zoom;
     private GameObject focalObject;
     [SerializeField] [Range(0.0f, 0.2f)] float cameraRotationSpeed;
     private Vector3 lineToDesiredTarget;
     private Quaternion desiredCameraRotation;
     [Header("Game Management")]
-    public GameObject puckObject;
-    public Rigidbody puckRigidBody;
+    [SerializeField] GameObject skaterPrefab;
+    [SerializeField] GameObject goaltenderPrefab;
+    [SerializeField] GameObject puckPrefab;
+    [SerializeField] public Transform homeGoalOrigin;
+    [SerializeField] public Transform awayGoalOrigin;
+    [SerializeField] public Transform puckDropOrigin;
+    [SerializeField] public GameObject homeGoaltender;
+    [SerializeField] public GameObject awayGoaltender;
+    [HideInInspector] public GameObject puckObject;
+    [HideInInspector] public Rigidbody puckRigidBody;
+    [Header("Controls Management")]
+    [HideInInspector] public List<GameObject> localPlayerControllers;
     private int homeScore = 0;
     private int awayScore = 0;
     private void Awake(){
         mainCamera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
-        focalObject = puckObject;
-        puckRigidBody = puckObject.GetComponent<Rigidbody>();
+        cameraPausePosition = new Vector3 (0,0,0);
+        homeGoaltender.transform.position = homeGoalOrigin.position;
+        awayGoaltender.transform.position = awayGoalOrigin.position;
     }
-    public void JoinNewPlayer(){
-        Debug.Log("New player joining");
-        // Pause game
-        // Instantiate the player controller
-        // open choose sides menu
-        // all players accept
+    private void DropPuck(){
+        puckObject = Instantiate(puckPrefab, puckDropOrigin.position, Quaternion.Euler(75, 0, 0));
+        puckRigidBody = puckObject.GetComponent<Rigidbody>();
+        focalObject = puckObject;
+    }
+    private void Start(){
+        // homeGoaltender = Instantiate(goaltenderPrefab, homeGoalOrigin.position, Quaternion.identity);
+        // var homeGoalieScript = homeGoaltender.GetComponent<Goaltender>();
+        // var homeGoalieTM = homeGoaltender.GetComponent<TeamMember>();
+        // homeGoalieTM.SetIsHomeTeam(true);
+        // homeGoalieScript.FindMyNet();
+        // awayGoaltender = Instantiate(goaltenderPrefab, awayGoalOrigin.position, Quaternion.identity);
+        // var awayGoalieTM = homeGoaltender.GetComponent<TeamMember>();
+        // var awayGoalieScript = homeGoaltender.GetComponent<Goaltender>();
+        // awayGoalieTM.SetIsHomeTeam(false);
+        // awayGoalieScript.FindMyNet();
+        DropPuck();
+    }
+    public void JoinNewPlayer(PlayerInput playerInput){
+        var newPlayerInput = playerInput.gameObject.GetComponent<PlayerController>();
+        if(localPlayerControllers.Count % 2 == 0){
+            newPlayerInput.SetIsHomeTeam(true);
+        } else{
+            newPlayerInput.SetIsHomeTeam(false);
+        }
+        // player count, odd: away team, even: home team
+        // playerInput.gameObject.SetIsHomeTeam
+        localPlayerControllers.Add(playerInput.gameObject);
+        Debug.Log("Added new controller ");
     }
     private void HandleCameraPositioning(){
-        mainCamera.transform.position = new Vector3((puckObject.transform.position.x / 2.5f), mainCamera.transform.position.y, mainCamera.transform.position.z);
+        if(puckObject){
+            mainCamera.transform.position = new Vector3((puckObject.transform.position.x / 1.75f), mainCamera.transform.position.y, mainCamera.transform.position.z);
+        }
     }
     private void HandleCameraFocus(){
-        lineToDesiredTarget = Vector3.Normalize(focalObject.transform.position - mainCamera.transform.position);
-        desiredCameraRotation = Quaternion.LookRotation(lineToDesiredTarget, Vector3.up);
-        mainCamera.transform.rotation = Quaternion.Lerp(mainCamera.transform.rotation, desiredCameraRotation, cameraRotationSpeed);
+        if(focalObject){
+            lineToDesiredTarget = Vector3.Normalize(focalObject.transform.position - mainCamera.transform.position);
+            desiredCameraRotation = Quaternion.LookRotation(lineToDesiredTarget, Vector3.up);
+            mainCamera.transform.rotation = Quaternion.Lerp(mainCamera.transform.rotation, desiredCameraRotation, cameraRotationSpeed);
+        }
     }
     private void HandleCameraZoom(){
         // total horizontal distance between the players and the puck
-        // 
+        // far zoom: entire rink visible
+        // near zoom: TBD
         // (max: rink width, min: everone at center ice)
     }
     void Update(){

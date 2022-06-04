@@ -4,14 +4,11 @@ using UnityEngine;
 public class TeamMember : MonoBehaviour
 {
     private GameSystem gameSystem;
-    public bool isHomeTeam; // 1 home, 2 away
-    public bool hasPosession = false;
+    [SerializeField] public bool isHomeTeam;
     private void Awake(){
         gameSystem = GameObject.Find("GameSystem").GetComponent<GameSystem>();
-        SetIsHomeTeam(true);
     }
     public void SetIsHomeTeam(bool isHome){
         isHomeTeam = isHome;
     }
-
 }
