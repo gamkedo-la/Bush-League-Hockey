@@ -61,8 +61,8 @@ public class GameSystem : MonoBehaviour
         }
         // player count, odd: away team, even: home team
         // playerInput.gameObject.SetIsHomeTeam
-        localPlayerControllers.Add(playerInput.gameObject);
-        Debug.Log("Added new controller ");
+        // if(!localPlayerControllers.Contains(playerInput.gameObject)){localPlayerControllers.Add(playerInput.gameObject);}
+        Debug.Log("Added new controller " + localPlayerControllers.Count);
     }
     private void HandleCameraPositioning(){
         if(puckObject){

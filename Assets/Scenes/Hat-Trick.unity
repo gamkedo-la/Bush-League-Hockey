@@ -1279,7 +1279,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5385736193455833121, guid: fd8f80ebf55c0d84aa9bf22321210774, type: 3}
       propertyPath: skaterAcceleration
-      value: 75
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 5385736193455833134, guid: fd8f80ebf55c0d84aa9bf22321210774, type: 3}
       propertyPath: m_Mass
@@ -1976,7 +1976,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5385736193455833121, guid: fd8f80ebf55c0d84aa9bf22321210774, type: 3}
       propertyPath: skaterAcceleration
-      value: 75
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 5385736193455833134, guid: fd8f80ebf55c0d84aa9bf22321210774, type: 3}
       propertyPath: m_Mass

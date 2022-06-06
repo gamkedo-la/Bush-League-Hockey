@@ -5,7 +5,7 @@ using UnityEngine;
 public class Goaltender : MonoBehaviour
 {
     private GameSystem gameSystem;
-    [HideInInspector] public float movementSpeed = 4f, yRotation;
+    [HideInInspector] public float movementSpeed = 6f, yRotation;
     [HideInInspector] private Rect homeGoalCrease = new Rect(-15.95f,-2.62f,2.15f,4.52f);
     [HideInInspector] private Rect awayGoalCrease = new Rect(14.02f,-2.62f,2.15f,4.52f);
     private Rect myMovementCrease;
