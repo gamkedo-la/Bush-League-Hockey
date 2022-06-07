@@ -20,7 +20,7 @@ public class Skater : MonoBehaviour
     [SerializeField] Collider skaterPosessionTrigger;
     [SerializeField] GameObject puckPositionMarker;
     private FixedJoint puckHandleJoint;
-    private bool isFirstTouch = true, hasPosession = false;
+    private bool canTakePosession = true, hasPosession = false;
     private float posessionCooldownTime = 1.5F;
     [Header("Shooting / Passing")]
     private float shotPower;
@@ -30,8 +30,8 @@ public class Skater : MonoBehaviour
         gameSystem = GameObject.Find("GameSystem").GetComponent<GameSystem>();
     }
     public void ControlPuck(){
-        if(isFirstTouch){
-            isFirstTouch = false;
+        if(canTakePosession){
+            canTakePosession = false;
             hasPosession = true;
             gameSystem.puckObject.transform.position = puckPositionMarker.transform.position;
             if(!puckPositionMarker.GetComponent<FixedJoint>()){
@@ -45,7 +45,7 @@ public class Skater : MonoBehaviour
     public IEnumerator LostPosession(){
         hasPosession = false;
         yield return new WaitForSeconds(posessionCooldownTime);
-        isFirstTouch = true;
+        canTakePosession = true;
     }
     public void SetShotDirection(Vector2 movementInput){
         puckLaunchDirection = new Vector3(movementInput.x, 0.15f, movementInput.y);

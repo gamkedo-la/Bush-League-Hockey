@@ -24,12 +24,12 @@ public class PlayerController : MonoBehaviour
         if(isHomeTeam){
             selectedSkater = GameObject.FindWithTag("homeSkater").GetComponent<Skater>();
             goaltender = GameObject.FindWithTag("homeGoaltender").GetComponent<Goaltender>();
-            goaltender.FindMyNet();
         } else{
             selectedSkater = GameObject.FindWithTag("awaySkater").GetComponent<Skater>();
             goaltender = GameObject.FindWithTag("awayGoaltender").GetComponent<Goaltender>();
-            goaltender.FindMyNet();
         }
+        goaltender.gameObject.GetComponent<TeamMember>().SetIsHomeTeam(isHomeTeam);
+        goaltender.FindMyNet();
     }
     private void Awake(){
         gameSystem = GameObject.Find("GameSystem").GetComponent<GameSystem>();

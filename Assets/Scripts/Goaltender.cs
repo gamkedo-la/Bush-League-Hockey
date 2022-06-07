@@ -13,22 +13,25 @@ public class Goaltender : MonoBehaviour
     private Vector3 displacementVector;
     private Vector3 goalieDirectionPointer;
     private Quaternion goalieDirectionRotation;
+    private float goalieYRotationOffset;
     private void Awake(){
         gameSystem = GameObject.Find("GameSystem").GetComponent<GameSystem>();
     }
     public void FindMyNet(){
         if(gameObject.GetComponent<TeamMember>().isHomeTeam){
             myNet = GameObject.FindWithTag("homeNet");
+            goalieYRotationOffset = 270;
             myMovementCrease = homeGoalCrease;
             transform.position = gameSystem.homeGoalOrigin.position;
         } else{
             myNet = GameObject.FindWithTag("awayNet");
+            goalieYRotationOffset = 90;
             myMovementCrease = awayGoalCrease;
             transform.position = gameSystem.awayGoalOrigin.position;
         }
-        
     }
     public void MoveGoalie(Vector3 movementPointer){
+        Debug.Log("we seeing this?");
         displacementVector = movementSpeed * movementPointer * Time.deltaTime;
     }
     private void HandleMove(){
@@ -40,7 +43,7 @@ public class Goaltender : MonoBehaviour
             );
             goalieDirectionPointer = Vector3.Normalize(transform.position - myNet.transform.position);
             goalieDirectionRotation = Quaternion.Euler(0, Quaternion.LookRotation(goalieDirectionPointer, Vector3.up).eulerAngles.y, 0);
-            transform.rotation = Quaternion.Lerp(goalieDirectionRotation, Quaternion.Euler(0, 270, 0), 0.5f);
+            transform.rotation = Quaternion.Lerp(goalieDirectionRotation, Quaternion.Euler(0, goalieYRotationOffset, 0), 0.5f);
         }
     }
     private void Update(){

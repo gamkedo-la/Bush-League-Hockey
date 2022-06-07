@@ -838,6 +838,7 @@ MonoBehaviour:
       m_Processors: 
       m_Interactions: 
       m_SingletonActionBindings: []
+      m_Flags: 0
     m_Reference: {fileID: 0}
   m_PlayerPrefab: {fileID: 1326392306507441091, guid: 3fb2ca8541674f5488ad93d4ff326a5b, type: 3}
   m_SplitScreen: 0
@@ -1110,7 +1111,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 08da59c600af97945be2d3b358b9060d, type: 3}
       propertyPath: m_TagString
-      value: homeNet
+      value: awayNet
       objectReference: {fileID: 0}
     - target: {fileID: 3332853380541173807, guid: 08da59c600af97945be2d3b358b9060d, type: 3}
       propertyPath: m_Materials.Array.data[0]

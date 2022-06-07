@@ -55,13 +55,11 @@ public class GameSystem : MonoBehaviour
     public void JoinNewPlayer(PlayerInput playerInput){
         var newPlayerInput = playerInput.gameObject.GetComponent<PlayerController>();
         if(localPlayerControllers.Count % 2 == 0){
-            newPlayerInput.SetIsHomeTeam(true);
-        } else{
             newPlayerInput.SetIsHomeTeam(false);
+        } else{
+            newPlayerInput.SetIsHomeTeam(true);
         }
-        // player count, odd: away team, even: home team
-        // playerInput.gameObject.SetIsHomeTeam
-        // if(!localPlayerControllers.Contains(playerInput.gameObject)){localPlayerControllers.Add(playerInput.gameObject);}
+        if(!localPlayerControllers.Contains(playerInput.gameObject)){localPlayerControllers.Add(playerInput.gameObject);}
         Debug.Log("Added new controller " + localPlayerControllers.Count);
     }
     private void HandleCameraPositioning(){
