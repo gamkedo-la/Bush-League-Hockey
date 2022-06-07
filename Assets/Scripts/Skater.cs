@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 public class Skater : MonoBehaviour
 {
     private GameSystem gameSystem;
-    [Header("Skating Control")]
+    [Header("Skating")]
     private Rigidbody skaterRigidBody;
     [SerializeField] float skaterAcceleration;
     [SerializeField] float skaterMaximumSpeed;
