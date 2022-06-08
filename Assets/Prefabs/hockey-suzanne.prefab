@@ -561,7 +561,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 84
   m_CollisionDetection: 1
 --- !u!136 &5385736193455833135
 CapsuleCollider:
@@ -574,9 +574,9 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.35
-  m_Height: 1.98
+  m_Height: 0.93024445
   m_Direction: 1
-  m_Center: {x: 0.08, y: 1, z: 0}
+  m_Center: {x: 0.08000001, y: 1.1648307, z: 0}
 --- !u!114 &5385736193455833121
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -589,11 +589,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc4cd9f8307e6fb48be6c00abb8659e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skaterSpeed: 60
-  skaterMaximumSpeed: 4
-  skaterTurnSpeed: 0.02
+  skaterAcceleration: 100
+  skaterMaximumSpeed: 6
+  skaterTurnSpeed: 0.2
   skaterPosessionTrigger: {fileID: 5385736192404179430}
   puckPositionMarker: {fileID: 5385736191586785910}
+  shotPowerWindUpRate: 8
+  shotPowerMax: 10
+  windingUp: 0
 --- !u!114 &5385736193455833120
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -607,7 +610,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isHomeTeam: 0
-  hasPosession: 0
 --- !u!1 &5233984259326556187
 GameObject:
   m_ObjectHideFlags: 0
@@ -682,7 +684,7 @@ GameObject:
   - component: {fileID: 5385736191586785896}
   - component: {fileID: 5385736191586785899}
   m_Layer: 0
-  m_Name: PuckHandlePoint
+  m_Name: PuckHandleJoint
   m_TagString: Untagged
   m_Icon: {fileID: 3306451490063965843, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0

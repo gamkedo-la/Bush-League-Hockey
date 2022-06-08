@@ -1250,10 +1250,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2006194349267535820, guid: fd8f80ebf55c0d84aa9bf22321210774, type: 3}
-      propertyPath: m_CullingMode
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 5079096493410961164, guid: fd8f80ebf55c0d84aa9bf22321210774, type: 3}
       propertyPath: m_Name
       value: hockey-suzanne (1)
@@ -1262,54 +1258,6 @@ PrefabInstance:
       propertyPath: m_TagString
       value: awaySkater
       objectReference: {fileID: 0}
-    - target: {fileID: 5385736191586785897, guid: fd8f80ebf55c0d84aa9bf22321210774, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.05
-      objectReference: {fileID: 0}
-    - target: {fileID: 5385736191586785910, guid: fd8f80ebf55c0d84aa9bf22321210774, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5385736192404179428, guid: fd8f80ebf55c0d84aa9bf22321210774, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5385736193455833121, guid: fd8f80ebf55c0d84aa9bf22321210774, type: 3}
-      propertyPath: skaterTurnSpeed
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5385736193455833121, guid: fd8f80ebf55c0d84aa9bf22321210774, type: 3}
-      propertyPath: skaterAcceleration
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 5385736193455833134, guid: fd8f80ebf55c0d84aa9bf22321210774, type: 3}
-      propertyPath: m_Mass
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 5385736193455833134, guid: fd8f80ebf55c0d84aa9bf22321210774, type: 3}
-      propertyPath: m_CollisionDetection
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5385736193455833135, guid: fd8f80ebf55c0d84aa9bf22321210774, type: 3}
-      propertyPath: m_Height
-      value: 2.204374
-      objectReference: {fileID: 0}
-    - target: {fileID: 5385736193455833135, guid: fd8f80ebf55c0d84aa9bf22321210774, type: 3}
-      propertyPath: m_Center.x
-      value: 0.07999998
-      objectReference: {fileID: 0}
-    - target: {fileID: 5385736193455833135, guid: fd8f80ebf55c0d84aa9bf22321210774, type: 3}
-      propertyPath: m_Center.y
-      value: 1.112187
-      objectReference: {fileID: 0}
-    - target: {fileID: 5385736193455833135, guid: fd8f80ebf55c0d84aa9bf22321210774, type: 3}
-      propertyPath: m_Center.z
-      value: -2.4868993e-16
-      objectReference: {fileID: 0}
-    - target: {fileID: 5385736193455833135, guid: fd8f80ebf55c0d84aa9bf22321210774, type: 3}
-      propertyPath: m_Material
-      value: 
-      objectReference: {fileID: 13400000, guid: 5e5170e8ec5e92141b27282ea97412ac, type: 2}
     - target: {fileID: 5563990584839970230, guid: fd8f80ebf55c0d84aa9bf22321210774, type: 3}
       propertyPath: m_RootOrder
       value: 6
@@ -1320,7 +1268,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5563990584839970230, guid: fd8f80ebf55c0d84aa9bf22321210774, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.021
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5563990584839970230, guid: fd8f80ebf55c0d84aa9bf22321210774, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1947,10 +1895,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2006194349267535820, guid: fd8f80ebf55c0d84aa9bf22321210774, type: 3}
-      propertyPath: m_CullingMode
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 5079096493410961164, guid: fd8f80ebf55c0d84aa9bf22321210774, type: 3}
       propertyPath: m_Name
       value: hockey-suzanne
@@ -1959,54 +1903,6 @@ PrefabInstance:
       propertyPath: m_TagString
       value: homeSkater
       objectReference: {fileID: 0}
-    - target: {fileID: 5385736191586785897, guid: fd8f80ebf55c0d84aa9bf22321210774, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.05
-      objectReference: {fileID: 0}
-    - target: {fileID: 5385736191586785910, guid: fd8f80ebf55c0d84aa9bf22321210774, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5385736192404179428, guid: fd8f80ebf55c0d84aa9bf22321210774, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5385736193455833121, guid: fd8f80ebf55c0d84aa9bf22321210774, type: 3}
-      propertyPath: skaterTurnSpeed
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5385736193455833121, guid: fd8f80ebf55c0d84aa9bf22321210774, type: 3}
-      propertyPath: skaterAcceleration
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 5385736193455833134, guid: fd8f80ebf55c0d84aa9bf22321210774, type: 3}
-      propertyPath: m_Mass
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 5385736193455833134, guid: fd8f80ebf55c0d84aa9bf22321210774, type: 3}
-      propertyPath: m_CollisionDetection
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5385736193455833135, guid: fd8f80ebf55c0d84aa9bf22321210774, type: 3}
-      propertyPath: m_Height
-      value: 2.204374
-      objectReference: {fileID: 0}
-    - target: {fileID: 5385736193455833135, guid: fd8f80ebf55c0d84aa9bf22321210774, type: 3}
-      propertyPath: m_Center.x
-      value: 0.07999998
-      objectReference: {fileID: 0}
-    - target: {fileID: 5385736193455833135, guid: fd8f80ebf55c0d84aa9bf22321210774, type: 3}
-      propertyPath: m_Center.y
-      value: 1.112187
-      objectReference: {fileID: 0}
-    - target: {fileID: 5385736193455833135, guid: fd8f80ebf55c0d84aa9bf22321210774, type: 3}
-      propertyPath: m_Center.z
-      value: -2.4868993e-16
-      objectReference: {fileID: 0}
-    - target: {fileID: 5385736193455833135, guid: fd8f80ebf55c0d84aa9bf22321210774, type: 3}
-      propertyPath: m_Material
-      value: 
-      objectReference: {fileID: 13400000, guid: 5e5170e8ec5e92141b27282ea97412ac, type: 2}
     - target: {fileID: 5563990584839970230, guid: fd8f80ebf55c0d84aa9bf22321210774, type: 3}
       propertyPath: m_RootOrder
       value: 5
@@ -2017,7 +1913,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5563990584839970230, guid: fd8f80ebf55c0d84aa9bf22321210774, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.021
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5563990584839970230, guid: fd8f80ebf55c0d84aa9bf22321210774, type: 3}
       propertyPath: m_LocalPosition.z

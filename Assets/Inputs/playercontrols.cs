@@ -51,7 +51,7 @@ public partial class @Playercontrols : IInputActionCollection2, IDisposable
                     ""id"": ""44eb56e2-d2a3-4d40-a893-50ee294b8685"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": """",
+                    ""interactions"": ""Press(behavior=1),Hold"",
                     ""initialStateCheck"": false
                 },
                 {

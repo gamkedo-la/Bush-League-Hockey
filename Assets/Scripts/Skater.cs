@@ -21,10 +21,13 @@ public class Skater : MonoBehaviour
     [SerializeField] GameObject puckPositionMarker;
     private FixedJoint puckHandleJoint;
     private bool canTakePosession = true, hasPosession = false;
-    private float posessionCooldownTime = 1.5F;
+    private float posessionCooldownTime = 0.75f;
     [Header("Shooting / Passing")]
-    private float shotPower;
+    [SerializeField] float shotPowerWindUpRate; // power / second
+    [SerializeField] float shotPowerMax;
+    private float shotPower = 0;
     private Vector3 puckLaunchDirection;
+    [HideInInspector] public bool windingUp = false;
     private void Awake(){
         skaterRigidBody = GetComponent<Rigidbody>();
         gameSystem = GameObject.Find("GameSystem").GetComponent<GameSystem>();
@@ -35,10 +38,7 @@ public class Skater : MonoBehaviour
             hasPosession = true;
             gameSystem.puckObject.transform.position = puckPositionMarker.transform.position;
             if(!puckPositionMarker.GetComponent<FixedJoint>()){
-                ObjectFactory.AddComponent<FixedJoint>(puckPositionMarker);
-                puckHandleJoint = puckPositionMarker.GetComponent<FixedJoint>();
-                puckHandleJoint.connectedBody = gameSystem.puckRigidBody;
-                puckHandleJoint.breakForce = 2500f;
+                puckPositionMarker.GetComponent<PuckHandleJoint>().AttachPuckToHandleJoint(gameSystem.puckRigidBody);
             }
         }
     }
@@ -48,14 +48,22 @@ public class Skater : MonoBehaviour
         canTakePosession = true;
     }
     public void SetShotDirection(Vector2 movementInput){
-        puckLaunchDirection = new Vector3(movementInput.x, 0.15f, movementInput.y);
+        puckLaunchDirection = new Vector3(movementInput.x, 0.25f, movementInput.y);
+    }
+    public IEnumerator WindUpShot(){
+        while(windingUp){
+            yield return new WaitForSeconds((0.25f));
+            if(shotPower < shotPowerMax){shotPower += (shotPowerWindUpRate * 0.25f);}
+            Debug.Log("Wind Up - " + shotPower);
+        }
     }
     public void ShootPuck(){
+        windingUp = false;
         if(hasPosession){
-            Destroy(puckHandleJoint);
-            shotPower = 7.5f;
+            puckPositionMarker.GetComponent<PuckHandleJoint>().BreakFixedJoint();
             gameSystem.puckObject.GetComponent<Rigidbody>().AddForce(puckLaunchDirection * shotPower, ForceMode.Impulse);
         }
+        shotPower = 0;
     }
     public void MoveSkater(Vector3 pointer){
         movementPointer = pointer;
@@ -66,6 +74,7 @@ public class Skater : MonoBehaviour
         // +-90: can change direction with constant speed
         // +-90 to +-155: Carving, decelerate hard along forward axis 
         // +-155 to +-180: Hard stop, quickly decelerate to 0
+        if(skaterRigidBody.angularVelocity.magnitude > 0){skaterRigidBody.angularVelocity = Vector3.zero;}
         if(movementPointer.magnitude > 0.1f){
             skaterRigidBody.AddForce(movementPointer * skaterAcceleration);
         }
@@ -74,7 +83,6 @@ public class Skater : MonoBehaviour
             rotationThisFrame = Quaternion.Lerp(transform.rotation, desiredRotation, skaterTurnSpeed);
             if(rotationThisFrame.eulerAngles.magnitude > .1f){
                 transform.rotation = Quaternion.Euler(0f, rotationThisFrame.eulerAngles.y, 0f);
-                skaterRigidBody.angularVelocity = Vector3.zero;
             }
         }
     }

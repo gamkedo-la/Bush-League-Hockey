@@ -9,6 +9,6 @@ PhysicMaterial:
   m_Name: Boards
   dynamicFriction: 0.25
   staticFriction: 0.8
-  bounciness: 1
+  bounciness: 0.75
   frictionCombine: 0
   bounceCombine: 0

@@ -47,14 +47,14 @@ public class PlayerController : MonoBehaviour
         }
     }
     public void ShootButtonInputHandler(InputAction.CallbackContext context){
-        Debug.Log("Winding up shot");
         if(context.performed){
+            Debug.Log("Shooting");
             selectedSkater.ShootPuck();
         }
-        if(context.started){
-            // Add coroutine to Skater.cs to 'wind-up' power meter
-            // ShootPuck() should be modified to cancel that coroutine
-            // Idea: bool charging = true, coroutine while(charging){hold wind up pose, increase shot power}
+        if(context.started && !selectedSkater.windingUp){
+            Debug.Log("Winding up shot");
+            selectedSkater.windingUp = true;
+            StartCoroutine(selectedSkater.WindUpShot());
         }
     }
 }

@@ -31,7 +31,6 @@ public class Goaltender : MonoBehaviour
         }
     }
     public void MoveGoalie(Vector3 movementPointer){
-        Debug.Log("we seeing this?");
         displacementVector = movementSpeed * movementPointer * Time.deltaTime;
     }
     private void HandleMove(){
