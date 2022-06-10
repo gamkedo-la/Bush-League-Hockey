@@ -27,10 +27,22 @@ public class Skater : MonoBehaviour
     [SerializeField] float shotPowerMax;
     private float shotPower = 0;
     private Vector3 puckLaunchDirection;
+
+    [Header("Colliding/Checking")]
+    [SerializeField] private Transform boxCastOrigin;
+    [SerializeField] private Vector3 boxCastHalfExtents;
+    [SerializeField] private LayerMask skaterMask;
+    private Collider[] boxCastHits;
+    
     [HideInInspector] public bool windingUp = false;
+
+    private TeamMember teamMember;
+    
     private void Awake(){
         skaterRigidBody = GetComponent<Rigidbody>();
         gameSystem = GameObject.Find("GameSystem").GetComponent<GameSystem>();
+        boxCastHits = new Collider[3];
+        teamMember = GetComponent<TeamMember>();
     }
     public void ControlPuck(){
         if(canTakePosession){
@@ -57,6 +69,7 @@ public class Skater : MonoBehaviour
             Debug.Log("Wind Up - " + shotPower);
         }
     }
+    
     public void ShootPuck(){
         windingUp = false;
         if(hasPosession){
@@ -65,6 +78,37 @@ public class Skater : MonoBehaviour
         }
         shotPower = 0;
     }
+
+    public void BodyCheck()
+    {
+        windingUp = false;
+        
+        // @TODO: perform bodycheck animation
+        
+        // Check for BodyCheck target
+        var hitCount = Physics.OverlapBoxNonAlloc(
+            boxCastOrigin.position,
+            boxCastHalfExtents,
+            boxCastHits,
+            Quaternion.identity,
+            skaterMask);
+        
+        Debug.Log($"Bodycheck hitcount: {hitCount}");
+        var oppositionTag = teamMember.getOppositionTag();
+        
+        // Look for correct tag in bodycheck list. Break on first match.
+        foreach (var hit in boxCastHits)
+        {
+            if (hit.CompareTag(oppositionTag))
+            {
+                Debug.Log($"Bodycheck {hit.name}");
+                break;
+            }
+        }
+
+        shotPower = 0;
+    }
+    
     public void MoveSkater(Vector3 pointer){
         movementPointer = pointer;
     }
@@ -88,5 +132,11 @@ public class Skater : MonoBehaviour
     }
     private void Update(){
         HandleMove();
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireCube(boxCastOrigin.position, boxCastHalfExtents*2);
     }
 }

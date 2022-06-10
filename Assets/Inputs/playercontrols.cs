@@ -62,6 +62,15 @@ public partial class @Playercontrols : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""BodyCheck"",
+                    ""type"": ""Button"",
+                    ""id"": ""e238c4f6-758c-4ae8-815a-f6c5a5cde6f1"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -326,6 +335,28 @@ public partial class @Playercontrols : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Gamepad;PS4"",
                     ""action"": ""LobShot"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""32dba96c-38dd-4ca5-9d86-7eb393748cc4"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""BodyCheck"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2de56ac6-2cd1-44ae-bddc-091aeadd7bd4"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""BodyCheck"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -928,6 +959,7 @@ public partial class @Playercontrols : IInputActionCollection2, IDisposable
         m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
         m_Player_Fire = m_Player.FindAction("Fire", throwIfNotFound: true);
         m_Player_LobShot = m_Player.FindAction("LobShot", throwIfNotFound: true);
+        m_Player_BodyCheck = m_Player.FindAction("BodyCheck", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1003,6 +1035,7 @@ public partial class @Playercontrols : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Look;
     private readonly InputAction m_Player_Fire;
     private readonly InputAction m_Player_LobShot;
+    private readonly InputAction m_Player_BodyCheck;
     public struct PlayerActions
     {
         private @Playercontrols m_Wrapper;
@@ -1011,6 +1044,7 @@ public partial class @Playercontrols : IInputActionCollection2, IDisposable
         public InputAction @Look => m_Wrapper.m_Player_Look;
         public InputAction @Fire => m_Wrapper.m_Player_Fire;
         public InputAction @LobShot => m_Wrapper.m_Player_LobShot;
+        public InputAction @BodyCheck => m_Wrapper.m_Player_BodyCheck;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1032,6 +1066,9 @@ public partial class @Playercontrols : IInputActionCollection2, IDisposable
                 @LobShot.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLobShot;
                 @LobShot.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLobShot;
                 @LobShot.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLobShot;
+                @BodyCheck.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBodyCheck;
+                @BodyCheck.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBodyCheck;
+                @BodyCheck.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBodyCheck;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -1048,6 +1085,9 @@ public partial class @Playercontrols : IInputActionCollection2, IDisposable
                 @LobShot.started += instance.OnLobShot;
                 @LobShot.performed += instance.OnLobShot;
                 @LobShot.canceled += instance.OnLobShot;
+                @BodyCheck.started += instance.OnBodyCheck;
+                @BodyCheck.performed += instance.OnBodyCheck;
+                @BodyCheck.canceled += instance.OnBodyCheck;
             }
         }
     }
@@ -1217,6 +1257,7 @@ public partial class @Playercontrols : IInputActionCollection2, IDisposable
         void OnLook(InputAction.CallbackContext context);
         void OnFire(InputAction.CallbackContext context);
         void OnLobShot(InputAction.CallbackContext context);
+        void OnBodyCheck(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

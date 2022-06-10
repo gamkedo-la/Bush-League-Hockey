@@ -11,4 +11,9 @@ public class TeamMember : MonoBehaviour
     public void SetIsHomeTeam(bool isHome){
         isHomeTeam = isHome;
     }
+
+    public string getOppositionTag()
+    {
+        return isHomeTeam ? "awaySkater" : "homeSkater";
+    }
 }

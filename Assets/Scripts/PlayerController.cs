@@ -57,4 +57,16 @@ public class PlayerController : MonoBehaviour
             StartCoroutine(selectedSkater.WindUpShot());
         }
     }
+
+    public void BodyCheckInputHandler(InputAction.CallbackContext context)
+    {
+        if (context.performed) {
+            selectedSkater.BodyCheck();
+        }
+        else if (context.started && !selectedSkater.windingUp) {
+            Debug.Log("Winding up body check");
+            selectedSkater.windingUp = true;
+            StartCoroutine(selectedSkater.WindUpShot());
+        }
+    }
 }
