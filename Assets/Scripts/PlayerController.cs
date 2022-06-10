@@ -60,6 +60,8 @@ public class PlayerController : MonoBehaviour
 
     public void BodyCheckInputHandler(InputAction.CallbackContext context)
     {
+        if (selectedSkater.HasPuck()) return;
+        
         if (context.performed) {
             selectedSkater.BodyCheck();
         }

@@ -32,6 +32,9 @@ public class Skater : MonoBehaviour
     [SerializeField] private Transform boxCastOrigin;
     [SerializeField] private Vector3 boxCastHalfExtents;
     [SerializeField] private LayerMask skaterMask;
+    [SerializeField] private AnimationCurve checkPowerCurve;
+    [SerializeField] private float minCheckPower;
+    [SerializeField] private float maxCheckPower;
     private Collider[] boxCastHits;
     
     [HideInInspector] public bool windingUp = false;
@@ -54,6 +57,12 @@ public class Skater : MonoBehaviour
             }
         }
     }
+
+    public bool HasPuck()
+    {
+        return hasPosession;
+    }
+    
     public IEnumerator LostPosession(){
         hasPosession = false;
         yield return new WaitForSeconds(posessionCooldownTime);
@@ -97,16 +106,31 @@ public class Skater : MonoBehaviour
         var oppositionTag = teamMember.getOppositionTag();
         
         // Look for correct tag in bodycheck list. Break on first match.
-        foreach (var hit in boxCastHits)
+        for (var i = 0; i < hitCount; i++)
         {
+            var hit = boxCastHits[i];
+            
             if (hit.CompareTag(oppositionTag))
             {
-                Debug.Log($"Bodycheck {hit.name}");
+                var force = transform.forward * GetBodyCheckPower();
+                var contactPoint = hit.ClosestPoint(boxCastOrigin.position);
+                hit.attachedRigidbody.AddForceAtPosition(force, contactPoint, ForceMode.Impulse);
+                Debug.Log($"Bodycheck {hit.name} with force {force}");
                 break;
             }
         }
 
         shotPower = 0;
+    }
+
+    // Maps shotPower to a value between minCheckPower and maxCheckPower
+    // by sampling the checkPowerCurve. 
+    private float GetBodyCheckPower()
+    {
+        var t = shotPower / shotPowerMax;
+        var curveT = checkPowerCurve.Evaluate(t);
+
+        return ((maxCheckPower - minCheckPower) * curveT) + minCheckPower;
     }
     
     public void MoveSkater(Vector3 pointer){
