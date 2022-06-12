@@ -605,13 +605,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc4cd9f8307e6fb48be6c00abb8659e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skaterAcceleration: 100
+  skaterAcceleration: 25
   skaterMaximumSpeed: 6
-  skaterTurnSpeed: 0.2
+  skaterTurnSpeed: 0.075
   skaterPosessionTrigger: {fileID: 5385736192404179430}
   puckPositionMarker: {fileID: 5385736191586785910}
-  shotPowerWindUpRate: 8
-  shotPowerMax: 10
+  shotPowerWindUpRate: 4
+  shotPowerMax: 12
   boxCastOrigin: {fileID: 8257756676241137462}
   boxCastHalfExtents: {x: 0.75, y: 1, z: 1}
   skaterMask:

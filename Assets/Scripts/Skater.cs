@@ -25,7 +25,7 @@ public class Skater : MonoBehaviour
     [Header("Shooting / Passing")]
     [SerializeField] float shotPowerWindUpRate; // power / second
     [SerializeField] float shotPowerMax;
-    private float shotPower = 0;
+    private float shotPower = 6f;
     private Vector3 puckLaunchDirection;
 
     [Header("Colliding/Checking")]
@@ -69,7 +69,8 @@ public class Skater : MonoBehaviour
         canTakePosession = true;
     }
     public void SetShotDirection(Vector2 movementInput){
-        puckLaunchDirection = new Vector3(movementInput.x, 0.25f, movementInput.y);
+        if(movementInput.magnitude == 0){puckLaunchDirection = Vector3.Normalize(skaterRigidBody.velocity);}
+        else{puckLaunchDirection = new Vector3(movementInput.x, 0.25f, movementInput.y);}
     }
     public IEnumerator WindUpShot(){
         while(windingUp){
@@ -83,9 +84,10 @@ public class Skater : MonoBehaviour
         windingUp = false;
         if(hasPosession){
             puckPositionMarker.GetComponent<PuckHandleJoint>().BreakFixedJoint();
+            Debug.Log($"Shot Direction Magnitude: {puckLaunchDirection.magnitude}");
             gameSystem.puckObject.GetComponent<Rigidbody>().AddForce(puckLaunchDirection * shotPower, ForceMode.Impulse);
         }
-        shotPower = 0;
+        shotPower = 6f;
     }
 
     public void BodyCheck()
