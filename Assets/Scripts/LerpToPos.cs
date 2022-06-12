@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LerpToPos : MonoBehaviour
 {
-    private Vector3 endPosition = Vector3(0,0,0);
+    private Vector3 endPosition = new Vector3(0,0,0);
     private Vector3 startPosition;
     private float desiredDuration = 3f;
     private float elapsedTime;
@@ -21,6 +21,6 @@ public class LerpToPos : MonoBehaviour
         elapsedTime += Time.deltaTime;
         float percentageComplete = elapsedTime / desiredDuration;
 
-        transform.position = new Vector3.Lerp(startPosition, endPosition, percentageComplete);        
+        transform.position = Vector3.Lerp(startPosition, endPosition, percentageComplete);        
     }
 }
