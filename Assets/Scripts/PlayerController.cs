@@ -47,6 +47,9 @@ public class PlayerController : MonoBehaviour
         }
     }
     public void ShootButtonInputHandler(InputAction.CallbackContext context){
+        
+        if (!selectedSkater) return; // bugfix: selectedSkater can be null here
+
         if(context.performed){
             Debug.Log("Shooting");
             selectedSkater.ShootPuck();
@@ -60,6 +63,8 @@ public class PlayerController : MonoBehaviour
 
     public void BodyCheckInputHandler(InputAction.CallbackContext context)
     {
+        if (!selectedSkater) return;
+
         if (selectedSkater.HasPuck()) return;
         
         if (context.performed) {
