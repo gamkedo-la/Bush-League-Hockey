@@ -83378,6 +83378,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: hockey-suzanne
       objectReference: {fileID: 0}
+    - target: {fileID: 5385736193455833134, guid: fd8f80ebf55c0d84aa9bf22321210774, type: 3}
+      propertyPath: m_Drag
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5385736193455833134, guid: fd8f80ebf55c0d84aa9bf22321210774, type: 3}
+      propertyPath: m_AngularDrag
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 5563990584839970230, guid: fd8f80ebf55c0d84aa9bf22321210774, type: 3}
       propertyPath: m_RootOrder
       value: 5

@@ -27,7 +27,6 @@ public class Skater : MonoBehaviour
     [SerializeField] float shotPowerMax;
     private float shotPower = 6f;
     private Vector3 puckLaunchDirection;
-
     [Header("Colliding/Checking")]
     [SerializeField] private Transform boxCastOrigin;
     [SerializeField] private Vector3 boxCastHalfExtents;
@@ -57,12 +56,7 @@ public class Skater : MonoBehaviour
             }
         }
     }
-
-    public bool HasPuck()
-    {
-        return hasPosession;
-    }
-    
+    public bool HasPuck(){ return hasPosession; }
     public IEnumerator LostPosession(){
         hasPosession = false;
         yield return new WaitForSeconds(posessionCooldownTime);
@@ -79,7 +73,6 @@ public class Skater : MonoBehaviour
             Debug.Log("Wind Up - " + shotPower);
         }
     }
-    
     public void ShootPuck(){
         windingUp = false;
         if(hasPosession){
@@ -89,13 +82,10 @@ public class Skater : MonoBehaviour
         }
         shotPower = 6f;
     }
-
     public void BodyCheck()
     {
         windingUp = false;
-        
         // @TODO: perform bodycheck animation
-        
         // Check for BodyCheck target
         var hitCount = Physics.OverlapBoxNonAlloc(
             boxCastOrigin.position,
@@ -103,15 +93,12 @@ public class Skater : MonoBehaviour
             boxCastHits,
             Quaternion.identity,
             skaterMask);
-        
         Debug.Log($"Bodycheck hitcount: {hitCount}");
         var oppositionTag = teamMember.getOppositionTag();
-        
         // Look for correct tag in bodycheck list. Break on first match.
         for (var i = 0; i < hitCount; i++)
         {
             var hit = boxCastHits[i];
-            
             if (hit.CompareTag(oppositionTag))
             {
                 var force = transform.forward * GetBodyCheckPower();
@@ -121,10 +108,7 @@ public class Skater : MonoBehaviour
                 break;
             }
         }
-
-        shotPower = 0;
     }
-
     // Maps shotPower to a value between minCheckPower and maxCheckPower
     // by sampling the checkPowerCurve. 
     private float GetBodyCheckPower()
@@ -145,7 +129,7 @@ public class Skater : MonoBehaviour
         // +-90 to +-155: Carving, decelerate hard along forward axis 
         // +-155 to +-180: Hard stop, quickly decelerate to 0
         if(skaterRigidBody.angularVelocity.magnitude > 0){skaterRigidBody.angularVelocity = Vector3.zero;}
-        if(movementPointer.magnitude > 0.1f){
+        if(movementPointer.magnitude > 0.1f && !windingUp){
             skaterRigidBody.AddForce(movementPointer * skaterAcceleration);
         }
         if(skaterRigidBody.velocity.magnitude > 0.1f){
@@ -159,7 +143,6 @@ public class Skater : MonoBehaviour
     private void Update(){
         HandleMove();
     }
-
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
