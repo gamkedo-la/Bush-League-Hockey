@@ -5,6 +5,7 @@ using UnityEngine;
 public class Goaltender : MonoBehaviour
 {
     private GameSystem gameSystem;
+    private TeamMember teamMember;
     [HideInInspector] public float movementSpeed = 6f, yRotation;
     [HideInInspector] private Rect homeGoalCrease = new Rect(-15.95f,-2.62f,2.15f,4.52f);
     [HideInInspector] private Rect awayGoalCrease = new Rect(14.02f,-2.62f,2.15f,4.52f);
@@ -14,11 +15,21 @@ public class Goaltender : MonoBehaviour
     private Vector3 goalieDirectionPointer;
     private Quaternion goalieDirectionRotation;
     private float goalieYRotationOffset;
+    [Header("Shooting / Passing")]
+    [SerializeField] float shotPowerWindUpRate; // power / second
+    [SerializeField] float shotPowerMax;
+    private float shotPower = 6f;
+    private Vector3 puckLaunchDirection;
+    private Rigidbody goaltenderRigidBody;
+    [HideInInspector] public bool windingUp = false;
+
     private void Awake(){
         gameSystem = GameObject.Find("GameSystem").GetComponent<GameSystem>();
+        teamMember = gameObject.GetComponent<TeamMember>();
+        goaltenderRigidBody = GetComponent<Rigidbody>();
     }
     public void FindMyNet(){
-        if(gameObject.GetComponent<TeamMember>().isHomeTeam){
+        if(teamMember.isHomeTeam){
             myNet = GameObject.FindWithTag("homeNet");
             goalieYRotationOffset = 270;
             myMovementCrease = homeGoalCrease;
@@ -44,6 +55,26 @@ public class Goaltender : MonoBehaviour
             goalieDirectionRotation = Quaternion.Euler(0, Quaternion.LookRotation(goalieDirectionPointer, Vector3.up).eulerAngles.y, 0);
             transform.rotation = Quaternion.Lerp(goalieDirectionRotation, Quaternion.Euler(0, goalieYRotationOffset, 0), 0.5f);
         }
+    }
+    public void SetShotDirection(Vector2 movementInput){
+        if(movementInput.magnitude == 0){puckLaunchDirection = -transform.right;}
+        else{puckLaunchDirection = new Vector3(movementInput.x, 0.25f, movementInput.y);}
+    }
+    public IEnumerator WindUpShot(){
+        while(windingUp){
+            yield return new WaitForSeconds((0.25f));
+            if(shotPower < shotPowerMax){shotPower += (shotPowerWindUpRate * 0.25f);}
+            Debug.Log("Wind Up - " + shotPower);
+        }
+    }
+    public void ShootPuck(){
+        windingUp = false;
+        if(teamMember.hasPosession){
+            teamMember.BreakPosession();
+            Debug.Log($"Shot Direction Magnitude: {puckLaunchDirection.magnitude}");
+            gameSystem.puckObject.GetComponent<Rigidbody>().AddForce(puckLaunchDirection * shotPower, ForceMode.Impulse);
+        }
+        shotPower = 6f;
     }
     private void Update(){
         HandleMove();

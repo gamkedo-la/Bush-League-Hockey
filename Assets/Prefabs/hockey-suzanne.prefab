@@ -657,6 +657,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isHomeTeam: 0
+  skaterPosessionTrigger: {fileID: 5385736192404179430}
+  puckPositionMarker: {fileID: 5385736191586785910}
 --- !u!1 &5233984259326556187
 GameObject:
   m_ObjectHideFlags: 0
@@ -762,7 +764,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5385736191586785910}
   serializedVersion: 2
-  m_Mass: 5
+  m_Mass: 0.0000001
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 0

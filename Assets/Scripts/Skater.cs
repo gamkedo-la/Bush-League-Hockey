@@ -16,12 +16,6 @@ public class Skater : MonoBehaviour
     private Vector3 cameraRight;
     private Quaternion desiredRotation;
     private Quaternion rotationThisFrame;
-    [Header("Puck Control")]
-    [SerializeField] Collider skaterPosessionTrigger;
-    [SerializeField] GameObject puckPositionMarker;
-    private FixedJoint puckHandleJoint;
-    private bool canTakePosession = true, hasPosession = false;
-    private float posessionCooldownTime = 0.75f;
     [Header("Shooting / Passing")]
     [SerializeField] float shotPowerWindUpRate; // power / second
     [SerializeField] float shotPowerMax;
@@ -46,22 +40,6 @@ public class Skater : MonoBehaviour
         boxCastHits = new Collider[3];
         teamMember = GetComponent<TeamMember>();
     }
-    public void ControlPuck(){
-        if(canTakePosession){
-            canTakePosession = false;
-            hasPosession = true;
-            gameSystem.puckObject.transform.position = puckPositionMarker.transform.position;
-            if(!puckPositionMarker.GetComponent<FixedJoint>()){
-                puckPositionMarker.GetComponent<PuckHandleJoint>().AttachPuckToHandleJoint(gameSystem.puckRigidBody);
-            }
-        }
-    }
-    public bool HasPuck(){ return hasPosession; }
-    public IEnumerator LostPosession(){
-        hasPosession = false;
-        yield return new WaitForSeconds(posessionCooldownTime);
-        canTakePosession = true;
-    }
     public void SetShotDirection(Vector2 movementInput){
         if(movementInput.magnitude == 0){puckLaunchDirection = Vector3.Normalize(skaterRigidBody.velocity);}
         else{puckLaunchDirection = new Vector3(movementInput.x, 0.25f, movementInput.y);}
@@ -75,8 +53,8 @@ public class Skater : MonoBehaviour
     }
     public void ShootPuck(){
         windingUp = false;
-        if(hasPosession){
-            puckPositionMarker.GetComponent<PuckHandleJoint>().BreakFixedJoint();
+        if(teamMember.hasPosession){
+            teamMember.BreakPosession();
             Debug.Log($"Shot Direction Magnitude: {puckLaunchDirection.magnitude}");
             gameSystem.puckObject.GetComponent<Rigidbody>().AddForce(puckLaunchDirection * shotPower, ForceMode.Impulse);
         }

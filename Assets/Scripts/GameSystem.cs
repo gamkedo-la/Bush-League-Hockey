@@ -22,12 +22,15 @@ public class GameSystem : MonoBehaviour
     [SerializeField] public Transform puckDropOrigin;
     [SerializeField] public GameObject homeGoaltender;
     [SerializeField] public GameObject awayGoaltender;
+    [SerializeField] public GameObject homeNet;
+    [SerializeField] public GameObject awayNet;
     [HideInInspector] public GameObject puckObject;
     [HideInInspector] public Rigidbody puckRigidBody;
     [Header("Controls Management")]
     [HideInInspector] public List<GameObject> localPlayerControllers;
     private int homeScore = 0;
     private int awayScore = 0;
+    private bool gameOn = false;
     private void Awake(){
         mainCamera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
         cameraPausePosition = new Vector3 (0,0,0);
@@ -35,6 +38,9 @@ public class GameSystem : MonoBehaviour
         awayGoaltender.transform.position = awayGoalOrigin.position;
     }
     private void DropPuck(){
+        gameOn = true;
+        homeNet.GetComponent<Goal>().GameOn();
+        awayNet.GetComponent<Goal>().GameOn();
         puckObject = Instantiate(puckPrefab, puckDropOrigin.position, Quaternion.Euler(75, 0, 0));
         puckRigidBody = puckObject.GetComponent<Rigidbody>();
         focalObject = puckObject;
@@ -60,7 +66,6 @@ public class GameSystem : MonoBehaviour
             newPlayerInput.SetIsHomeTeam(true);
         }
         if(!localPlayerControllers.Contains(playerInput.gameObject)){localPlayerControllers.Add(playerInput.gameObject);}
-        Debug.Log("Added new controller " + localPlayerControllers.Count);
     }
     private void HandleCameraPositioning(){
         if(puckObject){
@@ -79,6 +84,19 @@ public class GameSystem : MonoBehaviour
         // far zoom: entire rink visible
         // near zoom: TBD
         // (max: rink width, min: everone at center ice)
+    }
+    private IEnumerator CelebrateThenReset(){
+        Destroy(puckObject, 1.5f);
+        //Trigger celebration and other events
+        yield return new WaitForSeconds(5);
+        DropPuck();
+    }
+    public void GoalScored(bool scoredOnHomeNet){
+        if(scoredOnHomeNet){awayScore++;}
+        else{homeScore++;}
+        gameOn = false;
+        Debug.Log($"Home: {homeScore}  ||  Away: {awayScore}");
+        StartCoroutine(CelebrateThenReset());
     }
     void Update(){
         HandleCameraPositioning();
