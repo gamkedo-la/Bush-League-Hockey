@@ -554,7 +554,7 @@ Animator:
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 04dd0b7de0f88d5408536d66dfb4ffaf, type: 3}
   m_Controller: {fileID: 9100000, guid: 0243e88ad2908ee44bd98b297a4f5400, type: 2}
-  m_CullingMode: 0
+  m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
@@ -605,7 +605,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc4cd9f8307e6fb48be6c00abb8659e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skaterAcceleration: 25
+  skaterAcceleration: 45
   skaterMaximumSpeed: 6
   skaterTurnSpeed: 0.075
   shotPowerWindUpRate: 4
