@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour
     private Skater selectedSkater;
     private TeamMember selectedTeamMember;
     private Goaltender goaltender;
+    private TeamMember goaltenderTeamMember;
     public bool isHomeTeam;
     public void SetIsHomeTeam(bool homeTeamBool){
         isHomeTeam = homeTeamBool;
@@ -26,12 +27,14 @@ public class PlayerController : MonoBehaviour
             selectedSkater = GameObject.FindWithTag("homeSkater").GetComponent<Skater>();
             selectedTeamMember = GameObject.FindWithTag("homeSkater").GetComponent<TeamMember>();
             goaltender = GameObject.FindWithTag("homeGoaltender").GetComponent<Goaltender>();
+            goaltenderTeamMember = GameObject.FindWithTag("homeGoaltender").GetComponent<TeamMember>();
         } else{
             selectedSkater = GameObject.FindWithTag("awaySkater").GetComponent<Skater>();
             selectedTeamMember = GameObject.FindWithTag("awaySkater").GetComponent<TeamMember>();
             goaltender = GameObject.FindWithTag("awayGoaltender").GetComponent<Goaltender>();
+            goaltenderTeamMember = GameObject.FindWithTag("awayGoaltender").GetComponent<TeamMember>();
         }
-        goaltender.gameObject.GetComponent<TeamMember>().SetIsHomeTeam(isHomeTeam);
+        goaltenderTeamMember.SetIsHomeTeam(isHomeTeam);
         goaltender.FindMyNet();
     }
     private void Awake(){
@@ -44,6 +47,7 @@ public class PlayerController : MonoBehaviour
             selectedSkater.SetShotDirection(movementInput);
             selectedTeamMember.SetPassDirection(movementInput);
             goaltender.SetShotDirection(movementInput);
+            goaltenderTeamMember.SetPassDirection(movementInput);
             forwardForce = movementInput.y * Vector3.Normalize(transform.position - gameSystem.mainCamera.transform.position);
             sideForce = movementInput.x * Vector3.Cross(gameSystem.mainCamera.transform.forward, -gameSystem.mainCamera.transform.up);
             movementPointer = Vector3.Normalize(new Vector3((forwardForce.x + sideForce.x), 0f, (forwardForce.z + sideForce.z)));
@@ -61,7 +65,7 @@ public class PlayerController : MonoBehaviour
         if(context.started && !selectedTeamMember.windingUp){
             Debug.Log("Winding up shot");
             selectedTeamMember.windingUp = true;
-            goaltender.gameObject.GetComponent<TeamMember>().windingUp = true;
+            goaltenderTeamMember.windingUp = true;
             StartCoroutine(selectedSkater.WindUpShot());
             StartCoroutine(goaltender.WindUpShot());
         }
@@ -71,22 +75,20 @@ public class PlayerController : MonoBehaviour
         if(context.performed){
             Debug.Log("Passing");
             selectedTeamMember.PassPuck();
-            goaltender.gameObject.GetComponent<TeamMember>().PassPuck();
+            goaltenderTeamMember.PassPuck();
         }
         if(context.started && !selectedTeamMember.windingUp){
             Debug.Log("Winding up pass");
             selectedTeamMember.windingUp = true;
-            goaltender.gameObject.GetComponent<TeamMember>().windingUp = true;
+            goaltenderTeamMember.windingUp = true;
             StartCoroutine(selectedTeamMember.WindUpPass());
-            StartCoroutine(goaltender.gameObject.GetComponent<TeamMember>().WindUpPass());
+            StartCoroutine(goaltenderTeamMember.WindUpPass());
         }
     }
     public void BodyCheckInputHandler(InputAction.CallbackContext context)
     {
         if (!selectedSkater) return;
-
         if (selectedTeamMember.HasPuck()) return;
-        
         if (context.performed) {
             selectedSkater.BodyCheck();
         }

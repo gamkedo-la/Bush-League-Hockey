@@ -66,6 +66,6 @@ public class TeamMember : MonoBehaviour
             BreakPosession();
             gameSystem.puckObject.GetComponent<Rigidbody>().AddForce(puckLaunchDirection * passPower, ForceMode.Impulse);
         }
-        passPower = 6f;
+        passPower = 4f;
     }
 }

@@ -641,7 +641,6 @@ MonoBehaviour:
     m_RotationOrder: 4
   minCheckPower: 100
   maxCheckPower: 200
-  windingUp: 0
 --- !u!114 &5385736193455833120
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -654,10 +653,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aaeeee279c1b86c4f8bcf4db74a536be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  windingUp: 0
   isHomeTeam: 0
   skaterPosessionTrigger: {fileID: 5385736192404179430}
   puckPositionMarker: {fileID: 5385736191586785910}
   hasPosession: 0
+  passPowerWindUpRate: 4
+  passPowerMax: 10
 --- !u!1 &5233984259326556187
 GameObject:
   m_ObjectHideFlags: 0
