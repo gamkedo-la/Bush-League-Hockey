@@ -42,6 +42,7 @@ public class PlayerController : MonoBehaviour
         if(selectedSkater && goaltender){
             movementInput = context.ReadValue<Vector2>();
             selectedSkater.SetShotDirection(movementInput);
+            selectedTeamMember.SetPassDirection(movementInput);
             goaltender.SetShotDirection(movementInput);
             forwardForce = movementInput.y * Vector3.Normalize(transform.position - gameSystem.mainCamera.transform.position);
             sideForce = movementInput.x * Vector3.Cross(gameSystem.mainCamera.transform.forward, -gameSystem.mainCamera.transform.up);
@@ -51,23 +52,35 @@ public class PlayerController : MonoBehaviour
         }
     }
     public void ShootButtonInputHandler(InputAction.CallbackContext context){
-        
         if (!selectedSkater) return; // bugfix: selectedSkater can be null here
-
         if(context.performed){
             Debug.Log("Shooting");
             selectedSkater.ShootPuck();
             goaltender.ShootPuck();
         }
-        if(context.started && !selectedSkater.windingUp){
+        if(context.started && !selectedTeamMember.windingUp){
             Debug.Log("Winding up shot");
-            selectedSkater.windingUp = true;
-            goaltender.windingUp = true;
+            selectedTeamMember.windingUp = true;
+            goaltender.gameObject.GetComponent<TeamMember>().windingUp = true;
             StartCoroutine(selectedSkater.WindUpShot());
             StartCoroutine(goaltender.WindUpShot());
         }
     }
-
+    public void PassButtonInputHandler(InputAction.CallbackContext context){
+        if (!selectedSkater) return; // bugfix: selectedSkater can be null here
+        if(context.performed){
+            Debug.Log("Passing");
+            selectedTeamMember.PassPuck();
+            goaltender.gameObject.GetComponent<TeamMember>().PassPuck();
+        }
+        if(context.started && !selectedTeamMember.windingUp){
+            Debug.Log("Winding up pass");
+            selectedTeamMember.windingUp = true;
+            goaltender.gameObject.GetComponent<TeamMember>().windingUp = true;
+            StartCoroutine(selectedTeamMember.WindUpPass());
+            StartCoroutine(goaltender.gameObject.GetComponent<TeamMember>().WindUpPass());
+        }
+    }
     public void BodyCheckInputHandler(InputAction.CallbackContext context)
     {
         if (!selectedSkater) return;
@@ -77,9 +90,9 @@ public class PlayerController : MonoBehaviour
         if (context.performed) {
             selectedSkater.BodyCheck();
         }
-        else if (context.started && !selectedSkater.windingUp) {
+        else if (context.started && !selectedTeamMember.windingUp) {
             Debug.Log("Winding up body check");
-            selectedSkater.windingUp = true;
+            selectedTeamMember.windingUp = true;
             StartCoroutine(selectedSkater.WindUpShot());
         }
     }

@@ -91,7 +91,6 @@ public class GameSystem : MonoBehaviour
         homeScoreText.text = homeScore.ToString();
         awayScoreText.text = awayScore.ToString();
         gameOn = false;
-        Debug.Log($"Home: {homeScore}  ||  Away: {awayScore}");
         StartCoroutine(CelebrateThenReset());
     }
     void Update(){

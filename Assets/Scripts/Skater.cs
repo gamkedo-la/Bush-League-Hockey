@@ -29,9 +29,6 @@ public class Skater : MonoBehaviour
     [SerializeField] private float minCheckPower;
     [SerializeField] private float maxCheckPower;
     private Collider[] boxCastHits;
-    
-    [HideInInspector] public bool windingUp = false;
-
     private TeamMember teamMember;
     
     private void Awake(){
@@ -41,18 +38,18 @@ public class Skater : MonoBehaviour
         teamMember = GetComponent<TeamMember>();
     }
     public void SetShotDirection(Vector2 movementInput){
-        if(movementInput.magnitude == 0){puckLaunchDirection = Vector3.Normalize(skaterRigidBody.velocity);}
+        if(movementInput.magnitude == 0){puckLaunchDirection = Vector3.Normalize(transform.forward);}
         else{puckLaunchDirection = new Vector3(movementInput.x, 0.25f, movementInput.y);}
     }
     public IEnumerator WindUpShot(){
-        while(windingUp){
+        while(teamMember.windingUp){
             yield return new WaitForSeconds((0.25f));
             if(shotPower < shotPowerMax){shotPower += (shotPowerWindUpRate * 0.25f);}
             Debug.Log("Wind Up - " + shotPower);
         }
     }
     public void ShootPuck(){
-        windingUp = false;
+        teamMember.windingUp = false;
         if(teamMember.hasPosession){
             teamMember.BreakPosession();
             Debug.Log($"Shot Direction Magnitude: {puckLaunchDirection.magnitude}");
@@ -62,7 +59,7 @@ public class Skater : MonoBehaviour
     }
     public void BodyCheck()
     {
-        windingUp = false;
+        teamMember.windingUp = false;
         // @TODO: perform bodycheck animation
         // Check for BodyCheck target
         var hitCount = Physics.OverlapBoxNonAlloc(
@@ -107,7 +104,7 @@ public class Skater : MonoBehaviour
         // +-90 to +-155: Carving, decelerate hard along forward axis 
         // +-155 to +-180: Hard stop, quickly decelerate to 0
         if(skaterRigidBody.angularVelocity.magnitude > 0){skaterRigidBody.angularVelocity = Vector3.zero;}
-        if(movementPointer.magnitude > 0.1f && !windingUp){
+        if(movementPointer.magnitude > 0.1f && !teamMember.windingUp){
             skaterRigidBody.AddForce(movementPointer * skaterAcceleration);
         }
         if(skaterRigidBody.velocity.magnitude > 0.1f){

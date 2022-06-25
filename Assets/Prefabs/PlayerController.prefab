@@ -155,8 +155,8 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1326392306507441094}
         m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: BodyCheckInputHandler
-        m_Mode: 0
+        m_MethodName: 
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -167,6 +167,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: e238c4f6-758c-4ae8-815a-f6c5a5cde6f1
     m_ActionName: Player/BodyCheck[/Keyboard/q]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1326392306507441094}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: PassButtonInputHandler
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 19dad570-909f-4568-9401-6f4d2a91c6a8
+    m_ActionName: Player/Pass[/DualShock3GamepadHID/leftShoulder,/Keyboard/e]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player

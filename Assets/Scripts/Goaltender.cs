@@ -23,7 +23,6 @@ public class Goaltender : MonoBehaviour
     private float shotPower = 6f;
     private Vector3 puckLaunchDirection;
     private Rigidbody goaltenderRigidBody;
-    [HideInInspector] public bool windingUp = false;
     private void Awake(){
         gameSystem = GameObject.Find("GameSystem").GetComponent<GameSystem>();
         teamMember = gameObject.GetComponent<TeamMember>();
@@ -63,14 +62,14 @@ public class Goaltender : MonoBehaviour
         else{puckLaunchDirection = new Vector3(movementInput.x, 0.25f, movementInput.y);}
     }
     public IEnumerator WindUpShot(){
-        while(windingUp){
+        while(teamMember.windingUp){
             yield return new WaitForSeconds((0.25f));
             if(shotPower < shotPowerMax){shotPower += (shotPowerWindUpRate * 0.25f);}
             Debug.Log("Wind Up - " + shotPower);
         }
     }
     public void ShootPuck(){
-        windingUp = false;
+        teamMember.windingUp = false;
         if(teamMember.hasPosession){
             teamMember.BreakPosession();
             Debug.Log($"Shot Direction Magnitude: {puckLaunchDirection.magnitude}");

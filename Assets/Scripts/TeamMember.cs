@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 public class TeamMember : MonoBehaviour
 {
+    [HideInInspector] public bool windingUp = false;
     private GameSystem gameSystem;
     [SerializeField] public bool isHomeTeam;
+    private Rigidbody thisPlayersRigidBody;
     [Header("Puck Control")]
     [SerializeField] Collider skaterPosessionTrigger;
     [SerializeField] GameObject puckPositionMarker;
@@ -12,6 +14,12 @@ public class TeamMember : MonoBehaviour
     private bool canTakePosession = true;
     [HideInInspector] public bool hasPosession = false;
     private float posessionCooldownTime = 0.5f;
+    [Header("Passing")]
+    [SerializeField] float passPowerWindUpRate; // power / second
+    [SerializeField] float passPowerMax;
+    private float passPower = 4f;
+    private Vector3 puckLaunchDirection;
+
     private void Awake(){
         gameSystem = GameObject.Find("GameSystem").GetComponent<GameSystem>();
     }
@@ -40,5 +48,24 @@ public class TeamMember : MonoBehaviour
     public string getOppositionTag()
     {
         return isHomeTeam ? "awaySkater" : "homeSkater";
+    }
+    public void SetPassDirection(Vector2 movementInput){
+        if(movementInput.magnitude == 0){puckLaunchDirection = Vector3.Normalize(transform.forward);}
+        else{puckLaunchDirection = new Vector3(movementInput.x, 0, movementInput.y);}
+    }
+    public IEnumerator WindUpPass(){
+        while(windingUp){
+            yield return new WaitForSeconds((0.25f));
+            if(passPower < passPowerMax){passPower += (passPowerWindUpRate * 0.25f);}
+            Debug.Log("Wind Up - " + passPower);
+        }
+    }
+    public void PassPuck(){
+        windingUp = false;
+        if(hasPosession){
+            BreakPosession();
+            gameSystem.puckObject.GetComponent<Rigidbody>().AddForce(puckLaunchDirection * passPower, ForceMode.Impulse);
+        }
+        passPower = 6f;
     }
 }
