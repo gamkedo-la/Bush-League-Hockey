@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using TMPro;
 public class GameSystem : MonoBehaviour
 {
     [Header("Main Camera")]
@@ -32,6 +33,8 @@ public class GameSystem : MonoBehaviour
     [Header("Scorekeeping")]
     [SerializeField] public GameObject homeNet;
     [SerializeField] public GameObject awayNet;
+    [SerializeField] TextMeshProUGUI homeScoreText;
+    [SerializeField] TextMeshProUGUI awayScoreText;
     private void Awake(){
         mainCamera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
         cameraPausePosition = new Vector3 (0,0,0);
@@ -85,6 +88,8 @@ public class GameSystem : MonoBehaviour
     public void GoalScored(bool scoredOnHomeNet){
         if(scoredOnHomeNet){awayScore++;}
         else{homeScore++;}
+        homeScoreText.text = homeScore.ToString();
+        awayScoreText.text = awayScore.ToString();
         gameOn = false;
         Debug.Log($"Home: {homeScore}  ||  Away: {awayScore}");
         StartCoroutine(CelebrateThenReset());

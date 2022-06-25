@@ -16,7 +16,7 @@ public class Goal : MonoBehaviour
         if(other.tag == "puck" && !goalHasCounted){
             Debug.Log("Goal: " + other);
             goalHasCounted = true;
-            gameSystem.GoalScored(gameObject.tag == "awayNet");
+            gameSystem.GoalScored(gameObject.tag == "homeNet");
         }
     }
 }
