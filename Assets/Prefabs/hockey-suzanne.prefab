@@ -608,8 +608,6 @@ MonoBehaviour:
   skaterAcceleration: 25
   skaterMaximumSpeed: 6
   skaterTurnSpeed: 0.075
-  skaterPosessionTrigger: {fileID: 5385736192404179430}
-  puckPositionMarker: {fileID: 5385736191586785910}
   shotPowerWindUpRate: 4
   shotPowerMax: 12
   boxCastOrigin: {fileID: 8257756676241137462}
@@ -659,6 +657,7 @@ MonoBehaviour:
   isHomeTeam: 0
   skaterPosessionTrigger: {fileID: 5385736192404179430}
   puckPositionMarker: {fileID: 5385736191586785910}
+  hasPosession: 0
 --- !u!1 &5233984259326556187
 GameObject:
   m_ObjectHideFlags: 0

@@ -22,8 +22,6 @@ public class GameSystem : MonoBehaviour
     [SerializeField] public Transform puckDropOrigin;
     [SerializeField] public GameObject homeGoaltender;
     [SerializeField] public GameObject awayGoaltender;
-    [SerializeField] public GameObject homeNet;
-    [SerializeField] public GameObject awayNet;
     [HideInInspector] public GameObject puckObject;
     [HideInInspector] public Rigidbody puckRigidBody;
     [Header("Controls Management")]
@@ -31,6 +29,9 @@ public class GameSystem : MonoBehaviour
     private int homeScore = 0;
     private int awayScore = 0;
     private bool gameOn = false;
+    [Header("Scorekeeping")]
+    [SerializeField] public GameObject homeNet;
+    [SerializeField] public GameObject awayNet;
     private void Awake(){
         mainCamera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
         cameraPausePosition = new Vector3 (0,0,0);
@@ -46,16 +47,6 @@ public class GameSystem : MonoBehaviour
         focalObject = puckObject;
     }
     private void Start(){
-        // homeGoaltender = Instantiate(goaltenderPrefab, homeGoalOrigin.position, Quaternion.identity);
-        // var homeGoalieScript = homeGoaltender.GetComponent<Goaltender>();
-        // var homeGoalieTM = homeGoaltender.GetComponent<TeamMember>();
-        // homeGoalieTM.SetIsHomeTeam(true);
-        // homeGoalieScript.FindMyNet();
-        // awayGoaltender = Instantiate(goaltenderPrefab, awayGoalOrigin.position, Quaternion.identity);
-        // var awayGoalieTM = homeGoaltender.GetComponent<TeamMember>();
-        // var awayGoalieScript = homeGoaltender.GetComponent<Goaltender>();
-        // awayGoalieTM.SetIsHomeTeam(false);
-        // awayGoalieScript.FindMyNet();
         DropPuck();
     }
     public void JoinNewPlayer(PlayerInput playerInput){
@@ -102,5 +93,8 @@ public class GameSystem : MonoBehaviour
         HandleCameraPositioning();
         HandleCameraFocus();
         HandleCameraZoom();
+    }
+    public void QuitGame(){
+        Application.Quit();
     }
 }

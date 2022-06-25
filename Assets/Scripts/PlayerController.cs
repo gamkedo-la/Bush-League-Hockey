@@ -65,7 +65,6 @@ public class PlayerController : MonoBehaviour
             goaltender.windingUp = true;
             StartCoroutine(selectedSkater.WindUpShot());
             StartCoroutine(goaltender.WindUpShot());
-
         }
     }
 
