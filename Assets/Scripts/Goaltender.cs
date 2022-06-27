@@ -12,10 +12,11 @@ public class Goaltender : MonoBehaviour
     const float goaltenderDefaultYRotation = -90;
     private float goaltenderForwardYRotation;
     private float netToGoalieYRotation;
-    [HideInInspector] private Rect homeGoalCrease = new Rect(-15.95f,-2.62f,2.15f,4.52f);
-    [HideInInspector] private Rect awayGoalCrease = new Rect(14.02f,-2.62f,2.15f,4.52f);
+    private Rect homeGoalCrease = new Rect(-15.95f,-1.75f, 2.1f, 4.52f);
+    private Rect awayGoalCrease = new Rect(14.02f,-1.75f,2.1f, 4.52f);
     private Rect myMovementCrease;
     [HideInInspector] public GameObject myNet;
+    [HideInInspector] public GameObject myOriginPoint;
     private Vector3 displacementVector;
     [Header("Shooting / Passing")]
     [SerializeField] float shotPowerWindUpRate; // power / second
@@ -30,16 +31,17 @@ public class Goaltender : MonoBehaviour
     }
     public void FindMyNet(){
         if(teamMember.isHomeTeam){
-            myNet = GameObject.FindWithTag("homeNet");
+            myNet = gameSystem.homeNet;
             myMovementCrease = homeGoalCrease;
-            goaltenderForwardYRotation = 0;
-            transform.position = gameSystem.homeGoalOrigin.position;
+            goaltenderForwardYRotation = -90;
+            myOriginPoint = gameSystem.homeGoalOrigin.gameObject;
         } else{
-            myNet = GameObject.FindWithTag("awayNet");
+            myNet = gameSystem.awayNet;
             myMovementCrease = awayGoalCrease;
-            goaltenderForwardYRotation = 180;
-            transform.position = gameSystem.awayGoalOrigin.position;
+            goaltenderForwardYRotation = -90;
+            myOriginPoint = gameSystem.awayGoalOrigin.gameObject;
         }
+        transform.position = myOriginPoint.transform.position;
     }
     public void MoveGoalie(Vector3 movementPointer){
         displacementVector = movementSpeed * movementPointer * Time.deltaTime;
@@ -51,10 +53,15 @@ public class Goaltender : MonoBehaviour
                 transform.position.y,
                 Mathf.Clamp((transform.position.z + displacementVector.z), myMovementCrease.y, (myMovementCrease.y + myMovementCrease.height))
             );
-            netToGoalieYRotation = Quaternion.LookRotation((transform.position - myNet.transform.position), Vector3.up).eulerAngles.y;
-            // average between that and forward
-            // goalieRotation = (netToGoalieYRotation + goaltenderForwardYRotation) / 2;
-            transform.rotation = Quaternion.Euler(0, netToGoalieYRotation + goaltenderDefaultYRotation, 0);
+            goalieRotation = Quaternion.LookRotation(transform.position - myNet.transform.position);
+            goalieRotation.x = 0;
+            goalieRotation.z = 0;
+            goalieRotation *= Quaternion.Euler(0, -90, 0);
+            transform.rotation = Quaternion.RotateTowards(
+                myOriginPoint.transform.rotation,
+                goalieRotation,
+                35
+            );
         }
     }
     public void SetShotDirection(Vector2 movementInput){
@@ -72,7 +79,6 @@ public class Goaltender : MonoBehaviour
         teamMember.windingUp = false;
         if(teamMember.hasPosession){
             teamMember.BreakPosession();
-            Debug.Log($"Shot Direction Magnitude: {puckLaunchDirection.magnitude}");
             gameSystem.puckObject.GetComponent<Rigidbody>().AddForce(puckLaunchDirection * shotPower, ForceMode.Impulse);
         }
         shotPower = 6f;

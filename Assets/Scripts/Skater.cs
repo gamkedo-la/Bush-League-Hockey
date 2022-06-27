@@ -52,7 +52,6 @@ public class Skater : MonoBehaviour
         teamMember.windingUp = false;
         if(teamMember.hasPosession){
             teamMember.BreakPosession();
-            Debug.Log($"Shot Direction Magnitude: {puckLaunchDirection.magnitude}");
             gameSystem.puckObject.GetComponent<Rigidbody>().AddForce(puckLaunchDirection * shotPower, ForceMode.Impulse);
         }
         shotPower = 6f;

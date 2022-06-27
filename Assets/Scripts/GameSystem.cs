@@ -41,13 +41,15 @@ public class GameSystem : MonoBehaviour
         homeGoaltender.transform.position = homeGoalOrigin.position;
         awayGoaltender.transform.position = awayGoalOrigin.position;
     }
-    private void DropPuck(){
+    public void DropPuck(){
+        if(puckObject){Destroy(puckObject);}
         gameOn = true;
         homeNet.GetComponent<Goal>().GameOn();
         awayNet.GetComponent<Goal>().GameOn();
         puckObject = Instantiate(puckPrefab, puckDropOrigin.position, Quaternion.Euler(75, 0, 0));
         puckRigidBody = puckObject.GetComponent<Rigidbody>();
         focalObject = puckObject;
+        // deactivate HUD messages
     }
     private void Start(){
         DropPuck();
@@ -80,9 +82,11 @@ public class GameSystem : MonoBehaviour
         // (max: rink width, min: everone at center ice)
     }
     private IEnumerator CelebrateThenReset(){
+        // setactive goalmessage
         Destroy(puckObject, 1.5f);
         //Trigger celebration and other events
         yield return new WaitForSeconds(5);
+        // yield return Startcoroutine(Celebrations())
         DropPuck();
     }
     public void GoalScored(bool scoredOnHomeNet){

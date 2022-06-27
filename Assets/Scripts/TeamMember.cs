@@ -27,6 +27,7 @@ public class TeamMember : MonoBehaviour
         isHomeTeam = isHome;
     }
     public void ControlPuck(){
+        // relative velocity
         if(canTakePosession){
             canTakePosession = false;
             hasPosession = true;
