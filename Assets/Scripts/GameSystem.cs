@@ -35,13 +35,23 @@ public class GameSystem : MonoBehaviour
     [SerializeField] public GameObject awayNet;
     [SerializeField] TextMeshProUGUI homeScoreText;
     [SerializeField] TextMeshProUGUI awayScoreText;
+    [Header("Jumbotron Message")]
+    [SerializeField] public GameObject GoalScoredDisplay;
+    [SerializeField] public GameObject FaceOffMessageDisplay;
     private void Awake(){
         mainCamera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
         cameraPausePosition = new Vector3 (0,0,0);
         homeGoaltender.transform.position = homeGoalOrigin.position;
         awayGoaltender.transform.position = awayGoalOrigin.position;
     }
+    private IEnumerator TemporaryFaceOffMessage(){
+        FaceOffMessageDisplay.SetActive(true);
+        yield return new WaitForSeconds(2);
+        FaceOffMessageDisplay.SetActive(false);
+    }
     public void DropPuck(){
+        GoalScoredDisplay.SetActive(false);
+        StartCoroutine(TemporaryFaceOffMessage());
         if(puckObject){Destroy(puckObject);}
         gameOn = true;
         homeNet.GetComponent<Goal>().GameOn();
@@ -81,8 +91,13 @@ public class GameSystem : MonoBehaviour
         // near zoom: TBD
         // (max: rink width, min: everone at center ice)
     }
+    private IEnumerator TemporaryGoalMessage(){
+        GoalScoredDisplay.SetActive(true);
+        yield return new WaitForSeconds(2);
+        GoalScoredDisplay.SetActive(false);
+    }
     private IEnumerator CelebrateThenReset(){
-        // setactive goalmessage
+        StartCoroutine(TemporaryGoalMessage());
         Destroy(puckObject, 1.5f);
         //Trigger celebration and other events
         yield return new WaitForSeconds(5);
