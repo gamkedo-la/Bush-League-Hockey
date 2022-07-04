@@ -9,9 +9,9 @@ public class PlayAreaBoundary : MonoBehaviour
         gameSystem = GameObject.Find("GameSystem").GetComponent<GameSystem>();
     }
     void OnTriggerExit(Collider other){
-        if(other.gameObject.tag == "Puck"){
+        if(other.gameObject.tag == "puck"){
             Debug.Log("Gone OB");
-            gameSystem.DropPuck();
+            gameSystem.PuckOutOfBounds();
         }
     }
 }

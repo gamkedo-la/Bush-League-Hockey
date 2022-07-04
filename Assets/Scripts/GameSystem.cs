@@ -38,6 +38,7 @@ public class GameSystem : MonoBehaviour
     [Header("Jumbotron Message")]
     [SerializeField] public GameObject GoalScoredDisplay;
     [SerializeField] public GameObject FaceOffMessageDisplay;
+    [SerializeField] public GameObject OutOfBoundsMessageDisplay;
     private void Awake(){
         mainCamera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
         cameraPausePosition = new Vector3 (0,0,0);
@@ -111,6 +112,15 @@ public class GameSystem : MonoBehaviour
         awayScoreText.text = awayScore.ToString();
         gameOn = false;
         StartCoroutine(CelebrateThenReset());
+    }
+    private IEnumerator OutOfBoundsReset(){
+        OutOfBoundsMessageDisplay.SetActive(true);
+        yield return new WaitForSeconds(2);
+        OutOfBoundsMessageDisplay.SetActive(false);
+        DropPuck();
+    }
+    public void PuckOutOfBounds(){
+        StartCoroutine(OutOfBoundsReset());
     }
     void Update(){
         HandleCameraPositioning();
