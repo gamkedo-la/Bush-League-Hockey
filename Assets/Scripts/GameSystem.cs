@@ -100,7 +100,10 @@ public class GameSystem : MonoBehaviour
     private IEnumerator CelebrateThenReset(){
         StartCoroutine(TemporaryGoalMessage());
         Destroy(puckObject, 1.5f);
-        //Trigger celebration and other events
+        // Trigger celebration / sad animations
+        // point a spotlight on the player who scored
+        // Goal horn sound
+        // Turn on goal lights
         yield return new WaitForSeconds(5);
         // yield return Startcoroutine(Celebrations())
         DropPuck();
@@ -121,6 +124,7 @@ public class GameSystem : MonoBehaviour
     }
     public void PuckOutOfBounds(){
         StartCoroutine(OutOfBoundsReset());
+        // Trigger crowd effects
     }
     void Update(){
         HandleCameraPositioning();
