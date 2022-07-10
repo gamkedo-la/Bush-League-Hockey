@@ -6,7 +6,62 @@ ModelImporter:
   - first:
       74: -8502022493303855146
     second: rig|SkatingCoasting
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Gloves
+    second: {fileID: 2100000, guid: 762346adab010634cbcb584d58924a06, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Jersey
+    second: {fileID: 2100000, guid: 23424c90f29a8ac49bfb496ac1760c3e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MonkeyEyes
+    second: {fileID: 2100000, guid: 66061b49eee3a5744ae79b53aac3daf9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MonkeyFur
+    second: {fileID: 2100000, guid: 9c869e46797fece488a2ca129adf9b3d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MonkeyMouth
+    second: {fileID: 2100000, guid: 6454b9ca05c4494488414d166754c9b4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MonkeyPupils
+    second: {fileID: 2100000, guid: 18b94a645697c7f4982871fc4a20d0fd, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MonkeySkin
+    second: {fileID: 2100000, guid: 3d99c2dd7e8a213479015760904392b1, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Shorts
+    second: {fileID: 2100000, guid: b288d4d240d08f24ab8bb396efdb0af0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: SkateBladeHousing
+    second: {fileID: 2100000, guid: 8c5b1b55d8396994198ff656f5f97f16, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: SkateBlades
+    second: {fileID: 2100000, guid: 1e9eb9d411eb1dc45ad14dafdc86dc19, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Skates
+    second: {fileID: 2100000, guid: 25a469ea7b27c054d941e1ac170d9a8b, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
