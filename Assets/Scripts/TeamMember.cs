@@ -65,6 +65,9 @@ public class TeamMember : MonoBehaviour
         windingUp = false;
         if(hasPosession){
             BreakPosession();
+            // choose random integer between 0 and SFX count -1
+            int randomSFXIndex = Random.Range(0, gameSystem.passSFX.Length);
+            AudioSource.PlayClipAtPoint(gameSystem.passSFX[randomSFXIndex], Camera.main.transform.position, gameSystem.passVolume);
             gameSystem.puckObject.GetComponent<Rigidbody>().AddForce(puckLaunchDirection * passPower, ForceMode.Impulse);
         }
         passPower = 4f;

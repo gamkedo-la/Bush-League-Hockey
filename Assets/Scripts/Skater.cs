@@ -52,6 +52,8 @@ public class Skater : MonoBehaviour
         teamMember.windingUp = false;
         if(teamMember.hasPosession){
             teamMember.BreakPosession();
+            // play da sound
+            AudioSource.PlayClipAtPoint(gameSystem.shotSFX, Camera.main.transform.position, gameSystem.shotVolume);
             gameSystem.puckObject.GetComponent<Rigidbody>().AddForce(puckLaunchDirection * shotPower, ForceMode.Impulse);
         }
         shotPower = 6f;
