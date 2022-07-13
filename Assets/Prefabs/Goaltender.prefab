@@ -132,6 +132,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementSpeed: 4
   myNet: {fileID: 0}
+  myOriginPoint: {fileID: 0}
   shotPowerWindUpRate: 6
   shotPowerMax: 12
 --- !u!114 &7572892403236936459
@@ -151,8 +152,9 @@ MonoBehaviour:
   skaterPosessionTrigger: {fileID: 7246921096608301403}
   puckPositionMarker: {fileID: 6150768726563883133}
   hasPosession: 0
-  passPowerWindUpRate: 3
-  passPowerMax: 8
+  passPowerWindUpRate: 4
+  passPowerMax: 10
+  passPower: 3
 --- !u!1 &5791120376811143108
 GameObject:
   m_ObjectHideFlags: 0

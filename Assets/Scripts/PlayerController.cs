@@ -58,7 +58,6 @@ public class PlayerController : MonoBehaviour
     public void ShootButtonInputHandler(InputAction.CallbackContext context){
         if (!selectedSkater) return; // bugfix: selectedSkater can be null here
         if(context.performed){
-            Debug.Log("Shooting");
             selectedSkater.ShootPuck();
             goaltender.ShootPuck();
         }

@@ -176,8 +176,9 @@ MonoBehaviour:
   skaterAcceleration: 70
   skaterMaximumSpeed: 10
   skaterTurnSpeed: 0.075
-  shotPowerWindUpRate: 3
-  shotPowerMax: 12
+  shotPowerWindUpRate: 4
+  shotPowerMax: 16
+  shotPower: 5
   boxCastOrigin: {fileID: 2533384821195587336}
   boxCastHalfExtents: {x: 0, y: 0, z: 0}
   skaterMask:
@@ -209,8 +210,6 @@ MonoBehaviour:
     m_RotationOrder: 4
   minCheckPower: 0
   maxCheckPower: 0
-  shotSFX: {fileID: 8300000, guid: 4f823a499788145dd80dbc110bf5ac32, type: 3}
-  shotVolume: 2
 --- !u!114 &2533384822332519913
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -230,11 +229,7 @@ MonoBehaviour:
   hasPosession: 0
   passPowerWindUpRate: 4
   passPowerMax: 10
-  passSFX:
-  - {fileID: 8300000, guid: bfdbd58839f1e6f43936913353906957, type: 3}
-  - {fileID: 8300000, guid: 0c86c4354f4cf574d9782238984c8c8f, type: 3}
-  - {fileID: 8300000, guid: ca7f3bed0e960eb4481b471c077db473, type: 3}
-  passVolume: 2
+  passPower: 0
 --- !u!1 &2533384822522199790
 GameObject:
   m_ObjectHideFlags: 0

@@ -16,9 +16,10 @@ public class TeamMember : MonoBehaviour
     [HideInInspector] public bool hasPosession = false;
     private float posessionCooldownTime = 0.5f;
     [Header("Passing")]
-    [SerializeField] float passPowerWindUpRate; // power / second
-    [SerializeField] float passPowerMax;
-    private float passPower = 4f;
+    [SerializeField] [Range(0.5f, 6f)] float passPowerWindUpRate; // extraPower / second
+    [SerializeField] [Range(6f, 12f)] float passPowerMax;
+    [SerializeField] [Range(0.0f, 4f)] float passPower;
+    private float extraPower;
     private Vector3 puckLaunchDirection;
 
     private void Awake(){
@@ -48,19 +49,19 @@ public class TeamMember : MonoBehaviour
     public void BreakPosession(){
         puckPositionMarker.GetComponent<PuckHandleJoint>().BreakFixedJoint();
     }
-    public string getOppositionTag()
-    {
+    public string getOppositionTag(){
         return isHomeTeam ? "awaySkater" : "homeSkater";
     }
     public void SetPassDirection(Vector2 movementInput){
-        if(movementInput.magnitude == 0){puckLaunchDirection = Vector3.Normalize(transform.forward);}
+        if(movementInput.magnitude == 0){puckLaunchDirection = transform.forward;}
         else{puckLaunchDirection = new Vector3(movementInput.x, 0, movementInput.y);}
     }
     public IEnumerator WindUpPass(){
+        extraPower = 0f;
         while(windingUp){
-            yield return new WaitForSeconds((0.25f));
-            if(passPower < passPowerMax){passPower += (passPowerWindUpRate * 0.25f);}
-            Debug.Log("Wind Up - " + passPower);
+            yield return new WaitForSeconds((Time.deltaTime));
+            if(passPower + extraPower < passPowerMax){extraPower += (passPowerWindUpRate * Time.deltaTime);}
+            Debug.Log($"Pass Windup: {passPower + extraPower}");
         }
     }
     public void PassPuck(){
@@ -68,8 +69,7 @@ public class TeamMember : MonoBehaviour
         if(hasPosession){
             BreakPosession();
             audioManager.PlayPassSFX();
-            gameSystem.puckObject.GetComponent<Rigidbody>().AddForce(puckLaunchDirection * passPower, ForceMode.Impulse);
+            gameSystem.puckObject.GetComponent<Rigidbody>().AddForce(puckLaunchDirection * (passPower + extraPower), ForceMode.Impulse);
         }
-        passPower = 4f;
     }
 }

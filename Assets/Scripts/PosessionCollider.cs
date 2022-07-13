@@ -17,7 +17,7 @@ public class PosessionCollider : MonoBehaviour
     }
     void OnTriggerExit(Collider other){
         if(other.tag == "puck"){
-            StartCoroutine(teamMember?.LostPosession());
+            StartCoroutine(teamMember.LostPosession());
         }
     }
 }

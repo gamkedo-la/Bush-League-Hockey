@@ -17,12 +17,11 @@ public class Skater : MonoBehaviour
     private Vector3 cameraRight;
     private Quaternion desiredRotation;
     private Quaternion rotationThisFrame;
-    [Header("Shooting / Passing")]
+    [Header("Shooting")]
     [SerializeField] [Range(0.5f, 6f)] float shotPowerWindUpRate; // extraPower / second
-    [SerializeField] [Range(1, 9)] int windUpIntervalsPerSecond;
     [SerializeField] [Range(8f, 20f)] float shotPowerMax;
-    [SerializeField] [Range(0.0f, 6f)] float shotPower;
-    private float extraPower = 0f;
+    [SerializeField] [Range(0.0f, 10f)] float shotPower;
+    private float extraPower;
     private Vector3 puckLaunchDirection;
     [Header("Colliding/Checking")]
     [SerializeField] private Transform boxCastOrigin;
@@ -46,12 +45,12 @@ public class Skater : MonoBehaviour
         else{puckLaunchDirection = new Vector3(movementInput.x, 0.25f, movementInput.y);}
     }
     public IEnumerator WindUpShot(){
-        
+        extraPower = 0f;
         while(teamMember.windingUp){
-            yield return new WaitForSeconds((1/windUpIntervalsPerSecond));
-            extraPower++;
-            if(shotPower + extraPower < shotPowerMax){extraPower++;}
+            yield return new WaitForSeconds((Time.deltaTime));
+            if(shotPower + extraPower < shotPowerMax){extraPower += (shotPowerWindUpRate * Time.deltaTime);}
             Debug.Log($"Winding Up:  {shotPower + extraPower}");
+            // charge up animation should be a function of extraPower
         }
     }
     public void ShootPuck(){
@@ -59,7 +58,7 @@ public class Skater : MonoBehaviour
         if(teamMember.hasPosession){
             teamMember.BreakPosession();
             audioManager.PlayShotSFX();
-            gameSystem.puckObject.GetComponent<Rigidbody>().AddForce(puckLaunchDirection * shotPower, ForceMode.Impulse);
+            gameSystem.puckObject.GetComponent<Rigidbody>().AddForce(puckLaunchDirection * (shotPower + extraPower), ForceMode.Impulse);
         }
     }
     public void BodyCheck()

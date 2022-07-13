@@ -84,7 +84,6 @@ public class Goaltender : MonoBehaviour
             audioManager.PlayShotSFX();
             gameSystem.puckObject.GetComponent<Rigidbody>().AddForce(puckLaunchDirection * shotPower, ForceMode.Impulse);
         }
-        shotPower = 6f;
     }
     private void Update(){
         HandleMove();
