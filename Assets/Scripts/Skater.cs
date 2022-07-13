@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 public class Skater : MonoBehaviour
 {
     private GameSystem gameSystem;
+    private AudioManager audioManager;
     [Header("Skating")]
     private Rigidbody skaterRigidBody;
     [SerializeField] float skaterAcceleration;
@@ -17,9 +18,11 @@ public class Skater : MonoBehaviour
     private Quaternion desiredRotation;
     private Quaternion rotationThisFrame;
     [Header("Shooting / Passing")]
-    [SerializeField] float shotPowerWindUpRate; // power / second
-    [SerializeField] float shotPowerMax;
-    private float shotPower = 6f;
+    [SerializeField] [Range(0.5f, 6f)] float shotPowerWindUpRate; // extraPower / second
+    [SerializeField] [Range(1, 9)] int windUpIntervalsPerSecond;
+    [SerializeField] [Range(8f, 20f)] float shotPowerMax;
+    [SerializeField] [Range(0.0f, 6f)] float shotPower;
+    private float extraPower = 0f;
     private Vector3 puckLaunchDirection;
     [Header("Colliding/Checking")]
     [SerializeField] private Transform boxCastOrigin;
@@ -34,6 +37,7 @@ public class Skater : MonoBehaviour
     private void Awake(){
         skaterRigidBody = GetComponent<Rigidbody>();
         gameSystem = GameObject.Find("GameSystem").GetComponent<GameSystem>();
+        audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
         boxCastHits = new Collider[3];
         teamMember = GetComponent<TeamMember>();
     }
@@ -42,21 +46,21 @@ public class Skater : MonoBehaviour
         else{puckLaunchDirection = new Vector3(movementInput.x, 0.25f, movementInput.y);}
     }
     public IEnumerator WindUpShot(){
+        
         while(teamMember.windingUp){
-            yield return new WaitForSeconds((0.25f));
-            if(shotPower < shotPowerMax){shotPower += (shotPowerWindUpRate * 0.25f);}
-            Debug.Log("Wind Up - " + shotPower);
+            yield return new WaitForSeconds((1/windUpIntervalsPerSecond));
+            extraPower++;
+            if(shotPower + extraPower < shotPowerMax){extraPower++;}
+            Debug.Log($"Winding Up:  {shotPower + extraPower}");
         }
     }
     public void ShootPuck(){
         teamMember.windingUp = false;
         if(teamMember.hasPosession){
             teamMember.BreakPosession();
-            // play da sound
-            AudioSource.PlayClipAtPoint(gameSystem.shotSFX, Camera.main.transform.position, gameSystem.shotVolume);
+            audioManager.PlayShotSFX();
             gameSystem.puckObject.GetComponent<Rigidbody>().AddForce(puckLaunchDirection * shotPower, ForceMode.Impulse);
         }
-        shotPower = 6f;
     }
     public void BodyCheck()
     {
@@ -91,7 +95,6 @@ public class Skater : MonoBehaviour
     {
         var t = shotPower / shotPowerMax;
         var curveT = checkPowerCurve.Evaluate(t);
-
         return ((maxCheckPower - minCheckPower) * curveT) + minCheckPower;
     }
     

@@ -5,6 +5,7 @@ using UnityEngine;
 public class Goaltender : MonoBehaviour
 {
     private GameSystem gameSystem;
+    private AudioManager audioManager;
     private TeamMember teamMember;
     [Header("Movement")]
     [HideInInspector] public float movementSpeed = 6f;
@@ -26,6 +27,7 @@ public class Goaltender : MonoBehaviour
     private Rigidbody goaltenderRigidBody;
     private void Awake(){
         gameSystem = GameObject.Find("GameSystem").GetComponent<GameSystem>();
+        audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
         teamMember = gameObject.GetComponent<TeamMember>();
         goaltenderRigidBody = GetComponent<Rigidbody>();
     }
@@ -65,7 +67,7 @@ public class Goaltender : MonoBehaviour
         }
     }
     public void SetShotDirection(Vector2 movementInput){
-        if(movementInput.magnitude == 0){puckLaunchDirection = -transform.right;}
+        if(movementInput.magnitude == 0){puckLaunchDirection = transform.forward;}
         else{puckLaunchDirection = new Vector3(movementInput.x, 0.25f, movementInput.y);}
     }
     public IEnumerator WindUpShot(){
@@ -79,7 +81,7 @@ public class Goaltender : MonoBehaviour
         teamMember.windingUp = false;
         if(teamMember.hasPosession){
             teamMember.BreakPosession();
-            AudioSource.PlayClipAtPoint(gameSystem.shotSFX, Camera.main.transform.position, gameSystem.shotVolume);
+            audioManager.PlayShotSFX();
             gameSystem.puckObject.GetComponent<Rigidbody>().AddForce(puckLaunchDirection * shotPower, ForceMode.Impulse);
         }
         shotPower = 6f;

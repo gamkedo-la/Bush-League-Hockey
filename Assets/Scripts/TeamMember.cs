@@ -5,6 +5,7 @@ public class TeamMember : MonoBehaviour
 {
     [HideInInspector] public bool windingUp = false;
     private GameSystem gameSystem;
+    private AudioManager audioManager;
     [SerializeField] public bool isHomeTeam;
     private Rigidbody thisPlayersRigidBody;
     [Header("Puck Control")]
@@ -22,6 +23,7 @@ public class TeamMember : MonoBehaviour
 
     private void Awake(){
         gameSystem = GameObject.Find("GameSystem").GetComponent<GameSystem>();
+        audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
     }
     public void SetIsHomeTeam(bool isHome){
         isHomeTeam = isHome;
@@ -65,9 +67,7 @@ public class TeamMember : MonoBehaviour
         windingUp = false;
         if(hasPosession){
             BreakPosession();
-            // choose random integer between 0 and SFX count -1
-            int randomSFXIndex = Random.Range(0, gameSystem.passSFX.Length);
-            AudioSource.PlayClipAtPoint(gameSystem.passSFX[randomSFXIndex], Camera.main.transform.position, gameSystem.passVolume);
+            audioManager.PlayPassSFX();
             gameSystem.puckObject.GetComponent<Rigidbody>().AddForce(puckLaunchDirection * passPower, ForceMode.Impulse);
         }
         passPower = 4f;

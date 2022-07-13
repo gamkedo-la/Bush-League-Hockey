@@ -15,6 +15,7 @@ public class GameSystem : MonoBehaviour
     private Vector3 lineToDesiredTarget;
     private Quaternion desiredCameraRotation;
     [Header("Game Management")]
+    private AudioManager audioManager;
     [SerializeField] GameObject skaterPrefab;
     [SerializeField] GameObject goaltenderPrefab;
     [SerializeField] GameObject puckPrefab;
@@ -39,17 +40,9 @@ public class GameSystem : MonoBehaviour
     [SerializeField] public GameObject GoalScoredDisplay;
     [SerializeField] public GameObject FaceOffMessageDisplay;
     [SerializeField] public GameObject OutOfBoundsMessageDisplay;
-    [Header("SFX")]
-    [SerializeField] public AudioClip goalHornhSFX;
-    [SerializeField] public float goalHornVolume;
-    [SerializeField] public AudioClip puckDropSFX;
-    [SerializeField] public float puckDropVolume;
-    [SerializeField] public AudioClip shotSFX;
-    [SerializeField] public float shotVolume;
-    [SerializeField] public AudioClip[] passSFX;
-    [SerializeField] public float passVolume;
     private void Awake(){
         mainCamera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
+        audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
         cameraPausePosition = new Vector3 (0,0,0);
         homeGoaltender.transform.position = homeGoalOrigin.position;
         awayGoaltender.transform.position = awayGoalOrigin.position;
@@ -67,7 +60,7 @@ public class GameSystem : MonoBehaviour
         homeNet.GetComponent<Goal>().GameOn();
         awayNet.GetComponent<Goal>().GameOn();
         puckObject = Instantiate(puckPrefab, puckDropOrigin.position, Quaternion.Euler(75, 0, 0));
-        AudioSource.PlayClipAtPoint(puckDropSFX, Camera.main.transform.position, puckDropVolume);
+        audioManager.PlayFaceOffSound();
         puckRigidBody = puckObject.GetComponent<Rigidbody>();
         focalObject = puckObject;
         // deactivate HUD messages
@@ -104,7 +97,7 @@ public class GameSystem : MonoBehaviour
     }
     private IEnumerator TemporaryGoalMessage(){
         GoalScoredDisplay.SetActive(true);
-        AudioSource.PlayClipAtPoint(goalHornhSFX, Camera.main.transform.position, goalHornVolume);
+        audioManager.PlayGoalHorn();
         yield return new WaitForSeconds(2);
         GoalScoredDisplay.SetActive(false);
     }
