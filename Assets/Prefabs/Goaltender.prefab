@@ -133,8 +133,9 @@ MonoBehaviour:
   movementSpeed: 4
   myNet: {fileID: 0}
   myOriginPoint: {fileID: 0}
-  shotPowerWindUpRate: 6
-  shotPowerMax: 12
+  shotPowerWindUpRate: 5
+  shotPowerMax: 14
+  shotPower: 4
 --- !u!114 &7572892403236936459
 MonoBehaviour:
   m_ObjectHideFlags: 0

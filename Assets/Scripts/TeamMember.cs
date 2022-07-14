@@ -18,7 +18,7 @@ public class TeamMember : MonoBehaviour
     [Header("Passing")]
     [SerializeField] [Range(0.5f, 6f)] float passPowerWindUpRate; // extraPower / second
     [SerializeField] [Range(6f, 12f)] float passPowerMax;
-    [SerializeField] [Range(0.0f, 4f)] float passPower;
+    [SerializeField] [Range(1f, 8f)] float passPower;
     private float extraPower;
     private Vector3 puckLaunchDirection;
 

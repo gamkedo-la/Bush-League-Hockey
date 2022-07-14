@@ -19,10 +19,11 @@ public class Goaltender : MonoBehaviour
     [HideInInspector] public GameObject myNet;
     [HideInInspector] public GameObject myOriginPoint;
     private Vector3 displacementVector;
-    [Header("Shooting / Passing")]
-    [SerializeField] float shotPowerWindUpRate; // power / second
-    [SerializeField] float shotPowerMax;
-    private float shotPower = 6f;
+    [Header("Shooting")]
+    [SerializeField] [Range(0.5f, 6f)] float shotPowerWindUpRate; // extraPower / second
+    [SerializeField] [Range(8f, 20f)] float shotPowerMax;
+    [SerializeField] [Range(0.0f, 10f)] float shotPower;
+    private float extraPower;
     private Vector3 puckLaunchDirection;
     private Rigidbody goaltenderRigidBody;
     private void Awake(){
@@ -71,10 +72,11 @@ public class Goaltender : MonoBehaviour
         else{puckLaunchDirection = new Vector3(movementInput.x, 0.25f, movementInput.y);}
     }
     public IEnumerator WindUpShot(){
+        extraPower = 0f;
         while(teamMember.windingUp){
-            yield return new WaitForSeconds((0.25f));
-            if(shotPower < shotPowerMax){shotPower += (shotPowerWindUpRate * 0.25f);}
-            Debug.Log("Wind Up - " + shotPower);
+            yield return new WaitForSeconds((Time.deltaTime));
+            if(shotPower + extraPower < shotPowerMax){extraPower += (shotPowerWindUpRate * Time.deltaTime);}
+            Debug.Log($"Winding Up:  {shotPower + extraPower}");
         }
     }
     public void ShootPuck(){
@@ -82,7 +84,7 @@ public class Goaltender : MonoBehaviour
         if(teamMember.hasPosession){
             teamMember.BreakPosession();
             audioManager.PlayShotSFX();
-            gameSystem.puckObject.GetComponent<Rigidbody>().AddForce(puckLaunchDirection * shotPower, ForceMode.Impulse);
+            gameSystem.puckObject.GetComponent<Rigidbody>().AddForce(puckLaunchDirection * (shotPower + extraPower), ForceMode.Impulse);
         }
     }
     private void Update(){
