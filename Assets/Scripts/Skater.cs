@@ -7,6 +7,8 @@ public class Skater : MonoBehaviour
 {
     private GameSystem gameSystem;
     private AudioManager audioManager;
+    [Header("Animation")]
+    [SerializeField] Animator skaterAnimator;
     [Header("Skating")]
     private Rigidbody skaterRigidBody;
     [SerializeField] float skaterAcceleration;
@@ -32,7 +34,6 @@ public class Skater : MonoBehaviour
     [SerializeField] private float maxCheckPower;
     private Collider[] boxCastHits;
     private TeamMember teamMember;
-    
     private void Awake(){
         skaterRigidBody = GetComponent<Rigidbody>();
         gameSystem = GameObject.Find("GameSystem").GetComponent<GameSystem>();
@@ -46,15 +47,19 @@ public class Skater : MonoBehaviour
     }
     public IEnumerator WindUpShot(){
         extraPower = 0f;
+        skaterAnimator.SetBool("AnimateShotWindUp", true);
         while(teamMember.windingUp){
             yield return new WaitForSeconds((Time.deltaTime));
             if(shotPower + extraPower < shotPowerMax){extraPower += (shotPowerWindUpRate * Time.deltaTime);}
             Debug.Log($"Winding Up:  {shotPower + extraPower}");
             // charge up animation should be a function of extraPower
+            // can the animation be manually stepped forward / back?
         }
     }
     public void ShootPuck(){
+        skaterAnimator.SetBool("AnimateShotWindUp", false);
         teamMember.windingUp = false;
+        skaterAnimator.SetTrigger("AnimateShotFollowThru");
         if(teamMember.hasPosession){
             teamMember.BreakPosession();
             audioManager.PlayShotSFX();
