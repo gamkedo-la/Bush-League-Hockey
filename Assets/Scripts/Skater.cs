@@ -58,10 +58,10 @@ public class Skater : MonoBehaviour
     }
     public void ShootPuck(){
         skaterAnimator.SetBool("AnimateShotWindUp", false);
-        teamMember.windingUp = false;
-        skaterAnimator.SetTrigger("AnimateShotFollowThru");
+        teamMember.windingUp = false;        
         if(teamMember.hasPosession){
             teamMember.BreakPosession();
+            skaterAnimator.SetTrigger("AnimateShotFollowThru");  
             audioManager.PlayShotSFX();
             gameSystem.puckObject.GetComponent<Rigidbody>().AddForce(puckLaunchDirection * (shotPower + extraPower), ForceMode.Impulse);
         }
