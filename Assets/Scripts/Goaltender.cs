@@ -76,7 +76,6 @@ public class Goaltender : MonoBehaviour
         while(teamMember.windingUp){
             yield return new WaitForSeconds((Time.deltaTime));
             if(shotPower + extraPower < shotPowerMax){extraPower += (shotPowerWindUpRate * Time.deltaTime);}
-            Debug.Log($"Winding Up:  {shotPower + extraPower}");
         }
     }
     public void ShootPuck(){

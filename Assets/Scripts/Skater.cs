@@ -47,18 +47,18 @@ public class Skater : MonoBehaviour
     }
     public IEnumerator WindUpShot(){
         extraPower = 0f;
-        skaterAnimator.SetBool("AnimateShotWindUp", true);
+        skaterAnimator.SetTrigger("AnimateShotWindUp");
         while(teamMember.windingUp){
             yield return new WaitForSeconds((Time.deltaTime));
             if(shotPower + extraPower < shotPowerMax){extraPower += (shotPowerWindUpRate * Time.deltaTime);}
-            Debug.Log($"Winding Up:  {shotPower + extraPower}");
             // charge up animation should be a function of extraPower
             // can the animation be manually stepped forward / back?
         }
     }
     public void ShootPuck(){
-        skaterAnimator.SetBool("AnimateShotWindUp", false);
-        teamMember.windingUp = false;        
+        teamMember.windingUp = false;
+        skaterAnimator.ResetTrigger("AnimateShotWindUp");
+        skaterAnimator.ResetTrigger("AnimateShotFollowThru");
         if(teamMember.hasPosession){
             teamMember.BreakPosession();
             skaterAnimator.SetTrigger("AnimateShotFollowThru");  
