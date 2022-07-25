@@ -40,6 +40,8 @@ public class GameSystem : MonoBehaviour
     [SerializeField] public GameObject GoalScoredDisplay;
     [SerializeField] public GameObject FaceOffMessageDisplay;
     [SerializeField] public GameObject OutOfBoundsMessageDisplay;
+    [SerializeField] public GameObject instantReplayController;
+
     private void Awake(){
         mainCamera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
         audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
@@ -113,6 +115,7 @@ public class GameSystem : MonoBehaviour
         DropPuck();
     }
     public void GoalScored(bool scoredOnHomeNet){
+        instantReplayController?.GetComponent<InstantReplay>()?.startInstantReplay();
         if(scoredOnHomeNet){awayScore++;}
         else{homeScore++;}
         homeScoreText.text = homeScore.ToString();
