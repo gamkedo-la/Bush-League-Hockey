@@ -46,6 +46,9 @@ public class InstantReplay : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
+        if (instantReplayGUI) instantReplayGUI.SetActive(false);
+        
         // create an empty array
         p1pos = new Vector3[RecordingLength];
         p2pos = new Vector3[RecordingLength];
