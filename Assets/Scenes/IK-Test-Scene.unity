@@ -308,6 +308,46 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1762237165, guid: b6dcaad2a588a9e4f8de59373ae9d5be, type: 3}
+      propertyPath: m_Data.m_AimAxis
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1762237165, guid: b6dcaad2a588a9e4f8de59373ae9d5be, type: 3}
+      propertyPath: m_Data.m_ConstrainedAxes.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1762237165, guid: b6dcaad2a588a9e4f8de59373ae9d5be, type: 3}
+      propertyPath: m_Data.m_ConstrainedAxes.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1947174579, guid: b6dcaad2a588a9e4f8de59373ae9d5be, type: 3}
+      propertyPath: m_Data.m_Curve.m_Curve.Array.data[0].value
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1947174579, guid: b6dcaad2a588a9e4f8de59373ae9d5be, type: 3}
+      propertyPath: m_Data.m_Curve.m_Curve.Array.data[0].inSlope
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1947174579, guid: b6dcaad2a588a9e4f8de59373ae9d5be, type: 3}
+      propertyPath: m_Data.m_Curve.m_Curve.Array.data[1].inSlope
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1947174579, guid: b6dcaad2a588a9e4f8de59373ae9d5be, type: 3}
+      propertyPath: m_Data.m_Curve.m_Curve.Array.data[0].outSlope
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1947174579, guid: b6dcaad2a588a9e4f8de59373ae9d5be, type: 3}
+      propertyPath: m_Data.m_Curve.m_Curve.Array.data[1].outSlope
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1947174579, guid: b6dcaad2a588a9e4f8de59373ae9d5be, type: 3}
+      propertyPath: m_Data.m_Curve.m_Curve.Array.data[0].tangentMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1947174579, guid: b6dcaad2a588a9e4f8de59373ae9d5be, type: 3}
+      propertyPath: m_Data.m_Curve.m_Curve.Array.data[1].tangentMode
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2533384822332519909, guid: b6dcaad2a588a9e4f8de59373ae9d5be, type: 3}
       propertyPath: m_RootOrder
       value: 3
