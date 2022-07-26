@@ -45,6 +45,10 @@ public class Skater : MonoBehaviour
         if(movementInput.magnitude == 0){puckLaunchDirection = Vector3.Normalize(transform.forward);}
         else{puckLaunchDirection = new Vector3(movementInput.x, 0.25f, movementInput.y);}
     }
+    public void StopWindUpAnimation(){
+        Debug.Log("StopWindUpAnimation");
+        skaterAnimator.SetBool("AnimateShotWindUp", false);
+    }
     public IEnumerator WindUpShot(){
         extraPower = 0f;
         skaterAnimator.SetTrigger("AnimateShotWindUp");
@@ -57,13 +61,14 @@ public class Skater : MonoBehaviour
     }
     public void ShootPuck(){
         teamMember.windingUp = false;
-        skaterAnimator.ResetTrigger("AnimateShotWindUp");
         skaterAnimator.ResetTrigger("AnimateShotFollowThru");
         if(teamMember.hasPosession){
             teamMember.BreakPosession();
             skaterAnimator.SetTrigger("AnimateShotFollowThru");  
             audioManager.PlayShotSFX();
             gameSystem.puckObject.GetComponent<Rigidbody>().AddForce(puckLaunchDirection * (shotPower + extraPower), ForceMode.Impulse);
+        } else{
+            StopWindUpAnimation();
         }
     }
     public void BodyCheck()
