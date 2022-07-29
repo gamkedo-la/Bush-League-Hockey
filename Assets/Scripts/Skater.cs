@@ -64,7 +64,7 @@ public class Skater : MonoBehaviour
         skaterAnimator.ResetTrigger("AnimateShotFollowThru");
         if(teamMember.hasPosession){
             teamMember.BreakPosession();
-            skaterAnimator.SetTrigger("AnimateShotFollowThru");  
+            skaterAnimator.SetTrigger("AnimateShotFollowThru");
             audioManager.PlayShotSFX();
             gameSystem.puckObject.GetComponent<Rigidbody>().AddForce(puckLaunchDirection * (shotPower + extraPower), ForceMode.Impulse);
         } else{

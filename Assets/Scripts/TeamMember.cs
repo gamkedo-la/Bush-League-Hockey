@@ -61,7 +61,6 @@ public class TeamMember : MonoBehaviour
         while(windingUp){
             yield return new WaitForSeconds((Time.deltaTime));
             if(passPower + extraPower < passPowerMax){extraPower += (passPowerWindUpRate * Time.deltaTime);}
-            Debug.Log($"Pass Windup: {passPower + extraPower}");
         }
     }
     public void PassPuck(){

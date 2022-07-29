@@ -575,10 +575,10 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.99839485
+      - time: 0.7560685
         functionName: StopWindUpAnimation
         data: 
-        objectReferenceParameter: {instanceID: 0}
+        objectReferenceParameter: {fileID: 11500000, guid: 5f6f34576e286b4448fdc88f4a5e6627, type: 3}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
