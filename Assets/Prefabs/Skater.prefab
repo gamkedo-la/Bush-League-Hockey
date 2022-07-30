@@ -353,7 +353,7 @@ GameObject:
   - component: {fileID: 2533384822332519911}
   - component: {fileID: 2533384822332519912}
   - component: {fileID: 2533384822332519913}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Skater
   m_TagString: homeSkater
   m_Icon: {fileID: 0}
@@ -429,10 +429,10 @@ MonoBehaviour:
   shotPowerMax: 16
   shotPower: 7
   boxCastOrigin: {fileID: 2533384821195587336}
-  boxCastHalfExtents: {x: 0, y: 0, z: 0}
+  boxCastHalfExtents: {x: 1, y: 1, z: 1}
   skaterMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 128
   checkPowerCurve:
     serializedVersion: 2
     m_Curve:
@@ -457,8 +457,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  minCheckPower: 0
-  maxCheckPower: 0
+  minCheckPower: 100
+  maxCheckPower: 500
 --- !u!114 &2533384822332519913
 MonoBehaviour:
   m_ObjectHideFlags: 0
