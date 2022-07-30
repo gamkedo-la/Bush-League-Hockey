@@ -86,7 +86,6 @@ public class Skater : MonoBehaviour
     public void BodyCheck()
     {
         teamMember.windingUp = false;
-        // @TODO: perform bodycheck animation
         // Check for BodyCheck target
         var hitCount = Physics.OverlapBoxNonAlloc(
             boxCastOrigin.position,
@@ -96,6 +95,8 @@ public class Skater : MonoBehaviour
             skaterMask);
         Debug.Log($"Bodycheck hitcount: {hitCount}");
         var oppositionTag = teamMember.getOppositionTag();
+        // @TODO: change to unique bodycheck animation
+        // skaterAnimator.SetTrigger("AnimateShotFollowThru");
         // Look for correct tag in bodycheck list. Break on first match.
         for(var i = 0; i < hitCount; i++)
         {

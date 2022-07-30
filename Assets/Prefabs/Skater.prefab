@@ -353,7 +353,7 @@ GameObject:
   - component: {fileID: 2533384822332519911}
   - component: {fileID: 2533384822332519912}
   - component: {fileID: 2533384822332519913}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Skater
   m_TagString: homeSkater
   m_Icon: {fileID: 0}
@@ -432,7 +432,7 @@ MonoBehaviour:
   boxCastHalfExtents: {x: 0.5, y: 1, z: 0.5}
   skaterMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 128
   checkPowerCurve:
     serializedVersion: 2
     m_Curve:
