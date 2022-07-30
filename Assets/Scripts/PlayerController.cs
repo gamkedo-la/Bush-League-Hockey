@@ -62,7 +62,6 @@ public class PlayerController : MonoBehaviour
             goaltender.ShootPuck();
         }
         if(context.started && !selectedTeamMember.windingUp){
-            Debug.Log("Winding up shot");
             selectedTeamMember.windingUp = true;
             goaltenderTeamMember.windingUp = true;
             StartCoroutine(selectedSkater.WindUpShot());
@@ -72,12 +71,10 @@ public class PlayerController : MonoBehaviour
     public void PassButtonInputHandler(InputAction.CallbackContext context){
         if (!selectedSkater) return; // bugfix: selectedSkater can be null here
         if(context.performed){
-            Debug.Log("Passing");
             selectedTeamMember.PassPuck();
             goaltenderTeamMember.PassPuck();
         }
         if(context.started && !selectedTeamMember.windingUp){
-            Debug.Log("Winding up pass");
             selectedTeamMember.windingUp = true;
             goaltenderTeamMember.windingUp = true;
             StartCoroutine(selectedTeamMember.WindUpPass());
@@ -91,10 +88,9 @@ public class PlayerController : MonoBehaviour
         if (context.performed) {
             selectedSkater.BodyCheck();
         }
-        else if (context.started && !selectedTeamMember.windingUp) {
-            Debug.Log("Winding up body check");
+        else if (context.started && !selectedTeamMember.windingUp){
             selectedTeamMember.windingUp = true;
-            StartCoroutine(selectedSkater.WindUpShot());
+            StartCoroutine(selectedSkater.WindUpBodyCheck());
         }
     }
 }

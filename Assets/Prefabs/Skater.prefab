@@ -421,7 +421,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc4cd9f8307e6fb48be6c00abb8659e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skaterAnimator: {fileID: 5841098711529633338}
+  skaterAnimationScript: {fileID: 3792185025071796481}
   skaterAcceleration: 70
   skaterMaximumSpeed: 10
   skaterTurnSpeed: 0.075
@@ -429,7 +429,7 @@ MonoBehaviour:
   shotPowerMax: 16
   shotPower: 7
   boxCastOrigin: {fileID: 2533384821195587336}
-  boxCastHalfExtents: {x: 0, y: 0, z: 0}
+  boxCastHalfExtents: {x: 0.5, y: 1, z: 0.5}
   skaterMask:
     serializedVersion: 2
     m_Bits: 0
@@ -457,8 +457,9 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  minCheckPower: 0
-  maxCheckPower: 0
+  checkPower: 0
+  checkPowerMax: 0
+  checkPowerWindUpRate: 0
 --- !u!114 &2533384822332519913
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -479,6 +480,7 @@ MonoBehaviour:
   passPowerWindUpRate: 5
   passPowerMax: 12
   passPower: 6
+  skaterAnimationScript: {fileID: 3792185025071796481}
 --- !u!1 &2533384822522199790
 GameObject:
   m_ObjectHideFlags: 0
@@ -647,6 +649,10 @@ PrefabInstance:
       value: bushleague-skater-with-stick
       objectReference: {fileID: 0}
     - target: {fileID: 5866666021909216657, guid: eff3a45343f2eda48a0d8cf9a10db3ff, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: eff3a45343f2eda48a0d8cf9a10db3ff, type: 3}
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 623eb9c14eaff4d4b9f2f5401125c9bc, type: 2}
@@ -683,7 +689,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 910919187423737594}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fff0960ef4ea6e04eac66b4a7fd2189d, type: 3}
   m_Name: 

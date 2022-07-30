@@ -8,7 +8,7 @@ public class Skater : MonoBehaviour
     private GameSystem gameSystem;
     private AudioManager audioManager;
     [Header("Animation")]
-    [SerializeField] Animator skaterAnimator;
+    [SerializeField] SkaterAnimationScript skaterAnimationScript;
     [Header("Skating")]
     private Rigidbody skaterRigidBody;
     [SerializeField] float skaterAcceleration;
@@ -30,8 +30,9 @@ public class Skater : MonoBehaviour
     [SerializeField] private Vector3 boxCastHalfExtents;
     [SerializeField] private LayerMask skaterMask;
     [SerializeField] private AnimationCurve checkPowerCurve;
-    [SerializeField] private float minCheckPower;
-    [SerializeField] private float maxCheckPower;
+    [SerializeField] [Range(5f, 10f)] private float checkPower;
+    [SerializeField] [Range(10f, 20f)] private float checkPowerMax;
+    [SerializeField] [Range(1f, 5f)] private float checkPowerWindUpRate;
     private Collider[] boxCastHits;
     private TeamMember teamMember;
     private void Awake(){
@@ -45,13 +46,9 @@ public class Skater : MonoBehaviour
         if(movementInput.magnitude == 0){puckLaunchDirection = Vector3.Normalize(transform.forward);}
         else{puckLaunchDirection = new Vector3(movementInput.x, 0.25f, movementInput.y);}
     }
-    public void StopWindUpAnimation(){
-        Debug.Log("StopWindUpAnimation");
-        skaterAnimator.SetBool("AnimateShotWindUp", false);
-    }
     public IEnumerator WindUpShot(){
         extraPower = 0f;
-        skaterAnimator.SetTrigger("AnimateShotWindUp");
+        skaterAnimationScript.skaterAnimator.SetTrigger("AnimateShotWindUp");
         while(teamMember.windingUp){
             yield return new WaitForSeconds((Time.deltaTime));
             if(shotPower + extraPower < shotPowerMax){extraPower += (shotPowerWindUpRate * Time.deltaTime);}
@@ -61,14 +58,29 @@ public class Skater : MonoBehaviour
     }
     public void ShootPuck(){
         teamMember.windingUp = false;
-        skaterAnimator.ResetTrigger("AnimateShotFollowThru");
+        skaterAnimationScript.skaterAnimator.ResetTrigger("AnimateShotFollowThru");
         if(teamMember.hasPosession){
             teamMember.BreakPosession();
-            skaterAnimator.SetTrigger("AnimateShotFollowThru");
+            skaterAnimationScript.skaterAnimator.SetTrigger("AnimateShotFollowThru");
             audioManager.PlayShotSFX();
             gameSystem.puckObject.GetComponent<Rigidbody>().AddForce(puckLaunchDirection * (shotPower + extraPower), ForceMode.Impulse);
         } else{
-            StopWindUpAnimation();
+            skaterAnimationScript.StopWindUpAnimation();
+        }
+    }
+    private void OnCollisionEnter(Collision other) {
+        Debug.Log($"I've bounced into something");
+        if(teamMember.hasPosession && other.gameObject.GetComponent<Skater>()){
+            teamMember.BreakPosession();
+            // ragdoll the skater;
+        }
+    }
+    public IEnumerator WindUpBodyCheck(){
+        extraPower = 0f;
+        //skaterAnimationScript.skaterAnimator.SetTrigger("AnimateBodyCheckWindUp");
+        while(teamMember.windingUp){
+            yield return new WaitForSeconds((Time.deltaTime));
+            if(checkPower + extraPower < checkPowerMax){extraPower += (checkPowerWindUpRate * Time.deltaTime);}
         }
     }
     public void BodyCheck()
@@ -85,12 +97,14 @@ public class Skater : MonoBehaviour
         Debug.Log($"Bodycheck hitcount: {hitCount}");
         var oppositionTag = teamMember.getOppositionTag();
         // Look for correct tag in bodycheck list. Break on first match.
-        for (var i = 0; i < hitCount; i++)
+        for(var i = 0; i < hitCount; i++)
         {
             var hit = boxCastHits[i];
-            if (hit.CompareTag(oppositionTag))
+            if(hit.CompareTag(oppositionTag))
             {
                 var force = transform.forward * GetBodyCheckPower();
+                // Turn off animator
+                // turn on ragdoll
                 var contactPoint = hit.ClosestPoint(boxCastOrigin.position);
                 hit.attachedRigidbody.AddForceAtPosition(force, contactPoint, ForceMode.Impulse);
                 Debug.Log($"Bodycheck {hit.name} with force {force}");
@@ -99,14 +113,13 @@ public class Skater : MonoBehaviour
         }
     }
     // Maps shotPower to a value between minCheckPower and maxCheckPower
-    // by sampling the checkPowerCurve. 
+    // by sampling the checkPowerCurve.
     private float GetBodyCheckPower()
     {
         var t = shotPower / shotPowerMax;
         var curveT = checkPowerCurve.Evaluate(t);
-        return ((maxCheckPower - minCheckPower) * curveT) + minCheckPower;
+        return ((checkPowerMax - checkPower) * curveT) + checkPower;
     }
-    
     public void MoveSkater(Vector3 pointer){
         movementPointer = pointer;
     }
