@@ -16,6 +16,7 @@ public class GameSystem : MonoBehaviour
     private Quaternion desiredCameraRotation;
     [Header("Game Management")]
     private AudioManager audioManager;
+    [SerializeField] private GameObject crowdReactionManager;
     [SerializeField] GameObject skaterPrefab;
     [SerializeField] GameObject goaltenderPrefab;
     [SerializeField] GameObject puckPrefab;
@@ -100,8 +101,10 @@ public class GameSystem : MonoBehaviour
     private IEnumerator TemporaryGoalMessage(){
         GoalScoredDisplay.SetActive(true);
         audioManager.PlayGoalHorn();
+        crowdReactionManager.transform.GetComponent<CrowdReactionManagerScriptComponent>().AddGoalExcitement();
         yield return new WaitForSeconds(2);
         GoalScoredDisplay.SetActive(false);
+        crowdReactionManager.transform.GetComponent<CrowdReactionManagerScriptComponent>().TakeAwayGoalExcitementFactor();
     }
     private IEnumerator CelebrateThenReset(){
         StartCoroutine(TemporaryGoalMessage());

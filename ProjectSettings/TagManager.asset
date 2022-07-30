@@ -11,6 +11,8 @@ TagManager:
   - homeGoaltender
   - awayGoaltender
   - awayNet
+  - CrowdGroupA
+  - CrowdGroupB
   layers:
   - Default
   - TransparentFX
