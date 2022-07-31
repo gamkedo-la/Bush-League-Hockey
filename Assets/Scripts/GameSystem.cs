@@ -101,10 +101,9 @@ public class GameSystem : MonoBehaviour
     private IEnumerator TemporaryGoalMessage(){
         GoalScoredDisplay.SetActive(true);
         audioManager.PlayGoalHorn();
-        crowdReactionManager.transform.GetComponent<CrowdReactionManagerScriptComponent>().AddGoalExcitement();
+        
         yield return new WaitForSeconds(2);
         GoalScoredDisplay.SetActive(false);
-        crowdReactionManager.transform.GetComponent<CrowdReactionManagerScriptComponent>().TakeAwayGoalExcitementFactor();
     }
     private IEnumerator CelebrateThenReset(){
         StartCoroutine(TemporaryGoalMessage());
@@ -119,8 +118,18 @@ public class GameSystem : MonoBehaviour
     }
     public void GoalScored(bool scoredOnHomeNet){
         instantReplayController?.GetComponent<InstantReplay>()?.startInstantReplay();
-        if(scoredOnHomeNet){awayScore++;}
-        else{homeScore++;}
+
+        if(scoredOnHomeNet)
+        {
+            awayScore++; 
+            StartCoroutine(crowdReactionManager.transform.GetComponent<CrowdReactionManagerScriptComponent>().HandleAwayTeamScoringAGoal());
+        }
+        else
+        {
+            homeScore++;
+            StartCoroutine(crowdReactionManager.transform.GetComponent<CrowdReactionManagerScriptComponent>().HandleHomeTeamScoringAGoal());
+        }
+
         homeScoreText.text = homeScore.ToString();
         awayScoreText.text = awayScore.ToString();
         gameOn = false;
