@@ -16,6 +16,7 @@ public class GameSystem : MonoBehaviour
     private Quaternion desiredCameraRotation;
     [Header("Game Management")]
     private AudioManager audioManager;
+    [SerializeField] private GameObject crowdReactionManager;
     [SerializeField] GameObject skaterPrefab;
     [SerializeField] GameObject goaltenderPrefab;
     [SerializeField] GameObject puckPrefab;
@@ -100,6 +101,7 @@ public class GameSystem : MonoBehaviour
     private IEnumerator TemporaryGoalMessage(){
         GoalScoredDisplay.SetActive(true);
         audioManager.PlayGoalHorn();
+        
         yield return new WaitForSeconds(2);
         GoalScoredDisplay.SetActive(false);
     }
@@ -116,8 +118,18 @@ public class GameSystem : MonoBehaviour
     }
     public void GoalScored(bool scoredOnHomeNet){
         instantReplayController?.GetComponent<InstantReplay>()?.startInstantReplay();
-        if(scoredOnHomeNet){awayScore++;}
-        else{homeScore++;}
+
+        if(scoredOnHomeNet)
+        {
+            awayScore++; 
+            StartCoroutine(crowdReactionManager.transform.GetComponent<CrowdReactionManagerScriptComponent>().HandleAwayTeamScoringAGoal());
+        }
+        else
+        {
+            homeScore++;
+            StartCoroutine(crowdReactionManager.transform.GetComponent<CrowdReactionManagerScriptComponent>().HandleHomeTeamScoringAGoal());
+        }
+
         homeScoreText.text = homeScore.ToString();
         awayScoreText.text = awayScore.ToString();
         gameOn = false;
