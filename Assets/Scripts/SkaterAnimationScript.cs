@@ -5,6 +5,7 @@ using UnityEngine.Animations.Rigging;
 
 public class SkaterAnimationScript : MonoBehaviour
 {
+    [SerializeField] Rigidbody bodycheckDeliveryObject;
     public Animator skaterAnimator;
     public RigBuilder rigBuilder;
     private void Awake(){
@@ -14,7 +15,13 @@ public class SkaterAnimationScript : MonoBehaviour
     public void StopWindUpAnimation(){
         skaterAnimator.SetBool("AnimateShotWindUp", false);
         skaterAnimator.SetBool("AnimatePassWindUp", false);
-        EnableRigBuilder();
+        // EnableRigBuilder();
+    }
+    public IEnumerator RagdollThenReset(float recoverTime, Vector3 hitForce){
+        skaterAnimator.enabled = false;
+        bodycheckDeliveryObject.AddForce(hitForce, ForceMode.VelocityChange);
+        yield return new WaitForSeconds(recoverTime);
+        skaterAnimator.enabled = true;
     }
     public void DisableRigBuilder(){
         rigBuilder.enabled = false;

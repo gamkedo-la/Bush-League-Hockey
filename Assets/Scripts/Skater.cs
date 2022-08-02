@@ -26,13 +26,13 @@ public class Skater : MonoBehaviour
     private float extraPower;
     private Vector3 puckLaunchDirection;
     [Header("Colliding/Checking")]
-    [SerializeField] private Transform boxCastOrigin;
-    [SerializeField] private Vector3 boxCastHalfExtents;
+    [SerializeField] private GameObject bodycheckHitZone;
     [SerializeField] private LayerMask skaterMask;
     [SerializeField] private AnimationCurve checkPowerCurve;
     [SerializeField] [Range(5f, 10f)] private float checkPower;
     [SerializeField] [Range(10f, 20f)] private float checkPowerMax;
     [SerializeField] [Range(1f, 5f)] private float checkPowerWindUpRate;
+    private Vector3 bodycheckForce;
     private Collider[] boxCastHits;
     private TeamMember teamMember;
     private void Awake(){
@@ -42,7 +42,7 @@ public class Skater : MonoBehaviour
         boxCastHits = new Collider[3];
         teamMember = GetComponent<TeamMember>();
     }
-    public void SetShotDirection(Vector2 movementInput){
+    public void SetMovementPointers(Vector2 movementInput){
         if(movementInput.magnitude == 0){puckLaunchDirection = Vector3.Normalize(transform.forward);}
         else{puckLaunchDirection = new Vector3(movementInput.x, 0.25f, movementInput.y);}
     }
@@ -68,14 +68,8 @@ public class Skater : MonoBehaviour
             skaterAnimationScript.StopWindUpAnimation();
         }
     }
-    private void OnCollisionEnter(Collision other) {
-        Debug.Log($"I've bounced into something");
-        if(teamMember.hasPosession && other.gameObject.GetComponent<Skater>()){
-            teamMember.BreakPosession();
-            // ragdoll the skater;
-        }
-    }
     public IEnumerator WindUpBodyCheck(){
+        teamMember.windingUp = true;
         extraPower = 0f;
         //skaterAnimationScript.skaterAnimator.SetTrigger("AnimateBodyCheckWindUp");
         while(teamMember.windingUp){
@@ -83,41 +77,22 @@ public class Skater : MonoBehaviour
             if(checkPower + extraPower < checkPowerMax){extraPower += (checkPowerWindUpRate * Time.deltaTime);}
         }
     }
-    public void BodyCheck()
-    {
+    public IEnumerator DeliverBodyCheck(){
         teamMember.windingUp = false;
-        // Check for BodyCheck target
-        var hitCount = Physics.OverlapBoxNonAlloc(
-            boxCastOrigin.position,
-            boxCastHalfExtents,
-            boxCastHits,
-            Quaternion.identity,
-            skaterMask);
-        Debug.Log($"Bodycheck hitcount: {hitCount}");
-        var oppositionTag = teamMember.getOppositionTag();
-        // @TODO: change to unique bodycheck animation
-        // skaterAnimator.SetTrigger("AnimateShotFollowThru");
-        // Look for correct tag in bodycheck list. Break on first match.
-        for(var i = 0; i < hitCount; i++)
-        {
-            var hit = boxCastHits[i];
-            if(hit.CompareTag(oppositionTag))
-            {
-                var force = transform.forward * GetBodyCheckPower();
-                // Turn off animator
-                // turn on ragdoll
-                var contactPoint = hit.ClosestPoint(boxCastOrigin.position);
-                hit.attachedRigidbody.AddForceAtPosition(force, contactPoint, ForceMode.Impulse);
-                Debug.Log($"Bodycheck {hit.name} with force {force}");
-                break;
-            }
-        }
+        bodycheckHitZone.GetComponent<BodycheckHitZone>().hitForce = puckLaunchDirection * (checkPower + extraPower);
+        bodycheckHitZone.SetActive(true);
+        yield return new WaitForSeconds(1f);
+        bodycheckHitZone.SetActive(false);
+    }
+    public void ReceiveBodyCheck(Vector3 hitForce){
+        teamMember.BreakPosession();
+        StartCoroutine(skaterAnimationScript.RagdollThenReset(3f, hitForce));
     }
     // Maps shotPower to a value between minCheckPower and maxCheckPower
     // by sampling the checkPowerCurve.
     private float GetBodyCheckPower()
     {
-        var t = shotPower / shotPowerMax;
+        var t = checkPower / checkPowerMax;
         var curveT = checkPowerCurve.Evaluate(t);
         return ((checkPowerMax - checkPower) * curveT) + checkPower;
     }
@@ -144,10 +119,5 @@ public class Skater : MonoBehaviour
     }
     private void Update(){
         HandleMove();
-    }
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(boxCastOrigin.position, boxCastHalfExtents*2);
     }
 }

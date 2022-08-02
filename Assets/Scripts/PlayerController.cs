@@ -28,7 +28,7 @@ public class PlayerController : MonoBehaviour
             selectedTeamMember = GameObject.FindWithTag("homeSkater").GetComponent<TeamMember>();
             goaltender = GameObject.FindWithTag("homeGoaltender").GetComponent<Goaltender>();
             goaltenderTeamMember = GameObject.FindWithTag("homeGoaltender").GetComponent<TeamMember>();
-        } else{
+        } else {
             selectedSkater = GameObject.FindWithTag("awaySkater").GetComponent<Skater>();
             selectedTeamMember = GameObject.FindWithTag("awaySkater").GetComponent<TeamMember>();
             goaltender = GameObject.FindWithTag("awayGoaltender").GetComponent<Goaltender>();
@@ -43,8 +43,9 @@ public class PlayerController : MonoBehaviour
     }
     public void MovementInputHandler(InputAction.CallbackContext context){
         if(selectedSkater && goaltender){
+            Debug.Log($"");
             movementInput = context.ReadValue<Vector2>();
-            selectedSkater.SetShotDirection(movementInput);
+            selectedSkater.SetMovementPointers(movementInput);
             selectedTeamMember.SetPassDirection(movementInput);
             goaltender.SetShotDirection(movementInput);
             goaltenderTeamMember.SetPassDirection(movementInput);
@@ -86,7 +87,7 @@ public class PlayerController : MonoBehaviour
         if (!selectedSkater) return;
         if (selectedTeamMember.HasPuck()) return;
         if (context.performed) {
-            selectedSkater.BodyCheck();
+            StartCoroutine(selectedSkater.DeliverBodyCheck());
         }
         else if (context.started && !selectedTeamMember.windingUp){
             selectedTeamMember.windingUp = true;
