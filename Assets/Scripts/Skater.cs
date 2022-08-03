@@ -93,6 +93,7 @@ public class Skater : MonoBehaviour
     public void ReceiveBodyCheck(Vector3 hitForce){
         teamMember.BreakPosession();
         teamMember.windingUp = false;
+        audioManager.PlayBodycheckSFX();
         StartCoroutine(skaterAnimationScript.RagdollThenReset(3f, hitForce));
     }
     // Maps shotPower to a value between minCheckPower and maxCheckPower
