@@ -453,9 +453,9 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  checkPower: 10
-  checkPowerMax: 20
-  checkPowerWindUpRate: 4
+  checkPower: 50.5
+  checkPowerMax: 84.3
+  checkPowerWindUpRate: 27.03
   isKnockedDown: 0
 --- !u!114 &2533384822332519913
 MonoBehaviour:

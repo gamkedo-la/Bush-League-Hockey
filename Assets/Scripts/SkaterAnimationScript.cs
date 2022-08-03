@@ -16,6 +16,7 @@ public class SkaterAnimationScript : MonoBehaviour
     public void StopWindUpAnimation(){
         skaterAnimator.SetBool("AnimateShotWindUp", false);
         skaterAnimator.SetBool("AnimatePassWindUp", false);
+        skaterAnimator.SetBool("AnimateBodycheckWindUp", false);
         // EnableRigBuilder();
     }
     public IEnumerator RagdollThenReset(float recoverTime, Vector3 hitForce){
