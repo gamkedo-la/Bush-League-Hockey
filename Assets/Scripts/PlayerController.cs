@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine.EventSystems;
 using UnityEngine;
 using UnityEngine.InputSystem;
-
 public class PlayerController : MonoBehaviour
 {
     // Player controls team
@@ -43,7 +42,6 @@ public class PlayerController : MonoBehaviour
     }
     public void MovementInputHandler(InputAction.CallbackContext context){
         if(selectedSkater && goaltender){
-            Debug.Log($"");
             movementInput = context.ReadValue<Vector2>();
             selectedSkater.SetMovementPointers(movementInput);
             selectedTeamMember.SetPassDirection(movementInput);
@@ -85,11 +83,10 @@ public class PlayerController : MonoBehaviour
     public void BodyCheckInputHandler(InputAction.CallbackContext context)
     {
         if (!selectedSkater) return;
-        if (selectedTeamMember.HasPuck()) return;
-        if (context.performed) {
+        if (context.performed && !selectedTeamMember.hasPosession) {
             StartCoroutine(selectedSkater.DeliverBodyCheck());
         }
-        else if (context.started && !selectedTeamMember.windingUp){
+        else if (context.started && !selectedTeamMember.windingUp && !selectedTeamMember.hasPosession){
             selectedTeamMember.windingUp = true;
             StartCoroutine(selectedSkater.WindUpBodyCheck());
         }

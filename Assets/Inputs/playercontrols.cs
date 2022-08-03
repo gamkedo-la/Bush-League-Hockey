@@ -37,15 +37,6 @@ public partial class @Playercontrols : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""Look"",
-                    ""type"": ""Value"",
-                    ""id"": ""c22fc053-85c2-4c1e-a7ce-7cdba3c0efa3"",
-                    ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
-                },
-                {
                     ""name"": ""Fire"",
                     ""type"": ""Button"",
                     ""id"": ""44eb56e2-d2a3-4d40-a893-50ee294b8685"",
@@ -62,15 +53,6 @@ public partial class @Playercontrols : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": ""Press(behavior=1),Hold"",
                     ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""LobShot"",
-                    ""type"": ""Value"",
-                    ""id"": ""e669a48c-72e0-4c15-b5f3-1fa3799c0f60"",
-                    ""expectedControlType"": ""Double"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
                 },
                 {
                     ""name"": ""BodyCheck"",
@@ -184,67 +166,23 @@ public partial class @Playercontrols : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""1635d3fe-58b6-4ba9-a4e2-f4b964f6b5c8"",
-                    ""path"": ""<XRController>/{Primary2DAxis}"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""XR"",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""3ea4d645-4504-4529-b061-ab81934c3752"",
-                    ""path"": ""<Joystick>/stick"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Joystick"",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""ce20d5d4-bccb-4f88-9382-14943b3ea2c3"",
+                    ""path"": ""<DualShockGamepad>/leftStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""PS4"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""833e4ca5-9354-42ad-9a23-d097aa7f51ba"",
                     ""path"": ""<Gamepad>/leftStick"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Gamepad;PS4"",
+                    ""groups"": ""Gamepad"",
                     ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""c1f7a91b-d0fd-4a62-997e-7fb9b69bf235"",
-                    ""path"": ""<Gamepad>/rightStick"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Gamepad"",
-                    ""action"": ""Look"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""8c8e490b-c610-4785-884f-f04217b23ca4"",
-                    ""path"": ""<Pointer>/delta"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Keyboard&Mouse;Touch"",
-                    ""action"": ""Look"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""3e5f5442-8668-4b27-a940-df99bad7e831"",
-                    ""path"": ""<Joystick>/{Hatswitch}"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Joystick"",
-                    ""action"": ""Look"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -272,56 +210,12 @@ public partial class @Playercontrols : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""ee3d0cd2-254e-47a7-a8cb-bc94d9658c54"",
-                    ""path"": ""<Joystick>/trigger"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Joystick"",
-                    ""action"": ""Fire"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""42ca2ecb-225c-4205-812e-82460d155a72"",
                     ""path"": ""<DualShockGamepad>/rightShoulder"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""PS4"",
                     ""action"": ""Fire"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""38462461-d72b-4d60-9855-549fda55bf4b"",
-                    ""path"": ""<Gamepad>/leftTrigger"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Gamepad"",
-                    ""action"": ""LobShot"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""12d6ccf6-e8c2-44dc-9336-535d0f42ef45"",
-                    ""path"": ""<Mouse>/rightButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Keyboard&Mouse"",
-                    ""action"": ""LobShot"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""2f314ff0-a3bd-46d1-a831-ccc807d27506"",
-                    ""path"": ""<Gamepad>/rightTrigger"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad;PS4"",
-                    ""action"": ""LobShot"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -376,17 +270,6 @@ public partial class @Playercontrols : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""Pass"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""eb459e52-9c32-473e-905e-496cc06e5dc9"",
-                    ""path"": ""<Joystick>/trigger"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Joystick"",
                     ""action"": ""Pass"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -998,10 +881,8 @@ public partial class @Playercontrols : IInputActionCollection2, IDisposable
         // Player
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
-        m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
         m_Player_Fire = m_Player.FindAction("Fire", throwIfNotFound: true);
         m_Player_Pass = m_Player.FindAction("Pass", throwIfNotFound: true);
-        m_Player_LobShot = m_Player.FindAction("LobShot", throwIfNotFound: true);
         m_Player_BodyCheck = m_Player.FindAction("BodyCheck", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
@@ -1075,20 +956,16 @@ public partial class @Playercontrols : IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Player;
     private IPlayerActions m_PlayerActionsCallbackInterface;
     private readonly InputAction m_Player_Move;
-    private readonly InputAction m_Player_Look;
     private readonly InputAction m_Player_Fire;
     private readonly InputAction m_Player_Pass;
-    private readonly InputAction m_Player_LobShot;
     private readonly InputAction m_Player_BodyCheck;
     public struct PlayerActions
     {
         private @Playercontrols m_Wrapper;
         public PlayerActions(@Playercontrols wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_Player_Move;
-        public InputAction @Look => m_Wrapper.m_Player_Look;
         public InputAction @Fire => m_Wrapper.m_Player_Fire;
         public InputAction @Pass => m_Wrapper.m_Player_Pass;
-        public InputAction @LobShot => m_Wrapper.m_Player_LobShot;
         public InputAction @BodyCheck => m_Wrapper.m_Player_BodyCheck;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
@@ -1102,18 +979,12 @@ public partial class @Playercontrols : IInputActionCollection2, IDisposable
                 @Move.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMove;
                 @Move.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMove;
                 @Move.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMove;
-                @Look.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLook;
-                @Look.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLook;
-                @Look.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLook;
                 @Fire.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFire;
                 @Fire.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFire;
                 @Fire.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFire;
                 @Pass.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPass;
                 @Pass.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPass;
                 @Pass.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPass;
-                @LobShot.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLobShot;
-                @LobShot.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLobShot;
-                @LobShot.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLobShot;
                 @BodyCheck.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBodyCheck;
                 @BodyCheck.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBodyCheck;
                 @BodyCheck.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBodyCheck;
@@ -1124,18 +995,12 @@ public partial class @Playercontrols : IInputActionCollection2, IDisposable
                 @Move.started += instance.OnMove;
                 @Move.performed += instance.OnMove;
                 @Move.canceled += instance.OnMove;
-                @Look.started += instance.OnLook;
-                @Look.performed += instance.OnLook;
-                @Look.canceled += instance.OnLook;
                 @Fire.started += instance.OnFire;
                 @Fire.performed += instance.OnFire;
                 @Fire.canceled += instance.OnFire;
                 @Pass.started += instance.OnPass;
                 @Pass.performed += instance.OnPass;
                 @Pass.canceled += instance.OnPass;
-                @LobShot.started += instance.OnLobShot;
-                @LobShot.performed += instance.OnLobShot;
-                @LobShot.canceled += instance.OnLobShot;
                 @BodyCheck.started += instance.OnBodyCheck;
                 @BodyCheck.performed += instance.OnBodyCheck;
                 @BodyCheck.canceled += instance.OnBodyCheck;
@@ -1305,10 +1170,8 @@ public partial class @Playercontrols : IInputActionCollection2, IDisposable
     public interface IPlayerActions
     {
         void OnMove(InputAction.CallbackContext context);
-        void OnLook(InputAction.CallbackContext context);
         void OnFire(InputAction.CallbackContext context);
         void OnPass(InputAction.CallbackContext context);
-        void OnLobShot(InputAction.CallbackContext context);
         void OnBodyCheck(InputAction.CallbackContext context);
     }
     public interface IUIActions

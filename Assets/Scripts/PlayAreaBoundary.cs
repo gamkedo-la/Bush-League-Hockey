@@ -10,7 +10,6 @@ public class PlayAreaBoundary : MonoBehaviour
     }
     void OnTriggerExit(Collider other){
         if(other.gameObject.tag == "puck"){
-            Debug.Log("Gone OB");
             gameSystem.PuckOutOfBounds();
         }
     }

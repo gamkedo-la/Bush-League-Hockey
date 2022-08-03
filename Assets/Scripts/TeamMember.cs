@@ -58,6 +58,7 @@ public class TeamMember : MonoBehaviour
         else{puckLaunchDirection = new Vector3(movementInput.x, 0, movementInput.y);}
     }
     public IEnumerator WindUpPass(){
+        windingUp = true;
         extraPower = 0f;
         skaterAnimationScript?.skaterAnimator.SetTrigger("AnimatePassWindUp");
         while(windingUp){
@@ -69,8 +70,8 @@ public class TeamMember : MonoBehaviour
         windingUp = false;
         skaterAnimationScript?.skaterAnimator.ResetTrigger("AnimatePassFollowThru");
         if(hasPosession){
-            skaterAnimationScript?.skaterAnimator.SetTrigger("AnimatePassFollowThru");
             BreakPosession();
+            skaterAnimationScript?.skaterAnimator.SetTrigger("AnimatePassFollowThru");
             audioManager.PlayPassSFX();
             gameSystem.puckObject.GetComponent<Rigidbody>().AddForce(puckLaunchDirection * (passPower + extraPower), ForceMode.Impulse);
         } else{

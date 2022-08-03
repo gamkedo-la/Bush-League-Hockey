@@ -47,6 +47,7 @@ public class Skater : MonoBehaviour
         else{puckLaunchDirection = new Vector3(movementInput.x, 0.25f, movementInput.y);}
     }
     public IEnumerator WindUpShot(){
+        teamMember.windingUp = true;
         extraPower = 0f;
         skaterAnimationScript.skaterAnimator.SetTrigger("AnimateShotWindUp");
         while(teamMember.windingUp){
@@ -72,12 +73,13 @@ public class Skater : MonoBehaviour
         teamMember.windingUp = true;
         extraPower = 0f;
         //skaterAnimationScript.skaterAnimator.SetTrigger("AnimateBodyCheckWindUp");
-        while(teamMember.windingUp){
+        while(teamMember.windingUp && !teamMember.hasPosession){
             yield return new WaitForSeconds((Time.deltaTime));
             if(checkPower + extraPower < checkPowerMax){extraPower += (checkPowerWindUpRate * Time.deltaTime);}
         }
     }
     public IEnumerator DeliverBodyCheck(){
+        // send player in aim direction
         teamMember.windingUp = false;
         bodycheckHitZone.GetComponent<BodycheckHitZone>().hitForce = puckLaunchDirection * (checkPower + extraPower);
         bodycheckHitZone.SetActive(true);
@@ -86,12 +88,12 @@ public class Skater : MonoBehaviour
     }
     public void ReceiveBodyCheck(Vector3 hitForce){
         teamMember.BreakPosession();
+        teamMember.windingUp = false;
         StartCoroutine(skaterAnimationScript.RagdollThenReset(3f, hitForce));
     }
     // Maps shotPower to a value between minCheckPower and maxCheckPower
     // by sampling the checkPowerCurve.
-    private float GetBodyCheckPower()
-    {
+    private float GetBodyCheckPower(){
         var t = checkPower / checkPowerMax;
         var curveT = checkPowerCurve.Evaluate(t);
         return ((checkPowerMax - checkPower) * curveT) + checkPower;

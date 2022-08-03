@@ -42,7 +42,6 @@ public class GameSystem : MonoBehaviour
     [SerializeField] public GameObject FaceOffMessageDisplay;
     [SerializeField] public GameObject OutOfBoundsMessageDisplay;
     [SerializeField] public GameObject instantReplayController;
-
     private void Awake(){
         mainCamera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
         audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
@@ -73,6 +72,7 @@ public class GameSystem : MonoBehaviour
     }
     public void JoinNewPlayer(PlayerInput playerInput){
         var newPlayerInput = playerInput.gameObject.GetComponent<PlayerController>();
+        Debug.Log($"new input:  {newPlayerInput}");
         if(localPlayerControllers.Count % 2 == 0){
             newPlayerInput.SetIsHomeTeam(false);
         } else{

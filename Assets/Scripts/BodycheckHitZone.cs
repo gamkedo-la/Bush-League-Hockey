@@ -9,6 +9,6 @@ public class BodycheckHitZone : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         Skater otherSkater = other.GetComponent<Skater>();
-        if (otherSkater){otherSkater.ReceiveBodyCheck(hitForce);}
+        otherSkater?.ReceiveBodyCheck(hitForce);
     }
 }
