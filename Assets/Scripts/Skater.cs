@@ -32,6 +32,7 @@ public class Skater : MonoBehaviour
     [SerializeField] [Range(5f, 10f)] private float checkPower;
     [SerializeField] [Range(10f, 20f)] private float checkPowerMax;
     [SerializeField] [Range(1f, 5f)] private float checkPowerWindUpRate;
+    [HideInInspector] public bool isKnockedDown;
     private Vector3 bodycheckForce;
     private Collider[] boxCastHits;
     private TeamMember teamMember;
@@ -108,7 +109,7 @@ public class Skater : MonoBehaviour
         // +-90 to +-155: Carving, decelerate hard along forward axis 
         // +-155 to +-180: Hard stop, quickly decelerate to 0
         if(skaterRigidBody.angularVelocity.magnitude > 0){skaterRigidBody.angularVelocity = Vector3.zero;}
-        if(movementPointer.magnitude > 0.1f && !teamMember.windingUp){
+        if(movementPointer.magnitude > 0.1f && !teamMember.windingUp && !isKnockedDown){
             skaterRigidBody.AddForce(movementPointer * skaterAcceleration);
         }
         if(skaterRigidBody.velocity.magnitude > 0.1f){

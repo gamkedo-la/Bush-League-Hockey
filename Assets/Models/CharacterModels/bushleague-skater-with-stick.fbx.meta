@@ -18,6 +18,12 @@ ModelImporter:
   - first:
       74: -3105441434952838863
     second: rig|PassFollowThrough
+  - first:
+      74: 9087197871853907389
+    second: rig|BodycheckWindUp
+  - first:
+      74: 8575571723279135826
+    second: rig|BodycheckFollowThrough
   externalObjects:
   - first:
       type: UnityEngine:Material
@@ -89,14 +95,35 @@ ModelImporter:
     rigImportErrors: 
     rigImportWarnings: 
     animationImportErrors: 
-    animationImportWarnings: "\nClip 'rig|PassFollowThrough' has import animation
+    animationImportWarnings: "\nClip 'rig|BodycheckFollowThrough' has import animation
       warnings that might lower retargeting quality:\nNote: Activate translation
-      DOF on avatar to improve retargeting quality.\n\t'DEF-spine.001' has scale
-      animation that will be discarded.\n\t'DEF-spine.002' has scale animation that
-      will be discarded.\n\t'DEF-spine.003' has scale animation that will be discarded.\n\t'DEF-spine.004'
-      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\t'DEF-upper_arm.L'
+      DOF on avatar to improve retargeting quality.\n\t'DEF-upper_arm.L' has scale
+      animation that will be discarded.\n\t'DEF-forearm.L' has scale animation that
+      will be discarded.\n\t'DEF-hand.L' has scale animation that will be discarded.\n\t'DEF-upper_arm.R'
+      has scale animation that will be discarded.\n\t'DEF-forearm.R' has scale animation
+      that will be discarded.\n\t'DEF-hand.R' has scale animation that will be discarded.\n\t'DEF-thigh.L'
+      has scale animation that will be discarded.\n\t'DEF-shin.L' has scale animation
+      that will be discarded.\n\t'DEF-foot.L' has scale animation that will be discarded.\n\t'DEF-thigh.R'
+      has scale animation that will be discarded.\n\t'DEF-shin.R' has scale animation
+      that will be discarded.\n\t'DEF-foot.R' has scale animation that will be discarded.\n\nClip
+      'rig|BodycheckWindUp' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'DEF-upper_arm.L'
       has scale animation that will be discarded.\n\t'DEF-forearm.L' has scale animation
       that will be discarded.\n\t'DEF-hand.L' has scale animation that will be discarded.\n\t'DEF-upper_arm.R'
+      has scale animation that will be discarded.\n\t'DEF-forearm.R' has scale animation
+      that will be discarded.\n\t'DEF-hand.R' has scale animation that will be discarded.\n\t'DEF-thigh.L'
+      has scale animation that will be discarded.\n\t'DEF-shin.L' has scale animation
+      that will be discarded.\n\t'DEF-foot.L' has scale animation that will be discarded.\n\t'DEF-thigh.R'
+      has scale animation that will be discarded.\n\t'DEF-shin.R' has scale animation
+      that will be discarded.\n\t'DEF-foot.R' has scale animation that will be discarded.\n\nClip
+      'rig|PassFollowThrough' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'DEF-spine.001'
+      has scale animation that will be discarded.\n\t'DEF-spine.002' has scale animation
+      that will be discarded.\n\t'DEF-spine.003' has scale animation that will be
+      discarded.\n\t'DEF-spine.004' is inbetween humanoid transforms and has rotation
+      animation that will be discarded.\n\t'DEF-upper_arm.L' has scale animation
+      that will be discarded.\n\t'DEF-forearm.L' has scale animation that will be
+      discarded.\n\t'DEF-hand.L' has scale animation that will be discarded.\n\t'DEF-upper_arm.R'
       has scale animation that will be discarded.\n\t'DEF-forearm.R' has scale animation
       that will be discarded.\n\t'DEF-hand.R' has scale animation that will be discarded.\n\t'DEF-thigh.L'
       has scale animation that will be discarded.\n\t'DEF-shin.L' has scale animation
@@ -589,6 +616,196 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Body
+        weight: 0
+      - path: rig
+        weight: 1
+      - path: rig/root
+        weight: 1
+      - path: rig/root/DEF-spine
+        weight: 1
+      - path: rig/root/DEF-spine/DEF-spine.001
+        weight: 1
+      - path: rig/root/DEF-spine/DEF-spine.001/DEF-spine.002
+        weight: 1
+      - path: rig/root/DEF-spine/DEF-spine.001/DEF-spine.002/DEF-spine.003
+        weight: 1
+      - path: rig/root/DEF-spine/DEF-spine.001/DEF-spine.002/DEF-spine.003/DEF-shoulder.L
+        weight: 1
+      - path: rig/root/DEF-spine/DEF-spine.001/DEF-spine.002/DEF-spine.003/DEF-shoulder.L/DEF-upper_arm.L
+        weight: 1
+      - path: rig/root/DEF-spine/DEF-spine.001/DEF-spine.002/DEF-spine.003/DEF-shoulder.L/DEF-upper_arm.L/DEF-forearm.L
+        weight: 1
+      - path: rig/root/DEF-spine/DEF-spine.001/DEF-spine.002/DEF-spine.003/DEF-shoulder.L/DEF-upper_arm.L/DEF-forearm.L/DEF-hand.L
+        weight: 1
+      - path: rig/root/DEF-spine/DEF-spine.001/DEF-spine.002/DEF-spine.003/DEF-shoulder.L/DEF-upper_arm.L/DEF-forearm.L/DEF-hand.L/DEF-stick
+        weight: 1
+      - path: rig/root/DEF-spine/DEF-spine.001/DEF-spine.002/DEF-spine.003/DEF-shoulder.L/DEF-upper_arm.L/DEF-forearm.L/DEF-hand.L/DEF-stick/DEF-stick_end
+        weight: 0
+      - path: rig/root/DEF-spine/DEF-spine.001/DEF-spine.002/DEF-spine.003/DEF-shoulder.R
+        weight: 1
+      - path: rig/root/DEF-spine/DEF-spine.001/DEF-spine.002/DEF-spine.003/DEF-shoulder.R/DEF-upper_arm.R
+        weight: 1
+      - path: rig/root/DEF-spine/DEF-spine.001/DEF-spine.002/DEF-spine.003/DEF-shoulder.R/DEF-upper_arm.R/DEF-forearm.R
+        weight: 1
+      - path: rig/root/DEF-spine/DEF-spine.001/DEF-spine.002/DEF-spine.003/DEF-shoulder.R/DEF-upper_arm.R/DEF-forearm.R/DEF-hand.R
+        weight: 1
+      - path: rig/root/DEF-spine/DEF-spine.001/DEF-spine.002/DEF-spine.003/DEF-shoulder.R/DEF-upper_arm.R/DEF-forearm.R/DEF-hand.R/DEF-hand.R_end
+        weight: 0
+      - path: rig/root/DEF-spine/DEF-spine.001/DEF-spine.002/DEF-spine.003/DEF-spine.004
+        weight: 1
+      - path: rig/root/DEF-spine/DEF-spine.001/DEF-spine.002/DEF-spine.003/DEF-spine.004/DEF-neck
+        weight: 1
+      - path: rig/root/DEF-spine/DEF-spine.001/DEF-spine.002/DEF-spine.003/DEF-spine.004/DEF-neck/DEF-Head
+        weight: 1
+      - path: rig/root/DEF-spine/DEF-spine.001/DEF-spine.002/DEF-spine.003/DEF-spine.004/DEF-neck/DEF-Head/DEF-Head_end
+        weight: 0
+      - path: rig/root/DEF-spine/DEF-thigh.L
+        weight: 1
+      - path: rig/root/DEF-spine/DEF-thigh.L/DEF-shin.L
+        weight: 1
+      - path: rig/root/DEF-spine/DEF-thigh.L/DEF-shin.L/DEF-foot.L
+        weight: 1
+      - path: rig/root/DEF-spine/DEF-thigh.L/DEF-shin.L/DEF-foot.L/DEF-toe.L
+        weight: 1
+      - path: rig/root/DEF-spine/DEF-thigh.L/DEF-shin.L/DEF-foot.L/DEF-toe.L/DEF-toe.L_end
+        weight: 0
+      - path: rig/root/DEF-spine/DEF-thigh.R
+        weight: 1
+      - path: rig/root/DEF-spine/DEF-thigh.R/DEF-shin.R
+        weight: 1
+      - path: rig/root/DEF-spine/DEF-thigh.R/DEF-shin.R/DEF-foot.R
+        weight: 1
+      - path: rig/root/DEF-spine/DEF-thigh.R/DEF-shin.R/DEF-foot.R/DEF-toe.R
+        weight: 1
+      - path: rig/root/DEF-spine/DEF-thigh.R/DEF-shin.R/DEF-foot.R/DEF-toe.R/DEF-toe.R_end
+        weight: 0
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: rig|BodycheckWindUp
+      takeName: rig|BodycheckWindUp
+      internalID: 0
+      firstFrame: 0
+      lastFrame: 3
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 1
+      loopBlendPositionY: 1
+      loopBlendPositionXZ: 1
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Body
+        weight: 0
+      - path: rig
+        weight: 1
+      - path: rig/root
+        weight: 1
+      - path: rig/root/DEF-spine
+        weight: 1
+      - path: rig/root/DEF-spine/DEF-spine.001
+        weight: 1
+      - path: rig/root/DEF-spine/DEF-spine.001/DEF-spine.002
+        weight: 1
+      - path: rig/root/DEF-spine/DEF-spine.001/DEF-spine.002/DEF-spine.003
+        weight: 1
+      - path: rig/root/DEF-spine/DEF-spine.001/DEF-spine.002/DEF-spine.003/DEF-shoulder.L
+        weight: 1
+      - path: rig/root/DEF-spine/DEF-spine.001/DEF-spine.002/DEF-spine.003/DEF-shoulder.L/DEF-upper_arm.L
+        weight: 1
+      - path: rig/root/DEF-spine/DEF-spine.001/DEF-spine.002/DEF-spine.003/DEF-shoulder.L/DEF-upper_arm.L/DEF-forearm.L
+        weight: 1
+      - path: rig/root/DEF-spine/DEF-spine.001/DEF-spine.002/DEF-spine.003/DEF-shoulder.L/DEF-upper_arm.L/DEF-forearm.L/DEF-hand.L
+        weight: 1
+      - path: rig/root/DEF-spine/DEF-spine.001/DEF-spine.002/DEF-spine.003/DEF-shoulder.L/DEF-upper_arm.L/DEF-forearm.L/DEF-hand.L/DEF-stick
+        weight: 1
+      - path: rig/root/DEF-spine/DEF-spine.001/DEF-spine.002/DEF-spine.003/DEF-shoulder.L/DEF-upper_arm.L/DEF-forearm.L/DEF-hand.L/DEF-stick/DEF-stick_end
+        weight: 0
+      - path: rig/root/DEF-spine/DEF-spine.001/DEF-spine.002/DEF-spine.003/DEF-shoulder.R
+        weight: 1
+      - path: rig/root/DEF-spine/DEF-spine.001/DEF-spine.002/DEF-spine.003/DEF-shoulder.R/DEF-upper_arm.R
+        weight: 1
+      - path: rig/root/DEF-spine/DEF-spine.001/DEF-spine.002/DEF-spine.003/DEF-shoulder.R/DEF-upper_arm.R/DEF-forearm.R
+        weight: 1
+      - path: rig/root/DEF-spine/DEF-spine.001/DEF-spine.002/DEF-spine.003/DEF-shoulder.R/DEF-upper_arm.R/DEF-forearm.R/DEF-hand.R
+        weight: 1
+      - path: rig/root/DEF-spine/DEF-spine.001/DEF-spine.002/DEF-spine.003/DEF-shoulder.R/DEF-upper_arm.R/DEF-forearm.R/DEF-hand.R/DEF-hand.R_end
+        weight: 0
+      - path: rig/root/DEF-spine/DEF-spine.001/DEF-spine.002/DEF-spine.003/DEF-spine.004
+        weight: 1
+      - path: rig/root/DEF-spine/DEF-spine.001/DEF-spine.002/DEF-spine.003/DEF-spine.004/DEF-neck
+        weight: 1
+      - path: rig/root/DEF-spine/DEF-spine.001/DEF-spine.002/DEF-spine.003/DEF-spine.004/DEF-neck/DEF-Head
+        weight: 1
+      - path: rig/root/DEF-spine/DEF-spine.001/DEF-spine.002/DEF-spine.003/DEF-spine.004/DEF-neck/DEF-Head/DEF-Head_end
+        weight: 0
+      - path: rig/root/DEF-spine/DEF-thigh.L
+        weight: 1
+      - path: rig/root/DEF-spine/DEF-thigh.L/DEF-shin.L
+        weight: 1
+      - path: rig/root/DEF-spine/DEF-thigh.L/DEF-shin.L/DEF-foot.L
+        weight: 1
+      - path: rig/root/DEF-spine/DEF-thigh.L/DEF-shin.L/DEF-foot.L/DEF-toe.L
+        weight: 1
+      - path: rig/root/DEF-spine/DEF-thigh.L/DEF-shin.L/DEF-foot.L/DEF-toe.L/DEF-toe.L_end
+        weight: 0
+      - path: rig/root/DEF-spine/DEF-thigh.R
+        weight: 1
+      - path: rig/root/DEF-spine/DEF-thigh.R/DEF-shin.R
+        weight: 1
+      - path: rig/root/DEF-spine/DEF-thigh.R/DEF-shin.R/DEF-foot.R
+        weight: 1
+      - path: rig/root/DEF-spine/DEF-thigh.R/DEF-shin.R/DEF-foot.R/DEF-toe.R
+        weight: 1
+      - path: rig/root/DEF-spine/DEF-thigh.R/DEF-shin.R/DEF-foot.R/DEF-toe.R/DEF-toe.R_end
+        weight: 0
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: rig|BodycheckFollowThrough
+      takeName: rig|BodycheckFollowThrough
+      internalID: 0
+      firstFrame: 0
+      lastFrame: 14
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 1
+      loopBlendPositionY: 1
+      loopBlendPositionXZ: 1
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
       transformMask:
       - path: 
         weight: 1

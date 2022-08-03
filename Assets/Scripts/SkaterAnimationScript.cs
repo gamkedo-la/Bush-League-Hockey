@@ -5,6 +5,7 @@ using UnityEngine.Animations.Rigging;
 
 public class SkaterAnimationScript : MonoBehaviour
 {
+    [SerializeField] Skater thisSkater;
     [SerializeField] Rigidbody bodycheckDeliveryObject;
     public Animator skaterAnimator;
     public RigBuilder rigBuilder;
@@ -19,9 +20,12 @@ public class SkaterAnimationScript : MonoBehaviour
     }
     public IEnumerator RagdollThenReset(float recoverTime, Vector3 hitForce){
         skaterAnimator.enabled = false;
+        thisSkater.isKnockedDown = true;
         bodycheckDeliveryObject.AddForce(hitForce, ForceMode.VelocityChange);
         yield return new WaitForSeconds(recoverTime);
+        // set position of skater base to deliveryobject
         skaterAnimator.enabled = true;
+        thisSkater.isKnockedDown = false;
     }
     public void DisableRigBuilder(){
         rigBuilder.enabled = false;

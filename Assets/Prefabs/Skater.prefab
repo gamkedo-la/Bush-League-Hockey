@@ -456,6 +456,7 @@ MonoBehaviour:
   checkPower: 10
   checkPowerMax: 20
   checkPowerWindUpRate: 4
+  isKnockedDown: 0
 --- !u!114 &2533384822332519913
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -891,6 +892,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f6f34576e286b4448fdc88f4a5e6627, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  thisSkater: {fileID: 2533384822332519912}
   bodycheckDeliveryObject: {fileID: 1934877821}
   skaterAnimator: {fileID: 5841098711529633338}
   rigBuilder: {fileID: 1787442329}
