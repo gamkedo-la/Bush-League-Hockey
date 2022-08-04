@@ -51,8 +51,10 @@ Shader "Unlit/Drawtrack"
             {
                 // sample the texture
                 fixed4 col = tex2D(_MainTex, i.uv);
+                float draw = pow(saturate (1- distance(i.uv, _Coordinate.xy)), 50);
+                fixed4 drawcol =  _Color * (draw * 1);
+                return saturate(col+drawcol);
                 
-                return col;
             }
             ENDCG
         }
