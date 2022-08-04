@@ -13,7 +13,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 sideForce;
     private PlayerInput playerInput;
     private Vector2 movementInput;
-    private Vector3 movementPointer;
+    private Vector3 cameraRelativeMovementPointer;
     [Header("Team Management")]
     private Skater selectedSkater;
     private TeamMember selectedTeamMember;
@@ -43,19 +43,17 @@ public class PlayerController : MonoBehaviour
     public void MovementInputHandler(InputAction.CallbackContext context){
         if(selectedSkater && goaltender){
             movementInput = context.ReadValue<Vector2>();
-            selectedSkater.SetMovementPointers(movementInput);
-            selectedTeamMember.SetPassDirection(movementInput);
-            goaltender.SetShotDirection(movementInput);
-            goaltenderTeamMember.SetPassDirection(movementInput);
-            forwardForce = movementInput.y * Vector3.Normalize(transform.position - gameSystem.mainCamera.transform.position);
+            forwardForce = movementInput.y * gameSystem.mainCamera.transform.forward;
             sideForce = movementInput.x * Vector3.Cross(gameSystem.mainCamera.transform.forward, -gameSystem.mainCamera.transform.up);
-            movementPointer = Vector3.Normalize(new Vector3((forwardForce.x + sideForce.x), 0f, (forwardForce.z + sideForce.z)));
-            selectedSkater.MoveSkater(movementPointer);
-            goaltender.MoveGoalie(movementPointer);
+            cameraRelativeMovementPointer = new Vector3((forwardForce.x + sideForce.x), 0f, (forwardForce.z + sideForce.z));
+            selectedSkater.SetPointers(cameraRelativeMovementPointer);
+            selectedTeamMember.SetPassDirection(cameraRelativeMovementPointer);
+            goaltender.SetPointers(cameraRelativeMovementPointer);
+            goaltenderTeamMember.SetPassDirection(cameraRelativeMovementPointer);
         }
     }
     public void ShootButtonInputHandler(InputAction.CallbackContext context){
-        if (!selectedSkater) return; // bugfix: selectedSkater can be null here
+        if (!selectedSkater || selectedSkater.isKnockedDown) return;
         if(context.performed){
             selectedSkater.ShootPuck();
             goaltender.ShootPuck();
@@ -68,7 +66,7 @@ public class PlayerController : MonoBehaviour
         }
     }
     public void PassButtonInputHandler(InputAction.CallbackContext context){
-        if (!selectedSkater) return; // bugfix: selectedSkater can be null here
+        if (!selectedSkater || selectedSkater.isKnockedDown) return; // bugfix: selectedSkater can be null here
         if(context.performed){
             selectedTeamMember.PassPuck();
             goaltenderTeamMember.PassPuck();
@@ -82,9 +80,9 @@ public class PlayerController : MonoBehaviour
     }
     public void BodyCheckInputHandler(InputAction.CallbackContext context)
     {
-        if (!selectedSkater) return;
-        if (context.performed && !selectedTeamMember.hasPosession) {
-            StartCoroutine(selectedSkater.DeliverBodyCheck());
+        if (!selectedSkater || selectedSkater.isKnockedDown) return;
+        if (context.performed && !selectedTeamMember.hasPosession){
+            selectedSkater.DeliverBodyCheck();
         }
         else if (context.started && !selectedTeamMember.windingUp && !selectedTeamMember.hasPosession){
             selectedTeamMember.windingUp = true;

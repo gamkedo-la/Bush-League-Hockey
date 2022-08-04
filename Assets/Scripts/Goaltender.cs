@@ -46,7 +46,7 @@ public class Goaltender : MonoBehaviour
         }
         transform.position = myOriginPoint.transform.position;
     }
-    public void MoveGoalie(Vector3 movementPointer){
+    public void SetPointers(Vector3 movementPointer){
         displacementVector = movementSpeed * movementPointer * Time.deltaTime;
     }
     private void HandleMove(){

@@ -31,7 +31,6 @@ public class TeamMember : MonoBehaviour
         isHomeTeam = isHome;
     }
     public void ControlPuck(){
-        // relative velocity
         if(canTakePosession){
             canTakePosession = false;
             hasPosession = true;
@@ -75,7 +74,7 @@ public class TeamMember : MonoBehaviour
             audioManager.PlayPassSFX();
             gameSystem.puckObject.GetComponent<Rigidbody>().AddForce(puckLaunchDirection * (passPower + extraPower), ForceMode.Impulse);
         } else{
-            skaterAnimationScript?.StopWindUpAnimation();
+            skaterAnimationScript?.ResetAnimations();
         }
     }
 }

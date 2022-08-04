@@ -33,7 +33,7 @@ public class Skater : MonoBehaviour
     [SerializeField] [Range(30f, 150f)] private float checkPowerMax;
     [SerializeField] [Range(20f, 40f)] private float checkPowerWindUpRate;
     [HideInInspector] public bool isKnockedDown;
-    private Vector3 bodycheckForce;
+    private Vector3 bodycheckDirection;
     private Collider[] boxCastHits;
     private TeamMember teamMember;
     private void Awake(){
@@ -43,9 +43,16 @@ public class Skater : MonoBehaviour
         boxCastHits = new Collider[3];
         teamMember = GetComponent<TeamMember>();
     }
-    public void SetMovementPointers(Vector2 movementInput){
-        if(movementInput.magnitude == 0){puckLaunchDirection = Vector3.Normalize(transform.forward);}
-        else{puckLaunchDirection = new Vector3(movementInput.x, 0.25f, movementInput.y);}
+    public void SetPointers(Vector3 movementInput){
+        movementPointer = movementInput;
+        if(movementInput.magnitude == 0){
+            puckLaunchDirection = Vector3.Normalize(skaterRigidBody.velocity);
+            bodycheckDirection = Vector3.Normalize(skaterRigidBody.velocity);
+        }
+        else{
+            puckLaunchDirection = new Vector3(movementInput.x, 0.25f, movementInput.z);
+            bodycheckDirection = movementInput;
+        }
     }
     public IEnumerator WindUpShot(){
         teamMember.windingUp = true;
@@ -60,14 +67,13 @@ public class Skater : MonoBehaviour
     }
     public void ShootPuck(){
         teamMember.windingUp = false;
-        skaterAnimationScript.skaterAnimator.ResetTrigger("AnimateShotFollowThru");
         if(teamMember.hasPosession){
             teamMember.BreakPosession();
             skaterAnimationScript.skaterAnimator.SetTrigger("AnimateShotFollowThru");
             audioManager.PlayShotSFX();
             gameSystem.puckObject.GetComponent<Rigidbody>().AddForce(puckLaunchDirection * (shotPower + extraPower), ForceMode.Impulse);
         } else{
-            skaterAnimationScript.StopWindUpAnimation();
+            skaterAnimationScript.ResetAnimations();
         }
     }
     public IEnumerator WindUpBodyCheck(){
@@ -79,18 +85,13 @@ public class Skater : MonoBehaviour
             if(checkPower + extraPower < checkPowerMax){extraPower += (checkPowerWindUpRate * Time.deltaTime);}
         }
     }
-    public IEnumerator DeliverBodyCheck(){
-        // send player in aim direction
-        teamMember.windingUp = false;
-        skaterAnimationScript.skaterAnimator.ResetTrigger("AnimateBodycheckFollowThru");
+    public void DeliverBodyCheck(){
         skaterAnimationScript.skaterAnimator.SetTrigger("AnimateBodycheckFollowThru");
-        bodycheckHitZone.GetComponent<BodycheckHitZone>().hitForce = puckLaunchDirection * (checkPower + extraPower);
-        bodycheckHitZone.SetActive(true);
-        yield return new WaitForSeconds(1f);
-        bodycheckHitZone.SetActive(false);
-        skaterAnimationScript.StopWindUpAnimation();
+        skaterRigidBody.AddForce(bodycheckDirection, ForceMode.VelocityChange);
+        bodycheckHitZone.GetComponent<BodycheckHitZone>().hitForce = new Vector3(bodycheckDirection.x, 2f, bodycheckDirection.z)*(checkPower + extraPower);
     }
     public void ReceiveBodyCheck(Vector3 hitForce){
+        isKnockedDown = true;
         teamMember.BreakPosession();
         teamMember.windingUp = false;
         audioManager.PlayBodycheckSFX();
@@ -102,9 +103,6 @@ public class Skater : MonoBehaviour
         var t = checkPower / checkPowerMax;
         var curveT = checkPowerCurve.Evaluate(t);
         return ((checkPowerMax - checkPower) * curveT) + checkPower;
-    }
-    public void MoveSkater(Vector3 pointer){
-        movementPointer = pointer;
     }
     public void HandleMove(){
         // Find angle between forward and movementPointer
