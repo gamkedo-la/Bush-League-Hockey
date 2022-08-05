@@ -42,8 +42,8 @@ public class SkaterAnimationScript : MonoBehaviour
             bodycheckDeliveryObject.gameObject.transform.position.z
         );
         skaterAnimator.enabled = true;
+        thisSkater.GetComponent<Collider>().enabled = true;
         thisSkater.isKnockedDown = false;
-        thisSkater.ReParentModelToBase();
     }
     public void DisableRigBuilder(){
         rigBuilder.enabled = false;
