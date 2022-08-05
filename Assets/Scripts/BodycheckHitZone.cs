@@ -10,7 +10,7 @@ public class BodycheckHitZone : MonoBehaviour
     {
         Skater otherSkater = other.GetComponent<Skater>();
         if(otherSkater && !otherSkater.isKnockedDown){
-            otherSkater.ReceiveBodyCheck(hitForce);
+            otherSkater?.ReceiveBodyCheck(hitForce);
         }
     }
 }

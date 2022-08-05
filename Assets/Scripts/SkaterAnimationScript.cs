@@ -43,6 +43,7 @@ public class SkaterAnimationScript : MonoBehaviour
         );
         skaterAnimator.enabled = true;
         thisSkater.isKnockedDown = false;
+        thisSkater.ReParentModelToBase();
     }
     public void DisableRigBuilder(){
         rigBuilder.enabled = false;

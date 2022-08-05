@@ -425,6 +425,7 @@ MonoBehaviour:
   shotPowerWindUpRate: 4
   shotPowerMax: 16
   shotPower: 7
+  skaterModel: {fileID: 910919187423737594}
   bodycheckHitZone: {fileID: 2533384821195587337}
   skaterMask:
     serializedVersion: 2

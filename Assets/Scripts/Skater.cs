@@ -26,6 +26,7 @@ public class Skater : MonoBehaviour
     private float extraPower;
     private Vector3 puckLaunchDirection;
     [Header("Colliding/Checking")]
+    [SerializeField] GameObject skaterModel;
     [SerializeField] private GameObject bodycheckHitZone;
     [SerializeField] private LayerMask skaterMask;
     [SerializeField] private AnimationCurve checkPowerCurve;
@@ -90,10 +91,17 @@ public class Skater : MonoBehaviour
         skaterRigidBody.AddForce(bodycheckDirection*((checkPower + extraPower)/8), ForceMode.VelocityChange);
         bodycheckHitZone.GetComponent<BodycheckHitZone>().hitForce = new Vector3(bodycheckDirection.x, 2f, bodycheckDirection.z)*(checkPower + extraPower);
     }
+    public void ReParentModelToBase(){
+        skaterModel.transform.position = new Vector3(transform.position.x, transform.position.y - 0.847f, transform.position.z);
+        skaterModel.transform.parent = transform;
+        GetComponent<Collider>().enabled = true;
+    }
     public void ReceiveBodyCheck(Vector3 hitForce){
         isKnockedDown = true;
-        teamMember.BreakPosession();
         teamMember.windingUp = false;
+        teamMember.BreakPosession();
+        skaterModel.transform.parent = null;
+        GetComponent<Collider>().enabled = false;
         audioManager.PlayBodycheckSFX();
         StartCoroutine(skaterAnimationScript.RagdollThenReset(3f, hitForce));
     }
