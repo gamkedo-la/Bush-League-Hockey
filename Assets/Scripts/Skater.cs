@@ -29,9 +29,9 @@ public class Skater : MonoBehaviour
     [SerializeField] private GameObject bodycheckHitZone;
     [SerializeField] private LayerMask skaterMask;
     [SerializeField] private AnimationCurve checkPowerCurve;
-    [SerializeField] [Range(20f, 100f)] private float checkPower;
-    [SerializeField] [Range(30f, 150f)] private float checkPowerMax;
-    [SerializeField] [Range(20f, 40f)] private float checkPowerWindUpRate;
+    [SerializeField] [Range(20f, 50f)] private float checkPower;
+    [SerializeField] [Range(30f, 70f)] private float checkPowerMax;
+    [SerializeField] [Range(1f, 10f)] private float checkPowerWindUpRate;
     [HideInInspector] public bool isKnockedDown;
     private Vector3 bodycheckDirection;
     private Collider[] boxCastHits;
@@ -114,15 +114,20 @@ public class Skater : MonoBehaviour
         if(movementPointer.magnitude > 0.1f && !teamMember.windingUp && !isKnockedDown){
             skaterRigidBody.AddForce(movementPointer * skaterAcceleration);
         }
-        if(skaterRigidBody.velocity.magnitude > 0.1f){
+    }
+    public void HandleRotation(){
+        // follow movementPointer, 
+        if(teamMember.windingUp && movementPointer.magnitude > 0.1f){
+            desiredRotation = Quaternion.LookRotation(movementPointer, Vector3.up);
+            rotationThisFrame = Quaternion.Lerp(transform.rotation, desiredRotation, skaterTurnSpeed);
+        } else {
             desiredRotation = Quaternion.LookRotation(skaterRigidBody.velocity, Vector3.up);
             rotationThisFrame = Quaternion.Lerp(transform.rotation, desiredRotation, skaterTurnSpeed);
-            if(rotationThisFrame.eulerAngles.magnitude > .1f){
-                transform.rotation = Quaternion.Euler(0f, rotationThisFrame.eulerAngles.y, 0f);
-            }
         }
+        transform.rotation = rotationThisFrame;
     }
     private void Update(){
         HandleMove();
+        HandleRotation();
     }
 }

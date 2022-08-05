@@ -73,6 +73,7 @@ public class Goaltender : MonoBehaviour
     }
     public IEnumerator WindUpShot(){
         extraPower = 0f;
+        teamMember.windingUp = true;
         while(teamMember.windingUp){
             yield return new WaitForSeconds((Time.deltaTime));
             if(shotPower + extraPower < shotPowerMax){extraPower += (shotPowerWindUpRate * Time.deltaTime);}
