@@ -9,7 +9,7 @@ public class PlayAreaBoundary : MonoBehaviour
         gameSystem = GameObject.Find("GameSystem").GetComponent<GameSystem>();
     }
     void OnTriggerExit(Collider other){
-        if(other.gameObject.tag == "puck"){
+        if(other.gameObject.tag == "puck" || other.gameObject.tag == "homeSkater" || other.gameObject.tag == "awaySkater"){
             gameSystem.PuckOutOfBounds();
         }
     }

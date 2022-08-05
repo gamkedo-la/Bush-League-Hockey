@@ -87,7 +87,7 @@ public class Skater : MonoBehaviour
     }
     public void DeliverBodyCheck(){
         skaterAnimationScript.skaterAnimator.SetTrigger("AnimateBodycheckFollowThru");
-        skaterRigidBody.AddForce(bodycheckDirection, ForceMode.VelocityChange);
+        skaterRigidBody.AddForce(bodycheckDirection*((checkPower + extraPower)/8), ForceMode.VelocityChange);
         bodycheckHitZone.GetComponent<BodycheckHitZone>().hitForce = new Vector3(bodycheckDirection.x, 2f, bodycheckDirection.z)*(checkPower + extraPower);
     }
     public void ReceiveBodyCheck(Vector3 hitForce){

@@ -17,11 +17,13 @@ public class GameSystem : MonoBehaviour
     [Header("Game Management")]
     private AudioManager audioManager;
     [SerializeField] private GameObject crowdReactionManager;
-    [SerializeField] GameObject skaterPrefab;
-    [SerializeField] GameObject goaltenderPrefab;
+    [SerializeField] GameObject homeSkater;
+    [SerializeField] GameObject awaySkater;
     [SerializeField] GameObject puckPrefab;
     [SerializeField] public Transform homeGoalOrigin;
+    [SerializeField] public Transform homeFaceOffOrigin;
     [SerializeField] public Transform awayGoalOrigin;
+    [SerializeField] public Transform awayFaceOffOrigin;
     [SerializeField] public Transform puckDropOrigin;
     [SerializeField] public GameObject homeGoaltender;
     [SerializeField] public GameObject awayGoaltender;
@@ -56,6 +58,9 @@ public class GameSystem : MonoBehaviour
     }
     public void DropPuck(){
         GoalScoredDisplay.SetActive(false);
+        // put home and away skater back to their original positions
+        homeSkater.transform.position = homeFaceOffOrigin.position;
+        awaySkater.transform.position = awayFaceOffOrigin.position;
         StartCoroutine(TemporaryFaceOffMessage());
         if(puckObject){Destroy(puckObject);}
         gameOn = true;
