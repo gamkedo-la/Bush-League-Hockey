@@ -48,6 +48,7 @@ public class TeamMember : MonoBehaviour
     }
     public void BreakPosession(){
         puckPositionMarker.GetComponent<PuckHandleJoint>().BreakFixedJoint();
+        StartCoroutine(LostPosession());
     }
     public string getOppositionTag(){
         return isHomeTeam ? "awaySkater" : "homeSkater";

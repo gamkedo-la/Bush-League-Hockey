@@ -27,14 +27,15 @@ public class Skater : MonoBehaviour
     private Vector3 puckLaunchDirection;
     [Header("Colliding/Checking")]
     [SerializeField] GameObject skaterModel;
-    private Vector3 skaterModelOrigin;
     [SerializeField] private BodycheckHitZone bodycheckHitZone;
     [SerializeField] private LayerMask skaterMask;
     [SerializeField] private AnimationCurve checkPowerCurve;
     [SerializeField] [Range(10f, 30f)] private float checkPower;
     [SerializeField] [Range(15f, 50f)] private float checkPowerMax;
     [SerializeField] [Range(1f, 10f)] private float checkPowerWindUpRate;
+    [SerializeField] [Range(0.2f, 3f)] private float bodycheckCooldownTime;
     private float extraBodycheckPower;
+    private bool bodycheckReady = true;
     [HideInInspector] public bool isKnockedDown;
     private Vector3 bodycheckDirection;
     private Collider[] boxCastHits;
@@ -53,7 +54,7 @@ public class Skater : MonoBehaviour
             bodycheckDirection = Vector3.Normalize(skaterRigidBody.velocity);
         }
         else{
-            puckLaunchDirection = new Vector3(movementInput.x, 0.25f, movementInput.z);
+            puckLaunchDirection = new Vector3(movementInput.x, 0.2f, movementInput.z);
             bodycheckDirection = movementInput;
         }
     }
@@ -79,8 +80,15 @@ public class Skater : MonoBehaviour
             skaterAnimationScript.ResetAnimations();
         }
     }
+    public IEnumerator CooldownBodycheck(){
+        bodycheckReady = false;
+        yield return new WaitForSeconds(bodycheckCooldownTime);
+        bodycheckReady = true;
+    }
     public IEnumerator WindUpBodyCheck(){
+        if(!bodycheckReady) yield break;
         teamMember.windingUp = true;
+        teamMember.canTakePosession = false;
         extraBodycheckPower = 0f;
         skaterAnimationScript.skaterAnimator.SetBool("AnimateBodycheckWindUp", true);
         while(teamMember.windingUp && !teamMember.hasPosession){
@@ -89,14 +97,15 @@ public class Skater : MonoBehaviour
         }
     }
     public void DeliverBodyCheck(){
+        teamMember.canTakePosession = true;
         bodycheckHitZone.hitPower = checkPower + extraBodycheckPower;
         skaterAnimationScript.skaterAnimator.SetTrigger("AnimateBodycheckFollowThru");
         skaterRigidBody.AddForce(bodycheckDirection*((checkPower + extraBodycheckPower)/4), ForceMode.VelocityChange);
+        StartCoroutine(CooldownBodycheck());
     }
     public void ReceiveBodyCheck(float incomingHitPower, Vector3 hitDirection){
         isKnockedDown = true;
         teamMember.windingUp = false;
-        teamMember.canTakePosession = false;
         teamMember.BreakPosession();
         GetComponent<Collider>().enabled = false;
         audioManager.PlayBodycheckSFX();
