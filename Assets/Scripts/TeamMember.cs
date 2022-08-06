@@ -12,7 +12,7 @@ public class TeamMember : MonoBehaviour
     [SerializeField] Collider skaterPosessionTrigger;
     [SerializeField] GameObject puckPositionMarker;
     private FixedJoint puckHandleJoint;
-    private bool canTakePosession = true;
+    [HideInInspector] public bool canTakePosession = true;
     [HideInInspector] public bool hasPosession = false;
     private float posessionCooldownTime = 0.5f;
     [Header("Passing")]
