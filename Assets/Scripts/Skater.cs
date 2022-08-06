@@ -28,11 +28,11 @@ public class Skater : MonoBehaviour
     [Header("Colliding/Checking")]
     [SerializeField] GameObject skaterModel;
     private Vector3 skaterModelOrigin;
-    [SerializeField] private GameObject bodycheckHitZone;
+    [SerializeField] private BodycheckHitZone bodycheckHitZone;
     [SerializeField] private LayerMask skaterMask;
     [SerializeField] private AnimationCurve checkPowerCurve;
-    [SerializeField] [Range(20f, 50f)] private float checkPower;
-    [SerializeField] [Range(30f, 70f)] private float checkPowerMax;
+    [SerializeField] [Range(10f, 30f)] private float checkPower;
+    [SerializeField] [Range(15f, 50f)] private float checkPowerMax;
     [SerializeField] [Range(1f, 10f)] private float checkPowerWindUpRate;
     private float extraBodycheckPower;
     [HideInInspector] public bool isKnockedDown;
@@ -89,17 +89,22 @@ public class Skater : MonoBehaviour
         }
     }
     public void DeliverBodyCheck(){
+        bodycheckHitZone.hitPower = checkPower + extraBodycheckPower;
         skaterAnimationScript.skaterAnimator.SetTrigger("AnimateBodycheckFollowThru");
         skaterRigidBody.AddForce(bodycheckDirection*((checkPower + extraBodycheckPower)/8), ForceMode.VelocityChange);
-        bodycheckHitZone.GetComponent<BodycheckHitZone>().hitForce = new Vector3(bodycheckDirection.x, 2f, bodycheckDirection.z)*(checkPower + extraBodycheckPower);
     }
-    public void ReceiveBodyCheck(Vector3 hitForce){
+    public void ReceiveBodyCheck(float incomingHitPower, Vector3 hitPosition){
         isKnockedDown = true;
         teamMember.windingUp = false;
         teamMember.BreakPosession();
         GetComponent<Collider>().enabled = false;
         audioManager.PlayBodycheckSFX();
-        StartCoroutine(skaterAnimationScript.RagdollThenReset(3f, hitForce));
+        Vector3 knockbackDirection = Vector3.Normalize((transform.position - hitPosition) + (Vector3.up * (checkPower/3)));
+        StartCoroutine(skaterAnimationScript.RagdollThenReset(
+            incomingHitPower,
+            knockbackDirection,
+            3f
+        ));
     }
     // Maps shotPower to a value between minCheckPower and maxCheckPower
     // by sampling the checkPowerCurve.

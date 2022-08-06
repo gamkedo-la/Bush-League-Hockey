@@ -50,11 +50,14 @@ MonoBehaviour:
   mainCamera: {fileID: 0}
   zoom: 0
   cameraRotationSpeed: 0
-  skaterPrefab: {fileID: 2533384822332519914, guid: b6dcaad2a588a9e4f8de59373ae9d5be, type: 3}
-  goaltenderPrefab: {fileID: 3007017574672762353, guid: a66dbdcd7eeffef489916b5875ad846e, type: 3}
+  crowdReactionManager: {fileID: 0}
+  homeSkater: {fileID: 0}
+  awaySkater: {fileID: 0}
   puckPrefab: {fileID: 237812582925331672, guid: d5c53f26915d88b43a0a8ded0048f0cb, type: 3}
   homeGoalOrigin: {fileID: 0}
+  homeFaceOffOrigin: {fileID: 0}
   awayGoalOrigin: {fileID: 0}
+  awayFaceOffOrigin: {fileID: 0}
   puckDropOrigin: {fileID: 0}
   homeGoaltender: {fileID: 0}
   awayGoaltender: {fileID: 0}
@@ -68,6 +71,7 @@ MonoBehaviour:
   GoalScoredDisplay: {fileID: 6619080286999270751}
   FaceOffMessageDisplay: {fileID: 6619080286885391412}
   OutOfBoundsMessageDisplay: {fileID: 6619080287475490092}
+  instantReplayController: {fileID: 0}
 --- !u!114 &6619080286672928149
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1305,10 +1309,10 @@ RectTransform:
   m_Father: {fileID: 6619080288139202444}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 429.9}
-  m_SizeDelta: {x: 400, y: 200}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 410}
+  m_SizeDelta: {x: -1500, y: -880}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6619080288192628384
 CanvasRenderer:

@@ -48,6 +48,8 @@ public class Goaltender : MonoBehaviour
     }
     public void SetPointers(Vector3 movementPointer){
         displacementVector = movementSpeed * movementPointer * Time.deltaTime;
+        if(movementPointer.magnitude == 0){puckLaunchDirection = transform.forward;}
+        else{puckLaunchDirection = new Vector3(movementPointer.x, 0.25f, movementPointer.y);}
     }
     private void HandleMove(){
         if(myNet){
@@ -66,10 +68,6 @@ public class Goaltender : MonoBehaviour
                 35
             );
         }
-    }
-    public void SetShotDirection(Vector2 movementInput){
-        if(movementInput.magnitude == 0){puckLaunchDirection = transform.forward;}
-        else{puckLaunchDirection = new Vector3(movementInput.x, 0.25f, movementInput.y);}
     }
     public IEnumerator WindUpShot(){
         extraPower = 0f;

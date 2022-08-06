@@ -52,9 +52,9 @@ public class TeamMember : MonoBehaviour
     public string getOppositionTag(){
         return isHomeTeam ? "awaySkater" : "homeSkater";
     }
-    public void SetPassDirection(Vector2 movementInput){
+    public void SetPassDirection(Vector3 movementInput){
         if(movementInput.magnitude == 0){puckLaunchDirection = transform.forward;}
-        else{puckLaunchDirection = new Vector3(movementInput.x, 0, movementInput.y);}
+        else{puckLaunchDirection = movementInput;}
     }
     public IEnumerator WindUpPass(){
         windingUp = true;

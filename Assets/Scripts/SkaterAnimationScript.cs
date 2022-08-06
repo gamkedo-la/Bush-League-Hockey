@@ -6,13 +6,17 @@ public class SkaterAnimationScript : MonoBehaviour
 {
     [SerializeField] Skater thisSkater;
     [SerializeField] TeamMember thisTeamMember;
-    [SerializeField] Rigidbody bodycheckDeliveryObject;
+    [SerializeField] Rigidbody modelHips;
     [SerializeField] GameObject bodyCheckHitZone;
+    private Rigidbody[] ragdollRigidBodies;
+    private Collider[] ragdollColliders;
     public Animator skaterAnimator;
     public RigBuilder rigBuilder;
     private void Awake(){
         skaterAnimator = GetComponent<Animator>();
         rigBuilder = GetComponent<RigBuilder>();
+        ragdollRigidBodies = GetComponentsInChildren<Rigidbody>();
+        ragdollColliders = GetComponentsInChildren<Collider>();
     }
     public void ResetAnimations(){
         skaterAnimator.SetBool("AnimateShotWindUp", false);
@@ -31,15 +35,20 @@ public class SkaterAnimationScript : MonoBehaviour
         thisTeamMember.windingUp = false;
         ResetAnimations();
     }
-    public IEnumerator RagdollThenReset(float recoverTime, Vector3 hitForce){
+    public IEnumerator RagdollThenReset(float hitPower, Vector3 hitDirection, float recoverTime){
         // DisableRigBuilder();
         skaterAnimator.enabled = false;
-        bodycheckDeliveryObject.AddForce(hitForce, ForceMode.VelocityChange);
+        foreach(Rigidbody rB in ragdollRigidBodies){
+            rB.AddForce(
+                hitDirection*hitPower,
+                ForceMode.VelocityChange
+            );
+        }
         yield return new WaitForSeconds(recoverTime);
         thisSkater.transform.position = new Vector3(
-            bodycheckDeliveryObject.gameObject.transform.position.x, 
-            thisSkater.transform.position.y, 
-            bodycheckDeliveryObject.gameObject.transform.position.z
+            modelHips.gameObject.transform.position.x,
+            thisSkater.transform.position.y,
+            modelHips.gameObject.transform.position.z
         );
         skaterAnimator.enabled = true;
         thisSkater.GetComponent<Collider>().enabled = true;

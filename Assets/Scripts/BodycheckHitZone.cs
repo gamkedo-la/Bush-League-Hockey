@@ -4,13 +4,10 @@ using UnityEngine;
 
 public class BodycheckHitZone : MonoBehaviour
 {
-    [HideInInspector] public Vector3 hitForce;
-    private void Start(){hitForce = Vector3.zero;}
-    private void OnTriggerEnter(Collider other)
-    {
+    [SerializeField] Transform thisSkaterTransform;
+    [HideInInspector] public float hitPower;
+    private void OnTriggerEnter(Collider other){
         Skater otherSkater = other.GetComponent<Skater>();
-        if(otherSkater && !otherSkater.isKnockedDown){
-            otherSkater?.ReceiveBodyCheck(hitForce);
-        }
+        if(otherSkater && !otherSkater.isKnockedDown){ otherSkater?.ReceiveBodyCheck(hitPower, thisSkaterTransform.forward); }
     }
 }

@@ -275,7 +275,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b29ac60d85dd74a4aabf7feae2b6f17f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitForce: {x: 0, y: 0, z: 0}
+  thisSkaterTransform: {fileID: 2533384822332519909}
+  hitPower: 0
 --- !u!1 &2533384821299025576
 GameObject:
   m_ObjectHideFlags: 0
@@ -426,7 +427,7 @@ MonoBehaviour:
   shotPowerMax: 16
   shotPower: 7
   skaterModel: {fileID: 910919187423737594}
-  bodycheckHitZone: {fileID: 2533384821195587337}
+  bodycheckHitZone: {fileID: 892617025}
   skaterMask:
     serializedVersion: 2
     m_Bits: 128
@@ -454,8 +455,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  checkPower: 40
-  checkPowerMax: 60
+  checkPower: 15
+  checkPowerMax: 30
   checkPowerWindUpRate: 4
   isKnockedDown: 0
 --- !u!114 &2533384822332519913
@@ -896,7 +897,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thisSkater: {fileID: 2533384822332519912}
   thisTeamMember: {fileID: 2533384822332519913}
-  bodycheckDeliveryObject: {fileID: 2053389831}
+  modelHips: {fileID: 1934877821}
   bodyCheckHitZone: {fileID: 2533384821195587337}
   skaterAnimator: {fileID: 5841098711529633338}
   rigBuilder: {fileID: 1787442329}
