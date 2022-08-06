@@ -97,23 +97,22 @@ public class Skater : MonoBehaviour
         }
     }
     public void DeliverBodyCheck(){
+        StartCoroutine(CooldownBodycheck());
         teamMember.canTakePosession = true;
+        teamMember.windingUp = false;
         bodycheckHitZone.hitPower = checkPower + extraBodycheckPower;
+        bodycheckHitZone.hitDirection = (skaterRigidBody.velocity/3 + Vector3.Normalize(bodycheckDirection + Vector3.up))*(checkPower/80f);
         skaterAnimationScript.skaterAnimator.SetTrigger("AnimateBodycheckFollowThru");
         skaterRigidBody.AddForce(bodycheckDirection*((checkPower + extraBodycheckPower)/4), ForceMode.VelocityChange);
-        StartCoroutine(CooldownBodycheck());
     }
     public void ReceiveBodyCheck(float incomingHitPower, Vector3 hitDirection){
         isKnockedDown = true;
         teamMember.windingUp = false;
-        teamMember.BreakPosession();
         GetComponent<Collider>().enabled = false;
         audioManager.PlayBodycheckSFX();
-        Vector3 knockbackDirection = Vector3.Normalize(hitDirection + (Vector3.up * (checkPower/4)));
-        StartCoroutine(skaterAnimationScript.RagdollThenReset(incomingHitPower, knockbackDirection, 3f));
+        teamMember.BreakPosession();
+        StartCoroutine(skaterAnimationScript.RagdollThenReset(incomingHitPower, hitDirection, 3f));
     }
-    // Maps shotPower to a value between minCheckPower and maxCheckPower
-    // by sampling the checkPowerCurve.
     private float GetBodyCheckPower(){
         var t = checkPower / checkPowerMax;
         var curveT = checkPowerCurve.Evaluate(t);

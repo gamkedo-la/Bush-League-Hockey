@@ -275,7 +275,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b29ac60d85dd74a4aabf7feae2b6f17f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  thisSkaterTransform: {fileID: 2533384822332519909}
+  hitDirection: {x: 0, y: 0, z: 0}
   hitPower: 0
 --- !u!1 &2533384821299025576
 GameObject:
@@ -455,9 +455,10 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  checkPower: 30
-  checkPowerMax: 35
-  checkPowerWindUpRate: 4
+  checkPower: 20
+  checkPowerMax: 25
+  checkPowerWindUpRate: 1
+  bodycheckCooldownTime: 1.59
   isKnockedDown: 0
 --- !u!114 &2533384822332519913
 MonoBehaviour:
@@ -475,6 +476,7 @@ MonoBehaviour:
   isHomeTeam: 1
   skaterPosessionTrigger: {fileID: 2533384822522199789}
   puckPositionMarker: {fileID: 2533384821299025576}
+  canTakePosession: 1
   hasPosession: 0
   passPowerWindUpRate: 5
   passPowerMax: 12

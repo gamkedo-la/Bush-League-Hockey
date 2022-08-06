@@ -39,10 +39,11 @@ public class SkaterAnimationScript : MonoBehaviour
         // DisableRigBuilder();
         skaterAnimator.enabled = false;
         foreach(Rigidbody rB in ragdollRigidBodies){
-            rB.AddForce(
-                hitDirection*hitPower,
-                ForceMode.VelocityChange
-            );
+            rB.velocity = hitDirection*hitPower;
+            // rB.AddForce(
+            //     hitDirection*hitPower,
+            //     ForceMode.VelocityChange
+            // );
         }
         yield return new WaitForSeconds(recoverTime);
         thisSkater.transform.position = new Vector3(
