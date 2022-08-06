@@ -155,8 +155,8 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1326392306507441094}
         m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: 
-        m_Mode: 1
+        m_MethodName: BodyCheckInputHandler
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

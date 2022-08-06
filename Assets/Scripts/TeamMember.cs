@@ -21,7 +21,8 @@ public class TeamMember : MonoBehaviour
     [SerializeField] [Range(1f, 8f)] float passPower;
     private float extraPower;
     private Vector3 puckLaunchDirection;
-
+    [Header("Animation")]
+    [SerializeField] SkaterAnimationScript skaterAnimationScript;
     private void Awake(){
         gameSystem = GameObject.Find("GameSystem").GetComponent<GameSystem>();
         audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
@@ -30,7 +31,6 @@ public class TeamMember : MonoBehaviour
         isHomeTeam = isHome;
     }
     public void ControlPuck(){
-        // relative velocity
         if(canTakePosession){
             canTakePosession = false;
             hasPosession = true;
@@ -57,19 +57,24 @@ public class TeamMember : MonoBehaviour
         else{puckLaunchDirection = new Vector3(movementInput.x, 0, movementInput.y);}
     }
     public IEnumerator WindUpPass(){
+        windingUp = true;
         extraPower = 0f;
+        skaterAnimationScript?.skaterAnimator.SetTrigger("AnimatePassWindUp");
         while(windingUp){
             yield return new WaitForSeconds((Time.deltaTime));
             if(passPower + extraPower < passPowerMax){extraPower += (passPowerWindUpRate * Time.deltaTime);}
-            Debug.Log($"Pass Windup: {passPower + extraPower}");
         }
     }
     public void PassPuck(){
         windingUp = false;
+        skaterAnimationScript?.skaterAnimator.ResetTrigger("AnimatePassFollowThru");
         if(hasPosession){
             BreakPosession();
+            skaterAnimationScript?.skaterAnimator.SetTrigger("AnimatePassFollowThru");
             audioManager.PlayPassSFX();
             gameSystem.puckObject.GetComponent<Rigidbody>().AddForce(puckLaunchDirection * (passPower + extraPower), ForceMode.Impulse);
+        } else{
+            skaterAnimationScript?.ResetAnimations();
         }
     }
 }

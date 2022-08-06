@@ -46,7 +46,7 @@ public class Goaltender : MonoBehaviour
         }
         transform.position = myOriginPoint.transform.position;
     }
-    public void MoveGoalie(Vector3 movementPointer){
+    public void SetPointers(Vector3 movementPointer){
         displacementVector = movementSpeed * movementPointer * Time.deltaTime;
     }
     private void HandleMove(){
@@ -73,6 +73,7 @@ public class Goaltender : MonoBehaviour
     }
     public IEnumerator WindUpShot(){
         extraPower = 0f;
+        teamMember.windingUp = true;
         while(teamMember.windingUp){
             yield return new WaitForSeconds((Time.deltaTime));
             if(shotPower + extraPower < shotPowerMax){extraPower += (shotPowerWindUpRate * Time.deltaTime);}

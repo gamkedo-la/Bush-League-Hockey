@@ -8,7 +8,7 @@ public class Skater : MonoBehaviour
     private GameSystem gameSystem;
     private AudioManager audioManager;
     [Header("Animation")]
-    [SerializeField] Animator skaterAnimator;
+    [SerializeField] SkaterAnimationScript skaterAnimationScript;
     [Header("Skating")]
     private Rigidbody skaterRigidBody;
     [SerializeField] float skaterAcceleration;
@@ -23,15 +23,20 @@ public class Skater : MonoBehaviour
     [SerializeField] [Range(0.5f, 6f)] float shotPowerWindUpRate; // extraPower / second
     [SerializeField] [Range(8f, 20f)] float shotPowerMax;
     [SerializeField] [Range(0.0f, 10f)] float shotPower;
-    private float extraPower;
+    private float extraShotPower;
     private Vector3 puckLaunchDirection;
     [Header("Colliding/Checking")]
-    [SerializeField] private Transform boxCastOrigin;
-    [SerializeField] private Vector3 boxCastHalfExtents;
+    [SerializeField] GameObject skaterModel;
+    private Vector3 skaterModelOrigin;
+    [SerializeField] private GameObject bodycheckHitZone;
     [SerializeField] private LayerMask skaterMask;
     [SerializeField] private AnimationCurve checkPowerCurve;
-    [SerializeField] private float minCheckPower;
-    [SerializeField] private float maxCheckPower;
+    [SerializeField] [Range(20f, 50f)] private float checkPower;
+    [SerializeField] [Range(30f, 70f)] private float checkPowerMax;
+    [SerializeField] [Range(1f, 10f)] private float checkPowerWindUpRate;
+    private float extraBodycheckPower;
+    [HideInInspector] public bool isKnockedDown;
+    private Vector3 bodycheckDirection;
     private Collider[] boxCastHits;
     private TeamMember teamMember;
     private void Awake(){
@@ -41,74 +46,67 @@ public class Skater : MonoBehaviour
         boxCastHits = new Collider[3];
         teamMember = GetComponent<TeamMember>();
     }
-    public void SetShotDirection(Vector2 movementInput){
-        if(movementInput.magnitude == 0){puckLaunchDirection = Vector3.Normalize(transform.forward);}
-        else{puckLaunchDirection = new Vector3(movementInput.x, 0.25f, movementInput.y);}
-    }
-    public void StopWindUpAnimation(){
-        Debug.Log("StopWindUpAnimation");
-        skaterAnimator.SetBool("AnimateShotWindUp", false);
+    public void SetPointers(Vector3 movementInput){
+        movementPointer = movementInput;
+        if(movementInput.magnitude == 0){
+            puckLaunchDirection = Vector3.Normalize(skaterRigidBody.velocity);
+            bodycheckDirection = Vector3.Normalize(skaterRigidBody.velocity);
+        }
+        else{
+            puckLaunchDirection = new Vector3(movementInput.x, 0.25f, movementInput.z);
+            bodycheckDirection = movementInput;
+        }
     }
     public IEnumerator WindUpShot(){
-        extraPower = 0f;
-        skaterAnimator.SetTrigger("AnimateShotWindUp");
+        teamMember.windingUp = true;
+        extraShotPower = 0f;
+        skaterAnimationScript.skaterAnimator.SetBool("AnimateShotWindUp", true);
         while(teamMember.windingUp){
             yield return new WaitForSeconds((Time.deltaTime));
-            if(shotPower + extraPower < shotPowerMax){extraPower += (shotPowerWindUpRate * Time.deltaTime);}
+            if(shotPower + extraShotPower < shotPowerMax){extraShotPower += (shotPowerWindUpRate * Time.deltaTime);}
             // charge up animation should be a function of extraPower
             // can the animation be manually stepped forward / back?
         }
     }
     public void ShootPuck(){
         teamMember.windingUp = false;
-        skaterAnimator.ResetTrigger("AnimateShotFollowThru");
         if(teamMember.hasPosession){
             teamMember.BreakPosession();
-            skaterAnimator.SetTrigger("AnimateShotFollowThru");  
+            skaterAnimationScript.skaterAnimator.SetTrigger("AnimateShotFollowThru");
             audioManager.PlayShotSFX();
-            gameSystem.puckObject.GetComponent<Rigidbody>().AddForce(puckLaunchDirection * (shotPower + extraPower), ForceMode.Impulse);
+            gameSystem.puckObject.GetComponent<Rigidbody>().AddForce(puckLaunchDirection * (shotPower + extraShotPower), ForceMode.Impulse);
         } else{
-            StopWindUpAnimation();
+            skaterAnimationScript.ResetAnimations();
         }
     }
-    public void BodyCheck()
-    {
-        teamMember.windingUp = false;
-        // @TODO: perform bodycheck animation
-        // Check for BodyCheck target
-        var hitCount = Physics.OverlapBoxNonAlloc(
-            boxCastOrigin.position,
-            boxCastHalfExtents,
-            boxCastHits,
-            Quaternion.identity,
-            skaterMask);
-        Debug.Log($"Bodycheck hitcount: {hitCount}");
-        var oppositionTag = teamMember.getOppositionTag();
-        // Look for correct tag in bodycheck list. Break on first match.
-        for (var i = 0; i < hitCount; i++)
-        {
-            var hit = boxCastHits[i];
-            if (hit.CompareTag(oppositionTag))
-            {
-                var force = transform.forward * GetBodyCheckPower();
-                var contactPoint = hit.ClosestPoint(boxCastOrigin.position);
-                hit.attachedRigidbody.AddForceAtPosition(force, contactPoint, ForceMode.Impulse);
-                Debug.Log($"Bodycheck {hit.name} with force {force}");
-                break;
-            }
+    public IEnumerator WindUpBodyCheck(){
+        teamMember.windingUp = true;
+        extraBodycheckPower = 0f;
+        skaterAnimationScript.skaterAnimator.SetBool("AnimateBodycheckWindUp", true);
+        while(teamMember.windingUp && !teamMember.hasPosession){
+            yield return new WaitForSeconds((Time.deltaTime));
+            if(checkPower + extraBodycheckPower < checkPowerMax){extraBodycheckPower += (checkPowerWindUpRate * Time.deltaTime);}
         }
+    }
+    public void DeliverBodyCheck(){
+        skaterAnimationScript.skaterAnimator.SetTrigger("AnimateBodycheckFollowThru");
+        skaterRigidBody.AddForce(bodycheckDirection*((checkPower + extraBodycheckPower)/8), ForceMode.VelocityChange);
+        bodycheckHitZone.GetComponent<BodycheckHitZone>().hitForce = new Vector3(bodycheckDirection.x, 2f, bodycheckDirection.z)*(checkPower + extraBodycheckPower);
+    }
+    public void ReceiveBodyCheck(Vector3 hitForce){
+        isKnockedDown = true;
+        teamMember.windingUp = false;
+        teamMember.BreakPosession();
+        GetComponent<Collider>().enabled = false;
+        audioManager.PlayBodycheckSFX();
+        StartCoroutine(skaterAnimationScript.RagdollThenReset(3f, hitForce));
     }
     // Maps shotPower to a value between minCheckPower and maxCheckPower
-    // by sampling the checkPowerCurve. 
-    private float GetBodyCheckPower()
-    {
-        var t = shotPower / shotPowerMax;
+    // by sampling the checkPowerCurve.
+    private float GetBodyCheckPower(){
+        var t = checkPower / checkPowerMax;
         var curveT = checkPowerCurve.Evaluate(t);
-        return ((maxCheckPower - minCheckPower) * curveT) + minCheckPower;
-    }
-    
-    public void MoveSkater(Vector3 pointer){
-        movementPointer = pointer;
+        return ((checkPowerMax - checkPower) * curveT) + checkPower;
     }
     public void HandleMove(){
         // Find angle between forward and movementPointer
@@ -117,23 +115,23 @@ public class Skater : MonoBehaviour
         // +-90 to +-155: Carving, decelerate hard along forward axis 
         // +-155 to +-180: Hard stop, quickly decelerate to 0
         if(skaterRigidBody.angularVelocity.magnitude > 0){skaterRigidBody.angularVelocity = Vector3.zero;}
-        if(movementPointer.magnitude > 0.1f && !teamMember.windingUp){
+        if(movementPointer.magnitude > 0.1f && !teamMember.windingUp && !isKnockedDown){
             skaterRigidBody.AddForce(movementPointer * skaterAcceleration);
         }
-        if(skaterRigidBody.velocity.magnitude > 0.1f){
+    }
+    public void HandleRotation(){
+        // follow movementPointer, 
+        if(teamMember.windingUp && movementPointer.magnitude > 0.1f){
+            desiredRotation = Quaternion.LookRotation(movementPointer, Vector3.up);
+            rotationThisFrame = Quaternion.Lerp(transform.rotation, desiredRotation, skaterTurnSpeed);
+        } else {
             desiredRotation = Quaternion.LookRotation(skaterRigidBody.velocity, Vector3.up);
             rotationThisFrame = Quaternion.Lerp(transform.rotation, desiredRotation, skaterTurnSpeed);
-            if(rotationThisFrame.eulerAngles.magnitude > .1f){
-                transform.rotation = Quaternion.Euler(0f, rotationThisFrame.eulerAngles.y, 0f);
-            }
         }
+        transform.rotation = rotationThisFrame;
     }
     private void Update(){
         HandleMove();
-    }
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(boxCastOrigin.position, boxCastHalfExtents*2);
+        HandleRotation();
     }
 }

@@ -16,11 +16,14 @@ public class GameSystem : MonoBehaviour
     private Quaternion desiredCameraRotation;
     [Header("Game Management")]
     private AudioManager audioManager;
-    [SerializeField] GameObject skaterPrefab;
-    [SerializeField] GameObject goaltenderPrefab;
+    [SerializeField] private GameObject crowdReactionManager;
+    [SerializeField] GameObject homeSkater;
+    [SerializeField] GameObject awaySkater;
     [SerializeField] GameObject puckPrefab;
     [SerializeField] public Transform homeGoalOrigin;
+    [SerializeField] public Transform homeFaceOffOrigin;
     [SerializeField] public Transform awayGoalOrigin;
+    [SerializeField] public Transform awayFaceOffOrigin;
     [SerializeField] public Transform puckDropOrigin;
     [SerializeField] public GameObject homeGoaltender;
     [SerializeField] public GameObject awayGoaltender;
@@ -41,7 +44,6 @@ public class GameSystem : MonoBehaviour
     [SerializeField] public GameObject FaceOffMessageDisplay;
     [SerializeField] public GameObject OutOfBoundsMessageDisplay;
     [SerializeField] public GameObject instantReplayController;
-
     private void Awake(){
         mainCamera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
         audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
@@ -56,6 +58,9 @@ public class GameSystem : MonoBehaviour
     }
     public void DropPuck(){
         GoalScoredDisplay.SetActive(false);
+        // put home and away skater back to their original positions
+        homeSkater.transform.position = homeFaceOffOrigin.position;
+        awaySkater.transform.position = awayFaceOffOrigin.position;
         StartCoroutine(TemporaryFaceOffMessage());
         if(puckObject){Destroy(puckObject);}
         gameOn = true;
@@ -72,6 +77,7 @@ public class GameSystem : MonoBehaviour
     }
     public void JoinNewPlayer(PlayerInput playerInput){
         var newPlayerInput = playerInput.gameObject.GetComponent<PlayerController>();
+        Debug.Log($"new input:  {newPlayerInput}");
         if(localPlayerControllers.Count % 2 == 0){
             newPlayerInput.SetIsHomeTeam(false);
         } else{
@@ -100,6 +106,7 @@ public class GameSystem : MonoBehaviour
     private IEnumerator TemporaryGoalMessage(){
         GoalScoredDisplay.SetActive(true);
         audioManager.PlayGoalHorn();
+        
         yield return new WaitForSeconds(2);
         GoalScoredDisplay.SetActive(false);
     }
@@ -116,8 +123,18 @@ public class GameSystem : MonoBehaviour
     }
     public void GoalScored(bool scoredOnHomeNet){
         instantReplayController?.GetComponent<InstantReplay>()?.startInstantReplay();
-        if(scoredOnHomeNet){awayScore++;}
-        else{homeScore++;}
+
+        if(scoredOnHomeNet)
+        {
+            awayScore++; 
+            StartCoroutine(crowdReactionManager.transform.GetComponent<CrowdReactionManagerScriptComponent>().HandleAwayTeamScoringAGoal());
+        }
+        else
+        {
+            homeScore++;
+            StartCoroutine(crowdReactionManager.transform.GetComponent<CrowdReactionManagerScriptComponent>().HandleHomeTeamScoringAGoal());
+        }
+
         homeScoreText.text = homeScore.ToString();
         awayScoreText.text = awayScore.ToString();
         gameOn = false;

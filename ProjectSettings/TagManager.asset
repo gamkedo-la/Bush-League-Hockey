@@ -11,6 +11,8 @@ TagManager:
   - homeGoaltender
   - awayGoaltender
   - awayNet
+  - CrowdGroupA
+  - CrowdGroupB
   layers:
   - Default
   - TransparentFX
@@ -19,8 +21,8 @@ TagManager:
   - Water
   - UI
   - PuckPosession
-  - Skater
-  - 
+  - SkaterWorldPhysics
+  - SkaterModelPhysics
   - 
   - 
   - 
