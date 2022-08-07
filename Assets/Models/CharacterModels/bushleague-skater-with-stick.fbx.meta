@@ -412,7 +412,7 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.68609565
+      - time: 0.8296036
         functionName: ResetAnimations
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: 5f6f34576e286b4448fdc88f4a5e6627, type: 3}
@@ -609,7 +609,7 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.7560685
+      - time: 0.83123934
         functionName: ResetAnimations
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: 5f6f34576e286b4448fdc88f4a5e6627, type: 3}
@@ -813,7 +813,7 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.6725888
+      - time: 0.82976425
         functionName: DeactivateBodycheck
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: 5f6f34576e286b4448fdc88f4a5e6627, type: 3}

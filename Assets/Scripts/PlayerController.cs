@@ -78,14 +78,11 @@ public class PlayerController : MonoBehaviour
             StartCoroutine(goaltenderTeamMember.WindUpPass());
         }
     }
-    public void BodyCheckInputHandler(InputAction.CallbackContext context)
-    {
-        if (!selectedSkater || selectedSkater.isKnockedDown) return;
-        if (context.performed && !selectedTeamMember.hasPosession){
+    public void BodyCheckInputHandler(InputAction.CallbackContext context){
+        if(!selectedSkater || selectedSkater.isKnockedDown) return;
+        if(context.performed){
             selectedSkater.DeliverBodyCheck();
-        }
-        else if (context.started && !selectedTeamMember.windingUp && !selectedTeamMember.hasPosession){
-            selectedTeamMember.windingUp = true;
+        } else if(context.started){ // && !selectedTeamMember.windingUp
             StartCoroutine(selectedSkater.WindUpBodyCheck());
         }
     }

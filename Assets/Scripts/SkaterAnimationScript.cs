@@ -16,12 +16,11 @@ public class SkaterAnimationScript : MonoBehaviour
         skaterAnimator = GetComponent<Animator>();
         rigBuilder = GetComponent<RigBuilder>();
         ragdollRigidBodies = GetComponentsInChildren<Rigidbody>();
-        ragdollColliders = GetComponentsInChildren<Collider>();
     }
     public void ResetAnimations(){
         skaterAnimator.SetBool("AnimateShotWindUp", false);
         skaterAnimator.SetBool("AnimatePassWindUp", false);
-        skaterAnimator.SetBool("AnimateBodycheckWindUp", false);
+        skaterAnimator.SetBool("AnimateBodychecking", false);
         skaterAnimator.ResetTrigger("AnimateShotFollowThru");
         skaterAnimator.ResetTrigger("AnimatePassFollowThru");
         skaterAnimator.ResetTrigger("AnimateBodycheckFollowThru");
@@ -32,7 +31,6 @@ public class SkaterAnimationScript : MonoBehaviour
     }
     public void DeactivateBodycheck(){
         bodyCheckHitZone.SetActive(false);
-        thisTeamMember.windingUp = false;
         ResetAnimations();
     }
     public IEnumerator RagdollThenReset(float hitPower, Vector3 hitDirection, float recoverTime){

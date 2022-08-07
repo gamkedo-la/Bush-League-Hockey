@@ -86,23 +86,25 @@ public class Skater : MonoBehaviour
         bodycheckReady = true;
     }
     public IEnumerator WindUpBodyCheck(){
-        if(!bodycheckReady) yield break;
+        if(!bodycheckReady || teamMember.windingUp) yield break;
+        skaterAnimationScript.ResetAnimations();
         teamMember.windingUp = true;
         teamMember.canTakePosession = false;
+        skaterAnimationScript.skaterAnimator.SetBool("AnimateBodychecking", true);
         extraBodycheckPower = 0f;
-        skaterAnimationScript.skaterAnimator.SetBool("AnimateBodycheckWindUp", true);
-        while(teamMember.windingUp && !teamMember.hasPosession){
+        while(teamMember.windingUp){
             yield return new WaitForSeconds((Time.deltaTime));
             if(checkPower + extraBodycheckPower < checkPowerMax){extraBodycheckPower += (checkPowerWindUpRate * Time.deltaTime);}
         }
     }
     public void DeliverBodyCheck(){
-        StartCoroutine(CooldownBodycheck());
-        teamMember.canTakePosession = true;
+        if(!bodycheckReady || !teamMember.windingUp) return;
         teamMember.windingUp = false;
-        bodycheckHitZone.hitPower = checkPower + extraBodycheckPower;
-        bodycheckHitZone.hitDirection = (skaterRigidBody.velocity/3 + Vector3.Normalize(bodycheckDirection + Vector3.up))*(checkPower/80f);
+        teamMember.canTakePosession = true;
         skaterAnimationScript.skaterAnimator.SetTrigger("AnimateBodycheckFollowThru");
+        StartCoroutine(CooldownBodycheck());
+        bodycheckHitZone.hitPower = checkPower + extraBodycheckPower + skaterRigidBody.velocity.magnitude/5;
+        bodycheckHitZone.hitDirection = Vector3.Normalize(bodycheckDirection + Vector3.up*1.2f);
         skaterRigidBody.AddForce(bodycheckDirection*((checkPower + extraBodycheckPower)/4), ForceMode.VelocityChange);
     }
     public void ReceiveBodyCheck(float incomingHitPower, Vector3 hitDirection){
