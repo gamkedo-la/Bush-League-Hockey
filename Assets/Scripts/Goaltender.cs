@@ -19,13 +19,21 @@ public class Goaltender : MonoBehaviour
     [HideInInspector] public GameObject myNet;
     [HideInInspector] public GameObject myOriginPoint;
     private Vector3 displacementVector;
+    private Rigidbody goaltenderRigidBody;
     [Header("Shooting")]
     [SerializeField] [Range(0.5f, 6f)] float shotPowerWindUpRate; // extraPower / second
     [SerializeField] [Range(8f, 20f)] float shotPowerMax;
-    [SerializeField] [Range(0.0f, 10f)] float shotPower;
+    [SerializeField] [Range(1f, 5f)] float shotPower;
+    private Vector3 shotDirection;
     private float extraPower;
-    private Vector3 puckLaunchDirection;
-    private Rigidbody goaltenderRigidBody;
+    private bool windingUpShot;
+    [Header("Passing")]
+    [SerializeField] [Range(0.5f, 6f)] float passPowerWindUpRate; // extraPassPower / second
+    [SerializeField] [Range(6f, 12f)] float passPowerMax;
+    [SerializeField] [Range(1f, 8f)] float passPower;
+    private Vector3 passDirection;
+    private float extraPassPower;
+    private bool windingUpPass;
     private void Awake(){
         gameSystem = GameObject.Find("GameSystem").GetComponent<GameSystem>();
         audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
@@ -48,11 +56,17 @@ public class Goaltender : MonoBehaviour
     }
     public void SetPointers(Vector3 movementPointer){
         displacementVector = movementSpeed * movementPointer * Time.deltaTime;
-        if(movementPointer.magnitude == 0){puckLaunchDirection = transform.forward;}
-        else{puckLaunchDirection = new Vector3(movementPointer.x, 0.25f, movementPointer.y);}
+        if(movementPointer.magnitude == 0){
+            shotDirection = transform.forward;
+            passDirection = transform.forward;
+        }
+        else{
+            shotDirection = new Vector3(movementPointer.x, 0.5f, movementPointer.z);
+            passDirection = new Vector3(movementPointer.x, 0, movementPointer.z);
+        }
     }
     private void HandleMove(){
-        if(myNet){
+        if(myNet && !WindingUp()){
             transform.position = new Vector3(
                 Mathf.Clamp((transform.position.x + displacementVector.x), myMovementCrease.x, (myMovementCrease.x + myMovementCrease.width)),
                 transform.position.y,
@@ -69,7 +83,32 @@ public class Goaltender : MonoBehaviour
             );
         }
     }
+    public bool WindingUp(){
+        return windingUpShot || windingUpPass;
+    }
+    public IEnumerator WindUpPass(){
+        // blocked when: already winding up
+        if(WindingUp()) yield break;
+        windingUpPass = true;
+        extraPassPower = 0f;
+        while(WindingUp()){
+            yield return new WaitForSeconds((Time.deltaTime));
+            if(passPower + extraPassPower < passPowerMax){extraPassPower += (passPowerWindUpRate * Time.deltaTime);}
+        }
+    }
+    public void PassPuck(){
+        // blocked when: no wind up
+        if(!windingUpPass) return;
+        windingUpPass = false;
+        if(teamMember.hasPosession){
+            teamMember.BreakPosession();
+            audioManager.PlayPassSFX();
+            gameSystem.puckObject.GetComponent<Rigidbody>().AddForce(passDirection * (passPower + extraPassPower), ForceMode.Impulse);
+        }
+    }
     public IEnumerator WindUpShot(){
+        // blocked when: already winding up
+        if(teamMember.windingUp) yield break;
         extraPower = 0f;
         teamMember.windingUp = true;
         while(teamMember.windingUp){
@@ -78,11 +117,13 @@ public class Goaltender : MonoBehaviour
         }
     }
     public void ShootPuck(){
+        // blocked when: no wind up
+        if(!teamMember.windingUp) return;
         teamMember.windingUp = false;
         if(teamMember.hasPosession){
             teamMember.BreakPosession();
             audioManager.PlayShotSFX();
-            gameSystem.puckObject.GetComponent<Rigidbody>().AddForce(puckLaunchDirection * (shotPower + extraPower), ForceMode.Impulse);
+            gameSystem.puckObject.GetComponent<Rigidbody>().AddForce(shotDirection * (shotPower + extraPower), ForceMode.Impulse);
         }
     }
     private void Update(){

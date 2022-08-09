@@ -420,12 +420,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skaterAnimationScript: {fileID: 3792185025071796481}
-  skaterAcceleration: 70
+  skaterAcceleration: 30
   skaterMaximumSpeed: 10
-  skaterTurnSpeed: 0.075
+  skaterTurnSpeed: 10
   shotPowerWindUpRate: 4
   shotPowerMax: 16
-  shotPower: 7
+  shotPower: 13
+  passPowerWindUpRate: 3
+  passPowerMax: 12
+  passPower: 7
   skaterModel: {fileID: 910919187423737594}
   bodycheckHitZone: {fileID: 892617025}
   skaterMask:
@@ -455,10 +458,10 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  checkPower: 20
-  checkPowerMax: 25
+  checkPower: 12
+  checkPowerMax: 16
   checkPowerWindUpRate: 1
-  bodycheckCooldownTime: 1.59
+  bodycheckCooldownTime: 1.5
   isKnockedDown: 0
 --- !u!114 &2533384822332519913
 MonoBehaviour:
@@ -478,10 +481,6 @@ MonoBehaviour:
   puckPositionMarker: {fileID: 2533384821299025576}
   canTakePosession: 1
   hasPosession: 0
-  passPowerWindUpRate: 5
-  passPowerMax: 12
-  passPower: 6
-  skaterAnimationScript: {fileID: 3792185025071796481}
 --- !u!1 &2533384822522199790
 GameObject:
   m_ObjectHideFlags: 0

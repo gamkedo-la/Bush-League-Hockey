@@ -45,37 +45,40 @@ public class PlayerController : MonoBehaviour
             movementInput = context.ReadValue<Vector2>();
             forwardForce = movementInput.y * gameSystem.mainCamera.transform.forward;
             sideForce = movementInput.x * Vector3.Cross(gameSystem.mainCamera.transform.forward, -gameSystem.mainCamera.transform.up);
-            cameraRelativeMovementPointer = new Vector3((forwardForce.x + sideForce.x), 0f, (forwardForce.z + sideForce.z));
+            cameraRelativeMovementPointer = Vector3.Normalize(new Vector3((forwardForce.x + sideForce.x), 0f, (forwardForce.z + sideForce.z)));
             selectedSkater.SetPointers(cameraRelativeMovementPointer);
-            selectedTeamMember.SetPassDirection(cameraRelativeMovementPointer);
             goaltender.SetPointers(cameraRelativeMovementPointer);
-            goaltenderTeamMember.SetPassDirection(cameraRelativeMovementPointer);
+        }
+    }
+    public void StickControlInputHandler(InputAction.CallbackContext context){
+        if(selectedSkater && goaltender){
+            movementInput = context.ReadValue<Vector2>();
+            forwardForce = movementInput.y * gameSystem.mainCamera.transform.forward;
+            sideForce = movementInput.x * Vector3.Cross(gameSystem.mainCamera.transform.forward, -gameSystem.mainCamera.transform.up);
+            cameraRelativeMovementPointer = Vector3.Normalize(new Vector3((forwardForce.x + sideForce.x), 0f, (forwardForce.z + sideForce.z)));
+            selectedSkater.SetStickControlPointer(cameraRelativeMovementPointer);
         }
     }
     public void ShootButtonInputHandler(InputAction.CallbackContext context){
-        if (!selectedSkater || selectedSkater.isKnockedDown) return;
+        if (!selectedSkater) return;
         if(context.performed){
             selectedSkater.ShootPuck();
             goaltender.ShootPuck();
         }
-        if(context.started && !selectedTeamMember.windingUp){
-            selectedTeamMember.windingUp = true;
-            goaltenderTeamMember.windingUp = true;
+        if(context.started){
             StartCoroutine(selectedSkater.WindUpShot());
             StartCoroutine(goaltender.WindUpShot());
         }
     }
     public void PassButtonInputHandler(InputAction.CallbackContext context){
-        if (!selectedSkater || selectedSkater.isKnockedDown) return; // bugfix: selectedSkater can be null here
+        if (!selectedSkater) return; // bugfix: selectedSkater can be null here
         if(context.performed){
-            selectedTeamMember.PassPuck();
-            goaltenderTeamMember.PassPuck();
+            selectedSkater.PassPuck();
+            goaltender.PassPuck();
         }
-        if(context.started && !selectedTeamMember.windingUp){
-            selectedTeamMember.windingUp = true;
-            goaltenderTeamMember.windingUp = true;
-            StartCoroutine(selectedTeamMember.WindUpPass());
-            StartCoroutine(goaltenderTeamMember.WindUpPass());
+        if(context.started){
+            StartCoroutine(selectedSkater.WindUpPass());
+            StartCoroutine(goaltender.WindUpPass());
         }
     }
     public void BodyCheckInputHandler(InputAction.CallbackContext context){

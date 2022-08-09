@@ -88,10 +88,6 @@ MonoBehaviour:
     m_ActionId: fac90aed-d8dc-4b99-8b07-ffbd90ce69ca
     m_ActionName: Player/Move[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]
   - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: c22fc053-85c2-4c1e-a7ce-7cdba3c0efa3
-    m_ActionName: Player/Look[/Mouse/delta]
-  - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1326392306507441094}
         m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
@@ -148,10 +144,6 @@ MonoBehaviour:
     m_ActionId: 474eb8bf-1036-4a8f-a376-1a50aea7c9c9
     m_ActionName: UI/TrackedDeviceOrientation
   - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: e669a48c-72e0-4c15-b5f3-1fa3799c0f60
-    m_ActionName: Player/LobShot[/DualShock4GamepadHID/leftTrigger,/Mouse/rightButton]
-  - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1326392306507441094}
         m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
@@ -183,6 +175,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 19dad570-909f-4568-9401-6f4d2a91c6a8
     m_ActionName: Player/Pass[/DualShock3GamepadHID/leftShoulder,/Keyboard/e]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1326392306507441094}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: StickControlInputHandler
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 9cf88caf-6547-4a02-a537-40516af6eab1
+    m_ActionName: Player/StickControl[/DualShock4GamepadHID/rightStick,/DualShock3GamepadHID/rightStick,/Keyboard/upArrow,/Keyboard/downArrow,/Keyboard/leftArrow,/Keyboard/rightArrow]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player

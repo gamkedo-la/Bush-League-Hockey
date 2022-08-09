@@ -62,6 +62,15 @@ public partial class @Playercontrols : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": ""Press(behavior=1)"",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""StickControl"",
+                    ""type"": ""Value"",
+                    ""id"": ""9cf88caf-6547-4a02-a537-40516af6eab1"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -88,31 +97,9 @@ public partial class @Playercontrols : IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": ""up"",
-                    ""id"": ""8180e8bd-4097-4f4e-ab88-4523101a6ce9"",
-                    ""path"": ""<Keyboard>/upArrow"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Keyboard&Mouse"",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
                     ""name"": ""down"",
                     ""id"": ""320bffee-a40b-4347-ac70-c210eb8bc73a"",
                     ""path"": ""<Keyboard>/s"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Keyboard&Mouse"",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""down"",
-                    ""id"": ""1c5327b5-f71c-4f60-99c7-4e737386f1d1"",
-                    ""path"": ""<Keyboard>/downArrow"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
@@ -132,31 +119,9 @@ public partial class @Playercontrols : IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": ""left"",
-                    ""id"": ""2e46982e-44cc-431b-9f0b-c11910bf467a"",
-                    ""path"": ""<Keyboard>/leftArrow"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Keyboard&Mouse"",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
                     ""name"": ""right"",
                     ""id"": ""fcfe95b8-67b9-4526-84b5-5d0bc98d6400"",
                     ""path"": ""<Keyboard>/d"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Keyboard&Mouse"",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""right"",
-                    ""id"": ""77bff152-3580-4b21-b6de-dcd0c7e41164"",
-                    ""path"": ""<Keyboard>/rightArrow"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
@@ -284,6 +249,83 @@ public partial class @Playercontrols : IInputActionCollection2, IDisposable
                     ""action"": ""Pass"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""78137347-d5c6-4dd5-9916-8ae310649142"",
+                    ""path"": ""<Gamepad>/rightStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""StickControl"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c1660c66-c646-4c43-8b21-84a00edd884b"",
+                    ""path"": ""<DualShockGamepad>/rightStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""PS4"",
+                    ""action"": ""StickControl"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""ArrowKeys"",
+                    ""id"": ""368d0ad8-c7d4-4a39-846d-0a3efb9c33ad"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""StickControl"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""Up"",
+                    ""id"": ""34353d31-3762-4e2b-a777-73e8d9f53def"",
+                    ""path"": ""<Keyboard>/upArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""StickControl"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Down"",
+                    ""id"": ""ddd88306-4279-4110-806b-43df6379effb"",
+                    ""path"": ""<Keyboard>/downArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""StickControl"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Left"",
+                    ""id"": ""170a0f31-8620-4b1d-a125-5c5022bac7d6"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""StickControl"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Right"",
+                    ""id"": ""79ec6ae1-4a61-4a74-a3ad-8c35bc666f91"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""StickControl"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         },
@@ -884,6 +926,7 @@ public partial class @Playercontrols : IInputActionCollection2, IDisposable
         m_Player_Fire = m_Player.FindAction("Fire", throwIfNotFound: true);
         m_Player_Pass = m_Player.FindAction("Pass", throwIfNotFound: true);
         m_Player_BodyCheck = m_Player.FindAction("BodyCheck", throwIfNotFound: true);
+        m_Player_StickControl = m_Player.FindAction("StickControl", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -959,6 +1002,7 @@ public partial class @Playercontrols : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Fire;
     private readonly InputAction m_Player_Pass;
     private readonly InputAction m_Player_BodyCheck;
+    private readonly InputAction m_Player_StickControl;
     public struct PlayerActions
     {
         private @Playercontrols m_Wrapper;
@@ -967,6 +1011,7 @@ public partial class @Playercontrols : IInputActionCollection2, IDisposable
         public InputAction @Fire => m_Wrapper.m_Player_Fire;
         public InputAction @Pass => m_Wrapper.m_Player_Pass;
         public InputAction @BodyCheck => m_Wrapper.m_Player_BodyCheck;
+        public InputAction @StickControl => m_Wrapper.m_Player_StickControl;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -988,6 +1033,9 @@ public partial class @Playercontrols : IInputActionCollection2, IDisposable
                 @BodyCheck.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBodyCheck;
                 @BodyCheck.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBodyCheck;
                 @BodyCheck.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBodyCheck;
+                @StickControl.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnStickControl;
+                @StickControl.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnStickControl;
+                @StickControl.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnStickControl;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -1004,6 +1052,9 @@ public partial class @Playercontrols : IInputActionCollection2, IDisposable
                 @BodyCheck.started += instance.OnBodyCheck;
                 @BodyCheck.performed += instance.OnBodyCheck;
                 @BodyCheck.canceled += instance.OnBodyCheck;
+                @StickControl.started += instance.OnStickControl;
+                @StickControl.performed += instance.OnStickControl;
+                @StickControl.canceled += instance.OnStickControl;
             }
         }
     }
@@ -1173,6 +1224,7 @@ public partial class @Playercontrols : IInputActionCollection2, IDisposable
         void OnFire(InputAction.CallbackContext context);
         void OnPass(InputAction.CallbackContext context);
         void OnBodyCheck(InputAction.CallbackContext context);
+        void OnStickControl(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

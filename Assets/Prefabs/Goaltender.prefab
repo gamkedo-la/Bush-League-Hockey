@@ -136,6 +136,9 @@ MonoBehaviour:
   shotPowerWindUpRate: 5
   shotPowerMax: 14
   shotPower: 4
+  passPowerWindUpRate: 1
+  passPowerMax: 10
+  passPower: 6
 --- !u!114 &7572892403236936459
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -152,10 +155,8 @@ MonoBehaviour:
   isHomeTeam: 1
   skaterPosessionTrigger: {fileID: 7246921096608301403}
   puckPositionMarker: {fileID: 6150768726563883133}
+  canTakePosession: 1
   hasPosession: 0
-  passPowerWindUpRate: 4
-  passPowerMax: 10
-  passPower: 3
 --- !u!1 &5791120376811143108
 GameObject:
   m_ObjectHideFlags: 0
@@ -268,6 +269,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   thisPlayerObject: {fileID: 3007017574672762353}
+  skaterAnimationScript: {fileID: 0}
 --- !u!1 &6150768726563883133
 GameObject:
   m_ObjectHideFlags: 0
