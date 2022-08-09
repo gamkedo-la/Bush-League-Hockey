@@ -182,8 +182,11 @@ public class Skater : MonoBehaviour
         }else if(WindingUp() && movementPointer.magnitude > 0.1f && !isKnockedDown){
             desiredRotation = Quaternion.LookRotation(movementPointer, Vector3.up);
         } else {
-            desiredRotation = Quaternion.LookRotation(skaterRigidBody.velocity, Vector3.up);
+            if (skaterRigidBody.velocity.magnitude != 0.0f) { // avoid console spam unity warnings
+                desiredRotation = Quaternion.LookRotation(skaterRigidBody.velocity, Vector3.up);
+            }
         }
+        // we get a unity console warning when these are exactly the same but meh
         rotationThisFrame = Quaternion.Lerp(transform.rotation, desiredRotation, skaterTurnSpeed*Time.deltaTime);
         transform.rotation = rotationThisFrame;
     }
