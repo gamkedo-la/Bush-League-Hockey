@@ -13,6 +13,18 @@ public class InstantReplay : MonoBehaviour
     public Transform g2;
     public Transform puck;
 
+    // each player has 31 bones to consider...
+    // but how to make an array of arrays in unity?
+    // or an array of Transforms? stumped!
+    public Transform bonesRig1;
+    private Vector3[,] bones1pos;
+    private Quaternion[,] bones1rot;
+    public Transform bonesRig2;
+    private Vector3[,] bones2pos;
+    private Quaternion[,] bones2rot;
+    private Transform[] bones1;
+    private Transform[] bones2;
+
     // unlimited number of things to watch
     public Transform[] recordTheseToo;
     private Vector3[][] recordedPositions;
@@ -69,6 +81,15 @@ public class InstantReplay : MonoBehaviour
         //    recordedRotations[i] = new Vector3[RecordingLength];
         //}
 
+        bones1 = bonesRig1.GetComponentsInChildren<Transform>();
+        bones2 = bonesRig2.GetComponentsInChildren<Transform>();
+        Debug.Log("Replay bones found: " + bones1.Length);
+
+        bones1pos = new Vector3[32,RecordingLength];
+        bones1rot = new Quaternion[32,RecordingLength];
+        bones2pos = new Vector3[32,RecordingLength];
+        bones2rot = new Quaternion[32,RecordingLength];
+
         // fill with 300 vec3s that we reuse over and over
         for (int nextOne=0; nextOne<RecordingLength; nextOne++) {
 
@@ -87,6 +108,14 @@ public class InstantReplay : MonoBehaviour
             g1rot[nextOne] = new Quaternion();
             g2rot[nextOne] = new Quaternion();
             puckrot[nextOne] = new Quaternion();
+
+            for (int b=0; b<32; b++) {
+                bones1pos[b,nextOne] = new Vector3();
+                bones1rot[b,nextOne] = new Quaternion();
+                bones2pos[b,nextOne] = new Vector3();
+                bones2rot[b,nextOne] = new Quaternion();
+            }
+
         }
 
         recordingTimespan = RecordingLength*Time.fixedDeltaTime; /// calculate max length of replay
@@ -111,6 +140,17 @@ public class InstantReplay : MonoBehaviour
             if (g1) { g1.position = g1pos[playbackFrame]; g1.rotation = g1rot[playbackFrame]; }
             if (g2) { g2.position = g2pos[playbackFrame]; g2.rotation = g2rot[playbackFrame]; }
             if (puck) { puck.position = puckpos[playbackFrame]; puck.rotation = puckrot[playbackFrame]; }
+
+            // playback all 30 or so bones for each avatar
+            for (int b=0; b<bones1.Length; b++) {
+                bones1[b].position = bones1pos[b,playbackFrame]; 
+                bones1[b].rotation = bones1rot[b,playbackFrame]; 
+            }
+            for (int b=0; b<bones2.Length; b++) {
+                bones2[b].position = bones2pos[b,playbackFrame]; 
+                bones2[b].rotation = bones2rot[b,playbackFrame]; 
+            }
+
 
             // notice when we first started playback so we know when to finish
             if (playbackStartFrame==-999) {
@@ -166,6 +206,17 @@ public class InstantReplay : MonoBehaviour
         if (g1) { g1pos[newestIndex] = g1.position; g1rot[newestIndex] = g1.rotation; }
         if (g2) { g2pos[newestIndex] = g2.position; g2rot[newestIndex] = g2.rotation; }
         if (puck) { puckpos[newestIndex] = puck.position; puckrot[newestIndex] = puck.rotation; }
+
+        // record all 30 or so bone pos+rot for each avatar
+        for (int b=0; b<bones1.Length; b++) {
+            bones1pos[b,newestIndex] = bones1[b].position; 
+            bones1rot[b,newestIndex] = bones1[b].rotation;
+        }
+        for (int b=0; b<bones2.Length; b++) {
+            bones2pos[b,newestIndex] = bones2[b].position; 
+            bones2rot[b,newestIndex] = bones2[b].rotation;
+        }
+
 
     }
 
