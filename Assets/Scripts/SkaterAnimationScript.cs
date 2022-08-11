@@ -33,17 +33,7 @@ public class SkaterAnimationScript : MonoBehaviour
         bodyCheckHitZone.SetActive(false);
         ResetAnimations();
     }
-    public IEnumerator RagdollThenReset(float hitPower, Vector3 hitDirection, float recoverTime){
-        // DisableRigBuilder();
-        skaterAnimator.enabled = false;
-        foreach(Rigidbody rB in ragdollRigidBodies){
-            rB.velocity = hitDirection*hitPower;
-            // rB.AddForce(
-            //     hitDirection*hitPower,
-            //     ForceMode.VelocityChange
-            // );
-        }
-        yield return new WaitForSeconds(recoverTime);
+    public void ResetRagdoll(){
         thisSkater.transform.position = new Vector3(
             modelHips.gameObject.transform.position.x,
             thisSkater.transform.position.y,
@@ -52,6 +42,15 @@ public class SkaterAnimationScript : MonoBehaviour
         skaterAnimator.enabled = true;
         thisSkater.GetComponent<Collider>().enabled = true;
         thisSkater.isKnockedDown = false;
+    }
+    public IEnumerator RagdollThenReset(float hitPower, Vector3 hitDirection, float recoverTime){
+        // DisableRigBuilder();
+        skaterAnimator.enabled = false;
+        foreach(Rigidbody rB in ragdollRigidBodies){
+            rB.velocity = hitDirection*hitPower;
+        }
+        yield return new WaitForSeconds(recoverTime);
+        ResetRagdoll();
     }
     public void DisableRigBuilder(){
         rigBuilder.enabled = false;

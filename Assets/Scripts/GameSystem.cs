@@ -56,11 +56,19 @@ public class GameSystem : MonoBehaviour
         yield return new WaitForSeconds(2);
         FaceOffMessageDisplay.SetActive(false);
     }
+    private void SetupPlayersForFaceOff(){
+        homeSkater.GetComponent<Skater>().ResetSkaterActions();
+        homeSkater.GetComponent<Skater>().ResetSkaterMotion();
+        awaySkater.GetComponent<Skater>().ResetSkaterActions();
+        awaySkater.GetComponent<Skater>().ResetSkaterMotion();
+        homeSkater.transform.position = homeFaceOffOrigin.position;
+        homeSkater.transform.rotation = homeFaceOffOrigin.rotation;
+        awaySkater.transform.position = awayFaceOffOrigin.position;
+        awaySkater.transform.rotation = homeFaceOffOrigin.rotation;
+    }
     public void DropPuck(){
         GoalScoredDisplay.SetActive(false);
-        // put home and away skater back to their original positions
-        homeSkater.transform.position = homeFaceOffOrigin.position;
-        awaySkater.transform.position = awayFaceOffOrigin.position;
+        SetupPlayersForFaceOff();
         StartCoroutine(TemporaryFaceOffMessage());
         if(puckObject){Destroy(puckObject);}
         gameOn = true;

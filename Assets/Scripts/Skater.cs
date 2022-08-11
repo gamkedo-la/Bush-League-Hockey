@@ -5,19 +5,18 @@ using UnityEditor;
 using UnityEngine.InputSystem;
 public class Skater : MonoBehaviour
 {
+    [SerializeField] SkaterAnimationScript skaterAnimationScript;
     private GameSystem gameSystem;
     private AudioManager audioManager;
-    [Header("Animation")]
-    [SerializeField] SkaterAnimationScript skaterAnimationScript;
     [Header("Skating")]
-    private Rigidbody skaterRigidBody;
     [SerializeField] float skaterAcceleration;
     [SerializeField] float skaterMaximumSpeed;
     [SerializeField] float skaterTurnSpeed;
+    [SerializeField] float angleAccelerationLimit;
+    [SerializeField] float angleTurnLimit;
+    private Rigidbody skaterRigidBody;
     private Vector3 movementPointer;
     private Vector3 stickControlPointer;
-    private Vector3 cameraForward;
-    private Vector3 cameraRight;
     private Quaternion desiredRotation;
     private Quaternion rotationThisFrame;
     [Header("Shooting")]
@@ -72,6 +71,21 @@ public class Skater : MonoBehaviour
     }
     public bool WindingUp(){
         return windingUpShot || windingUpBodycheck || windingUpPass;
+    }
+    public void ResetSkaterActions(){
+        teamMember.hasPosession = false;
+        windingUpShot = false;
+        windingUpBodycheck = false;
+        windingUpPass = false;
+        extraShotPower = 0;
+        extraBodycheckPower = 0;
+        extraPassPower = 0;
+        skaterAnimationScript.ResetAnimations();
+        skaterAnimationScript.ResetRagdoll();
+    }
+    public void ResetSkaterMotion(){
+        skaterRigidBody.velocity = Vector3.zero;
+        skaterRigidBody.angularVelocity = Vector3.zero;
     }
     public IEnumerator WindUpPass(){
         // blocked when: already winding up, knocked down
@@ -154,6 +168,7 @@ public class Skater : MonoBehaviour
         skaterRigidBody.AddForce(bodycheckDirection*((checkPower + extraBodycheckPower)/4), ForceMode.VelocityChange);
     }
     public void ReceiveBodyCheck(float incomingHitPower, Vector3 hitDirection){
+        ResetSkaterActions();
         isKnockedDown = true;
         teamMember.windingUp = false;
         GetComponent<Collider>().enabled = false;
@@ -170,14 +185,24 @@ public class Skater : MonoBehaviour
         if(movementPointer.magnitude <= 0.1f || WindingUp() || isKnockedDown) return;
         if(skaterRigidBody.angularVelocity.magnitude > 0){skaterRigidBody.angularVelocity = Vector3.zero;}
         float moveDirectionDelta = Vector3.Angle(skaterRigidBody.velocity, movementPointer);
-        Debug.Log($"moveDelta: {moveDirectionDelta}");
-        skaterRigidBody.AddForce(movementPointer * skaterAcceleration);
-        if (moveDirectionDelta > 160){
+        if(moveDirectionDelta <= angleAccelerationLimit || moveDirectionDelta >= angleTurnLimit){
+            float acceleration = 1 - skaterRigidBody.velocity.magnitude/skaterMaximumSpeed;
+            skaterRigidBody.AddForce(movementPointer * skaterAcceleration * acceleration); // factor in max speed
+        }
+        if(moveDirectionDelta < angleTurnLimit){
+            skaterRigidBody.velocity = Vector3.RotateTowards(
+                skaterRigidBody.velocity,
+                movementPointer*skaterRigidBody.velocity.magnitude,
+                skaterTurnSpeed * Time.deltaTime,
+                skaterAcceleration
+            );
+        }
+        if(moveDirectionDelta >= angleTurnLimit){
             skaterRigidBody.velocity *= 0.985f;
         }
-        // change direction, velocity constant
-        // change direction, fast stop
-        // direction and acceleration are a function of y axis rotation
+        // accelerate
+        // change direction
+        // stop
         // +-90: can change direction with constant speed
         // +-90 to +-155: Carving, decelerate hard along forward axis 
         // +-155 to +-180: Hard stop, quickly decelerate to 0
