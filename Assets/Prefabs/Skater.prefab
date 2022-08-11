@@ -420,14 +420,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skaterAnimationScript: {fileID: 3792185025071796481}
-  skaterAcceleration: 30
+  skaterAcceleration: 20
   skaterMaximumSpeed: 10
   skaterTurnSpeed: 10
-  shotPowerWindUpRate: 4
-  shotPowerMax: 16
-  shotPower: 13
-  passPowerWindUpRate: 3
-  passPowerMax: 12
+  shotPowerWindUpRate: 2
+  shotPowerMax: 15
+  shotPower: 10
+  passPowerWindUpRate: 2
+  passPowerMax: 10
   passPower: 7
   skaterModel: {fileID: 910919187423737594}
   bodycheckHitZone: {fileID: 892617025}

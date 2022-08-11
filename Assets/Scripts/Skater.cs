@@ -101,11 +101,12 @@ public class Skater : MonoBehaviour
         // blocked when: already winding up, knocked down
         if(WindingUp() || isKnockedDown) yield break;
         windingUpShot = true;
-        extraShotPower = 0f;
         skaterAnimationScript.skaterAnimator.SetBool("AnimateShotWindUp", true);
-        while(teamMember.windingUp){
+        extraShotPower = 0f;
+        while(windingUpShot){
             yield return new WaitForSeconds((Time.deltaTime));
             if(shotPower + extraShotPower < shotPowerMax){extraShotPower += (shotPowerWindUpRate * Time.deltaTime);}
+            Debug.Log($"ShotPower: {shotPower + extraShotPower}");
             // charge up animation should be a function of extraPower
             // can the animation be manually stepped forward / back?
         }
@@ -166,23 +167,29 @@ public class Skater : MonoBehaviour
         return ((checkPowerMax - checkPower) * curveT) + checkPower;
     }
     public void HandleMove(){
-        // Find angle between forward and movementPointer
+        if(movementPointer.magnitude <= 0.1f || WindingUp() || isKnockedDown) return;
+        if(skaterRigidBody.angularVelocity.magnitude > 0){skaterRigidBody.angularVelocity = Vector3.zero;}
+        float moveDirectionDelta = Vector3.Angle(skaterRigidBody.velocity, movementPointer);
+        Debug.Log($"moveDelta: {moveDirectionDelta}");
+        skaterRigidBody.AddForce(movementPointer * skaterAcceleration);
+        if (moveDirectionDelta > 160){
+            skaterRigidBody.velocity *= 0.985f;
+        }
+        // change direction, velocity constant
+        // change direction, fast stop
         // direction and acceleration are a function of y axis rotation
         // +-90: can change direction with constant speed
         // +-90 to +-155: Carving, decelerate hard along forward axis 
         // +-155 to +-180: Hard stop, quickly decelerate to 0
-        if(skaterRigidBody.angularVelocity.magnitude > 0){skaterRigidBody.angularVelocity = Vector3.zero;}
-        if(movementPointer.magnitude > 0.1f && !WindingUp() && !isKnockedDown){
-            skaterRigidBody.AddForce(movementPointer * skaterAcceleration);
-        }
     }
     public void HandleRotation(){
-        if(stickControlPointer.magnitude > 0.1f && !isKnockedDown){
-            desiredRotation = Quaternion.LookRotation(stickControlPointer, Vector3.up);
-        }else if(WindingUp() && movementPointer.magnitude > 0.1f && !isKnockedDown){
-            desiredRotation = Quaternion.LookRotation(movementPointer, Vector3.up);
-        } else {
-            desiredRotation = Quaternion.LookRotation(skaterRigidBody.velocity, Vector3.up);
+        if(isKnockedDown)return;
+        if(stickControlPointer.magnitude > 0.1f){
+            desiredRotation = Quaternion.LookRotation(stickControlPointer);
+        }else if(WindingUp() && movementPointer.magnitude > 0.1f){
+            desiredRotation = Quaternion.LookRotation(movementPointer);
+        } else if(skaterRigidBody.velocity.magnitude > 0.1f) {
+            desiredRotation = Quaternion.LookRotation(skaterRigidBody.velocity);
         }
         rotationThisFrame = Quaternion.Lerp(transform.rotation, desiredRotation, skaterTurnSpeed*Time.deltaTime);
         transform.rotation = rotationThisFrame;
