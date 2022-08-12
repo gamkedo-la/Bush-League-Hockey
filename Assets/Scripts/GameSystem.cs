@@ -51,6 +51,9 @@ public class GameSystem : MonoBehaviour
         homeGoaltender.transform.position = homeGoalOrigin.position;
         awayGoaltender.transform.position = awayGoalOrigin.position;
     }
+    public bool IsZeroQuaternion(Quaternion q){
+        return q.x == 0 && q.y == 0 && q.z == 0 && q.w == 0;
+    }
     private IEnumerator TemporaryFaceOffMessage(){
         FaceOffMessageDisplay.SetActive(true);
         yield return new WaitForSeconds(2);
@@ -64,7 +67,7 @@ public class GameSystem : MonoBehaviour
         homeSkater.transform.position = homeFaceOffOrigin.position;
         homeSkater.transform.rotation = homeFaceOffOrigin.rotation;
         awaySkater.transform.position = awayFaceOffOrigin.position;
-        awaySkater.transform.rotation = homeFaceOffOrigin.rotation;
+        awaySkater.transform.rotation = awayFaceOffOrigin.rotation;
     }
     public void DropPuck(){
         GoalScoredDisplay.SetActive(false);

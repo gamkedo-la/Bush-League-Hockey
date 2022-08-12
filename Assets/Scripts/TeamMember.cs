@@ -9,7 +9,7 @@ public class TeamMember : MonoBehaviour
     [SerializeField] public bool isHomeTeam;
     private Rigidbody thisPlayersRigidBody;
     [Header("Puck Control")]
-    [SerializeField] Collider skaterPosessionTrigger;
+    [SerializeField] GameObject skaterPosessionTrigger;
     [SerializeField] GameObject puckPositionMarker;
     private FixedJoint puckHandleJoint;
     [HideInInspector] public bool canTakePosession = true;
@@ -31,6 +31,15 @@ public class TeamMember : MonoBehaviour
                 puckPositionMarker.GetComponent<PuckHandleJoint>().AttachPuckToHandleJoint(gameSystem.puckRigidBody);
             }
         }
+    }
+    public void DisableInteractions(){
+        BreakPosession();
+        windingUp = false;
+        skaterPosessionTrigger.SetActive(false);
+    }
+    public void EnableInteractions(){
+        skaterPosessionTrigger.SetActive(true);
+        canTakePosession = true;
     }
     public IEnumerator LostPosession(){
         hasPosession = false;

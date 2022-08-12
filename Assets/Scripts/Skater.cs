@@ -120,9 +120,6 @@ public class Skater : MonoBehaviour
         while(windingUpShot){
             yield return new WaitForSeconds((Time.deltaTime));
             if(shotPower + extraShotPower < shotPowerMax){extraShotPower += (shotPowerWindUpRate * Time.deltaTime);}
-            Debug.Log($"ShotPower: {shotPower + extraShotPower}");
-            // charge up animation should be a function of extraPower
-            // can the animation be manually stepped forward / back?
         }
     }
     public void ShootPuck(){
@@ -172,6 +169,7 @@ public class Skater : MonoBehaviour
         isKnockedDown = true;
         teamMember.windingUp = false;
         GetComponent<Collider>().enabled = false;
+        teamMember.DisableInteractions();
         audioManager.PlayBodycheckSFX();
         teamMember.BreakPosession();
         StartCoroutine(skaterAnimationScript.RagdollThenReset(incomingHitPower, hitDirection, 3f));
@@ -200,12 +198,6 @@ public class Skater : MonoBehaviour
         if(moveDirectionDelta >= angleTurnLimit){
             skaterRigidBody.velocity *= 0.985f;
         }
-        // accelerate
-        // change direction
-        // stop
-        // +-90: can change direction with constant speed
-        // +-90 to +-155: Carving, decelerate hard along forward axis 
-        // +-155 to +-180: Hard stop, quickly decelerate to 0
     }
     public void HandleRotation(){
         if(isKnockedDown)return;
@@ -213,12 +205,13 @@ public class Skater : MonoBehaviour
             desiredRotation = Quaternion.LookRotation(stickControlPointer);
         }else if(WindingUp() && movementPointer.magnitude > 0.1f){
             desiredRotation = Quaternion.LookRotation(movementPointer);
-        } else if(skaterRigidBody.velocity.magnitude > 0.1f) { // avoid console spam unity warnings
+        } else if(skaterRigidBody.velocity.magnitude > 0.1f) {
             desiredRotation = Quaternion.LookRotation(skaterRigidBody.velocity);
         }
-        // we get a unity console warning when these are exactly the same but meh
-        rotationThisFrame = Quaternion.Lerp(transform.rotation, desiredRotation, skaterTurnSpeed*Time.deltaTime);
-        transform.rotation = rotationThisFrame;
+        if(!gameSystem.IsZeroQuaternion(desiredRotation)){
+            rotationThisFrame = Quaternion.Lerp(transform.rotation, desiredRotation, skaterTurnSpeed * Time.deltaTime);
+            transform.rotation = rotationThisFrame;
+        }
     }
     private void Update(){
         HandleMove();

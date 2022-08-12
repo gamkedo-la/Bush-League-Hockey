@@ -39,9 +39,10 @@ public class SkaterAnimationScript : MonoBehaviour
             thisSkater.transform.position.y,
             modelHips.gameObject.transform.position.z
         );
-        skaterAnimator.enabled = true;
+        thisTeamMember.EnableInteractions();
         thisSkater.GetComponent<Collider>().enabled = true;
         thisSkater.isKnockedDown = false;
+        skaterAnimator.enabled = true;
     }
     public IEnumerator RagdollThenReset(float hitPower, Vector3 hitDirection, float recoverTime){
         // DisableRigBuilder();
