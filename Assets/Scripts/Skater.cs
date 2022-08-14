@@ -14,6 +14,7 @@ public class Skater : MonoBehaviour
     [SerializeField] float skaterTurnSpeed;
     [SerializeField] float angleAccelerationLimit;
     [SerializeField] float angleTurnLimit;
+    private float angleMovementDelta;
     private Rigidbody skaterRigidBody;
     private Vector3 movementPointer;
     private Vector3 stickControlPointer;
@@ -182,12 +183,14 @@ public class Skater : MonoBehaviour
     public void HandleMove(){
         if(movementPointer.magnitude <= 0.1f || WindingUp() || isKnockedDown) return;
         if(skaterRigidBody.angularVelocity.magnitude > 0){skaterRigidBody.angularVelocity = Vector3.zero;}
-        float moveDirectionDelta = Vector3.Angle(skaterRigidBody.velocity, movementPointer);
-        if(moveDirectionDelta <= angleAccelerationLimit || moveDirectionDelta >= angleTurnLimit){
-            float acceleration = 1 - skaterRigidBody.velocity.magnitude/skaterMaximumSpeed;
-            skaterRigidBody.AddForce(movementPointer * skaterAcceleration * acceleration); // factor in max speed
+        angleMovementDelta = Vector3.Angle(skaterRigidBody.velocity, movementPointer);
+        if(angleMovementDelta <= angleAccelerationLimit || angleMovementDelta >= angleTurnLimit){
+            skaterRigidBody.AddForce(
+                movementPointer * skaterAcceleration * (1 - skaterRigidBody.velocity.magnitude/skaterMaximumSpeed)
+            );
+            // activate procedural skate cycle
         }
-        if(moveDirectionDelta < angleTurnLimit){
+        if(angleMovementDelta < angleTurnLimit){
             skaterRigidBody.velocity = Vector3.RotateTowards(
                 skaterRigidBody.velocity,
                 movementPointer*skaterRigidBody.velocity.magnitude,
@@ -195,7 +198,7 @@ public class Skater : MonoBehaviour
                 skaterAcceleration
             );
         }
-        if(moveDirectionDelta >= angleTurnLimit){
+        if(angleMovementDelta >= angleTurnLimit){
             skaterRigidBody.velocity *= 0.985f;
         }
     }
@@ -209,6 +212,7 @@ public class Skater : MonoBehaviour
             desiredRotation = Quaternion.LookRotation(skaterRigidBody.velocity);
         }
         if(!gameSystem.IsZeroQuaternion(desiredRotation)){
+            // player is turning, modified skate cycle
             rotationThisFrame = Quaternion.Lerp(transform.rotation, desiredRotation, skaterTurnSpeed * Time.deltaTime);
             transform.rotation = rotationThisFrame;
         }
