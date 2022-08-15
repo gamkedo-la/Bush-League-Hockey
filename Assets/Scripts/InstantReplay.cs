@@ -5,6 +5,8 @@ using UnityEngine;
 public class InstantReplay : MonoBehaviour
 {
 
+    public Camera replayCamera;
+    public Vector3 replayCameraOffset;
     public GameObject instantReplayGUI; // an icon 
     
     public Transform p1;
@@ -13,9 +15,6 @@ public class InstantReplay : MonoBehaviour
     public Transform g2;
     public Transform puck;
 
-    // each player has 31 bones to consider...
-    // but how to make an array of arrays in unity?
-    // or an array of Transforms? stumped!
     public Transform bonesRig1;
     private Vector3[,] bones1pos;
     private Quaternion[,] bones1rot;
@@ -24,11 +23,6 @@ public class InstantReplay : MonoBehaviour
     private Quaternion[,] bones2rot;
     private Transform[] bones1;
     private Transform[] bones2;
-
-    // unlimited number of things to watch
-    // public Transform[] recordTheseToo;
-    // private Vector3[][] recordedPositions;
-    // private Vector3[][] recordedRotations;
 
     public bool playingBack = false;
     public float playbackSpeed = 0.5f;
@@ -73,14 +67,6 @@ public class InstantReplay : MonoBehaviour
         g2rot = new Quaternion[RecordingLength];
         puckrot = new Quaternion[RecordingLength];
 
-        // how the heck do you declare a 2d array in unity ???
-        // dynamic sized 2d array to hold any number of things
-        //recordedPositions = [];//new Array(recordTheseToo.Length);
-        //for (int i=0; i<recordTheseToo.Length; i++) {
-        //    recordedPositions[i] = new Vector3[RecordingLength];
-        //    recordedRotations[i] = new Vector3[RecordingLength];
-        //}
-
         bones1 = bonesRig1.GetComponentsInChildren<Transform>();
         bones2 = bonesRig2.GetComponentsInChildren<Transform>();
         Debug.Log("Replay bones found: " + bones1.Length);
@@ -92,11 +78,6 @@ public class InstantReplay : MonoBehaviour
 
         // fill with 300 vec3s that we reuse over and over
         for (int nextOne=0; nextOne<RecordingLength; nextOne++) {
-
-            //for (int i=0; i<recordTheseToo.Length; i++) {
-            //    recordedPositions[nextOne][i] = new Vector3();
-            //    recordedRotations[nextOne][i] = new Quaternion();
-            //}
 
             p1pos[nextOne] = new Vector3();
             p2pos[nextOne] = new Vector3();
@@ -128,12 +109,12 @@ public class InstantReplay : MonoBehaviour
         // we need to find the puck AFTER init since it is not there at first
         if (!puck) puck = GameObject.FindWithTag("puck")?.transform; // NOTE: can vanish mid game!!!!!!!
         
-
-        
         if (playingBack) {
             
-            Time.timeScale = 0; // PAUSE THE GAME!
+            //Debug.Log("REPLAY!!!");
 
+            Time.timeScale = 0; // PAUSE THE GAME!
+            
             // FIXME: we need to pause the game simulation so playback doesn't argue with it
             // TODO: lerp from one recorded frame to another for smooth slow-mo not slideshow
             // ie = Vector3.Lerp(p1rot[(playbackFrame-1)%RecordingLength],p1rot[playbackFrame],lerpPercent);
@@ -142,6 +123,19 @@ public class InstantReplay : MonoBehaviour
             if (g1) { g1.position = g1pos[playbackFrame]; g1.rotation = g1rot[playbackFrame]; }
             if (g2) { g2.position = g2pos[playbackFrame]; g2.rotation = g2rot[playbackFrame]; }
             if (puck) { puck.position = puckpos[playbackFrame]; puck.rotation = puckrot[playbackFrame]; }
+
+            if (replayCamera!=null && puck!=null) {
+                //Debug.Log("replay cam is following the puck!");
+                replayCamera.enabled = true;
+                // follow the puck
+                replayCamera.transform.position = new Vector3(
+                    puck.position.x + replayCameraOffset.x,
+                    puck.position.y + replayCameraOffset.y,
+                    puck.position.z + replayCameraOffset.z);
+            } else {
+                //Debug.Log("replay cam is messed up!"); // this should never run
+            }
+
 
             // playback all 30 or so bones for each avatar
             for (int b=0; b<bones1.Length; b++) {
@@ -189,6 +183,7 @@ public class InstantReplay : MonoBehaviour
             playbackFrame = 0;
             playbackTime = 0f;
             playbackStartFrame = -999;
+            if (replayCamera) replayCamera.enabled = false;
         }
         
     }
