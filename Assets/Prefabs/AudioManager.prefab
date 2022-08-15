@@ -56,6 +56,11 @@ MonoBehaviour:
   - {fileID: 8300000, guid: ca7f3bed0e960eb4481b471c077db473, type: 3}
   bodycheckSfx:
   - {fileID: 8300000, guid: b03e2d9a2f9e13440ad578c468d409e2, type: 3}
+  puckOnPostSfx:
+  - {fileID: 8300000, guid: 48962b2d4802e70408003dad03a2a6ad, type: 3}
+  shotSfx:
+  - {fileID: 8300000, guid: 4b517b99188b30a46b5b502b18a14f62, type: 3}
+  - {fileID: 8300000, guid: 17090c36c2bdcff4dbd42610803845d7, type: 3}
+  - {fileID: 8300000, guid: 5984b41de2430ab4594d6ed017f809bf, type: 3}
   goalHornSfx: {fileID: 8300000, guid: 80c07f05dcb6e4a499c0ef8101c82fa6, type: 3}
   faceOffSfx: {fileID: 8300000, guid: 0020115717323364a9292db38d626c4a, type: 3}
-  shotSfx: {fileID: 8300000, guid: 4f823a499788145dd80dbc110bf5ac32, type: 3}

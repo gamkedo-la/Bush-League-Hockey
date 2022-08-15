@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1750806485636369677}
   - component: {fileID: 1120702074290966360}
   - component: {fileID: 4471053607811777076}
+  - component: {fileID: 7798533683984416290}
   m_Layer: 0
   m_Name: hockey-puck
   m_TagString: puck
@@ -211,6 +212,18 @@ TrailRenderer:
   m_MinVertexDistance: 0.1
   m_Autodestruct: 0
   m_Emitting: 1
+--- !u!114 &7798533683984416290
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 237812582925331672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 116aa18eed859cf4bad902a2156bde7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1120702073697116336
 GameObject:
   m_ObjectHideFlags: 0

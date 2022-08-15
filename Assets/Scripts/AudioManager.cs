@@ -14,9 +14,11 @@ public class AudioManager : MonoBehaviour
     [Header("SFX Files")]
     [SerializeField] public AudioClip[] passSfx;
     [SerializeField] public AudioClip[] bodycheckSfx;
+    [SerializeField] public AudioClip[] puckOnPostSfx;
+    [SerializeField] public AudioClip[] puckOnBoardSfx;
+    [SerializeField] public AudioClip[] shotSfx;
     [SerializeField] public AudioClip goalHornSfx;
     [SerializeField] public AudioClip faceOffSfx;
-    [SerializeField] public AudioClip shotSfx;
     private void Start(){
         // start the crowd sfx
         // coroutine to play random crowd sfx
@@ -26,7 +28,8 @@ public class AudioManager : MonoBehaviour
         sfxWorldOrigin.GetComponent<AudioSource>().PlayOneShot(passSfx[randomSFXIndex], worldSfxVolume);
     }
     public void PlayShotSFX(){
-        sfxWorldOrigin.GetComponent<AudioSource>().PlayOneShot(shotSfx, worldSfxVolume);
+        int randomSFXIndex = Random.Range(0, shotSfx.Length - 1);
+        sfxWorldOrigin.GetComponent<AudioSource>().PlayOneShot(shotSfx[randomSFXIndex], worldSfxVolume);
     }
     public void PlayBodycheckSFX(){
         int randomSFXIndex = Random.Range(0, bodycheckSfx.Length - 1);
@@ -37,5 +40,13 @@ public class AudioManager : MonoBehaviour
     }
     public void PlayFaceOffSound(){
         sfxUniversalOrigin.GetComponent<AudioSource>().PlayOneShot(faceOffSfx, universalSfxVolume);
+    }
+    public void PlayPostHitSound(){
+        int randomSFXIndex = Random.Range(0, puckOnPostSfx.Length - 1);
+        sfxWorldOrigin.GetComponent<AudioSource>().PlayOneShot(puckOnPostSfx[randomSFXIndex], worldSfxVolume);
+    }
+    public void PlayPuckOnBoardSound(){
+        int randomSFXIndex = Random.Range(0, puckOnBoardSfx.Length - 1);
+        sfxWorldOrigin.GetComponent<AudioSource>().PlayOneShot(puckOnBoardSfx[randomSFXIndex], worldSfxVolume);
     }
 }

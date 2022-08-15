@@ -139,6 +139,7 @@ MonoBehaviour:
   passPowerWindUpRate: 1
   passPowerMax: 10
   passPower: 6
+  goalieHitPower: 3
 --- !u!114 &7572892403236936459
 MonoBehaviour:
   m_ObjectHideFlags: 0

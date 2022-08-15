@@ -279,6 +279,7 @@ GameObject:
   m_Component:
   - component: {fileID: 688297252}
   - component: {fileID: 688297251}
+  - component: {fileID: 1588986564081078373}
   m_Layer: 0
   m_Name: IKSkatingRig
   m_TagString: Untagged
@@ -349,6 +350,22 @@ MonoBehaviour:
       position: {x: 0, y: 0, z: 0}
       rotation: {x: 0, y: 0, z: 0}
     m_Visible: 1
+--- !u!114 &1588986564081078373
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 688297250}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4f74c0c853f7d243aa5c4562f92c541, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rightFootControl: {fileID: 0}
+  rightFootHint: {fileID: 0}
+  leftFootControl: {fileID: 0}
+  leftFootHint: {fileID: 0}
 --- !u!1 &1762237163
 GameObject:
   m_ObjectHideFlags: 0
@@ -842,9 +859,9 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  checkPower: 12
-  checkPowerMax: 16
-  checkPowerWindUpRate: 1
+  checkPower: 8
+  checkPowerMax: 12
+  checkPowerWindUpRate: 2.5
   bodycheckCooldownTime: 1
   isKnockedDown: 0
 --- !u!114 &2533384822332519913

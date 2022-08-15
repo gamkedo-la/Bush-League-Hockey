@@ -34,6 +34,9 @@ public class Goaltender : MonoBehaviour
     private Vector3 passDirection;
     private float extraPassPower;
     private bool windingUpPass;
+    [Header("Bodycheck")]
+    [SerializeField] [Range(1f, 8f)] float goalieHitPower;
+
     private void Awake(){
         gameSystem = GameObject.Find("GameSystem").GetComponent<GameSystem>();
         audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
@@ -124,6 +127,16 @@ public class Goaltender : MonoBehaviour
             teamMember.BreakPosession();
             audioManager.PlayShotSFX();
             gameSystem.puckObject.GetComponent<Rigidbody>().AddForce(shotDirection * (shotPower + extraPower), ForceMode.Impulse);
+        }
+    }
+    private void OnTriggerEnter(Collider other) {
+        if(other.gameObject.name.Contains("Skater") && other.gameObject.GetComponent<TeamMember>()?.isHomeTeam != teamMember.isHomeTeam){
+            //deliver body check
+            Debug.Log($"Goalie bodycheck!");
+            other.gameObject.GetComponent<Skater>().ReceiveBodyCheck(
+                goalieHitPower,
+                transform.right + Vector3.up
+            );
         }
     }
     private void Update(){

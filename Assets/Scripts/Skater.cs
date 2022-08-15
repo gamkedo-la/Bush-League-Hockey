@@ -38,8 +38,8 @@ public class Skater : MonoBehaviour
     [SerializeField] private BodycheckHitZone bodycheckHitZone;
     [SerializeField] private LayerMask skaterMask;
     [SerializeField] private AnimationCurve checkPowerCurve;
-    [SerializeField] [Range(10f, 30f)] private float checkPower;
-    [SerializeField] [Range(15f, 50f)] private float checkPowerMax;
+    [SerializeField] [Range(4f, 12f)] private float checkPower;
+    [SerializeField] [Range(8f, 16f)] private float checkPowerMax;
     [SerializeField] [Range(1f, 10f)] private float checkPowerWindUpRate;
     [SerializeField] [Range(0.2f, 3f)] private float bodycheckCooldownTime;
     private bool windingUpBodycheck;
@@ -155,7 +155,6 @@ public class Skater : MonoBehaviour
         }
     }
     public void DeliverBodyCheck(){
-        // blocked when: no bodycheck windup, bodycheck on cooldown, knocked down, has posession
         if(!bodycheckReady || !windingUpBodycheck || isKnockedDown || teamMember.hasPosession) return;
         windingUpBodycheck = false;
         teamMember.canTakePosession = true;
@@ -163,10 +162,11 @@ public class Skater : MonoBehaviour
         StartCoroutine(CooldownBodycheck());
         bodycheckHitZone.hitPower = checkPower + extraBodycheckPower + (skaterRigidBody.velocity.magnitude/2);
         bodycheckHitZone.hitDirection = (bodycheckDirection + Vector3.up).normalized;
-        skaterRigidBody.AddForce(bodycheckDirection*((checkPower + extraBodycheckPower)/4), ForceMode.VelocityChange);
+        skaterRigidBody.AddForce(bodycheckDirection*((checkPower + extraBodycheckPower)/3), ForceMode.VelocityChange);
     }
     public void ReceiveBodyCheck(float incomingHitPower, Vector3 hitDirection){
         ResetSkaterActions();
+        ResetSkaterMotion();
         isKnockedDown = true;
         teamMember.windingUp = false;
         GetComponent<Collider>().enabled = false;
@@ -186,7 +186,9 @@ public class Skater : MonoBehaviour
         angleMovementDelta = Vector3.Angle(skaterRigidBody.velocity, movementPointer);
         if(angleMovementDelta <= angleAccelerationLimit || angleMovementDelta >= angleTurnLimit){
             skaterRigidBody.AddForce(
-                movementPointer * skaterAcceleration * (1 - skaterRigidBody.velocity.magnitude/skaterMaximumSpeed)
+                movementPointer
+                *skaterAcceleration
+                *(1 - skaterRigidBody.velocity.magnitude/skaterMaximumSpeed)
             );
             // activate procedural skate cycle
         }
