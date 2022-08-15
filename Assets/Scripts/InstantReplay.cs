@@ -26,9 +26,9 @@ public class InstantReplay : MonoBehaviour
     private Transform[] bones2;
 
     // unlimited number of things to watch
-    public Transform[] recordTheseToo;
-    private Vector3[][] recordedPositions;
-    private Vector3[][] recordedRotations;
+    // public Transform[] recordTheseToo;
+    // private Vector3[][] recordedPositions;
+    // private Vector3[][] recordedRotations;
 
     public bool playingBack = false;
     public float playbackSpeed = 0.5f;
@@ -127,6 +127,8 @@ public class InstantReplay : MonoBehaviour
     {
         // we need to find the puck AFTER init since it is not there at first
         if (!puck) puck = GameObject.FindWithTag("puck")?.transform; // NOTE: can vanish mid game!!!!!!!
+        
+
         
         if (playingBack) {
             
