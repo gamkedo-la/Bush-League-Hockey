@@ -138,6 +138,7 @@ public class InstantReplay : MonoBehaviour
 
 
             // playback all 30 or so bones for each avatar
+            // THIS USED TO WORK!!!!!!! but now the bones re locked by something else (cinemachine maybe)
             for (int b=0; b<bones1.Length; b++) {
                 bones1[b].position = bones1pos[b,playbackFrame]; 
                 bones1[b].rotation = bones1rot[b,playbackFrame]; 
@@ -146,7 +147,6 @@ public class InstantReplay : MonoBehaviour
                 bones2[b].position = bones2pos[b,playbackFrame]; 
                 bones2[b].rotation = bones2rot[b,playbackFrame]; 
             }
-
 
             // notice when we first started playback so we know when to finish
             if (playbackStartFrame==-999) {
