@@ -14,7 +14,6 @@ public class InstantReplay : MonoBehaviour
     public Transform p2;
     public Transform g2;
     public Transform puck;
-
     public Transform bonesRig1;
     private Vector3[,] bones1pos;
     private Quaternion[,] bones1rot;
@@ -23,7 +22,6 @@ public class InstantReplay : MonoBehaviour
     private Quaternion[,] bones2rot;
     private Transform[] bones1;
     private Transform[] bones2;
-
     public bool playingBack = false;
     public float playbackSpeed = 0.5f;
     public int RecordingLength = 300;
@@ -123,7 +121,6 @@ public class InstantReplay : MonoBehaviour
             if (g1) { g1.position = g1pos[playbackFrame]; g1.rotation = g1rot[playbackFrame]; }
             if (g2) { g2.position = g2pos[playbackFrame]; g2.rotation = g2rot[playbackFrame]; }
             if (puck) { puck.position = puckpos[playbackFrame]; puck.rotation = puckrot[playbackFrame]; }
-
             if (replayCamera!=null && puck!=null) {
                 //Debug.Log("replay cam is following the puck!");
                 replayCamera.enabled = true;
@@ -135,8 +132,6 @@ public class InstantReplay : MonoBehaviour
             } else {
                 //Debug.Log("replay cam is messed up!"); // this should never run
             }
-
-
             // playback all 30 or so bones for each avatar
             // THIS USED TO WORK!!!!!!! but now the bones re locked by something else (cinemachine maybe)
             for (int b=0; b<bones1.Length; b++) {
@@ -147,7 +142,6 @@ public class InstantReplay : MonoBehaviour
                 bones2[b].position = bones2pos[b,playbackFrame]; 
                 bones2[b].rotation = bones2rot[b,playbackFrame]; 
             }
-
             // notice when we first started playback so we know when to finish
             if (playbackStartFrame==-999) {
                 playbackEndFrame = newestIndex;

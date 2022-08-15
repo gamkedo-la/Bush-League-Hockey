@@ -61,8 +61,7 @@ public class Skater : MonoBehaviour
         if(movementInput.magnitude == 0){
             shotDirection = Vector3.Normalize(skaterRigidBody.velocity);
             bodycheckDirection = Vector3.Normalize(skaterRigidBody.velocity);
-        }
-        else{
+        } else {
             shotDirection = new Vector3(movementInput.x, 0.2f, movementInput.z);
             bodycheckDirection = movementInput;
         }
@@ -190,7 +189,7 @@ public class Skater : MonoBehaviour
                 *skaterAcceleration
                 *(1 - skaterRigidBody.velocity.magnitude/skaterMaximumSpeed)
             );
-            // activate procedural skate cycle
+            // Procedural skate cycle is on
         }
         if(angleMovementDelta < angleTurnLimit){
             skaterRigidBody.velocity = Vector3.RotateTowards(
@@ -214,7 +213,8 @@ public class Skater : MonoBehaviour
             desiredRotation = Quaternion.LookRotation(skaterRigidBody.velocity);
         }
         if(!gameSystem.IsZeroQuaternion(desiredRotation)){
-            // player is turning, modified skate cycle
+            // player is turning, modify skate cycle
+            // modify waypoint position based on magnitude of change
             rotationThisFrame = Quaternion.Lerp(transform.rotation, desiredRotation, skaterTurnSpeed * Time.deltaTime);
             transform.rotation = rotationThisFrame;
         }

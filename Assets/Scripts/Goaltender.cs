@@ -131,8 +131,6 @@ public class Goaltender : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other) {
         if(other.gameObject.name.Contains("Skater") && other.gameObject.GetComponent<TeamMember>()?.isHomeTeam != teamMember.isHomeTeam){
-            //deliver body check
-            Debug.Log($"Goalie bodycheck!");
             other.gameObject.GetComponent<Skater>().ReceiveBodyCheck(
                 goalieHitPower,
                 transform.right + Vector3.up

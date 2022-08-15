@@ -23,17 +23,18 @@ public class AudioManager : MonoBehaviour
         // start the crowd sfx
         // coroutine to play random crowd sfx
     }
+    private void PlayRandomlyFromList(AudioClip[] soundList, AudioSource origin, float volumeFactor){
+        int randomSFXIndex = Random.Range(0, soundList.Length - 1);
+        origin.PlayOneShot(soundList[randomSFXIndex], volumeFactor);
+    }
     public void PlayPassSFX(){
-        int randomSFXIndex = Random.Range(0, passSfx.Length - 1);
-        sfxWorldOrigin.GetComponent<AudioSource>().PlayOneShot(passSfx[randomSFXIndex], worldSfxVolume);
+        PlayRandomlyFromList(passSfx, sfxWorldOrigin.GetComponent<AudioSource>(), worldSfxVolume);
     }
     public void PlayShotSFX(){
-        int randomSFXIndex = Random.Range(0, shotSfx.Length - 1);
-        sfxWorldOrigin.GetComponent<AudioSource>().PlayOneShot(shotSfx[randomSFXIndex], worldSfxVolume);
+        PlayRandomlyFromList(shotSfx, sfxWorldOrigin.GetComponent<AudioSource>(), worldSfxVolume);
     }
     public void PlayBodycheckSFX(){
-        int randomSFXIndex = Random.Range(0, bodycheckSfx.Length - 1);
-        sfxWorldOrigin.GetComponent<AudioSource>().PlayOneShot(bodycheckSfx[randomSFXIndex], worldSfxVolume);
+        PlayRandomlyFromList(bodycheckSfx, sfxWorldOrigin.GetComponent<AudioSource>(), worldSfxVolume);
     }
     public void PlayGoalHorn(){
         sfxUniversalOrigin.GetComponent<AudioSource>().PlayOneShot(goalHornSfx, universalSfxVolume);
@@ -42,11 +43,9 @@ public class AudioManager : MonoBehaviour
         sfxUniversalOrigin.GetComponent<AudioSource>().PlayOneShot(faceOffSfx, universalSfxVolume);
     }
     public void PlayPostHitSound(){
-        int randomSFXIndex = Random.Range(0, puckOnPostSfx.Length - 1);
-        sfxWorldOrigin.GetComponent<AudioSource>().PlayOneShot(puckOnPostSfx[randomSFXIndex], worldSfxVolume);
+        PlayRandomlyFromList(puckOnPostSfx, sfxWorldOrigin.GetComponent<AudioSource>(), worldSfxVolume);
     }
     public void PlayPuckOnBoardSound(){
-        int randomSFXIndex = Random.Range(0, puckOnBoardSfx.Length - 1);
-        sfxWorldOrigin.GetComponent<AudioSource>().PlayOneShot(puckOnBoardSfx[randomSFXIndex], worldSfxVolume);
+        PlayRandomlyFromList(puckOnBoardSfx, sfxWorldOrigin.GetComponent<AudioSource>(), worldSfxVolume);
     }
 }
