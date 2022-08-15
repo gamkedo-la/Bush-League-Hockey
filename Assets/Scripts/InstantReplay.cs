@@ -68,6 +68,9 @@ public class InstantReplay : MonoBehaviour
         bones1 = bonesRig1.GetComponentsInChildren<Transform>();
         bones2 = bonesRig2.GetComponentsInChildren<Transform>();
         Debug.Log("Replay bones found: " + bones1.Length);
+        for (int i=0; i<bones1.Length; i++) {
+            Debug.Log("Bone "+i+" is named "+bones2[i].name);
+        }
 
         bones1pos = new Vector3[32,RecordingLength];
         bones1rot = new Quaternion[32,RecordingLength];
@@ -107,6 +110,8 @@ public class InstantReplay : MonoBehaviour
         // we need to find the puck AFTER init since it is not there at first
         if (!puck) puck = GameObject.FindWithTag("puck")?.transform; // NOTE: can vanish mid game!!!!!!!
         
+        Debug.Log("stick bone pos: "+bones2[8].position);
+
         if (playingBack) {
             
             //Debug.Log("REPLAY!!!");
@@ -132,16 +137,22 @@ public class InstantReplay : MonoBehaviour
             } else {
                 //Debug.Log("replay cam is messed up!"); // this should never run
             }
+            
             // playback all 30 or so bones for each avatar
-            // THIS USED TO WORK!!!!!!! but now the bones re locked by something else (cinemachine maybe)
+            // FIXME: THIS USED TO WORK!!!!!!!
+            // now the bones re locked by something else (ik or cinemachine)
             for (int b=0; b<bones1.Length; b++) {
-                bones1[b].position = bones1pos[b,playbackFrame]; 
+                bones1[b].position = bones1pos[b,playbackFrame];
                 bones1[b].rotation = bones1rot[b,playbackFrame]; 
             }
             for (int b=0; b<bones2.Length; b++) {
                 bones2[b].position = bones2pos[b,playbackFrame]; 
                 bones2[b].rotation = bones2rot[b,playbackFrame]; 
             }
+
+            // crazy hack to test whether changing bone pos affects the mesh as intended
+            // bones2[8].position = new Vector3(10,10,10); // insta mega move!!!!
+
             // notice when we first started playback so we know when to finish
             if (playbackStartFrame==-999) {
                 playbackEndFrame = newestIndex;
@@ -149,6 +160,13 @@ public class InstantReplay : MonoBehaviour
                 playbackStartFrame = playbackStartFrame % RecordingLength; // wrap around
                 Debug.Log("Playback starting on recorded frame "+playbackStartFrame);
                 if (instantReplayGUI) instantReplayGUI.SetActive(true);
+
+                // spammy debug of recorded data just to ensure we have real values
+                Debug.Log("==== ALL RECORDED DATA FOR PLR1 BONE 8 (stick) ====");
+                for (int i=0; i<RecordingLength; i++) {
+                    Debug.Log(bones2pos[8,i]); 
+                }
+                
             }
             
             // maybe advance to next frame in the playback
