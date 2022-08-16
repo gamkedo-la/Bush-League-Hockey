@@ -133,7 +133,7 @@ public class Goaltender : MonoBehaviour
         if(other.gameObject.name.Contains("Skater") && other.gameObject.GetComponent<TeamMember>()?.isHomeTeam != teamMember.isHomeTeam){
             other.gameObject.GetComponent<Skater>().ReceiveBodyCheck(
                 goalieHitPower,
-                transform.right + Vector3.up
+                transform.right + Vector3.up*2f
             );
         }
     }

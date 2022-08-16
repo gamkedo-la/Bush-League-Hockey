@@ -46,12 +46,14 @@ public class InstantReplay : MonoBehaviour
     public int newestIndex = 0;
     public int playbackStartFrame = -999;
     public int playbackEndFrame = -999;
+    private bool animatorSwitch = true;
 
     // Start is called before the first frame update
     void Start()
     {
 
         if (instantReplayGUI) instantReplayGUI.SetActive(false);
+        animatorSwitch = true;
         
         // create an empty array
         p1pos = new Vector3[RecordingLength];
@@ -103,7 +105,18 @@ public class InstantReplay : MonoBehaviour
         recordingTimespan = RecordingLength*Time.fixedDeltaTime; /// calculate max length of replay
 
     }
-
+    private void TurnOffAnimators(){
+        p1.gameObject.GetComponentInChildren<Animator>().enabled = false;
+        p2.gameObject.GetComponentInChildren<Animator>().enabled = false;
+        //g1.gameObject.GetComponentInChildren<Animator>().enabled = false;
+        //g2.gameObject.GetComponentInChildren<Animator>().enabled = false;
+    }
+    private void TurnOnAnimators(){
+        p1.gameObject.GetComponentInChildren<Animator>().enabled = true;
+        p2.gameObject.GetComponentInChildren<Animator>().enabled = true;
+        //g1.gameObject.GetComponentInChildren<Animator>().enabled = true;
+        //g2.gameObject.GetComponentInChildren<Animator>().enabled = true;
+    }
     // Update is called once per frame
     void Update()
     {
@@ -113,6 +126,10 @@ public class InstantReplay : MonoBehaviour
         Debug.Log("stick bone pos: "+bones2[8].position);
 
         if (playingBack) {
+            if(animatorSwitch){
+                TurnOffAnimators();
+                animatorSwitch = false;
+            }
             
             //Debug.Log("REPLAY!!!");
 
@@ -178,6 +195,8 @@ public class InstantReplay : MonoBehaviour
             if (playbackFrame == playbackEndFrame) {
                 Debug.Log("Playback completed on recorded frame "+playbackFrame);
                 playingBack = false;
+                animatorSwitch = true;
+                TurnOnAnimators();
                 playbackTime = 0f;
                 playbackFrame = 0;
                 playbackStartFrame = -999;
