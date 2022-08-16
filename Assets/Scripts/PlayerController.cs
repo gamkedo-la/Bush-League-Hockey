@@ -82,7 +82,7 @@ public class PlayerController : MonoBehaviour
         }
     }
     public void BodyCheckInputHandler(InputAction.CallbackContext context){
-        if(!selectedSkater || selectedSkater.isKnockedDown) return;
+        if(!selectedSkater) return;
         if(context.performed){
             selectedSkater.DeliverBodyCheck();
         } else if(context.started){ // && !selectedTeamMember.windingUp

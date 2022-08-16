@@ -69,9 +69,9 @@ public class InstantReplay : MonoBehaviour
 
         bones1 = bonesRig1.GetComponentsInChildren<Transform>();
         bones2 = bonesRig2.GetComponentsInChildren<Transform>();
-        Debug.Log("Replay bones found: " + bones1.Length);
+        //Debug.Log("Replay bones found: " + bones1.Length);
         for (int i=0; i<bones1.Length; i++) {
-            Debug.Log("Bone "+i+" is named "+bones2[i].name);
+            //Debug.Log("Bone "+i+" is named "+bones2[i].name);
         }
 
         bones1pos = new Vector3[32,RecordingLength];
@@ -123,17 +123,17 @@ public class InstantReplay : MonoBehaviour
         // we need to find the puck AFTER init since it is not there at first
         if (!puck) puck = GameObject.FindWithTag("puck")?.transform; // NOTE: can vanish mid game!!!!!!!
         
-        Debug.Log("stick bone pos: "+bones2[8].position);
+        //Debug.Log("stick bone pos: "+bones2[8].position);
 
         if (playingBack) {
-            if(animatorSwitch){
-                TurnOffAnimators();
-                animatorSwitch = false;
-            }
             
             //Debug.Log("REPLAY!!!");
 
             Time.timeScale = 0; // PAUSE THE GAME!
+            if(animatorSwitch){
+                TurnOffAnimators();
+                animatorSwitch = false;
+            }
             
             // FIXME: we need to pause the game simulation so playback doesn't argue with it
             // TODO: lerp from one recorded frame to another for smooth slow-mo not slideshow
@@ -175,14 +175,14 @@ public class InstantReplay : MonoBehaviour
                 playbackEndFrame = newestIndex;
                 playbackStartFrame = newestIndex+1;
                 playbackStartFrame = playbackStartFrame % RecordingLength; // wrap around
-                Debug.Log("Playback starting on recorded frame "+playbackStartFrame);
+                //Debug.Log("Playback starting on recorded frame "+playbackStartFrame);
                 if (instantReplayGUI) instantReplayGUI.SetActive(true);
 
                 // spammy debug of recorded data just to ensure we have real values
-                Debug.Log("==== ALL RECORDED DATA FOR PLR1 BONE 8 (stick) ====");
-                for (int i=0; i<RecordingLength; i++) {
-                    Debug.Log(bones2pos[8,i]); 
-                }
+                //Debug.Log("==== ALL RECORDED DATA FOR PLR1 BONE 8 (stick) ====");
+                // for (int i=0; i<RecordingLength; i++) {
+                //     Debug.Log(bones2pos[8,i]); 
+                // }
                 
             }
             
@@ -193,7 +193,7 @@ public class InstantReplay : MonoBehaviour
 
             // finished a full replay?
             if (playbackFrame == playbackEndFrame) {
-                Debug.Log("Playback completed on recorded frame "+playbackFrame);
+                //Debug.Log("Playback completed on recorded frame "+playbackFrame);
                 playingBack = false;
                 animatorSwitch = true;
                 TurnOnAnimators();

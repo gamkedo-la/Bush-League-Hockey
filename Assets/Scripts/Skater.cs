@@ -82,6 +82,7 @@ public class Skater : MonoBehaviour
         extraPassPower = 0;
         skaterAnimationScript.ResetAnimations();
         skaterAnimationScript.ResetRagdoll();
+        skaterAnimationScript.EnableRigAll();
     }
     public void ResetSkaterMotion(){
         skaterRigidBody.velocity = Vector3.zero;
@@ -92,7 +93,8 @@ public class Skater : MonoBehaviour
         if(WindingUp() || isKnockedDown) yield break;
         windingUpPass = true;
         extraPassPower = 0f;
-        skaterAnimationScript?.skaterAnimator.SetTrigger("AnimatePassWindUp");
+        skaterAnimationScript.skaterAnimator.SetTrigger("AnimatePassWindUp");
+        skaterAnimationScript.DisableRigExceptHead();
         while(WindingUp()){
             yield return new WaitForSeconds((Time.deltaTime));
             if(passPower + extraPassPower < passPowerMax){extraPassPower += (passPowerWindUpRate * Time.deltaTime);}
@@ -108,14 +110,16 @@ public class Skater : MonoBehaviour
             skaterAnimationScript.skaterAnimator.SetTrigger("AnimatePassFollowThru");
             gameSystem.puckObject.GetComponent<Rigidbody>().AddForce(bodycheckDirection * (passPower + extraPassPower), ForceMode.Impulse);
         } else{
-            skaterAnimationScript?.ResetAnimations();
+            ResetSkaterActions();
         }
     }
     public IEnumerator WindUpShot(){
         // blocked when: already winding up, knocked down
         if(WindingUp() || isKnockedDown) yield break;
+        //IK disable twist chain,
         windingUpShot = true;
         skaterAnimationScript.skaterAnimator.SetBool("AnimateShotWindUp", true);
+        skaterAnimationScript.DisableRigExceptHead();
         extraShotPower = 0f;
         while(windingUpShot){
             yield return new WaitForSeconds((Time.deltaTime));
@@ -132,7 +136,7 @@ public class Skater : MonoBehaviour
             skaterAnimationScript.skaterAnimator.SetTrigger("AnimateShotFollowThru");
             gameSystem.puckObject.GetComponent<Rigidbody>().AddForce(shotDirection * (shotPower + extraShotPower), ForceMode.Impulse);
         } else{
-            skaterAnimationScript.ResetAnimations();
+            ResetSkaterActions();
         }
     }
     public IEnumerator CooldownBodycheck(){
@@ -147,6 +151,7 @@ public class Skater : MonoBehaviour
         windingUpBodycheck = true;
         teamMember.canTakePosession = false;
         skaterAnimationScript.skaterAnimator.SetBool("AnimateBodychecking", true);
+        skaterAnimationScript.DisableRigExceptHead();
         extraBodycheckPower = 0f;
         while(teamMember.windingUp){
             yield return new WaitForSeconds((Time.deltaTime));

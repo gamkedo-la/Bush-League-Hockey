@@ -8,10 +8,13 @@ public class SkaterAnimationScript : MonoBehaviour
     [SerializeField] TeamMember thisTeamMember;
     [SerializeField] Rigidbody modelHips;
     [SerializeField] GameObject bodyCheckHitZone;
+    [SerializeField] TwistChainConstraint twistChainConstraint;
     private Rigidbody[] ragdollRigidBodies;
     private Collider[] ragdollColliders;
     public Animator skaterAnimator;
     public RigBuilder rigBuilder;
+    public Rig skateCycleRig;
+    
     private void Awake(){
         skaterAnimator = GetComponent<Animator>();
         rigBuilder = GetComponent<RigBuilder>();
@@ -25,6 +28,7 @@ public class SkaterAnimationScript : MonoBehaviour
         skaterAnimator.ResetTrigger("AnimatePassFollowThru");
         skaterAnimator.ResetTrigger("AnimateBodycheckFollowThru");
         // EnableRigBuilder();
+        EnableRigAll();
     }
     public void ActivateBodycheck(){
         bodyCheckHitZone.SetActive(true);
@@ -58,5 +62,13 @@ public class SkaterAnimationScript : MonoBehaviour
     }
     public void EnableRigBuilder(){
         rigBuilder.enabled = true;
+    }
+    public void DisableRigExceptHead(){
+        twistChainConstraint.weight = 0;
+        skateCycleRig.weight = 0;
+    }
+    public void EnableRigAll(){
+        twistChainConstraint.weight = 1;
+        skateCycleRig.weight = 1;
     }
 }
