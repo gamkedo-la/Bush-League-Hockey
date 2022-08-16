@@ -42,10 +42,10 @@ public class AudioManager : MonoBehaviour
     public void PlayFaceOffSound(){
         sfxUniversalOrigin.GetComponent<AudioSource>().PlayOneShot(faceOffSfx, universalSfxVolume);
     }
-    public void PlayPostHitSound(){
-        PlayRandomlyFromList(puckOnPostSfx, sfxWorldOrigin.GetComponent<AudioSource>(), worldSfxVolume);
+    public void PlayPostHitSound(float volumeFactor){
+        PlayRandomlyFromList(puckOnPostSfx, sfxWorldOrigin.GetComponent<AudioSource>(), volumeFactor);
     }
-    public void PlayPuckOnBoardSound(){
-        PlayRandomlyFromList(puckOnBoardSfx, sfxWorldOrigin.GetComponent<AudioSource>(), worldSfxVolume);
+    public void PlayPuckOnBoardSound(float volumeFactor){
+        PlayRandomlyFromList(puckOnBoardSfx, sfxWorldOrigin.GetComponent<AudioSource>(), volumeFactor);
     }
 }

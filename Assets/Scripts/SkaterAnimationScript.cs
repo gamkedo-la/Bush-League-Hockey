@@ -27,15 +27,13 @@ public class SkaterAnimationScript : MonoBehaviour
         skaterAnimator.ResetTrigger("AnimateShotFollowThru");
         skaterAnimator.ResetTrigger("AnimatePassFollowThru");
         skaterAnimator.ResetTrigger("AnimateBodycheckFollowThru");
-        // EnableRigBuilder();
-        EnableRigAll();
+        StartCoroutine(EnableRigConstraints());
     }
     public void ActivateBodycheck(){
         bodyCheckHitZone.SetActive(true);
     }
     public void DeactivateBodycheck(){
         bodyCheckHitZone.SetActive(false);
-        ResetAnimations();
     }
     public void ResetRagdoll(){
         thisSkater.transform.position = new Vector3(
@@ -49,13 +47,13 @@ public class SkaterAnimationScript : MonoBehaviour
         skaterAnimator.enabled = true;
     }
     public IEnumerator RagdollThenReset(float hitPower, Vector3 hitDirection, float recoverTime){
-        // DisableRigBuilder();
         skaterAnimator.enabled = false;
         foreach(Rigidbody rB in ragdollRigidBodies){
             rB.velocity = hitDirection*hitPower;
         }
         yield return new WaitForSeconds(recoverTime);
         ResetRagdoll();
+        ResetAnimations();
     }
     public void DisableRigBuilder(){
         rigBuilder.enabled = false;
@@ -67,8 +65,9 @@ public class SkaterAnimationScript : MonoBehaviour
         twistChainConstraint.weight = 0;
         skateCycleRig.weight = 0;
     }
-    public void EnableRigAll(){
-        twistChainConstraint.weight = 1;
-        skateCycleRig.weight = 1;
+    public IEnumerator EnableRigConstraints(){
+        yield return new WaitForEndOfFrame();
+        twistChainConstraint.weight = 1f;
+        skateCycleRig.weight = 1f;
     }
 }

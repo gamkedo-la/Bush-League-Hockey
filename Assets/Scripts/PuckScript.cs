@@ -6,7 +6,7 @@ public class PuckScript : MonoBehaviour
 {
     private AudioManager audioManager;
     private Rigidbody puckRigidbody;
-    private void Awake() {
+    private void Awake(){
         audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
         puckRigidbody = GetComponent<Rigidbody>();
     }
@@ -14,10 +14,10 @@ public class PuckScript : MonoBehaviour
         float volumeFactor = puckRigidbody.velocity.magnitude / 10;
         Debug.Log($"volumeFactor: {volumeFactor}");
         if (other.gameObject.name == "Posts") {
-            audioManager.PlayPostHitSound();
+            audioManager.PlayPostHitSound(volumeFactor);
         }
         if (other.gameObject.name.Contains("Board") || other.gameObject.name.Contains("Corner")) {
-            audioManager.PlayPuckOnBoardSound();
+            audioManager.PlayPuckOnBoardSound(volumeFactor);
         }
     }
 }

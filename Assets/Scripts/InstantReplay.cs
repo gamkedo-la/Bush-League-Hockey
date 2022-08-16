@@ -130,10 +130,6 @@ public class InstantReplay : MonoBehaviour
             //Debug.Log("REPLAY!!!");
 
             Time.timeScale = 0; // PAUSE THE GAME!
-            if(animatorSwitch){
-                TurnOffAnimators();
-                animatorSwitch = false;
-            }
             
             // FIXME: we need to pause the game simulation so playback doesn't argue with it
             // TODO: lerp from one recorded frame to another for smooth slow-mo not slideshow
@@ -154,10 +150,13 @@ public class InstantReplay : MonoBehaviour
             } else {
                 //Debug.Log("replay cam is messed up!"); // this should never run
             }
-            
+            if(animatorSwitch){
+                // This code executes once at the beginning of the replay
+                TurnOffAnimators();
+                puck.gameObject.GetComponent<TrailRenderer>().Clear();
+                animatorSwitch = false;
+            }
             // playback all 30 or so bones for each avatar
-            // FIXME: THIS USED TO WORK!!!!!!!
-            // now the bones re locked by something else (ik or cinemachine)
             for (int b=0; b<bones1.Length; b++) {
                 bones1[b].position = bones1pos[b,playbackFrame];
                 bones1[b].rotation = bones1rot[b,playbackFrame]; 

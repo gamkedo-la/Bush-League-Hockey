@@ -268,7 +268,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lookTarget: {fileID: 528750087}
   defaultFocusPoint: {fileID: 1512742151690433739}
-  lookTargetSpeed: 20
+  lookTargetSpeed: 30
 --- !u!1 &688297250
 GameObject:
   m_ObjectHideFlags: 0
