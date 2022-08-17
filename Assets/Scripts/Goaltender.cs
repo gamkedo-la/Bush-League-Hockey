@@ -129,11 +129,11 @@ public class Goaltender : MonoBehaviour
             gameSystem.puckObject.GetComponent<Rigidbody>().AddForce(shotDirection * (shotPower + extraPower), ForceMode.Impulse);
         }
     }
-    private void OnTriggerEnter(Collider other) {
+    private void OnTriggerEnter(Collider other){
         if(other.gameObject.name.Contains("Skater") && other.gameObject.GetComponent<TeamMember>()?.isHomeTeam != teamMember.isHomeTeam){
             other.gameObject.GetComponent<Skater>().ReceiveBodyCheck(
                 goalieHitPower,
-                transform.right + Vector3.up*2f
+                (other.transform.position - transform.position).normalized + Vector3.up*2f
             );
         }
     }

@@ -173,7 +173,7 @@ public class Skater : MonoBehaviour
         teamMember.windingUp = false;
         GetComponent<Collider>().enabled = false;
         teamMember.DisableInteractions();
-        audioManager.PlayBodycheckSFX();
+        StartCoroutine(audioManager.PlayBodycheckHitAndReaction());
         teamMember.BreakPosession();
         StartCoroutine(skaterAnimationScript.RagdollThenReset(incomingHitPower, hitDirection, 3f));
     }

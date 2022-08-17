@@ -50,15 +50,45 @@ MonoBehaviour:
   sfxUniversalOrigin: {fileID: 0}
   sfxWorldOrigin: {fileID: 0}
   sfxCrowdOrigin: {fileID: 0}
+  crowdNormalTracks:
+  - {fileID: 8300000, guid: 056c12416a8d46e44bd19fbeefb24221, type: 3}
+  - {fileID: 8300000, guid: c7da0a585b692954bab126bafb491ee7, type: 3}
+  - {fileID: 8300000, guid: 4605ecc2c0500e74baa2b30015cb77bf, type: 3}
+  crowdCelebrationTracks:
+  - {fileID: 8300000, guid: 785c2f8bd8a828a4d813c08fb6498aa9, type: 3}
+  - {fileID: 8300000, guid: e286175ff7a52ad4d805575417fb54b3, type: 3}
+  - {fileID: 8300000, guid: 19199fbda47b2d14d841a668e35a71fa, type: 3}
+  goalHornSfx:
+  - {fileID: 8300000, guid: 063496c6dbaa3af4c9a6387d3b115b8a, type: 3}
+  - {fileID: 8300000, guid: aa25631c16d25f64e8354e52a5f13881, type: 3}
+  - {fileID: 8300000, guid: a53a704373449a1499642483853aa4f9, type: 3}
+  - {fileID: 8300000, guid: 4446510aa79ae834d9b65ea1b112555b, type: 3}
+  - {fileID: 8300000, guid: cd7078ab96b7a4c41b5bd1be17dc2ce3, type: 3}
   passSfx:
   - {fileID: 8300000, guid: bfdbd58839f1e6f43936913353906957, type: 3}
   - {fileID: 8300000, guid: 0c86c4354f4cf574d9782238984c8c8f, type: 3}
   - {fileID: 8300000, guid: ca7f3bed0e960eb4481b471c077db473, type: 3}
+  deliverCheckSfx:
+  - {fileID: 8300000, guid: 341f0113994168f488e75a8f45e9ed89, type: 3}
+  - {fileID: 8300000, guid: dc80fc6253dba9f46bbcfde75100fdd8, type: 3}
+  - {fileID: 8300000, guid: 39ad689a83af18340940832501b86578, type: 3}
+  - {fileID: 8300000, guid: c34457f437af8234887b17ad5199da0f, type: 3}
   bodycheckSfx:
   - {fileID: 8300000, guid: b03e2d9a2f9e13440ad578c468d409e2, type: 3}
   puckOnPostSfx:
   - {fileID: 8300000, guid: 48962b2d4802e70408003dad03a2a6ad, type: 3}
-  puckOnBoardSfx: []
+  puckOnBoardSfx:
+  - {fileID: 8300000, guid: d010a11cdc199644cac511185c68bd3f, type: 3}
+  - {fileID: 8300000, guid: b1b028c26ad81634d9d142695b5d1042, type: 3}
+  - {fileID: 8300000, guid: 3c5afb640c3731841b9d666a15843469, type: 3}
+  - {fileID: 8300000, guid: 410e9a5a50913d3409a37454aa510acb, type: 3}
+  - {fileID: 8300000, guid: f81ebfb265b5f1b48ad3ac10792fd816, type: 3}
+  - {fileID: 8300000, guid: e7f5f7c51b8667545b58a3eeaea97cd2, type: 3}
+  - {fileID: 8300000, guid: 0c2b468b9a2ee50428b857215128594e, type: 3}
+  - {fileID: 8300000, guid: fb8057a6392896141a77a4308bb4869c, type: 3}
+  - {fileID: 8300000, guid: 8215ce942f01d1e458ff465b50b44ac0, type: 3}
+  - {fileID: 8300000, guid: b4ded4d16393ef647b7acdde3cf24595, type: 3}
+  - {fileID: 8300000, guid: c871636539b55bf458695d1c69eedc8b, type: 3}
   modelCollisionSfx:
   - {fileID: 8300000, guid: db00bdc77b5d8f14f9166a2c2c111142, type: 3}
   - {fileID: 8300000, guid: 715381e371ee56c45b97de284e6cf227, type: 3}
@@ -80,5 +110,4 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 4b517b99188b30a46b5b502b18a14f62, type: 3}
   - {fileID: 8300000, guid: 17090c36c2bdcff4dbd42610803845d7, type: 3}
   - {fileID: 8300000, guid: 5984b41de2430ab4594d6ed017f809bf, type: 3}
-  goalHornSfx: {fileID: 8300000, guid: 80c07f05dcb6e4a499c0ef8101c82fa6, type: 3}
   faceOffSfx: {fileID: 8300000, guid: 0020115717323364a9292db38d626c4a, type: 3}

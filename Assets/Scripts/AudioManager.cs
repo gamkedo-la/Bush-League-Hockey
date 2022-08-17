@@ -12,43 +12,55 @@ public class AudioManager : MonoBehaviour
     [SerializeField] GameObject sfxWorldOrigin;
     [SerializeField] GameObject sfxCrowdOrigin;
     [Header("SFX Files")]
+    [SerializeField] public AudioClip[] crowdNormalTracks;
+    [SerializeField] public AudioClip[] crowdCelebrationTracks;
+    [SerializeField] public AudioClip[] goalHornSfx;
     [SerializeField] public AudioClip[] passSfx;
+    [SerializeField] public AudioClip[] deliverCheckSfx;
     [SerializeField] public AudioClip[] bodycheckSfx;
     [SerializeField] public AudioClip[] puckOnPostSfx;
     [SerializeField] public AudioClip[] puckOnBoardSfx;
     [SerializeField] public AudioClip[] modelCollisionSfx;
     private bool modelCollisionSoundReady = true;
     [SerializeField] public AudioClip[] shotSfx;
-    [SerializeField] public AudioClip goalHornSfx;
     [SerializeField] public AudioClip faceOffSfx;
     private void Start(){
         // start the crowd sfx
         // coroutine to play random crowd sfx
     }
-    private void PlayRandomlyFromList(AudioClip[] soundList, AudioSource origin, float volumeFactor){
-        int randomSFXIndex = Random.Range(0, soundList.Length - 1);
-        origin.PlayOneShot(soundList[randomSFXIndex], volumeFactor);
+    private void PlayRandomlyFromList(AudioClip[] soundList, GameObject origin, float volumeFactor){
+        int randomSFXIndex = Random.Range(0, soundList.Length);
+        Debug.Log($"Playing from {soundList[randomSFXIndex]}, Item {randomSFXIndex}");
+        origin.GetComponent<AudioSource>().PlayOneShot(soundList[randomSFXIndex], volumeFactor);
     }
     public void PlayPassSFX(){
-        PlayRandomlyFromList(passSfx, sfxWorldOrigin.GetComponent<AudioSource>(), worldSfxVolume);
+        PlayRandomlyFromList(passSfx, sfxWorldOrigin, worldSfxVolume);
     }
     public void PlayShotSFX(){
-        PlayRandomlyFromList(shotSfx, sfxWorldOrigin.GetComponent<AudioSource>(), worldSfxVolume);
+        PlayRandomlyFromList(shotSfx, sfxWorldOrigin, worldSfxVolume);
     }
-    public void PlayBodycheckSFX(){
-        PlayRandomlyFromList(bodycheckSfx, sfxWorldOrigin.GetComponent<AudioSource>(), worldSfxVolume);
+    public IEnumerator PlayBodycheckHitAndReaction(){
+        PlayRandomlyFromList(deliverCheckSfx, sfxWorldOrigin, worldSfxVolume*4);
+        yield return new WaitForSeconds(0.2f);
+        PlayRandomlyFromList(bodycheckSfx, sfxWorldOrigin, worldSfxVolume);
+    }
+    public void PlayBaseCrowdTrack(){
+        PlayRandomlyFromList(crowdNormalTracks, sfxCrowdOrigin, crowdSfxVolume);
     }
     public void PlayGoalHorn(){
-        sfxUniversalOrigin.GetComponent<AudioSource>().PlayOneShot(goalHornSfx, universalSfxVolume);
+        PlayRandomlyFromList(goalHornSfx, sfxUniversalOrigin, universalSfxVolume);
+    }
+    public void PlayCrowdCelebration(){
+        PlayRandomlyFromList(crowdCelebrationTracks, sfxCrowdOrigin, crowdSfxVolume*3);
     }
     public void PlayFaceOffSound(){
         sfxUniversalOrigin.GetComponent<AudioSource>().PlayOneShot(faceOffSfx, universalSfxVolume);
     }
     public void PlayPostHitSound(float volumeFactor){
-        PlayRandomlyFromList(puckOnPostSfx, sfxWorldOrigin.GetComponent<AudioSource>(), volumeFactor);
+        PlayRandomlyFromList(puckOnPostSfx, sfxWorldOrigin, volumeFactor);
     }
     private IEnumerator PlayModelCollisionSoundAndDelay(float volumeFactor){
-        PlayRandomlyFromList(modelCollisionSfx, sfxWorldOrigin.GetComponent<AudioSource>(), volumeFactor);
+        PlayRandomlyFromList(modelCollisionSfx, sfxWorldOrigin, volumeFactor);
         yield return new WaitForSeconds(0.1f);
         modelCollisionSoundReady = true;
     }
@@ -59,6 +71,6 @@ public class AudioManager : MonoBehaviour
         }
     }
     public void PlayPuckOnBoardSound(float volumeFactor){
-        PlayRandomlyFromList(puckOnBoardSfx, sfxWorldOrigin.GetComponent<AudioSource>(), volumeFactor);
+        PlayRandomlyFromList(puckOnBoardSfx, sfxWorldOrigin, volumeFactor);
     }
 }

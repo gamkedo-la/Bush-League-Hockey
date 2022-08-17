@@ -48,8 +48,6 @@ public class GameSystem : MonoBehaviour
         mainCamera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
         audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
         cameraPausePosition = new Vector3 (0,0,0);
-        homeGoaltender.transform.position = homeGoalOrigin.position;
-        awayGoaltender.transform.position = awayGoalOrigin.position;
     }
     public bool IsZeroQuaternion(Quaternion q){
         return q.x == 0 && q.y == 0 && q.z == 0 && q.w == 0;
@@ -60,30 +58,47 @@ public class GameSystem : MonoBehaviour
         FaceOffMessageDisplay.SetActive(false);
     }
     private void SetupPlayersForFaceOff(){
+        // reset animations windups etc
         homeSkater.GetComponent<Skater>().ResetSkaterActions();
         homeSkater.GetComponent<Skater>().ResetSkaterMotion();
         awaySkater.GetComponent<Skater>().ResetSkaterActions();
         awaySkater.GetComponent<Skater>().ResetSkaterMotion();
+        // break posession
+        homeSkater.GetComponent<TeamMember>().BreakPosession();
+        awaySkater.GetComponent<TeamMember>().BreakPosession();
+        homeGoaltender.GetComponent<TeamMember>().BreakPosession();
+        awayGoaltender.GetComponent<TeamMember>().BreakPosession();
+        // position players
         homeSkater.transform.position = homeFaceOffOrigin.position;
         homeSkater.transform.rotation = homeFaceOffOrigin.rotation;
         awaySkater.transform.position = awayFaceOffOrigin.position;
         awaySkater.transform.rotation = awayFaceOffOrigin.rotation;
+        homeGoaltender.transform.position = homeGoalOrigin.position;
+        awayGoaltender.transform.position = awayGoalOrigin.position;
     }
     public void DropPuck(){
         GoalScoredDisplay.SetActive(false);
         SetupPlayersForFaceOff();
         StartCoroutine(TemporaryFaceOffMessage());
-        if(puckObject){Destroy(puckObject);}
+        if(puckObject){
+            puckObject.transform.position = puckDropOrigin.position;
+            puckObject.transform.rotation = puckDropOrigin.rotation;
+            puckObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            puckObject.GetComponent<TrailRenderer>().Clear();
+        }
+        else{
+            puckObject = Instantiate(puckPrefab, puckDropOrigin.position, puckDropOrigin.rotation);
+            puckRigidBody = puckObject.GetComponent<Rigidbody>();
+        }
         gameOn = true;
         homeNet.GetComponent<Goal>().GameOn();
         awayNet.GetComponent<Goal>().GameOn();
-        puckObject = Instantiate(puckPrefab, puckDropOrigin.position, Quaternion.Euler(75, 0, 0));
         audioManager.PlayFaceOffSound();
-        puckRigidBody = puckObject.GetComponent<Rigidbody>();
         focalObject = puckObject;
         // deactivate HUD messages
     }
     private void Start(){
+        audioManager.PlayBaseCrowdTrack();
         DropPuck();
     }
     public void JoinNewPlayer(PlayerInput playerInput){
@@ -116,21 +131,19 @@ public class GameSystem : MonoBehaviour
     }
     private IEnumerator TemporaryGoalMessage(){
         GoalScoredDisplay.SetActive(true);
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(1.2f);
         GoalScoredDisplay.SetActive(false);
     }
     private IEnumerator CelebrateThenReset(){
-        StartCoroutine(TemporaryGoalMessage());
-        Destroy(puckObject, 1.5f);
-        // Trigger celebration / sad animations
+        yield return StartCoroutine(TemporaryGoalMessage());
+        instantReplayController?.GetComponent<InstantReplay>()?.startInstantReplay();
         // point a spotlight on the player who scored
-        yield return new WaitForSeconds(5);
-        // yield return Startcoroutine(Celebrations())
+        yield return new WaitForSeconds(3);
         DropPuck();
     }
     public void GoalScored(bool scoredOnHomeNet){
         audioManager.PlayGoalHorn();
-        instantReplayController?.GetComponent<InstantReplay>()?.startInstantReplay();
+        audioManager.PlayCrowdCelebration();
         if(scoredOnHomeNet)
         {
             awayScore++; 
