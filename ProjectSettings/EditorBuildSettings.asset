@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/StartMenu.unity
+    guid: 82af56e4a2d0deafb91c6369e9de3429
+  - enabled: 1
     path: Assets/Scenes/Hat-Trick.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   m_configObjects:
