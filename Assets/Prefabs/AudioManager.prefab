@@ -58,6 +58,24 @@ MonoBehaviour:
   - {fileID: 8300000, guid: b03e2d9a2f9e13440ad578c468d409e2, type: 3}
   puckOnPostSfx:
   - {fileID: 8300000, guid: 48962b2d4802e70408003dad03a2a6ad, type: 3}
+  puckOnBoardSfx: []
+  modelCollisionSfx:
+  - {fileID: 8300000, guid: db00bdc77b5d8f14f9166a2c2c111142, type: 3}
+  - {fileID: 8300000, guid: 715381e371ee56c45b97de284e6cf227, type: 3}
+  - {fileID: 8300000, guid: 9632d4e2cde720d498212cf026700af4, type: 3}
+  - {fileID: 8300000, guid: 10b4e260fbf365943af4cac287a49361, type: 3}
+  - {fileID: 8300000, guid: dc5efc06c5d95e44b9218b261b328241, type: 3}
+  - {fileID: 8300000, guid: 1249d9c3b4bdea54aa48e363cd8c8e5c, type: 3}
+  - {fileID: 8300000, guid: baaa2085c8818c54ab0c81b63613c87d, type: 3}
+  - {fileID: 8300000, guid: 6b60a2c9a2c88bd4ca6c084618b3ef63, type: 3}
+  - {fileID: 8300000, guid: 44228304e40faf84ca1f119b5c085068, type: 3}
+  - {fileID: 8300000, guid: 1b81655bc0831dd4f8c7e613b89b4a1b, type: 3}
+  - {fileID: 8300000, guid: 4eeb59292bc7b424a9c041d091d10d38, type: 3}
+  - {fileID: 8300000, guid: 3aeb0230629201349ac55cfb15f92a28, type: 3}
+  - {fileID: 8300000, guid: 255dd4dc2a8e2c94c9e2c926c8d12c84, type: 3}
+  - {fileID: 8300000, guid: e8a861f155c41df4d9f6784ef7d7d5bc, type: 3}
+  - {fileID: 8300000, guid: bcd7e8e5936fdf5418641b8754767c2d, type: 3}
+  - {fileID: 8300000, guid: 5049294075f0b7e4ca9722cc283e9b93, type: 3}
   shotSfx:
   - {fileID: 8300000, guid: 4b517b99188b30a46b5b502b18a14f62, type: 3}
   - {fileID: 8300000, guid: 17090c36c2bdcff4dbd42610803845d7, type: 3}

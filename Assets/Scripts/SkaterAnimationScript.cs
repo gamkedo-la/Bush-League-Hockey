@@ -19,6 +19,7 @@ public class SkaterAnimationScript : MonoBehaviour
         skaterAnimator = GetComponent<Animator>();
         rigBuilder = GetComponent<RigBuilder>();
         ragdollRigidBodies = GetComponentsInChildren<Rigidbody>();
+        DisableModelCollisionSfx();
     }
     public void ResetAnimations(){
         skaterAnimator.SetBool("AnimateShotWindUp", false);
@@ -35,6 +36,16 @@ public class SkaterAnimationScript : MonoBehaviour
     public void DeactivateBodycheck(){
         bodyCheckHitZone.SetActive(false);
     }
+    private void EnableModelCollisionSfx(){
+        foreach (Rigidbody rigidbody in ragdollRigidBodies){
+            rigidbody.gameObject.GetComponent<ModelCollisionSfx>().collisionSfxEnabled = true;
+        }
+    }
+    private void DisableModelCollisionSfx(){
+        foreach (Rigidbody rigidbody in ragdollRigidBodies){
+            rigidbody.gameObject.GetComponent<ModelCollisionSfx>().collisionSfxEnabled = false;
+        }
+    }
     public void ResetRagdoll(){
         thisSkater.transform.position = new Vector3(
             modelHips.gameObject.transform.position.x,
@@ -45,9 +56,11 @@ public class SkaterAnimationScript : MonoBehaviour
         thisSkater.GetComponent<Collider>().enabled = true;
         thisSkater.isKnockedDown = false;
         skaterAnimator.enabled = true;
+        DisableModelCollisionSfx();
     }
     public IEnumerator RagdollThenReset(float hitPower, Vector3 hitDirection, float recoverTime){
         skaterAnimator.enabled = false;
+        EnableModelCollisionSfx();
         foreach(Rigidbody rB in ragdollRigidBodies){
             rB.velocity = hitDirection*hitPower;
         }

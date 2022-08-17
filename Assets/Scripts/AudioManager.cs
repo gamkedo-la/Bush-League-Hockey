@@ -16,6 +16,8 @@ public class AudioManager : MonoBehaviour
     [SerializeField] public AudioClip[] bodycheckSfx;
     [SerializeField] public AudioClip[] puckOnPostSfx;
     [SerializeField] public AudioClip[] puckOnBoardSfx;
+    [SerializeField] public AudioClip[] modelCollisionSfx;
+    private bool modelCollisionSoundReady = true;
     [SerializeField] public AudioClip[] shotSfx;
     [SerializeField] public AudioClip goalHornSfx;
     [SerializeField] public AudioClip faceOffSfx;
@@ -44,6 +46,17 @@ public class AudioManager : MonoBehaviour
     }
     public void PlayPostHitSound(float volumeFactor){
         PlayRandomlyFromList(puckOnPostSfx, sfxWorldOrigin.GetComponent<AudioSource>(), volumeFactor);
+    }
+    private IEnumerator PlayModelCollisionSoundAndDelay(float volumeFactor){
+        PlayRandomlyFromList(modelCollisionSfx, sfxWorldOrigin.GetComponent<AudioSource>(), volumeFactor);
+        yield return new WaitForSeconds(0.1f);
+        modelCollisionSoundReady = true;
+    }
+    public void PlayModelCollisionSound(float volumeFactor){
+        if(modelCollisionSoundReady){
+            modelCollisionSoundReady = false;
+            StartCoroutine(PlayModelCollisionSoundAndDelay(volumeFactor));
+        }
     }
     public void PlayPuckOnBoardSound(float volumeFactor){
         PlayRandomlyFromList(puckOnBoardSfx, sfxWorldOrigin.GetComponent<AudioSource>(), volumeFactor);

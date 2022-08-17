@@ -12,7 +12,6 @@ public class PuckScript : MonoBehaviour
     }
     private void OnCollisionEnter(Collision other) {
         float volumeFactor = puckRigidbody.velocity.magnitude / 10;
-        Debug.Log($"volumeFactor: {volumeFactor}");
         if (other.gameObject.name == "Posts") {
             audioManager.PlayPostHitSound(volumeFactor);
         }
