@@ -41,13 +41,20 @@ public class GameSystem : MonoBehaviour
     [SerializeField] TextMeshProUGUI awayScoreText;
     [SerializeField] TextMeshProUGUI timerText;
     private bool clockIsRunning = false;
-    private float timeRemaining = 10;
+    private float timeRemaining = 5;
     private bool isSuddenDeath = false;
-    [Header("Jumbotron Message")]
+    [Header("Onscreen Messages / Menus")]
     [SerializeField] public GameObject GoalScoredDisplay;
     [SerializeField] public GameObject FaceOffMessageDisplay;
     [SerializeField] public GameObject OutOfBoundsMessageDisplay;
     [SerializeField] public GameObject instantReplayController;
+    [SerializeField] public GameObject endOfGameMenu;
+    [SerializeField] public GameObject endOfGameHomeScoreBox;
+    [SerializeField] public GameObject endOfGameAwayScoreBox;
+    [SerializeField] TextMeshProUGUI endOfGameHomeScoreText;
+    [SerializeField] TextMeshProUGUI endOfGameAwayScoreText;
+    [SerializeField] public GameObject endOfGameHomeWinnerTag;
+    [SerializeField] public GameObject endOfGameAwayWinnerTag;
     private void Awake(){
         mainCamera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
         audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
@@ -85,8 +92,8 @@ public class GameSystem : MonoBehaviour
         awayNet.GetComponent<Goal>().goalIsActive = false;
     }
     public void ActivateGoals(){
-        homeNet.GetComponent<Goal>().goalIsActive = false;
-        awayNet.GetComponent<Goal>().goalIsActive = false;
+        homeNet.GetComponent<Goal>().goalIsActive = true;
+        awayNet.GetComponent<Goal>().goalIsActive = true;
     }
     public void DropPuck(){
         GoalScoredDisplay.SetActive(false);
@@ -107,10 +114,6 @@ public class GameSystem : MonoBehaviour
         focalObject = puckObject;
         ActivateGoals();
         // deactivate HUD messages
-    }
-    private void Start(){
-        audioManager.PlayBaseCrowdTrack();
-        DropPuck();
     }
     public void JoinNewPlayer(PlayerInput playerInput){
         var newPlayerInput = playerInput.gameObject.GetComponent<PlayerController>();
@@ -169,23 +172,36 @@ public class GameSystem : MonoBehaviour
         clockIsRunning = true;
         while(clockIsRunning){
             yield return new WaitForSeconds(Time.deltaTime);
-            timeRemaining -= Time.deltaTime;
+            timeRemaining -= Time.deltaTime*1.333f;
             clockIsRunning = gameOn;
         }
     }
     private IEnumerator EndOfGameHandler(){
+        yield return new WaitForSeconds(1.5f);
         if(homeScore == awayScore){
             // sudden death - no timer, extreme shot power
             isSuddenDeath = true;
             // yield return Startcoroutine(TemporarySuddenDeathMessage)
             // setup sudden death - no timer, extreme shot power
-        } else if(homeScore > awayScore){
-            // home team wins
-        } else{
-            // away team wins
+        } else {
+            endOfGameHomeScoreText.text = homeScore.ToString();
+            endOfGameAwayScoreText.text = awayScore.ToString();
+            endOfGameMenu.SetActive(true);
+            yield return new WaitForSeconds(2);
+            endOfGameHomeScoreBox.SetActive(true);
+            yield return new WaitForSeconds(0.5f);
+            endOfGameAwayScoreBox.SetActive(true);
+            yield return new WaitForSeconds(2);
+            if(homeScore > awayScore){
+                endOfGameHomeWinnerTag.SetActive(true);
+                StartCoroutine(crowdReactionManager.transform.GetComponent<CrowdReactionManagerScriptComponent>().HandleHomeTeamScoringAGoal());
+            } else {
+                endOfGameAwayWinnerTag.SetActive(true);
+                StartCoroutine(crowdReactionManager.transform.GetComponent<CrowdReactionManagerScriptComponent>().HandleAwayTeamScoringAGoal());
+            }
+            audioManager.PlayGoalHorn();
+            audioManager.PlayCrowdCelebration();
         }
-        
-        yield return new WaitForSeconds(1);
     }
     private void HandleCameraPositioning(){
         if(puckObject){
@@ -215,7 +231,7 @@ public class GameSystem : MonoBehaviour
         if((int)timeRemaining % 60 < 10){seconds = $"0{(int)timeRemaining % 60}";}
         else{seconds = $"{(int)timeRemaining % 60}";}
         timerText.text = $"{minutes} : {seconds}";
-        if(timeRemaining <= 0  && gameOn){
+        if(timeRemaining <= 0  && gameOn && !isSuddenDeath){
             // game is done, choose winner or overtime!
             // set timerText to Red
             clockIsRunning = false;
@@ -224,6 +240,10 @@ public class GameSystem : MonoBehaviour
             DeactivateGoals();
             StartCoroutine(EndOfGameHandler());
         }
+    }
+    private void Start(){
+        audioManager.PlayBaseCrowdTrack();
+        DropPuck();
     }
     void Update(){
         HandleGameTimer();
