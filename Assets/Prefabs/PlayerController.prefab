@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1326392306507441092}
   - component: {fileID: 1326392306507441094}
+  - component: {fileID: 1349838862923450303}
   - component: {fileID: 1326392306507441093}
   m_Layer: 0
   m_Name: PlayerController
@@ -46,6 +47,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isHomeTeam: 0
+--- !u!114 &1349838862923450303
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1326392306507441091}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e09badbe4f7bbe44a24e13e538a427d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1326392306507441093
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -104,7 +117,19 @@ MonoBehaviour:
     m_ActionId: 44eb56e2-d2a3-4d40-a893-50ee294b8685
     m_ActionName: Player/Fire[/Mouse/leftButton]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1349838862923450303}
+        m_TargetAssemblyTypeName: MenuController, Assembly-CSharp
+        m_MethodName: MovementInputHandler
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 4096d7c7-9f6b-42c1-b9a8-920cacdb063b
     m_ActionName: UI/Navigate[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]
   - m_PersistentCalls:
@@ -191,6 +216,10 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 9cf88caf-6547-4a02-a537-40516af6eab1
     m_ActionName: Player/StickControl[/DualShock4GamepadHID/rightStick,/DualShock3GamepadHID/rightStick,/Keyboard/upArrow,/Keyboard/downArrow,/Keyboard/leftArrow,/Keyboard/rightArrow]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 6126d3fe-434e-498f-ab14-33df8e636cb0
+    m_ActionName: UI/ResetGame[/DualShock3GamepadHID/select,/DualShock4GamepadHID/select,/Keyboard/7]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player

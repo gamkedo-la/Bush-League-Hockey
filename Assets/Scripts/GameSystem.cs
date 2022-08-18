@@ -48,6 +48,8 @@ public class GameSystem : MonoBehaviour
     [SerializeField] public GameObject FaceOffMessageDisplay;
     [SerializeField] public GameObject OutOfBoundsMessageDisplay;
     [SerializeField] public GameObject instantReplayController;
+    [SerializeField] public GameObject suddenDeathDisplay;
+    [SerializeField] public GameObject endOfGameButtonPanel;
     [SerializeField] public GameObject endOfGameMenu;
     [SerializeField] public GameObject endOfGameHomeScoreBox;
     [SerializeField] public GameObject endOfGameAwayScoreBox;
@@ -105,7 +107,7 @@ public class GameSystem : MonoBehaviour
             puckObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
             puckObject.GetComponent<TrailRenderer>().Clear();
         }
-        else{
+        else {
             puckObject = Instantiate(puckPrefab, puckDropOrigin.position, puckDropOrigin.rotation);
             puckRigidBody = puckObject.GetComponent<Rigidbody>();
         }
@@ -113,7 +115,6 @@ public class GameSystem : MonoBehaviour
         audioManager.PlayFaceOffSound();
         focalObject = puckObject;
         ActivateGoals();
-        // deactivate HUD messages
     }
     public void JoinNewPlayer(PlayerInput playerInput){
         var newPlayerInput = playerInput.gameObject.GetComponent<PlayerController>();
@@ -136,7 +137,8 @@ public class GameSystem : MonoBehaviour
         // point a spotlight on the player who scored
         yield return new WaitForSeconds(3);
         // is it sudden death? declare the winner
-        DropPuck();
+        if(isSuddenDeath){StartCoroutine(EndOfGameHandler());}
+        else{DropPuck();}
     }
     public void GoalScored(bool scoredOnHomeNet){
         DeactivateGoals();
@@ -172,20 +174,28 @@ public class GameSystem : MonoBehaviour
         clockIsRunning = true;
         while(clockIsRunning){
             yield return new WaitForSeconds(Time.deltaTime);
-            timeRemaining -= Time.deltaTime*1.333f;
+            timeRemaining -= Time.deltaTime*1.4f;
             clockIsRunning = gameOn;
         }
     }
     private IEnumerator EndOfGameHandler(){
+        audioManager.PlayFaceOffSound();
         yield return new WaitForSeconds(1.5f);
         if(homeScore == awayScore){
-            // sudden death - no timer, extreme shot power
             isSuddenDeath = true;
-            // yield return Startcoroutine(TemporarySuddenDeathMessage)
-            // setup sudden death - no timer, extreme shot power
+            // set timer text to SD!
+            timerText.text = "SD!!!!";
+            for (int i = 0; i < 8; i++){
+                suddenDeathDisplay.SetActive(true);
+                yield return new WaitForSeconds(0.2f);
+                suddenDeathDisplay.SetActive(false);
+                yield return new WaitForSeconds(0.1f);
+            }
+            DropPuck();
         } else {
             endOfGameHomeScoreText.text = homeScore.ToString();
             endOfGameAwayScoreText.text = awayScore.ToString();
+            timerText.text = "FINAL";
             endOfGameMenu.SetActive(true);
             yield return new WaitForSeconds(2);
             endOfGameHomeScoreBox.SetActive(true);
@@ -201,6 +211,10 @@ public class GameSystem : MonoBehaviour
             }
             audioManager.PlayGoalHorn();
             audioManager.PlayCrowdCelebration();
+            yield return new WaitForSeconds(2);
+            // switch to UI control map
+            // Show end of game button panel
+            endOfGameButtonPanel.SetActive(true);
         }
     }
     private void HandleCameraPositioning(){
@@ -223,16 +237,15 @@ public class GameSystem : MonoBehaviour
     }
     private void HandleGameTimer(){
         // check 'gameOn' bool and Start/Stop timer
-        if(gameOn && !clockIsRunning){
+        if(gameOn && !clockIsRunning && !isSuddenDeath){
             StartCoroutine(RunClock());
         }
         string minutes = $"{(int)timeRemaining/60}";
         string seconds;
         if((int)timeRemaining % 60 < 10){seconds = $"0{(int)timeRemaining % 60}";}
         else{seconds = $"{(int)timeRemaining % 60}";}
-        timerText.text = $"{minutes} : {seconds}";
+        if(!isSuddenDeath){ timerText.text = $"{minutes} : {seconds}";}
         if(timeRemaining <= 0  && gameOn && !isSuddenDeath){
-            // game is done, choose winner or overtime!
             // set timerText to Red
             clockIsRunning = false;
             gameOn = false;
