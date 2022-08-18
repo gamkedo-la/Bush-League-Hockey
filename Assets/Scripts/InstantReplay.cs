@@ -5,9 +5,19 @@ using UnityEngine;
 public class InstantReplay : MonoBehaviour
 {
 
+    public GameObject instantReplayGUI; // an icon 
+
+    //public Transform replayTarget; // this is the puck, which is always undefined at start
     public Camera replayCamera;
     public Vector3 replayCameraOffset;
-    public GameObject instantReplayGUI; // an icon 
+
+    public Transform replayTarget2;
+    public Camera replayCamera2;
+    public Vector3 replayCameraOffset2;
+
+    public Transform replayTarget3;
+    public Camera replayCamera3;
+    public Vector3 replayCameraOffset3;
     
     public Transform p1;
     public Transform g1;
@@ -120,6 +130,13 @@ public class InstantReplay : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
+        // press [R] for replay anytime
+        if (Input.GetKeyDown("r")) {
+            Debug.Log("[R] key pressed: starting instant replay!");
+            playingBack = true;
+        }
+        
         // we need to find the puck AFTER init since it is not there at first
         if (!puck) puck = GameObject.FindWithTag("puck")?.transform; // NOTE: can vanish mid game!!!!!!!
         
@@ -139,17 +156,32 @@ public class InstantReplay : MonoBehaviour
             if (g1) { g1.position = g1pos[playbackFrame]; g1.rotation = g1rot[playbackFrame]; }
             if (g2) { g2.position = g2pos[playbackFrame]; g2.rotation = g2rot[playbackFrame]; }
             if (puck) { puck.position = puckpos[playbackFrame]; puck.rotation = puckrot[playbackFrame]; }
+            
             if (replayCamera!=null && puck!=null) {
-                //Debug.Log("replay cam is following the puck!");
                 replayCamera.enabled = true;
-                // follow the puck
                 replayCamera.transform.position = new Vector3(
                     puck.position.x + replayCameraOffset.x,
                     puck.position.y + replayCameraOffset.y,
                     puck.position.z + replayCameraOffset.z);
-            } else {
-                //Debug.Log("replay cam is messed up!"); // this should never run
-            }
+                replayCamera.transform.LookAt(puck);
+            } 
+            if (replayCamera2!=null && replayTarget2!=null) {
+                replayCamera2.enabled = true;
+                replayCamera2.transform.position = new Vector3(
+                    replayTarget2.position.x + replayCameraOffset2.x,
+                    replayTarget2.position.y + replayCameraOffset2.y,
+                    replayTarget2.position.z + replayCameraOffset2.z);
+                replayCamera2.transform.LookAt(replayTarget2);
+            } 
+            if (replayCamera3!=null && replayTarget3!=null) {
+                replayCamera3.enabled = true;
+                replayCamera3.transform.position = new Vector3(
+                    replayTarget3.position.x + replayCameraOffset3.x,
+                    replayTarget3.position.y + replayCameraOffset3.y,
+                    replayTarget3.position.z + replayCameraOffset3.z);
+                replayCamera3.transform.LookAt(replayTarget3);
+            } 
+
             if(animatorSwitch){
                 // This code executes once at the beginning of the replay
                 TurnOffAnimators();
@@ -214,6 +246,8 @@ public class InstantReplay : MonoBehaviour
             playbackTime = 0f;
             playbackStartFrame = -999;
             if (replayCamera) replayCamera.enabled = false;
+            if (replayCamera2) replayCamera2.enabled = false;
+            if (replayCamera3) replayCamera3.enabled = false;
         }
         
     }
