@@ -5,17 +5,14 @@ using UnityEngine;
 public class Goal : MonoBehaviour
 {
     private GameSystem gameSystem;
-    [HideInInspector] public bool goalHasCounted = false;
+    [HideInInspector] public bool goalIsActive = false;
     private void Awake(){
         gameSystem = GameObject.Find("GameSystem").GetComponent<GameSystem>();
     }
-    public void GameOn(){
-        goalHasCounted = false;
-    }
     private void OnTriggerEnter(Collider other){
-        if(other.tag == "puck" && !goalHasCounted){
-            Debug.Log("Goal: " + other);
-            goalHasCounted = true;
+        Debug.Log($"Goal Active? {goalIsActive}");
+        if(other.tag == "puck" && goalIsActive){
+            goalIsActive = false;
             gameSystem.GoalScored(gameObject.tag == "homeNet");
         }
     }

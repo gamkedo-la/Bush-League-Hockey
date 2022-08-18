@@ -39,6 +39,10 @@ public class GameSystem : MonoBehaviour
     [SerializeField] public GameObject awayNet;
     [SerializeField] TextMeshProUGUI homeScoreText;
     [SerializeField] TextMeshProUGUI awayScoreText;
+    [SerializeField] TextMeshProUGUI timerText;
+    private bool clockIsRunning = false;
+    private float timeRemaining = 10;
+    private bool isSuddenDeath = false;
     [Header("Jumbotron Message")]
     [SerializeField] public GameObject GoalScoredDisplay;
     [SerializeField] public GameObject FaceOffMessageDisplay;
@@ -76,6 +80,14 @@ public class GameSystem : MonoBehaviour
         homeGoaltender.transform.position = homeGoalOrigin.position;
         awayGoaltender.transform.position = awayGoalOrigin.position;
     }
+    public void DeactivateGoals(){
+        homeNet.GetComponent<Goal>().goalIsActive = false;
+        awayNet.GetComponent<Goal>().goalIsActive = false;
+    }
+    public void ActivateGoals(){
+        homeNet.GetComponent<Goal>().goalIsActive = false;
+        awayNet.GetComponent<Goal>().goalIsActive = false;
+    }
     public void DropPuck(){
         GoalScoredDisplay.SetActive(false);
         SetupPlayersForFaceOff();
@@ -91,10 +103,9 @@ public class GameSystem : MonoBehaviour
             puckRigidBody = puckObject.GetComponent<Rigidbody>();
         }
         gameOn = true;
-        homeNet.GetComponent<Goal>().GameOn();
-        awayNet.GetComponent<Goal>().GameOn();
         audioManager.PlayFaceOffSound();
         focalObject = puckObject;
+        ActivateGoals();
         // deactivate HUD messages
     }
     private void Start(){
@@ -110,6 +121,71 @@ public class GameSystem : MonoBehaviour
             newPlayerInput.SetIsHomeTeam(true);
         }
         if(!localPlayerControllers.Contains(playerInput.gameObject)){localPlayerControllers.Add(playerInput.gameObject);}
+    }
+    private IEnumerator TemporaryGoalMessage(){
+        GoalScoredDisplay.SetActive(true);
+        yield return new WaitForSeconds(1.2f);
+        GoalScoredDisplay.SetActive(false);
+    }
+    private IEnumerator CelebrateThenReset(){
+        yield return StartCoroutine(TemporaryGoalMessage());
+        instantReplayController?.GetComponent<InstantReplay>()?.startInstantReplay();
+        // point a spotlight on the player who scored
+        yield return new WaitForSeconds(3);
+        // is it sudden death? declare the winner
+        DropPuck();
+    }
+    public void GoalScored(bool scoredOnHomeNet){
+        DeactivateGoals();
+        audioManager.PlayGoalHorn();
+        audioManager.PlayCrowdCelebration();
+        if(scoredOnHomeNet)
+        {
+            awayScore++; 
+            StartCoroutine(crowdReactionManager.transform.GetComponent<CrowdReactionManagerScriptComponent>().HandleAwayTeamScoringAGoal());
+        }
+        else
+        {
+            homeScore++;
+            StartCoroutine(crowdReactionManager.transform.GetComponent<CrowdReactionManagerScriptComponent>().HandleHomeTeamScoringAGoal());
+        }
+        homeScoreText.text = homeScore.ToString();
+        awayScoreText.text = awayScore.ToString();
+        gameOn = false;
+        StartCoroutine(CelebrateThenReset());
+    }
+    private IEnumerator OutOfBoundsReset(){
+        gameOn = false;
+        OutOfBoundsMessageDisplay.SetActive(true);
+        yield return new WaitForSeconds(2);
+        OutOfBoundsMessageDisplay.SetActive(false);
+        DropPuck();
+    }
+    public void PuckOutOfBounds(){
+        StartCoroutine(OutOfBoundsReset());
+        // Trigger crowd effects
+    }
+    private IEnumerator RunClock(){
+        clockIsRunning = true;
+        while(clockIsRunning){
+            yield return new WaitForSeconds(Time.deltaTime);
+            timeRemaining -= Time.deltaTime;
+            clockIsRunning = gameOn;
+        }
+    }
+    private IEnumerator EndOfGameHandler(){
+        if(homeScore == awayScore){
+            // sudden death - no timer, extreme shot power
+            isSuddenDeath = true;
+            // yield return Startcoroutine(TemporarySuddenDeathMessage)
+            // setup sudden death - no timer, extreme shot power
+        } else if(homeScore > awayScore){
+            // home team wins
+        } else{
+            // away team wins
+        }
+        
+        yield return new WaitForSeconds(1);
     }
     private void HandleCameraPositioning(){
         if(puckObject){
@@ -129,47 +205,28 @@ public class GameSystem : MonoBehaviour
         // near zoom: TBD
         // (max: rink width, min: everone at center ice)
     }
-    private IEnumerator TemporaryGoalMessage(){
-        GoalScoredDisplay.SetActive(true);
-        yield return new WaitForSeconds(1.2f);
-        GoalScoredDisplay.SetActive(false);
-    }
-    private IEnumerator CelebrateThenReset(){
-        yield return StartCoroutine(TemporaryGoalMessage());
-        instantReplayController?.GetComponent<InstantReplay>()?.startInstantReplay();
-        // point a spotlight on the player who scored
-        yield return new WaitForSeconds(3);
-        DropPuck();
-    }
-    public void GoalScored(bool scoredOnHomeNet){
-        audioManager.PlayGoalHorn();
-        audioManager.PlayCrowdCelebration();
-        if(scoredOnHomeNet)
-        {
-            awayScore++; 
-            StartCoroutine(crowdReactionManager.transform.GetComponent<CrowdReactionManagerScriptComponent>().HandleAwayTeamScoringAGoal());
+    private void HandleGameTimer(){
+        // check 'gameOn' bool and Start/Stop timer
+        if(gameOn && !clockIsRunning){
+            StartCoroutine(RunClock());
         }
-        else
-        {
-            homeScore++;
-            StartCoroutine(crowdReactionManager.transform.GetComponent<CrowdReactionManagerScriptComponent>().HandleHomeTeamScoringAGoal());
+        string minutes = $"{(int)timeRemaining/60}";
+        string seconds;
+        if((int)timeRemaining % 60 < 10){seconds = $"0{(int)timeRemaining % 60}";}
+        else{seconds = $"{(int)timeRemaining % 60}";}
+        timerText.text = $"{minutes} : {seconds}";
+        if(timeRemaining <= 0  && gameOn){
+            // game is done, choose winner or overtime!
+            // set timerText to Red
+            clockIsRunning = false;
+            gameOn = false;
+            timeRemaining = 0;
+            DeactivateGoals();
+            StartCoroutine(EndOfGameHandler());
         }
-        homeScoreText.text = homeScore.ToString();
-        awayScoreText.text = awayScore.ToString();
-        gameOn = false;
-        StartCoroutine(CelebrateThenReset());
-    }
-    private IEnumerator OutOfBoundsReset(){
-        OutOfBoundsMessageDisplay.SetActive(true);
-        yield return new WaitForSeconds(2);
-        OutOfBoundsMessageDisplay.SetActive(false);
-        DropPuck();
-    }
-    public void PuckOutOfBounds(){
-        StartCoroutine(OutOfBoundsReset());
-        // Trigger crowd effects
     }
     void Update(){
+        HandleGameTimer();
         HandleCameraPositioning();
         HandleCameraFocus();
         HandleCameraZoom();

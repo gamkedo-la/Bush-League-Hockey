@@ -18,5 +18,8 @@ public class PuckScript : MonoBehaviour
         if (other.gameObject.name.Contains("Board") || other.gameObject.name.Contains("Corner")) {
             audioManager.PlayPuckOnBoardSound(volumeFactor);
         }
+        if (other.gameObject.name.Contains("DEF") ||  other.gameObject.name.Contains("Goaltender")) {
+            audioManager.PlayPuckPlayerHitSound(volumeFactor*3);
+        }
     }
 }

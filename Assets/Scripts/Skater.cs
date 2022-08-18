@@ -39,8 +39,8 @@ public class Skater : MonoBehaviour
     [SerializeField] private LayerMask skaterMask;
     [SerializeField] private AnimationCurve checkPowerCurve;
     [SerializeField] [Range(4f, 12f)] private float checkPower;
-    [SerializeField] [Range(8f, 16f)] private float checkPowerMax;
-    [SerializeField] [Range(1f, 10f)] private float checkPowerWindUpRate;
+    [SerializeField] [Range(8f, 64f)] private float checkPowerMax;
+    [SerializeField] [Range(1f, 12f)] private float checkPowerWindUpRate;
     [SerializeField] [Range(0.2f, 3f)] private float bodycheckCooldownTime;
     private bool windingUpBodycheck;
     private float extraBodycheckPower;
@@ -55,6 +55,21 @@ public class Skater : MonoBehaviour
         audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
         boxCastHits = new Collider[3];
         teamMember = GetComponent<TeamMember>();
+    }
+    public void ResetSkaterMotion(){
+        skaterRigidBody.velocity = Vector3.zero;
+        skaterRigidBody.angularVelocity = Vector3.zero;
+    }
+    public void ResetSkaterActions(){
+        teamMember.hasPosession = false;
+        windingUpShot = false;
+        windingUpBodycheck = false;
+        windingUpPass = false;
+        extraShotPower = 0;
+        extraBodycheckPower = 0;
+        extraPassPower = 0;
+        skaterAnimationScript.ResetAnimations();
+        skaterAnimationScript.ResetRagdoll();
     }
     public void SetPointers(Vector3 movementInput){
         movementPointer = movementInput;
@@ -72,21 +87,7 @@ public class Skater : MonoBehaviour
     public bool WindingUp(){
         return windingUpShot || windingUpBodycheck || windingUpPass;
     }
-    public void ResetSkaterActions(){
-        teamMember.hasPosession = false;
-        windingUpShot = false;
-        windingUpBodycheck = false;
-        windingUpPass = false;
-        extraShotPower = 0;
-        extraBodycheckPower = 0;
-        extraPassPower = 0;
-        skaterAnimationScript.ResetAnimations();
-        skaterAnimationScript.ResetRagdoll();
-    }
-    public void ResetSkaterMotion(){
-        skaterRigidBody.velocity = Vector3.zero;
-        skaterRigidBody.angularVelocity = Vector3.zero;
-    }
+    
     public IEnumerator WindUpPass(){
         // blocked when: already winding up, knocked down
         if(WindingUp() || isKnockedDown) yield break;

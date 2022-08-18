@@ -28,6 +28,7 @@ public class TeamMember : MonoBehaviour
             hasPosession = true;
             gameSystem.puckObject.transform.position = puckPositionMarker.transform.position;
             if(!puckPositionMarker.GetComponent<FixedJoint>()){
+                audioManager.PlayTakePossessionSFX();
                 puckPositionMarker.GetComponent<PuckHandleJoint>().AttachPuckToHandleJoint(gameSystem.puckRigidBody);
             }
         }

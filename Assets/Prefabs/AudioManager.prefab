@@ -64,6 +64,9 @@ MonoBehaviour:
   - {fileID: 8300000, guid: a53a704373449a1499642483853aa4f9, type: 3}
   - {fileID: 8300000, guid: 4446510aa79ae834d9b65ea1b112555b, type: 3}
   - {fileID: 8300000, guid: cd7078ab96b7a4c41b5bd1be17dc2ce3, type: 3}
+  takePosessionSfx:
+  - {fileID: 8300000, guid: b51a5e54222a0ae4599a8851e6e981ce, type: 3}
+  - {fileID: 8300000, guid: 00aeb26e45727b141b8ae736ff229268, type: 3}
   passSfx:
   - {fileID: 8300000, guid: bfdbd58839f1e6f43936913353906957, type: 3}
   - {fileID: 8300000, guid: 0c86c4354f4cf574d9782238984c8c8f, type: 3}
@@ -89,6 +92,11 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 8215ce942f01d1e458ff465b50b44ac0, type: 3}
   - {fileID: 8300000, guid: b4ded4d16393ef647b7acdde3cf24595, type: 3}
   - {fileID: 8300000, guid: c871636539b55bf458695d1c69eedc8b, type: 3}
+  puckOnPlayerSfx:
+  - {fileID: 8300000, guid: 341f0113994168f488e75a8f45e9ed89, type: 3}
+  - {fileID: 8300000, guid: dc80fc6253dba9f46bbcfde75100fdd8, type: 3}
+  - {fileID: 8300000, guid: 39ad689a83af18340940832501b86578, type: 3}
+  - {fileID: 8300000, guid: c34457f437af8234887b17ad5199da0f, type: 3}
   modelCollisionSfx:
   - {fileID: 8300000, guid: db00bdc77b5d8f14f9166a2c2c111142, type: 3}
   - {fileID: 8300000, guid: 715381e371ee56c45b97de284e6cf227, type: 3}

@@ -12,7 +12,7 @@ public class ModelCollisionSfx : MonoBehaviour
     private void OnCollisionEnter(Collision other) {
         if(collisionSfxEnabled){
             float volumeFactor = GetComponent<Rigidbody>().velocity.magnitude / 3;
-            audioManager.PlayModelCollisionSound(volumeFactor);
+            StartCoroutine(audioManager.PlayModelCollisionSound(volumeFactor));
         }
     }
 }

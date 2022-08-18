@@ -10,7 +10,6 @@ public class Goaltender : MonoBehaviour
     [Header("Movement")]
     [HideInInspector] public float movementSpeed = 6f;
     private Quaternion goalieRotation;
-    const float goaltenderDefaultYRotation = -90;
     private float goaltenderForwardYRotation;
     private float netToGoalieYRotation;
     private Rect homeGoalCrease = new Rect(-15.95f,-1.75f, 2.1f, 4.52f);
