@@ -40,6 +40,14 @@ public class PlayerController : MonoBehaviour
         gameSystem = GameObject.Find("GameSystem").GetComponent<GameSystem>();
         playerInput = GetComponent<PlayerInput>();
     }
+    public void Pause(InputAction.CallbackContext context){
+        if(context.performed){
+            Debug.Log("Game Paused");
+            gameSystem.HandlePause();
+            // Cursor.lockState = CursorLockMode.None;
+            playerInput.SwitchCurrentActionMap("UI");
+        }
+    }
     public void MovementInputHandler(InputAction.CallbackContext context){
         if(selectedSkater && goaltender){
             movementInput = context.ReadValue<Vector2>();

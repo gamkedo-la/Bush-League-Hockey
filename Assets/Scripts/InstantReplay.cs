@@ -4,6 +4,7 @@ using UnityEngine;
  
 public class InstantReplay : MonoBehaviour
 {
+    private GameSystem gameSystem;
 
     public GameObject instantReplayGUI; // an icon 
 
@@ -57,6 +58,9 @@ public class InstantReplay : MonoBehaviour
     public int playbackStartFrame = -999;
     public int playbackEndFrame = -999;
     private bool animatorSwitch = true;
+    private void Awake() {
+        gameSystem = FindObjectOfType<GameSystem>();
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -145,8 +149,7 @@ public class InstantReplay : MonoBehaviour
         if (playingBack) {
             
             //Debug.Log("REPLAY!!!");
-
-            Time.timeScale = 0; // PAUSE THE GAME!
+            gameSystem.FreezeGame();
             
             // FIXME: we need to pause the game simulation so playback doesn't argue with it
             // TODO: lerp from one recorded frame to another for smooth slow-mo not slideshow
@@ -277,10 +280,10 @@ public class InstantReplay : MonoBehaviour
             bones2pos[b,newestIndex] = bones2[b].position; 
             bones2rot[b,newestIndex] = bones2[b].rotation;
         }
-
-
     }
-
+    public void StopInstantReplay(){
+        playingBack = false;
+    }
     public void startInstantReplay() // called by the game manager when someone scores or does something cool
     {
         playingBack = true;

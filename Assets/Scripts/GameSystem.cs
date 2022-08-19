@@ -41,7 +41,7 @@ public class GameSystem : MonoBehaviour
     [SerializeField] TextMeshProUGUI awayScoreText;
     [SerializeField] TextMeshProUGUI timerText;
     private bool clockIsRunning = false;
-    private float timeRemaining = 5;
+    private float timeRemaining = 15;
     private bool isSuddenDeath = false;
     [Header("Onscreen Messages / Menus")]
     [SerializeField] public GameObject GoalScoredDisplay;
@@ -49,7 +49,7 @@ public class GameSystem : MonoBehaviour
     [SerializeField] public GameObject OutOfBoundsMessageDisplay;
     [SerializeField] public GameObject instantReplayController;
     [SerializeField] public GameObject suddenDeathDisplay;
-    [SerializeField] public GameObject endOfGameButtonPanel;
+    [SerializeField] public GameObject gamMenuButtonPanel;
     [SerializeField] public GameObject endOfGameMenu;
     [SerializeField] public GameObject endOfGameHomeScoreBox;
     [SerializeField] public GameObject endOfGameAwayScoreBox;
@@ -64,6 +64,34 @@ public class GameSystem : MonoBehaviour
     }
     public bool IsZeroQuaternion(Quaternion q){
         return q.x == 0 && q.y == 0 && q.z == 0 && q.w == 0;
+    }
+    private void SetAllActionMapsToUI(){
+        foreach (PlayerInput ctrl in FindObjectsOfType<PlayerInput>()){
+            ctrl.SwitchCurrentActionMap("UI");
+        }
+    }
+    private void SetAllActionMapsToPlayer(){
+        foreach (PlayerInput ctrl in FindObjectsOfType<PlayerInput>()){
+            ctrl.SwitchCurrentActionMap("Player");
+        }
+    }
+    public void UnFreeze(){
+        Time.timeScale = 1;
+    }
+    public void FreezeGame(){
+        // doesn't actually effect game physics or coroutines?
+        Time.timeScale = 0;
+    }
+    public void ResetGame(){
+        // could simply load scene again?
+        homeScore = 0;
+        awayScore = 0;
+        timeRemaining = 15;
+        UpdateScoreBoard();
+        audioManager.PlayBaseCrowdTrack();
+        SetAllActionMapsToUI();
+        HandlePause();
+        DropPuck();
     }
     private IEnumerator TemporaryFaceOffMessage(){
         FaceOffMessageDisplay.SetActive(true);
@@ -98,6 +126,7 @@ public class GameSystem : MonoBehaviour
         awayNet.GetComponent<Goal>().goalIsActive = true;
     }
     public void DropPuck(){
+        instantReplayController?.GetComponent<InstantReplay>()?.StopInstantReplay();
         GoalScoredDisplay.SetActive(false);
         SetupPlayersForFaceOff();
         StartCoroutine(TemporaryFaceOffMessage());
@@ -106,8 +135,7 @@ public class GameSystem : MonoBehaviour
             puckObject.transform.rotation = puckDropOrigin.rotation;
             puckObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
             puckObject.GetComponent<TrailRenderer>().Clear();
-        }
-        else {
+        } else {
             puckObject = Instantiate(puckPrefab, puckDropOrigin.position, puckDropOrigin.rotation);
             puckRigidBody = puckObject.GetComponent<Rigidbody>();
         }
@@ -140,6 +168,10 @@ public class GameSystem : MonoBehaviour
         if(isSuddenDeath){StartCoroutine(EndOfGameHandler());}
         else{DropPuck();}
     }
+    public void UpdateScoreBoard(){
+        homeScoreText.text = homeScore.ToString();
+        awayScoreText.text = awayScore.ToString();
+    }
     public void GoalScored(bool scoredOnHomeNet){
         DeactivateGoals();
         audioManager.PlayGoalHorn();
@@ -154,13 +186,13 @@ public class GameSystem : MonoBehaviour
             homeScore++;
             StartCoroutine(crowdReactionManager.transform.GetComponent<CrowdReactionManagerScriptComponent>().HandleHomeTeamScoringAGoal());
         }
-        homeScoreText.text = homeScore.ToString();
-        awayScoreText.text = awayScore.ToString();
+        UpdateScoreBoard();
         gameOn = false;
         StartCoroutine(CelebrateThenReset());
     }
     private IEnumerator OutOfBoundsReset(){
         gameOn = false;
+        DeactivateGoals();
         OutOfBoundsMessageDisplay.SetActive(true);
         yield return new WaitForSeconds(2);
         OutOfBoundsMessageDisplay.SetActive(false);
@@ -184,7 +216,7 @@ public class GameSystem : MonoBehaviour
         if(homeScore == awayScore){
             isSuddenDeath = true;
             // set timer text to SD!
-            timerText.text = "SD!!!!";
+            timerText.text = "sudden death";
             for (int i = 0; i < 8; i++){
                 suddenDeathDisplay.SetActive(true);
                 yield return new WaitForSeconds(0.2f);
@@ -193,9 +225,10 @@ public class GameSystem : MonoBehaviour
             }
             DropPuck();
         } else {
+            SetAllActionMapsToUI();
             endOfGameHomeScoreText.text = homeScore.ToString();
             endOfGameAwayScoreText.text = awayScore.ToString();
-            timerText.text = "FINAL";
+            timerText.text = "final";
             endOfGameMenu.SetActive(true);
             yield return new WaitForSeconds(2);
             endOfGameHomeScoreBox.SetActive(true);
@@ -214,7 +247,7 @@ public class GameSystem : MonoBehaviour
             yield return new WaitForSeconds(2);
             // switch to UI control map
             // Show end of game button panel
-            endOfGameButtonPanel.SetActive(true);
+            gamMenuButtonPanel.SetActive(true);
         }
     }
     private void HandleCameraPositioning(){
@@ -247,16 +280,26 @@ public class GameSystem : MonoBehaviour
         if(!isSuddenDeath){ timerText.text = $"{minutes} : {seconds}";}
         if(timeRemaining <= 0  && gameOn && !isSuddenDeath){
             // set timerText to Red
-            clockIsRunning = false;
+            //clockIsRunning = false;
             gameOn = false;
             timeRemaining = 0;
             DeactivateGoals();
             StartCoroutine(EndOfGameHandler());
         }
     }
+    public void HandleResume(){
+        gamMenuButtonPanel.SetActive(false);
+        gameOn = true;
+        SetAllActionMapsToPlayer();
+    }
+    public void HandlePause(){
+        gamMenuButtonPanel.SetActive(true);
+        gameOn = false;
+        // 'selected menu item'
+        // visualize selected
+    }
     private void Start(){
-        audioManager.PlayBaseCrowdTrack();
-        DropPuck();
+        ResetGame();
     }
     void Update(){
         HandleGameTimer();
