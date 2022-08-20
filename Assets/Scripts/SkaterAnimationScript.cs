@@ -9,6 +9,8 @@ public class SkaterAnimationScript : MonoBehaviour
     [SerializeField] Rigidbody modelHips;
     [SerializeField] GameObject bodyCheckHitZone;
     [SerializeField] TwistChainConstraint twistChainConstraint;
+    [SerializeField] public GameObject instantReplayController;
+
     private Rigidbody[] ragdollRigidBodies;
     private Collider[] ragdollColliders;
     public Animator skaterAnimator;
@@ -67,6 +69,10 @@ public class SkaterAnimationScript : MonoBehaviour
         yield return new WaitForSeconds(recoverTime);
         ResetRagdoll();
         ResetAnimations();
+
+        Debug.Log("Resetting ragdoll state: triggering an instant replay!");
+        instantReplayController?.GetComponent<InstantReplay>()?.startInstantReplay();
+
     }
     public void DisableRigBuilder(){
         rigBuilder.enabled = false;

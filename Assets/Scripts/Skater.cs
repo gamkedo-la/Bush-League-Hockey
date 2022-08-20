@@ -177,6 +177,7 @@ public class Skater : MonoBehaviour
         StartCoroutine(audioManager.PlayBodycheckHitAndReaction());
         teamMember.BreakPosession();
         StartCoroutine(skaterAnimationScript.RagdollThenReset(incomingHitPower, hitDirection, 3f));
+        // at the end of this, in RagdollThenReset() we trigger an instant replay
     }
     private float GetBodyCheckPower(){
         var t = checkPower / checkPowerMax;
