@@ -385,15 +385,6 @@ public partial class @Playercontrols : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""MenuSelect"",
-                    ""type"": ""Button"",
-                    ""id"": ""f82cdea5-fb50-463e-95cb-b447e7ccee1b"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
                     ""name"": ""Cancel"",
                     ""type"": ""Button"",
                     ""id"": ""491d12a3-f517-425d-88f6-1f6c4730aaf9"",
@@ -660,39 +651,6 @@ public partial class @Playercontrols : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""9e92bb26-7e3b-4ec4-b06b-3c8f8e498ddc"",
-                    ""path"": ""<Keyboard>/space"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""MenuSelect"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""1bfc4bb1-eac9-45b4-a15d-1922d2d07147"",
-                    ""path"": ""<DualShockGamepad>/buttonSouth"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""PS4"",
-                    ""action"": ""MenuSelect"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""19862b40-45ba-4f8a-8408-5dd7e7a96e51"",
-                    ""path"": ""<Gamepad>/buttonSouth"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""MenuSelect"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""82627dcc-3b13-4ba9-841d-e4b746d6553e"",
                     ""path"": ""<Keyboard>/backspace"",
                     ""interactions"": """",
@@ -792,17 +750,6 @@ public partial class @Playercontrols : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""bb9e6b34-44bf-4381-ac63-5aa15d19f677"",
-                    ""path"": ""<XRController>/trigger"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""XR"",
-                    ""action"": ""Click"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""4c191405-5738-4d4b-a523-c6a301dbf754"",
                     ""path"": ""<Mouse>/rightButton"",
                     ""interactions"": """",
@@ -875,6 +822,39 @@ public partial class @Playercontrols : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""PS4"",
                     ""action"": ""UnPause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""19862b40-45ba-4f8a-8408-5dd7e7a96e51"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Click"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1bfc4bb1-eac9-45b4-a15d-1922d2d07147"",
+                    ""path"": ""<DualShockGamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""PS4"",
+                    ""action"": ""Click"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9e92bb26-7e3b-4ec4-b06b-3c8f8e498ddc"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Click"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -966,7 +946,6 @@ public partial class @Playercontrols : IInputActionCollection2, IDisposable
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
-        m_UI_MenuSelect = m_UI.FindAction("MenuSelect", throwIfNotFound: true);
         m_UI_Cancel = m_UI.FindAction("Cancel", throwIfNotFound: true);
         m_UI_UnPause = m_UI.FindAction("UnPause", throwIfNotFound: true);
         m_UI_ResetGame = m_UI.FindAction("ResetGame", throwIfNotFound: true);
@@ -1106,7 +1085,6 @@ public partial class @Playercontrols : IInputActionCollection2, IDisposable
     private readonly InputActionMap m_UI;
     private IUIActions m_UIActionsCallbackInterface;
     private readonly InputAction m_UI_Navigate;
-    private readonly InputAction m_UI_MenuSelect;
     private readonly InputAction m_UI_Cancel;
     private readonly InputAction m_UI_UnPause;
     private readonly InputAction m_UI_ResetGame;
@@ -1118,7 +1096,6 @@ public partial class @Playercontrols : IInputActionCollection2, IDisposable
         private @Playercontrols m_Wrapper;
         public UIActions(@Playercontrols wrapper) { m_Wrapper = wrapper; }
         public InputAction @Navigate => m_Wrapper.m_UI_Navigate;
-        public InputAction @MenuSelect => m_Wrapper.m_UI_MenuSelect;
         public InputAction @Cancel => m_Wrapper.m_UI_Cancel;
         public InputAction @UnPause => m_Wrapper.m_UI_UnPause;
         public InputAction @ResetGame => m_Wrapper.m_UI_ResetGame;
@@ -1137,9 +1114,6 @@ public partial class @Playercontrols : IInputActionCollection2, IDisposable
                 @Navigate.started -= m_Wrapper.m_UIActionsCallbackInterface.OnNavigate;
                 @Navigate.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnNavigate;
                 @Navigate.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnNavigate;
-                @MenuSelect.started -= m_Wrapper.m_UIActionsCallbackInterface.OnMenuSelect;
-                @MenuSelect.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnMenuSelect;
-                @MenuSelect.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnMenuSelect;
                 @Cancel.started -= m_Wrapper.m_UIActionsCallbackInterface.OnCancel;
                 @Cancel.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnCancel;
                 @Cancel.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnCancel;
@@ -1165,9 +1139,6 @@ public partial class @Playercontrols : IInputActionCollection2, IDisposable
                 @Navigate.started += instance.OnNavigate;
                 @Navigate.performed += instance.OnNavigate;
                 @Navigate.canceled += instance.OnNavigate;
-                @MenuSelect.started += instance.OnMenuSelect;
-                @MenuSelect.performed += instance.OnMenuSelect;
-                @MenuSelect.canceled += instance.OnMenuSelect;
                 @Cancel.started += instance.OnCancel;
                 @Cancel.performed += instance.OnCancel;
                 @Cancel.canceled += instance.OnCancel;
@@ -1256,7 +1227,6 @@ public partial class @Playercontrols : IInputActionCollection2, IDisposable
     public interface IUIActions
     {
         void OnNavigate(InputAction.CallbackContext context);
-        void OnMenuSelect(InputAction.CallbackContext context);
         void OnCancel(InputAction.CallbackContext context);
         void OnUnPause(InputAction.CallbackContext context);
         void OnResetGame(InputAction.CallbackContext context);

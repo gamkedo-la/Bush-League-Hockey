@@ -43,6 +43,7 @@ public class Goaltender : MonoBehaviour
         goaltenderRigidBody = GetComponent<Rigidbody>();
     }
     public void FindMyNet(){
+        Awake();
         if(teamMember.isHomeTeam){
             myNet = gameSystem.homeNet;
             myMovementCrease = homeGoalCrease;

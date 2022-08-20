@@ -363,15 +363,6 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "MenuSelect",
-                    "type": "Button",
-                    "id": "f82cdea5-fb50-463e-95cb-b447e7ccee1b",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Cancel",
                     "type": "Button",
                     "id": "491d12a3-f517-425d-88f6-1f6c4730aaf9",
@@ -638,39 +629,6 @@
                 },
                 {
                     "name": "",
-                    "id": "9e92bb26-7e3b-4ec4-b06b-3c8f8e498ddc",
-                    "path": "<Keyboard>/space",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "MenuSelect",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "1bfc4bb1-eac9-45b4-a15d-1922d2d07147",
-                    "path": "<DualShockGamepad>/buttonSouth",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "PS4",
-                    "action": "MenuSelect",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "19862b40-45ba-4f8a-8408-5dd7e7a96e51",
-                    "path": "<Gamepad>/buttonSouth",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "MenuSelect",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "82627dcc-3b13-4ba9-841d-e4b746d6553e",
                     "path": "<Keyboard>/backspace",
                     "interactions": "",
@@ -770,17 +728,6 @@
                 },
                 {
                     "name": "",
-                    "id": "bb9e6b34-44bf-4381-ac63-5aa15d19f677",
-                    "path": "<XRController>/trigger",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "XR",
-                    "action": "Click",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "4c191405-5738-4d4b-a523-c6a301dbf754",
                     "path": "<Mouse>/rightButton",
                     "interactions": "",
@@ -853,6 +800,39 @@
                     "processors": "",
                     "groups": "PS4",
                     "action": "UnPause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "19862b40-45ba-4f8a-8408-5dd7e7a96e51",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Click",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1bfc4bb1-eac9-45b4-a15d-1922d2d07147",
+                    "path": "<DualShockGamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "PS4",
+                    "action": "Click",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9e92bb26-7e3b-4ec4-b06b-3c8f8e498ddc",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Click",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

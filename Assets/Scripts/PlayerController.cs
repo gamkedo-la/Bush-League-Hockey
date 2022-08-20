@@ -21,6 +21,7 @@ public class PlayerController : MonoBehaviour
     private TeamMember goaltenderTeamMember;
     public bool isHomeTeam;
     public void SetIsHomeTeam(bool homeTeamBool){
+        Awake();
         isHomeTeam = homeTeamBool;
         if(isHomeTeam){
             selectedSkater = GameObject.FindWithTag("homeSkater").GetComponent<Skater>();

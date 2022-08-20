@@ -12,7 +12,7 @@ public class MenuController : MonoBehaviour
     private PlayerInput playerInput;
     private PointerEventData clickData;
     List<RaycastResult> clickResults;
-    private void Awake() {
+    public void Awake() {
         gameSystem = GameObject.Find("GameSystem").GetComponent<GameSystem>();
         playerInput = GetComponent<PlayerInput>();
     }
@@ -33,7 +33,7 @@ public class MenuController : MonoBehaviour
     }
     public void ResetGame(InputAction.CallbackContext context){
         if(context.performed){
-            gameSystem.ResetGame();
+            gameSystem.BeginGame();
         }
     }
     public void UIClick(InputAction.CallbackContext context){
