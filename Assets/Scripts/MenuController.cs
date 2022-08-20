@@ -18,31 +18,15 @@ public class MenuController : MonoBehaviour
     }
     public void MovementInputHandler(InputAction.CallbackContext context){
         movementInput = context.ReadValue<Vector2>();
-        Debug.Log($"{movementInput} Menu Control");
-    }
-    public void MenuSelectInputHandler(InputAction.CallbackContext context){
-        if(context.performed){
-            Debug.Log($"MenuSelect");
-        }
     }
     public void UnPause(InputAction.CallbackContext context){
         if(context.performed){
             gameSystem.HandleResume();
-            // Cursor.lockState = CursorLockMode.None;
         }
     }
     public void ResetGame(InputAction.CallbackContext context){
         if(context.performed){
             gameSystem.BeginGame();
-        }
-    }
-    public void UIClick(InputAction.CallbackContext context){
-        if(context.performed){
-            clickData.position = Mouse.current.position.ReadValue();
-            clickResults.Clear();
-            foreach (RaycastResult result in clickResults){
-                Debug.Log($"Menu Click: {result.gameObject.name}");
-            }
         }
     }
 }

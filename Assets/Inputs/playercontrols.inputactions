@@ -400,7 +400,7 @@
                 },
                 {
                     "name": "Click",
-                    "type": "Button",
+                    "type": "PassThrough",
                     "id": "62134716-316b-4f43-a82a-472199a7162a",
                     "expectedControlType": "Button",
                     "processors": "",
@@ -411,6 +411,15 @@
                     "name": "RightClick",
                     "type": "Button",
                     "id": "041c00db-d291-45a0-a771-2a998367e497",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "AcceptSelection",
+                    "type": "Button",
+                    "id": "2e607aeb-8c84-4647-b055-6b325dd0aef1",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -810,18 +819,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "Click",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "1bfc4bb1-eac9-45b4-a15d-1922d2d07147",
-                    "path": "<DualShockGamepad>/buttonSouth",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "PS4",
-                    "action": "Click",
+                    "action": "AcceptSelection",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -832,7 +830,18 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
-                    "action": "Click",
+                    "action": "AcceptSelection",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1bfc4bb1-eac9-45b4-a15d-1922d2d07147",
+                    "path": "<DualShockGamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "PS4",
+                    "action": "AcceptSelection",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

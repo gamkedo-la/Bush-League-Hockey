@@ -422,7 +422,7 @@ public partial class @Playercontrols : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""Click"",
-                    ""type"": ""Button"",
+                    ""type"": ""PassThrough"",
                     ""id"": ""62134716-316b-4f43-a82a-472199a7162a"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
@@ -433,6 +433,15 @@ public partial class @Playercontrols : IInputActionCollection2, IDisposable
                     ""name"": ""RightClick"",
                     ""type"": ""Button"",
                     ""id"": ""041c00db-d291-45a0-a771-2a998367e497"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""AcceptSelection"",
+                    ""type"": ""Button"",
+                    ""id"": ""2e607aeb-8c84-4647-b055-6b325dd0aef1"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -832,18 +841,7 @@ public partial class @Playercontrols : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
-                    ""action"": ""Click"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""1bfc4bb1-eac9-45b4-a15d-1922d2d07147"",
-                    ""path"": ""<DualShockGamepad>/buttonSouth"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""PS4"",
-                    ""action"": ""Click"",
+                    ""action"": ""AcceptSelection"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -854,7 +852,18 @@ public partial class @Playercontrols : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""Click"",
+                    ""action"": ""AcceptSelection"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1bfc4bb1-eac9-45b4-a15d-1922d2d07147"",
+                    ""path"": ""<DualShockGamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""PS4"",
+                    ""action"": ""AcceptSelection"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -952,6 +961,7 @@ public partial class @Playercontrols : IInputActionCollection2, IDisposable
         m_UI_Point = m_UI.FindAction("Point", throwIfNotFound: true);
         m_UI_Click = m_UI.FindAction("Click", throwIfNotFound: true);
         m_UI_RightClick = m_UI.FindAction("RightClick", throwIfNotFound: true);
+        m_UI_AcceptSelection = m_UI.FindAction("AcceptSelection", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -1091,6 +1101,7 @@ public partial class @Playercontrols : IInputActionCollection2, IDisposable
     private readonly InputAction m_UI_Point;
     private readonly InputAction m_UI_Click;
     private readonly InputAction m_UI_RightClick;
+    private readonly InputAction m_UI_AcceptSelection;
     public struct UIActions
     {
         private @Playercontrols m_Wrapper;
@@ -1102,6 +1113,7 @@ public partial class @Playercontrols : IInputActionCollection2, IDisposable
         public InputAction @Point => m_Wrapper.m_UI_Point;
         public InputAction @Click => m_Wrapper.m_UI_Click;
         public InputAction @RightClick => m_Wrapper.m_UI_RightClick;
+        public InputAction @AcceptSelection => m_Wrapper.m_UI_AcceptSelection;
         public InputActionMap Get() { return m_Wrapper.m_UI; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1132,6 +1144,9 @@ public partial class @Playercontrols : IInputActionCollection2, IDisposable
                 @RightClick.started -= m_Wrapper.m_UIActionsCallbackInterface.OnRightClick;
                 @RightClick.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnRightClick;
                 @RightClick.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnRightClick;
+                @AcceptSelection.started -= m_Wrapper.m_UIActionsCallbackInterface.OnAcceptSelection;
+                @AcceptSelection.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnAcceptSelection;
+                @AcceptSelection.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnAcceptSelection;
             }
             m_Wrapper.m_UIActionsCallbackInterface = instance;
             if (instance != null)
@@ -1157,6 +1172,9 @@ public partial class @Playercontrols : IInputActionCollection2, IDisposable
                 @RightClick.started += instance.OnRightClick;
                 @RightClick.performed += instance.OnRightClick;
                 @RightClick.canceled += instance.OnRightClick;
+                @AcceptSelection.started += instance.OnAcceptSelection;
+                @AcceptSelection.performed += instance.OnAcceptSelection;
+                @AcceptSelection.canceled += instance.OnAcceptSelection;
             }
         }
     }
@@ -1233,5 +1251,6 @@ public partial class @Playercontrols : IInputActionCollection2, IDisposable
         void OnPoint(InputAction.CallbackContext context);
         void OnClick(InputAction.CallbackContext context);
         void OnRightClick(InputAction.CallbackContext context);
+        void OnAcceptSelection(InputAction.CallbackContext context);
     }
 }
