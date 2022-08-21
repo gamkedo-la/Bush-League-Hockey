@@ -20,19 +20,16 @@ public class MenuController : MonoBehaviour
         gameSystem = GameObject.Find("GameSystem")?.GetComponent<GameSystem>();
         playerInput = gameObject.GetComponent<PlayerInput>();
     }
-    public void SwitchActionMapToChooseSides(){
-        Awake();
-        playerInput.SwitchCurrentActionMap("ChooseSide");
-    }
-    private void IncrementChooseSideChoice() {
-        for (int i = 0; i < teamSelectionChoices.Length; i++) {
-            if (teamSelectionChoices[i] == teamSelectionStatus) {
-                teamSelectionStatus = i < teamSelectionChoices.Length-1 ? teamSelectionChoices[i + 1] : teamSelectionChoices[i];
+    private void IncrementChooseSideChoice(){
+        for (int i = 0; i < teamSelectionChoices.Length; i++){
+            if (teamSelectionChoices[i] == teamSelectionStatus){
+                teamSelectionStatus = i < teamSelectionChoices.Length-1 ? teamSelectionChoices[i+1] : teamSelectionChoices[teamSelectionChoices.Length-1];
             }
         }
+        Debug.Log($"current: {teamSelectionStatus}");
     }
-    private void DecrementChooseSideChoice() {
-        for (int i = 0; i < teamSelectionChoices.Length; i++) {
+    private void DecrementChooseSideChoice(){
+        for (int i = 0; i < teamSelectionChoices.Length; i++){
             if (teamSelectionChoices[i] == teamSelectionStatus) {
                 teamSelectionStatus = i > 0 ? teamSelectionChoices[i - 1] : teamSelectionChoices[i];
             }
@@ -53,19 +50,7 @@ public class MenuController : MonoBehaviour
         }
     }
     public void MovementInputHandler(InputAction.CallbackContext context){
-        Debug.Log($"movementInput: {movementInput}");
         movementInput = context.ReadValue<Vector2>();
-        // if(context.performed && isChoosingSides){
-        //     Debug.Log($"choosing side logic");
-        //     movementInput = context.ReadValue<Vector2>();
-        //     if(movementInput.x > 0){
-        //         IncrementChooseSideChoice();
-        //     } else if(movementInput.x < 0){
-        //         DecrementChooseSideChoice();
-        //     }
-        //     FindObjectOfType<GameStartScript>().HandleChooseSidePosition();
-        // }
-        // gamestartscript HandleChooseSidePosition
     }
     public void UnPause(InputAction.CallbackContext context){
         if(context.performed){

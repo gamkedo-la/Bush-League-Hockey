@@ -42,7 +42,7 @@ public class PlayerController : MonoBehaviour
     public void Pause(InputAction.CallbackContext context){
         if(context.performed){
             gameSystem.HandlePause();
-            playerInput.SwitchCurrentActionMap("UI");
+            GetComponent<PlayerInput>().SwitchCurrentActionMap("UI");
         }
     }
     public void MovementInputHandler(InputAction.CallbackContext context){

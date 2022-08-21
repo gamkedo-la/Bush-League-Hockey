@@ -74,21 +74,18 @@ public class GameSystem : MonoBehaviour
     public bool IsZeroQuaternion(Quaternion q){
         return q.x == 0 && q.y == 0 && q.z == 0 && q.w == 0;
     }
-    // public void JoinNewPlayer(PlayerInput playerInput){
-    //     var newPlayerInput = playerInput.gameObject.GetComponent<PlayerController>();
-    //     Debug.Log($"new input:  {newPlayerInput}");
-    //     if(localPlayerControllers.Count % 2 == 0){
-    //         newPlayerInput.SetIsHomeTeam(false);
-    //     } else{
-    //         newPlayerInput.SetIsHomeTeam(true);
-    //     }
-    //     if(!localPlayerControllers.Contains(playerInput.gameObject)){localPlayerControllers.Add(playerInput.gameObject);}
-    // }
+    public void JoinNewPlayer(PlayerInput playerInput){
+        var newPlayerInput = playerInput.gameObject.GetComponent<PlayerController>();
+        Debug.Log($"new input:  {newPlayerInput}");
+        // open choose sides menu
+        //ResetPlayerInputs();
+    }
     private void ResetPlayerInputs(){
         foreach(PlayerInput ctrl in FindObjectsOfType<PlayerInput>()){
             PlayerController controllerScript = ctrl.gameObject.GetComponent<PlayerController>();
             MenuController menuController = ctrl.gameObject.GetComponent<MenuController>();
             controllerScript.SetIsHomeTeam(controllerScript.isHomeTeam);
+            if(!localPlayerControllers.Contains(ctrl.gameObject)){localPlayerControllers.Add(ctrl.gameObject);}
             menuController.Awake();
         }
         SetAllActionMapsToPlayer();
