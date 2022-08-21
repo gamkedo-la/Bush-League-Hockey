@@ -3,26 +3,71 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
-
 public class GameStartScript : MonoBehaviour
 {
+    [Header("Main Menu")]
     public GameObject playButton;
     public GameObject creditsButton;
     public GameObject quitButton;
     public GameObject mainDisplay;
     public GameObject creditsDisplay;
+    [Header("Choose Sides Menu")]
+    [SerializeField] List<Transform> homeSlots;
+    [SerializeField] List<Transform> awaySlots;
+    [SerializeField] List<Transform> neutralSlots;
+    List<GameObject> menuIcons;
     public GameObject chooseSidesMenu;
+    public GameObject acceptButton;
     public string sceneNameToLoad = "error";
     public void LoadSceneByName(){
         if(sceneNameToLoad=="error"){
-            Debug.LogError("scene name not set in inspector for this function");
         } else {
             SceneManager.LoadScene(sceneNameToLoad);
         }
     }
     public void SwitchToChooseSideMenu(){
-        mainDisplay.SetActive(true);
-        EventSystem.current.SetSelectedGameObject(playButton);
+        mainDisplay.SetActive(false);
+        chooseSidesMenu.SetActive(true);
+        foreach (MenuController ctrl in FindObjectsOfType<MenuController>()){
+            ctrl.isChoosingSides = true;
+        }
+        EventSystem.current.SetSelectedGameObject(acceptButton);
+        HandleChooseSidePosition();
+    }
+    public void HandleChooseSidePosition(){
+        InputManagerScript inputManager = GameObject.Find("InputManager").GetComponent<InputManagerScript>();
+        int numberOfHomePlayers = 0;
+        int numberOfAwayPlayers = 0;
+        int numberOfNeutralPlayers = 0;
+        foreach (GameObject icon in GameObject.FindGameObjectsWithTag("ControllerMenuIcon")){
+            Destroy(icon);
+        }
+        foreach (GameObject ctrl in inputManager.localPlayerControllers){
+            GameObject menuIcon = Instantiate(
+                ctrl.GetComponent<MenuController>().chooseSidesMenuIcon, 
+                Vector3.zero,
+                Quaternion.identity
+            );
+            if (ctrl.GetComponent<MenuController>().teamSelectionStatus == "neutral"){
+                menuIcon.transform.SetParent(neutralSlots[numberOfNeutralPlayers], false);
+                numberOfNeutralPlayers ++;
+            } else if(ctrl.GetComponent<MenuController>().teamSelectionStatus == "home"){
+                menuIcon.transform.SetParent(homeSlots[numberOfHomePlayers], false);
+                numberOfHomePlayers ++;
+            } else {
+                menuIcon.transform.SetParent(awaySlots[numberOfAwayPlayers], false);
+                numberOfAwayPlayers ++;
+            }
+        }
+    }
+    public void SetPlayerInputSides(){
+        InputManagerScript inputManager = GameObject.Find("InputManager").GetComponent<InputManagerScript>();
+        foreach (GameObject ctrl in inputManager.localPlayerControllers){
+            Debug.Log($"status: {ctrl.GetComponent<MenuController>().teamSelectionStatus}");
+            ctrl.GetComponent<PlayerController>().isHomeTeam = ctrl.GetComponent<MenuController>().teamSelectionStatus == "home";
+            DontDestroyOnLoad(ctrl.gameObject);
+        }
+        SceneManager.LoadScene("Hat-Trick");        
     }
     private void Start() {
         EventSystem.current.SetSelectedGameObject(playButton);

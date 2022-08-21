@@ -13,6 +13,7 @@ TagManager:
   - awayNet
   - CrowdGroupA
   - CrowdGroupB
+  - ControllerMenuIcon
   layers:
   - Default
   - TransparentFX

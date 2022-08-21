@@ -59,6 +59,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e09badbe4f7bbe44a24e13e538a427d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  chooseSidesMenuIcon: {fileID: 0}
+  teamSelectionStatus: 
+  isChoosingSides: 0
 --- !u!114 &1326392306507441093
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -120,7 +123,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1349838862923450303}
         m_TargetAssemblyTypeName: MenuController, Assembly-CSharp
-        m_MethodName: MovementInputHandler
+        m_MethodName: ChooseSidesNavigation
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -132,22 +135,6 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 4096d7c7-9f6b-42c1-b9a8-920cacdb063b
     m_ActionName: UI/Navigate[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1349838862923450303}
-        m_TargetAssemblyTypeName: MenuController, Assembly-CSharp
-        m_MethodName: MenuSelectInputHandler
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: f82cdea5-fb50-463e-95cb-b447e7ccee1b
-    m_ActionName: UI/Submit[/Keyboard/enter]
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: 491d12a3-f517-425d-88f6-1f6c4730aaf9
@@ -272,6 +259,42 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 32357f4f-3cc2-4362-bdbc-9d8ad08a9f3d
     m_ActionName: UI/New action
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 2e607aeb-8c84-4647-b055-6b325dd0aef1
+    m_ActionName: UI/AcceptSelection[/Keyboard/space]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 56f7be28-1041-4b6e-a8c6-8c5624903d60
+    m_ActionName: NeutralInput/Navigate[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 014a83cd-f890-4eef-8bdb-2710bdff32cd
+    m_ActionName: NeutralInput/Join[/Keyboard/space,/Keyboard/enter]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1349838862923450303}
+        m_TargetAssemblyTypeName: MenuController, Assembly-CSharp
+        m_MethodName: ChooseSidesNavigation
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 1da0862e-2115-47e7-9a65-7e75e79a51ae
+    m_ActionName: ChooseSide/Navigate[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 41fb19e4-e05c-46ad-88c9-14f5a1a210ab
+    m_ActionName: ChooseSide/AcceptSelection[/Keyboard/space]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: f6855542-f816-4fce-890f-6ffe9d47d9b5
+    m_ActionName: ChooseSide/Cancel[/Keyboard/backspace]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: UI

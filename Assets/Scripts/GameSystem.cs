@@ -74,16 +74,16 @@ public class GameSystem : MonoBehaviour
     public bool IsZeroQuaternion(Quaternion q){
         return q.x == 0 && q.y == 0 && q.z == 0 && q.w == 0;
     }
-    public void JoinNewPlayer(PlayerInput playerInput){
-        var newPlayerInput = playerInput.gameObject.GetComponent<PlayerController>();
-        Debug.Log($"new input:  {newPlayerInput}");
-        if(localPlayerControllers.Count % 2 == 0){
-            newPlayerInput.SetIsHomeTeam(false);
-        } else{
-            newPlayerInput.SetIsHomeTeam(true);
-        }
-        if(!localPlayerControllers.Contains(playerInput.gameObject)){localPlayerControllers.Add(playerInput.gameObject);}
-    }
+    // public void JoinNewPlayer(PlayerInput playerInput){
+    //     var newPlayerInput = playerInput.gameObject.GetComponent<PlayerController>();
+    //     Debug.Log($"new input:  {newPlayerInput}");
+    //     if(localPlayerControllers.Count % 2 == 0){
+    //         newPlayerInput.SetIsHomeTeam(false);
+    //     } else{
+    //         newPlayerInput.SetIsHomeTeam(true);
+    //     }
+    //     if(!localPlayerControllers.Contains(playerInput.gameObject)){localPlayerControllers.Add(playerInput.gameObject);}
+    // }
     private void ResetPlayerInputs(){
         foreach(PlayerInput ctrl in FindObjectsOfType<PlayerInput>()){
             PlayerController controllerScript = ctrl.gameObject.GetComponent<PlayerController>();
@@ -91,6 +91,7 @@ public class GameSystem : MonoBehaviour
             controllerScript.SetIsHomeTeam(controllerScript.isHomeTeam);
             menuController.Awake();
         }
+        SetAllActionMapsToPlayer();
     }
     private void SetAllActionMapsToUI(){
         foreach (PlayerInput ctrl in FindObjectsOfType<PlayerInput>()){
@@ -116,6 +117,12 @@ public class GameSystem : MonoBehaviour
     public void RestartScene(){
         PreserveKeyGameElements();
         SceneManager.LoadScene("Hat-Trick");
+        // what is the current scene?
+        // SceneLoader current scene     
+    }
+    public void LoadMainMenu(){
+        // PreserveKeyGameElements();
+        SceneManager.LoadScene("StartMenu");
         // what is the current scene?
         // SceneLoader current scene     
     }
@@ -331,12 +338,7 @@ public class GameSystem : MonoBehaviour
     }
     public void BeginGame(){
         DeactivateGoals();
-        homeScore = 0;
-        awayScore = 0;
-        timeRemaining = 15;
-        UpdateScoreBoard();
         audioManager.PlayBaseCrowdTrack();
-        SetAllActionMapsToPlayer();
         StartCoroutine(CountDownAndDropPuck());
     }
     private void Start(){

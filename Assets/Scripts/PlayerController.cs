@@ -5,8 +5,6 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
-    // Player controls team
-    // goaltender, skater
     private GameSystem gameSystem;
     [Header("Player Input Management")]
     private Vector3 forwardForce;
@@ -38,14 +36,12 @@ public class PlayerController : MonoBehaviour
         goaltender.FindMyNet();
     }
     private void Awake(){
-        gameSystem = GameObject.Find("GameSystem").GetComponent<GameSystem>();
+        gameSystem = GameObject.Find("GameSystem")?.GetComponent<GameSystem>();
         playerInput = GetComponent<PlayerInput>();
     }
     public void Pause(InputAction.CallbackContext context){
         if(context.performed){
-            Debug.Log("Game Paused");
             gameSystem.HandlePause();
-            // Cursor.lockState = CursorLockMode.None;
             playerInput.SwitchCurrentActionMap("UI");
         }
     }
@@ -94,7 +90,7 @@ public class PlayerController : MonoBehaviour
         if(!selectedSkater) return;
         if(context.performed){
             selectedSkater.DeliverBodyCheck();
-        } else if(context.started){ // && !selectedTeamMember.windingUp
+        } else if(context.started){
             StartCoroutine(selectedSkater.WindUpBodyCheck());
         }
     }
