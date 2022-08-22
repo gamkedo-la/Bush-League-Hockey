@@ -10,7 +10,6 @@ public class GameStartScript : MonoBehaviour
     public GameObject creditsButton;
     public GameObject quitButton;
     public GameObject mainDisplay;
-    public GameObject creditsDisplay;
     [Header("Choose Sides Menu")]
     [SerializeField] List<Transform> homeSlots;
     [SerializeField] List<Transform> awaySlots;
@@ -18,6 +17,9 @@ public class GameStartScript : MonoBehaviour
     List<GameObject> menuIcons;
     public GameObject chooseSidesMenu;
     public GameObject acceptButton;
+    [Header("Credits View")]
+    public GameObject creditsDisplay;
+    public GameObject backButton;
     public string sceneNameToLoad = "error";
     public void LoadSceneByName(){
         if(sceneNameToLoad=="error"){
@@ -33,6 +35,17 @@ public class GameStartScript : MonoBehaviour
         }
         EventSystem.current.SetSelectedGameObject(acceptButton);
         HandleChooseSidePosition();
+    }
+    public void SwitchToMainDisplay(){
+        mainDisplay.SetActive(true);
+        creditsDisplay.SetActive(false);
+        chooseSidesMenu.SetActive(false);
+        EventSystem.current.SetSelectedGameObject(playButton);
+    }
+    public void SwitchToCreditsView(){
+        creditsDisplay.SetActive(true);
+        mainDisplay.SetActive(false);
+        EventSystem.current.SetSelectedGameObject(backButton);
     }
     public void HandleChooseSidePosition(){
         InputManagerScript inputManager = GameObject.Find("InputManager").GetComponent<InputManagerScript>();
@@ -68,6 +81,9 @@ public class GameStartScript : MonoBehaviour
             DontDestroyOnLoad(ctrl.gameObject);
         }
         SceneManager.LoadScene("Hat-Trick");        
+    }
+    public void QuitGame(){
+        Application.Quit();
     }
     private void Start() {
         EventSystem.current.SetSelectedGameObject(playButton);
