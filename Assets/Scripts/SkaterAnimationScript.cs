@@ -71,7 +71,7 @@ public class SkaterAnimationScript : MonoBehaviour
         ResetAnimations();
 
         Debug.Log("Resetting ragdoll state: triggering an instant replay!");
-        FindObjectOfType<InstantReplay>()?.startInstantReplay();
+        //FindObjectOfType<InstantReplay>()?.startInstantReplay();
 
     }
     public void DisableRigBuilder(){

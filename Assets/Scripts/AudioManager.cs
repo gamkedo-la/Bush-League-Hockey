@@ -15,6 +15,7 @@ public class AudioManager : MonoBehaviour
     [SerializeField] public AudioClip[] crowdNormalTracks;
     [SerializeField] public AudioClip[] crowdCelebrationTracks;
     [SerializeField] public AudioClip[] goalHornSfx;
+    
     [SerializeField] public AudioClip[] takePosessionSfx;
     [SerializeField] public AudioClip[] passSfx;
     [SerializeField] public AudioClip[] deliverCheckSfx;
@@ -26,6 +27,8 @@ public class AudioManager : MonoBehaviour
     private bool modelCollisionSoundReady = true;
     [SerializeField] public AudioClip[] shotSfx;
     [SerializeField] public AudioClip faceOffSfx;
+    [Header("SFX Files")]
+    [SerializeField] public AudioClip[] songs;
     private void PlayRandomlyFromList(AudioClip[] soundList, GameObject origin, float volumeFactor){
         int randomSFXIndex = Random.Range(0, soundList.Length);
         origin.GetComponent<AudioSource>().PlayOneShot(soundList[randomSFXIndex], volumeFactor);
@@ -46,6 +49,9 @@ public class AudioManager : MonoBehaviour
     }
     public void PlayBaseCrowdTrack(){
         PlayRandomlyFromList(crowdNormalTracks, sfxCrowdOrigin, crowdSfxVolume);
+    }
+    public void PlaySong(){
+        PlayRandomlyFromList(songs, sfxUniversalOrigin, universalSfxVolume*0.5f);
     }
     public void PlayGoalHorn(){
         PlayRandomlyFromList(goalHornSfx, sfxUniversalOrigin, universalSfxVolume*0.5f);

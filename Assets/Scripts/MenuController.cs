@@ -38,15 +38,29 @@ public class MenuController : MonoBehaviour
     public void InitializeController(){
         teamSelectionStatus = teamSelectionChoices[1];
     }
+    public void SwitchOffChoosingSides(){
+        isChoosingSides = false;
+        foreach (MenuController ctrl in FindObjectsOfType<MenuController>()){
+            ctrl.isChoosingSides = false;
+        }
+    }
+    public void SwitchOnChoosingSides(){
+        isChoosingSides = true;
+        foreach (MenuController ctrl in FindObjectsOfType<MenuController>()){
+            ctrl.isChoosingSides = true;
+        }
+    }
     public void ChooseSidesNavigation(InputAction.CallbackContext context){
         if(context.performed){
             movementInput = context.ReadValue<Vector2>();
-            if(movementInput.x > 0){
-                IncrementChooseSideChoice();
-            } else if(movementInput.x < 0){
-                DecrementChooseSideChoice();
+            if(isChoosingSides){
+                if(movementInput.x > 0){
+                    IncrementChooseSideChoice();
+                } else if(movementInput.x < 0){
+                    DecrementChooseSideChoice();
+                }
+                FindObjectOfType<GameStartScript>()?.HandleChooseSidePosition();
             }
-            FindObjectOfType<GameStartScript>()?.HandleChooseSidePosition();
         }
     }
     public void MovementInputHandler(InputAction.CallbackContext context){

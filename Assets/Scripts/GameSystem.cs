@@ -81,6 +81,9 @@ public class GameSystem : MonoBehaviour
         //ResetPlayerInputs();
     }
     private void ResetPlayerInputs(){
+        foreach(Gamepad gp in Gamepad.all){
+            Debug.Log($"GamePad: {gp.name}");
+        }
         foreach(PlayerInput ctrl in FindObjectsOfType<PlayerInput>()){
             PlayerController controllerScript = ctrl.gameObject.GetComponent<PlayerController>();
             MenuController menuController = ctrl.gameObject.GetComponent<MenuController>();

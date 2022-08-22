@@ -27,12 +27,11 @@ public class GameStartScript : MonoBehaviour
             SceneManager.LoadScene(sceneNameToLoad);
         }
     }
+    
     public void SwitchToChooseSideMenu(){
+        FindObjectOfType<MenuController>().SwitchOnChoosingSides();
         mainDisplay.SetActive(false);
         chooseSidesMenu.SetActive(true);
-        foreach (MenuController ctrl in FindObjectsOfType<MenuController>()){
-            ctrl.isChoosingSides = true;
-        }
         EventSystem.current.SetSelectedGameObject(acceptButton);
         HandleChooseSidePosition();
     }
@@ -40,9 +39,11 @@ public class GameStartScript : MonoBehaviour
         mainDisplay.SetActive(true);
         creditsDisplay.SetActive(false);
         chooseSidesMenu.SetActive(false);
+        FindObjectOfType<MenuController>().SwitchOffChoosingSides();
         EventSystem.current.SetSelectedGameObject(playButton);
     }
     public void SwitchToCreditsView(){
+        FindObjectOfType<MenuController>().SwitchOffChoosingSides();
         creditsDisplay.SetActive(true);
         mainDisplay.SetActive(false);
         EventSystem.current.SetSelectedGameObject(backButton);
