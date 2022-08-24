@@ -4,15 +4,10 @@ using UnityEngine;
 
 public class Screen : MonoBehaviour
 {
-    // Start is called before the first frame update
     void Start()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        // pick a video file
+        // randomly pick a starting point in the video
+        // play on this object's surface
     }
 }

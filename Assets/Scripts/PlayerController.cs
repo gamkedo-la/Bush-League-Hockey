@@ -45,6 +45,16 @@ public class PlayerController : MonoBehaviour
             GetComponent<PlayerInput>().SwitchCurrentActionMap("UI");
         }
     }
+    public void StartInstantReplay(InputAction.CallbackContext context){
+        if(context.performed){
+            FindObjectOfType<InstantReplay>()?.startInstantReplay();
+        }
+    }
+    public void CancelInstantReplay(InputAction.CallbackContext context){
+        if(context.performed){
+            FindObjectOfType<InstantReplay>()?.StopInstantReplay();
+        }
+    }
     public void MovementInputHandler(InputAction.CallbackContext context){
         if(selectedSkater && goaltender){
             movementInput = context.ReadValue<Vector2>();

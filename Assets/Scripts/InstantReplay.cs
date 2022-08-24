@@ -136,10 +136,8 @@ public class InstantReplay : MonoBehaviour
     {
         
         // press [R] for replay anytime
-        if (Input.GetKeyDown("r")) {
-            Debug.Log("[R] key pressed: starting instant replay!");
-            playingBack = true;
-        }
+        // Functionality added through InputSystem
+        // executes 'StartInstantReplay()'
         
         // we need to find the puck AFTER init since it is not there at first
         if (!puck) puck = GameObject.FindWithTag("puck")?.transform; // NOTE: can vanish mid game!!!!!!!

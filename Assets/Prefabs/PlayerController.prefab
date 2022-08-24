@@ -140,30 +140,6 @@ MonoBehaviour:
     m_ActionId: 491d12a3-f517-425d-88f6-1f6c4730aaf9
     m_ActionName: UI/Cancel[/Keyboard/escape]
   - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: f0b356a1-dba6-46e8-81a0-2abd2238a58b
-    m_ActionName: UI/Point[/Mouse/position]
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1349838862923450303}
-        m_TargetAssemblyTypeName: MenuController, Assembly-CSharp
-        m_MethodName: UIClick
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 62134716-316b-4f43-a82a-472199a7162a
-    m_ActionName: UI/Click[/Mouse/leftButton]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 041c00db-d291-45a0-a771-2a998367e497
-    m_ActionName: UI/RightClick[/Mouse/rightButton]
-  - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1326392306507441094}
         m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
@@ -213,22 +189,6 @@ MonoBehaviour:
     m_ActionName: Player/StickControl[/DualShock4GamepadHID/rightStick,/DualShock3GamepadHID/rightStick,/Keyboard/upArrow,/Keyboard/downArrow,/Keyboard/leftArrow,/Keyboard/rightArrow]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1349838862923450303}
-        m_TargetAssemblyTypeName: MenuController, Assembly-CSharp
-        m_MethodName: ResetGame
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 6126d3fe-434e-498f-ab14-33df8e636cb0
-    m_ActionName: UI/ResetGame[/DualShock3GamepadHID/select,/DualShock4GamepadHID/select,/Keyboard/7]
-  - m_PersistentCalls:
-      m_Calls:
       - m_Target: {fileID: 1326392306507441094}
         m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
         m_MethodName: Pause
@@ -273,9 +233,9 @@ MonoBehaviour:
     m_ActionName: NeutralInput/Join[/Keyboard/space,/Keyboard/enter]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1349838862923450303}
-        m_TargetAssemblyTypeName: MenuController, Assembly-CSharp
-        m_MethodName: ChooseSidesNavigation
+      - m_Target: {fileID: 1326392306507441094}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: StartInstantReplay
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -285,17 +245,25 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_ActionId: 1da0862e-2115-47e7-9a65-7e75e79a51ae
-    m_ActionName: ChooseSide/Navigate[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]
+    m_ActionId: cb7cefce-7de5-43ad-8d17-23607a12ae34
+    m_ActionName: Player/StartInstantReplay[/Keyboard/r]
   - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 41fb19e4-e05c-46ad-88c9-14f5a1a210ab
-    m_ActionName: ChooseSide/AcceptSelection[/Keyboard/space]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: f6855542-f816-4fce-890f-6ffe9d47d9b5
-    m_ActionName: ChooseSide/Cancel[/Keyboard/backspace]
-  m_NeverAutoSwitchControlSchemes: 0
+      m_Calls:
+      - m_Target: {fileID: 1326392306507441094}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: CancelInstantReplay
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: ee3f2596-1b41-4c08-b819-c14958010d42
+    m_ActionName: Player/CancelInstantReplay[/Keyboard/t,/DualShock3GamepadHID/buttonEast,/DualShock4GamepadHID/buttonEast,/XInputControllerWindows/buttonEast]
+  m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: 
   m_DefaultActionMap: UI
   m_SplitScreenIndex: -1
