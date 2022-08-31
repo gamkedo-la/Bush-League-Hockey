@@ -1,16 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.Video;
 public class Screen : MonoBehaviour
 {
-    private UnityEngine.Video.VideoPlayer videoPlayer;
+    private VideoPlayer videoPlayer;
+    [SerializeField] public VideoClip[] videoClips;
     private void Awake() {
-        videoPlayer = GetComponent<UnityEngine.Video.VideoPlayer>();
+        videoPlayer = GetComponent<VideoPlayer>();
+    }
+    private IEnumerator PlayRandomGameplayClip(){
+        int clipIndex = Random.Range(0, videoClips.Length);
+        videoPlayer.clip = videoClips[clipIndex];
+        videoPlayer.time = Random.Range(0f, (float)videoPlayer.length/2f);
+        videoPlayer.Play();
+        yield return new WaitForSeconds((float)(videoPlayer.length - videoPlayer.time));
+        StartCoroutine(PlayRandomGameplayClip());
     }
     void Start()
     {
-        float timelinePosition = Random.Range(0, (float)videoPlayer.length);
-        videoPlayer.time = timelinePosition;
+        StartCoroutine(PlayRandomGameplayClip());
     }
 }
