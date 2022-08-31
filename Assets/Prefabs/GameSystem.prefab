@@ -3072,6 +3072,7 @@ MonoBehaviour:
   homeSkater: {fileID: 0}
   awaySkater: {fileID: 0}
   puckPrefab: {fileID: 237812582925331672, guid: d5c53f26915d88b43a0a8ded0048f0cb, type: 3}
+  AIControllerPrefab: {fileID: 203228621541005135, guid: 213145f513f87b0438b315177d3202ab, type: 3}
   homeGoalOrigin: {fileID: 0}
   homeFaceOffOrigin: {fileID: 0}
   awayGoalOrigin: {fileID: 0}
@@ -3093,6 +3094,7 @@ MonoBehaviour:
   instantReplayController: {fileID: 0}
   suddenDeathDisplay: {fileID: 6588883713815986059}
   gamMenuButtonPanel: {fileID: 1497583516}
+  rematchButton: {fileID: 1945923977}
   countdownDisplayPanel: {fileID: 3544748092083665988}
   countdownCountText: {fileID: 2162067454293530422}
   endOfGameMenu: {fileID: 1367619467240139813}

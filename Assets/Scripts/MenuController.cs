@@ -52,7 +52,8 @@ public class MenuController : MonoBehaviour
     public void MovementInputHandler(InputAction.CallbackContext context){
         if(context.performed){
             movementInput = context.ReadValue<Vector2>();
-            //Debug.Log($"input: {movementInput}");
+            // is this controller the one controlling the UI?
+            // if not make it so
             if(FindObjectOfType<ChooseSidesMenuScript>()?.enabled == true && !movementIsOnCooldown){
                 StartCoroutine(ChangeTeamStatusAndCooldown(movementInput));
             }

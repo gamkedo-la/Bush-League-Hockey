@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
 public class GameSystem : MonoBehaviour
@@ -21,6 +23,7 @@ public class GameSystem : MonoBehaviour
     [SerializeField] GameObject homeSkater;
     [SerializeField] GameObject awaySkater;
     [SerializeField] GameObject puckPrefab;
+    [SerializeField] GameObject AIControllerPrefab;
     [SerializeField] public Transform homeGoalOrigin;
     [SerializeField] public Transform homeFaceOffOrigin;
     [SerializeField] public Transform awayGoalOrigin;
@@ -51,6 +54,7 @@ public class GameSystem : MonoBehaviour
     [SerializeField] public GameObject instantReplayController;
     [SerializeField] public GameObject suddenDeathDisplay;
     [SerializeField] public GameObject gamMenuButtonPanel;
+    [SerializeField] public GameObject rematchButton;
     [SerializeField] public GameObject countdownDisplayPanel;
     [SerializeField] TextMeshProUGUI countdownCountText;
     [SerializeField] public GameObject endOfGameMenu;
@@ -75,20 +79,22 @@ public class GameSystem : MonoBehaviour
         return q.x == 0 && q.y == 0 && q.z == 0 && q.w == 0;
     }
     public void JoinNewPlayer(PlayerInput playerInput){
-        var newPlayerInput = playerInput.gameObject.GetComponent<PlayerController>();
-        Debug.Log($"new input:  {newPlayerInput}");
+        Debug.Log($"new input:  {playerInput.devices[0]}");
         // open choose sides menu
-        //ResetPlayerInputs();
     }
     private void SetPlayersToTeams(){
+        int homeTeamMemberCount = 0;
+        int awayTeamMemberCount = 0;
         foreach(MenuController ctrl in FindObjectsOfType<MenuController>()){
             // read the teamSelectionStatus of MenuController
             switch (ctrl.teamSelectionStatus){
                 case "home":
                     ctrl.GetComponent<PlayerController>().SetToHomeTeam();
+                    homeTeamMemberCount++;
                     break;
                 case "away":
                     ctrl.GetComponent<PlayerController>().SetToAwayTeam();
+                    awayTeamMemberCount++;
                     break;
                 case "neutral":
                     ctrl.GetComponent<PlayerController>().SetToNeutralTeam();
@@ -96,6 +102,14 @@ public class GameSystem : MonoBehaviour
                 default:
                     break;
             }
+        }
+        if(homeTeamMemberCount == 0){
+            GameObject aiPlayer = Instantiate(AIControllerPrefab);
+            aiPlayer.GetComponent<AIPlayerController>().SetToHomeTeam();
+        }
+        if(awayTeamMemberCount == 0){
+            GameObject aiPlayer = Instantiate(AIControllerPrefab);
+            aiPlayer.GetComponent<AIPlayerController>().SetToAwayTeam();
         }
         SetAllActionMapsToPlayer();
     }
@@ -107,6 +121,11 @@ public class GameSystem : MonoBehaviour
     private void SetAllActionMapsToPlayer(){
         foreach (PlayerInput ctrl in FindObjectsOfType<PlayerInput>()){
             ctrl.SwitchCurrentActionMap("Player");
+        }
+    }
+    public void DeactivateAllPlayerInputs(){
+        foreach (PlayerInput ctrl in FindObjectsOfType<PlayerInput>()){
+            ctrl.DeactivateInput();
         }
     }
     public void UnFreeze(){
@@ -211,8 +230,10 @@ public class GameSystem : MonoBehaviour
         // point a spotlight on the player who scored
         yield return new WaitForSeconds(3);
         // is it sudden death? declare the winner
-        if(isSuddenDeath){StartCoroutine(EndOfGameHandler());}
-        else{StartCoroutine(CountDownAndDropPuck());}
+        if(isSuddenDeath){
+            isSuddenDeath = false;
+            StartCoroutine(EndOfGameHandler());
+        }else{StartCoroutine(CountDownAndDropPuck());}
     }
     public void UpdateScoreBoard(){
         homeScoreText.text = endOfGameHomeScoreText.text = homeScore.ToString();
@@ -315,12 +336,6 @@ public class GameSystem : MonoBehaviour
             mainCamera.transform.rotation = Quaternion.Lerp(mainCamera.transform.rotation, desiredCameraRotation, cameraRotationSpeed);
         }
     }
-    private void HandleCameraZoom(){
-        // total horizontal distance between the players and the puck
-        // far zoom: entire rink visible
-        // near zoom: TBD
-        // (max: rink width, min: everone at center ice)
-    }
     private void HandleGameTimer(){
         // Should the clock start running?
         if(gameOn && !clockIsRunning && !isSuddenDeath){StartCoroutine(RunClock());}
@@ -333,14 +348,14 @@ public class GameSystem : MonoBehaviour
     }
     public void HandleResume(){
         gamMenuButtonPanel.SetActive(false);
-        gameOn = true;
+        // activate all PlayerInputs
         SetAllActionMapsToPlayer();
     }
     public void HandlePause(){
         gamMenuButtonPanel.SetActive(true);
-        gameOn = false;
-        // 'selected menu item'
-        // visualize selected
+        EventSystem.current.SetSelectedGameObject(rematchButton);
+        // Deactivate all PlayerInputs
+        // Activate the current PlayerInput
     }
     public void BeginGame(){
         DeactivateGoals();
@@ -355,6 +370,5 @@ public class GameSystem : MonoBehaviour
         HandleGameTimer();
         HandleCameraPositioning();
         HandleCameraFocus();
-        HandleCameraZoom();
     }
 }
