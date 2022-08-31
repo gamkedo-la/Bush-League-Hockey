@@ -19,9 +19,6 @@ public class TeamMember : MonoBehaviour
         gameSystem = GameObject.Find("GameSystem").GetComponent<GameSystem>();
         audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
     }
-    public void SetIsHomeTeam(bool isHome){
-        isHomeTeam = isHome;
-    }
     public void ControlPuck(){
         if(canTakePosession){
             canTakePosession = false;
@@ -50,8 +47,5 @@ public class TeamMember : MonoBehaviour
     public void BreakPosession(){
         puckPositionMarker.GetComponent<PuckHandleJoint>().BreakFixedJoint();
         StartCoroutine(LostPosession());
-    }
-    public string getOppositionTag(){
-        return isHomeTeam ? "awaySkater" : "homeSkater";
     }
 }

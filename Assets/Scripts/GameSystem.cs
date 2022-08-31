@@ -62,7 +62,7 @@ public class GameSystem : MonoBehaviour
     [SerializeField] public GameObject endOfGameAwayWinnerTag;
     private void Awake(){
         mainCamera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
-        audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
+        audioManager = FindObjectOfType<AudioManager>();
         cameraPausePosition = Vector3.zero;
     }
     public void PreserveKeyGameElements(){
@@ -80,16 +80,22 @@ public class GameSystem : MonoBehaviour
         // open choose sides menu
         //ResetPlayerInputs();
     }
-    private void ResetPlayerInputs(){
-        foreach(Gamepad gp in Gamepad.all){
-            Debug.Log($"GamePad: {gp.name}");
-        }
-        foreach(PlayerInput ctrl in FindObjectsOfType<PlayerInput>()){
-            PlayerController controllerScript = ctrl.gameObject.GetComponent<PlayerController>();
-            MenuController menuController = ctrl.gameObject.GetComponent<MenuController>();
-            controllerScript.SetIsHomeTeam(controllerScript.isHomeTeam);
-            if(!localPlayerControllers.Contains(ctrl.gameObject)){localPlayerControllers.Add(ctrl.gameObject);}
-            menuController.Awake();
+    private void SetPlayersToTeams(){
+        foreach(MenuController ctrl in FindObjectsOfType<MenuController>()){
+            // read the teamSelectionStatus of MenuController
+            switch (ctrl.teamSelectionStatus){
+                case "home":
+                    ctrl.GetComponent<PlayerController>().SetToHomeTeam();
+                    break;
+                case "away":
+                    ctrl.GetComponent<PlayerController>().SetToAwayTeam();
+                    break;
+                case "neutral":
+                    ctrl.GetComponent<PlayerController>().SetToNeutralTeam();
+                    break;
+                default:
+                    break;
+            }
         }
         SetAllActionMapsToPlayer();
     }
@@ -339,10 +345,10 @@ public class GameSystem : MonoBehaviour
     public void BeginGame(){
         DeactivateGoals();
         audioManager.PlayBaseCrowdTrack();
+        SetPlayersToTeams();
         StartCoroutine(CountDownAndDropPuck());
     }
     private void Start(){
-        ResetPlayerInputs();
         BeginGame();
     }
     void Update(){

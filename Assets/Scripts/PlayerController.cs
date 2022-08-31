@@ -18,26 +18,32 @@ public class PlayerController : MonoBehaviour
     private Goaltender goaltender;
     private TeamMember goaltenderTeamMember;
     public bool isHomeTeam;
-    public void SetIsHomeTeam(bool homeTeamBool){
-        Awake();
-        isHomeTeam = homeTeamBool;
-        if(isHomeTeam){
-            selectedSkater = GameObject.FindWithTag("homeSkater").GetComponent<Skater>();
-            selectedTeamMember = GameObject.FindWithTag("homeSkater").GetComponent<TeamMember>();
-            goaltender = GameObject.FindWithTag("homeGoaltender").GetComponent<Goaltender>();
-            goaltenderTeamMember = GameObject.FindWithTag("homeGoaltender").GetComponent<TeamMember>();
-        } else {
-            selectedSkater = GameObject.FindWithTag("awaySkater").GetComponent<Skater>();
-            selectedTeamMember = GameObject.FindWithTag("awaySkater").GetComponent<TeamMember>();
-            goaltender = GameObject.FindWithTag("awayGoaltender").GetComponent<Goaltender>();
-            goaltenderTeamMember = GameObject.FindWithTag("awayGoaltender").GetComponent<TeamMember>();
-        }
-        goaltenderTeamMember.SetIsHomeTeam(isHomeTeam);
-        goaltender.FindMyNet();
-    }
     private void Awake(){
-        gameSystem = GameObject.Find("GameSystem")?.GetComponent<GameSystem>();
+        gameSystem = FindObjectOfType<GameSystem>();
         playerInput = GetComponent<PlayerInput>();
+    }
+    public void SetToHomeTeam(){
+        selectedSkater = GameObject.FindWithTag("homeSkater").GetComponent<Skater>();
+        goaltender = GameObject.FindWithTag("homeGoaltender").GetComponent<Goaltender>();
+        Debug.Log($"Home:  skaterscript {selectedSkater}   goaliescript {goaltender}");
+        InitializeTeamObjects();
+    }
+    public void SetToAwayTeam(){
+        selectedSkater = GameObject.FindWithTag("awaySkater").GetComponent<Skater>();
+        goaltender = GameObject.FindWithTag("awayGoaltender").GetComponent<Goaltender>();
+        Debug.Log($"Away:  skaterscript {selectedSkater}   goaliescript {goaltender}");
+        InitializeTeamObjects();
+    }
+    public void SetToNeutralTeam(){
+        selectedSkater = null;
+        selectedTeamMember = null;
+        goaltender = null;
+    }
+    private void InitializeTeamObjects(){
+        Debug.Log($"TeamMember component: {selectedSkater}");
+        Awake();
+        selectedTeamMember = selectedSkater.gameObject.GetComponent<TeamMember>();
+        goaltender.FindMyNet();
     }
     public void Pause(InputAction.CallbackContext context){
         if(context.performed){

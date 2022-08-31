@@ -1128,7 +1128,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: eff3a45343f2eda48a0d8cf9a10db3ff, type: 3}
       propertyPath: m_TagString
-      value: homeSkater
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 953829846723390224, guid: eff3a45343f2eda48a0d8cf9a10db3ff, type: 3}
       propertyPath: m_Layer
@@ -1308,6 +1308,7 @@ MonoBehaviour:
   modelHips: {fileID: 1934877821}
   bodyCheckHitZone: {fileID: 2533384821195587337}
   twistChainConstraint: {fileID: 1947174579}
+  instantReplayController: {fileID: 0}
   skaterAnimator: {fileID: 5841098711529633338}
   rigBuilder: {fileID: 1787442329}
   skateCycleRig: {fileID: 688297251}

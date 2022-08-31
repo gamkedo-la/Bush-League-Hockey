@@ -4,10 +4,13 @@ using UnityEngine;
 
 public class Screen : MonoBehaviour
 {
+    private UnityEngine.Video.VideoPlayer videoPlayer;
+    private void Awake() {
+        videoPlayer = GetComponent<UnityEngine.Video.VideoPlayer>();
+    }
     void Start()
     {
-        // pick a video file
-        // randomly pick a starting point in the video
-        // play on this object's surface
+        float timelinePosition = Random.Range(0, (float)videoPlayer.length);
+        videoPlayer.time = timelinePosition;
     }
 }

@@ -7,7 +7,7 @@ public class ModelCollisionSfx : MonoBehaviour
     private AudioManager audioManager;
     public bool collisionSfxEnabled = false;
     private void Awake() {
-        audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
+        audioManager = FindObjectOfType<AudioManager>();
     }
     private void OnCollisionEnter(Collision other) {
         if(collisionSfxEnabled){
