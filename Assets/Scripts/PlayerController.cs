@@ -25,13 +25,11 @@ public class PlayerController : MonoBehaviour
     public void SetToHomeTeam(){
         selectedSkater = GameObject.FindWithTag("homeSkater").GetComponent<Skater>();
         goaltender = GameObject.FindWithTag("homeGoaltender").GetComponent<Goaltender>();
-        Debug.Log($"Home:  skaterscript {selectedSkater}   goaliescript {goaltender}");
         InitializeTeamObjects();
     }
     public void SetToAwayTeam(){
         selectedSkater = GameObject.FindWithTag("awaySkater").GetComponent<Skater>();
         goaltender = GameObject.FindWithTag("awayGoaltender").GetComponent<Goaltender>();
-        Debug.Log($"Away:  skaterscript {selectedSkater}   goaliescript {goaltender}");
         InitializeTeamObjects();
     }
     public void SetToNeutralTeam(){
@@ -40,7 +38,6 @@ public class PlayerController : MonoBehaviour
         goaltender = null;
     }
     private void InitializeTeamObjects(){
-        Debug.Log($"TeamMember component: {selectedSkater}");
         Awake();
         selectedTeamMember = selectedSkater.gameObject.GetComponent<TeamMember>();
         goaltender.FindMyNet();
