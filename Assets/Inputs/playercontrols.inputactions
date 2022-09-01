@@ -531,7 +531,7 @@
             ],
             "bindings": [
                 {
-                    "name": "Gamepad",
+                    "name": "D-Pad",
                     "id": "809f371f-c5e2-4e7a-83a1-d867598f40dd",
                     "path": "2DVector",
                     "interactions": "",
@@ -553,12 +553,56 @@
                     "isPartOfComposite": true
                 },
                 {
+                    "name": "up",
+                    "id": "ef1a0a97-24fb-439e-a162-a6abd34c7ac3",
+                    "path": "<XInputController>/dpad/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "XBox",
+                    "action": "Navigate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "up",
+                    "id": "56e8dc80-fdce-487f-acf9-5409c47b5629",
+                    "path": "<DualShockGamepad>/dpad/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "PS4",
+                    "action": "Navigate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
                     "name": "down",
                     "id": "2db08d65-c5fb-421b-983f-c71163608d67",
                     "path": "<Gamepad>/dpad/down",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Gamepad",
+                    "action": "Navigate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "009b92f9-9538-4e75-adde-0965456ae1a0",
+                    "path": "<XInputController>/dpad/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "XBox",
+                    "action": "Navigate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "f347f792-792b-4a40-82b4-8d2c6de81fa9",
+                    "path": "<DualShockGamepad>/dpad/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "PS4",
                     "action": "Navigate",
                     "isComposite": false,
                     "isPartOfComposite": true
@@ -575,12 +619,56 @@
                     "isPartOfComposite": true
                 },
                 {
+                    "name": "left",
+                    "id": "814a6e0a-d23f-4806-baae-27e473cf95d4",
+                    "path": "<XInputController>/dpad/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "XBox",
+                    "action": "Navigate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "5a7fae8a-8862-4155-8407-0044dd4f96c4",
+                    "path": "<DualShockGamepad>/dpad/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "PS4",
+                    "action": "Navigate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
                     "name": "right",
                     "id": "fcd248ae-a788-4676-a12e-f4d81205600b",
                     "path": "<Gamepad>/dpad/right",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Gamepad",
+                    "action": "Navigate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "57eec2aa-332b-4a30-9a3f-65086bc07833",
+                    "path": "<XInputController>/dpad/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "XBox",
+                    "action": "Navigate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "8c932002-1d4a-45c1-8d9e-be9ca1f6a609",
+                    "path": "<DualShockGamepad>/dpad/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "PS4",
                     "action": "Navigate",
                     "isComposite": false,
                     "isPartOfComposite": true
@@ -680,61 +768,6 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
-                    "action": "Navigate",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "PS4",
-                    "id": "1c772cb8-2df1-462a-9185-f91de59220b7",
-                    "path": "2DVector",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Navigate",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "up",
-                    "id": "141a3556-dc61-4ec5-9d09-9991fa69a599",
-                    "path": "<DualShockGamepad>/dpad/up",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "PS4",
-                    "action": "Navigate",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "down",
-                    "id": "79efc439-a349-494d-b443-e52a99fc48bc",
-                    "path": "<DualShockGamepad>/dpad/down",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "PS4",
-                    "action": "Navigate",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "left",
-                    "id": "a56e12d9-5290-424c-b35b-528159d1e115",
-                    "path": "<DualShockGamepad>/dpad/left",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "PS4",
-                    "action": "Navigate",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "right",
-                    "id": "61652db2-4e53-42bd-aeea-3bbd681d8c63",
-                    "path": "<DualShockGamepad>/dpad/right",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "PS4",
                     "action": "Navigate",
                     "isComposite": false,
                     "isPartOfComposite": true
@@ -1239,7 +1272,13 @@
         {
             "name": "XBox",
             "bindingGroup": "XBox",
-            "devices": []
+            "devices": [
+                {
+                    "devicePath": "<XInputController>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
         }
     ]
 }
