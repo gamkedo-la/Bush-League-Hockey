@@ -1,15 +1,20 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PuckScript : MonoBehaviour
 {
+
+    public static EventHandler<EventArgs> onPuckSpawned;
+
     private AudioManager audioManager;
     private Rigidbody puckRigidbody;
     [SerializeField] GameObject puckLocationIndicator;
     private void Awake(){
         audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
         puckRigidbody = GetComponent<Rigidbody>();
+        onPuckSpawned?.Invoke(this, EventArgs.Empty);
     }
     private void OnCollisionEnter(Collision other) {
         float volumeFactor = puckRigidbody.velocity.magnitude / 10;
