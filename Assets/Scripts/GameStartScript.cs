@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 public class GameStartScript : MonoBehaviour
 {
     [Header("Main Menu")]
-    public GameObject playButton;
+    [SerializeField] public GameObject playButton;
     public GameObject creditsButton;
     public GameObject quitButton;
     public GameObject mainDisplay;
@@ -17,13 +17,6 @@ public class GameStartScript : MonoBehaviour
     [Header("Credits View")]
     public GameObject creditsDisplay;
     public GameObject backButton;
-    public string sceneNameToLoad = "error";
-    public void LoadSceneByName(){
-        if(sceneNameToLoad=="error"){
-        } else {
-            SceneManager.LoadScene(sceneNameToLoad);
-        }
-    }
     public void SwitchToChooseSideMenu(){
         mainDisplay.SetActive(false);
         chooseSidesMenu.SetActive(true);
@@ -52,9 +45,9 @@ public class GameStartScript : MonoBehaviour
         }
         SceneManager.LoadScene("Hat-Trick");        
     }
-    // event listener for navigation events
-    // when any player uses navigation controls on the menu:
-    // they become the input for the UI
+    private void Start() {
+        EventSystem.current?.SetSelectedGameObject(playButton);
+    }
     public void QuitGame(){
         Application.Quit();
     }

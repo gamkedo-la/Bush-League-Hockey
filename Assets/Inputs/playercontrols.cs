@@ -643,7 +643,7 @@ public partial class @Playercontrols : IInputActionCollection2, IDisposable
                 {
                     ""name"": ""left"",
                     ""id"": ""814a6e0a-d23f-4806-baae-27e473cf95d4"",
-                    ""path"": ""<XInputController>/dpad/down"",
+                    ""path"": ""<XInputController>/dpad/left"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""XBox"",
@@ -654,7 +654,7 @@ public partial class @Playercontrols : IInputActionCollection2, IDisposable
                 {
                     ""name"": ""left"",
                     ""id"": ""5a7fae8a-8862-4155-8407-0044dd4f96c4"",
-                    ""path"": ""<DualShockGamepad>/dpad/down"",
+                    ""path"": ""<DualShockGamepad>/dpad/left"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""PS4"",

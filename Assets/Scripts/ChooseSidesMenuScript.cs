@@ -37,7 +37,7 @@ public class ChooseSidesMenuScript : MonoBehaviour
             }
         }
     }
-    private void CheckButtonstatus(){
+    private void CheckButtonStatus(){
         // AcceptButton - make sure there is at least 1 home or away player
         MenuController[] menuControllers = FindObjectsOfType<MenuController>();
         int playersThatHaveATeam = 0;
@@ -59,7 +59,7 @@ public class ChooseSidesMenuScript : MonoBehaviour
     
     void Update()
     {
-        CheckButtonstatus();
+        CheckButtonStatus();
         PositionInputControllerIcons();
     }
 }
