@@ -6,7 +6,7 @@ public class Goaltender : MonoBehaviour
 {
     private GameSystem gameSystem;
     private AudioManager audioManager;
-    private TeamMember teamMember;
+    public TeamMember teamMember;
     [Header("Movement")]
     [HideInInspector] public float movementSpeed = 6f;
     private Quaternion goalieRotation;
