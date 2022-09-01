@@ -25,5 +25,10 @@ public class PuckScript : MonoBehaviour
     }
     private void Update() {
         // position a VFX object directly underneath the puck
+        puckLocationIndicator.transform.position = new Vector3(
+            transform.position.x,
+            0f,
+            transform.position.z
+        );
     }
 }
