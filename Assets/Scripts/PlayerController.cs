@@ -44,7 +44,7 @@ public class PlayerController : MonoBehaviour
     }
     public void Pause(InputAction.CallbackContext context){
         if(context.performed){
-            gameSystem.HandlePause();
+            FindObjectOfType<GameSystem>()?.HandlePause();
             GetComponent<PlayerInput>().SwitchCurrentActionMap("UI");
         }
     }

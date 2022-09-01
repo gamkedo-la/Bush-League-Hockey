@@ -45,7 +45,7 @@ public class GameSystem : MonoBehaviour
     [SerializeField] TextMeshProUGUI awayScoreText;
     [SerializeField] TextMeshProUGUI timerText;
     private bool clockIsRunning = false;
-    private float timeRemaining = 150;
+    private float timeRemaining = 300;
     private bool isSuddenDeath = false;
     [Header("Onscreen Messages / Menus")]
     [SerializeField] public GameObject GoalScoredDisplay;

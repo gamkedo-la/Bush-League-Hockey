@@ -819,8 +819,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skaterAnimationScript: {fileID: 3792185025071796481}
-  skaterAcceleration: 60
-  skaterMaximumSpeed: 10
+  skaterAcceleration: 80
+  skaterMaximumSpeed: 14
   skaterTurnSpeed: 10
   angleAccelerationLimit: 15
   angleTurnLimit: 60

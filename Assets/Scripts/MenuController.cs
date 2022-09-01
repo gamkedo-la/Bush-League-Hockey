@@ -61,7 +61,7 @@ public class MenuController : MonoBehaviour
     }
     public void UnPause(InputAction.CallbackContext context){
         if(context.performed){
-            gameSystem.HandleResume();
+            FindObjectOfType<GameSystem>()?.HandleResume();
         }
     }
     private void Start() {

@@ -6,6 +6,7 @@ public class PuckScript : MonoBehaviour
 {
     private AudioManager audioManager;
     private Rigidbody puckRigidbody;
+    [SerializeField] GameObject puckLocationIndicator;
     private void Awake(){
         audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
         puckRigidbody = GetComponent<Rigidbody>();
@@ -21,5 +22,8 @@ public class PuckScript : MonoBehaviour
         if (other.gameObject.name.Contains("DEF") ||  other.gameObject.name.Contains("Goaltender")) {
             audioManager.PlayPuckPlayerHitSound(volumeFactor*3);
         }
+    }
+    private void Update() {
+        // position a VFX object directly underneath the puck
     }
 }
