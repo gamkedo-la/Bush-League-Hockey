@@ -21,7 +21,7 @@ TagManager:
   - EnvironmentBoundary
   - Water
   - UI
-  - PuckPosession
+  - Puck
   - SkaterWorldPhysics
   - SkaterModelPhysics
   - 

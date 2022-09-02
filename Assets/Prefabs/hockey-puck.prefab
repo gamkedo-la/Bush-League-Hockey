@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1120702074290966360}
   - component: {fileID: 4471053607811777076}
   - component: {fileID: 7798533683984416290}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: hockey-puck
   m_TagString: puck
   m_Icon: {fileID: 0}
@@ -104,7 +104,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 1
+  m_CollisionDetection: 2
 --- !u!96 &4471053607811777076
 TrailRenderer:
   serializedVersion: 2
@@ -236,7 +236,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1120702073697116337}
   - component: {fileID: 1120702073697116334}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SphereCollider
   m_TagString: puck
   m_Icon: {fileID: 0}
@@ -282,7 +282,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1120702074094611532}
   - component: {fileID: 1120702074094611533}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SphereCollider (1)
   m_TagString: puck
   m_Icon: {fileID: 0}
@@ -372,6 +372,10 @@ PrefabInstance:
     - target: {fileID: 4364115138305879082, guid: 2facb931c94f04f458afb9bf18332d09, type: 3}
       propertyPath: m_Name
       value: VfxPuckRipple
+      objectReference: {fileID: 0}
+    - target: {fileID: 4364115138305879082, guid: 2facb931c94f04f458afb9bf18332d09, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2facb931c94f04f458afb9bf18332d09, type: 3}

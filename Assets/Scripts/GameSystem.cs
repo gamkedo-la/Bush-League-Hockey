@@ -79,7 +79,8 @@ public class GameSystem : MonoBehaviour
         return q.x == 0 && q.y == 0 && q.z == 0 && q.w == 0;
     }
     public void JoinNewPlayer(PlayerInput playerInput){
-        Debug.Log($"new input:  {playerInput.devices[0]}");
+        playerInput.GetComponent<PlayerController>().SetToHomeTeam();
+        SetPlayersToTeams();
         // open choose sides menu
     }
     private void SetPlayersToTeams(){
@@ -102,6 +103,10 @@ public class GameSystem : MonoBehaviour
                 default:
                     break;
             }
+        }
+        foreach (AIPlayerController aI in FindObjectsOfType<AIPlayerController>())
+        {
+            Destroy(aI.gameObject);
         }
         if(homeTeamMemberCount == 0){
             GameObject aiPlayer = Instantiate(AIControllerPrefab);

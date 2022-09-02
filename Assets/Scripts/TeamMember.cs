@@ -14,7 +14,7 @@ public class TeamMember : MonoBehaviour
     private FixedJoint puckHandleJoint;
     [HideInInspector] public bool canTakePosession = true;
     [HideInInspector] public bool hasPosession = false;
-    private float posessionCooldownTime = 0.5f;
+    private float posessionCooldownTime = 0.3f;
     private void Awake(){
         gameSystem = GameObject.Find("GameSystem").GetComponent<GameSystem>();
         audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
@@ -37,6 +37,11 @@ public class TeamMember : MonoBehaviour
     }
     public void EnableInteractions(){
         skaterPosessionTrigger.SetActive(true);
+        canTakePosession = true;
+    }
+    public IEnumerator PreventPosession(){
+        canTakePosession = false;
+        yield return new WaitForSeconds(posessionCooldownTime);
         canTakePosession = true;
     }
     public IEnumerator LostPosession(){

@@ -746,7 +746,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b250218cd4ae985468d1422408a4e54f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  goalHasCounted: 0
+  goalIsActive: 0
 --- !u!4 &5583651459694067286 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 08da59c600af97945be2d3b358b9060d, type: 3}
@@ -972,7 +972,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b250218cd4ae985468d1422408a4e54f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  goalHasCounted: 0
+  goalIsActive: 0
 --- !u!4 &5583651459525276796 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 08da59c600af97945be2d3b358b9060d, type: 3}
