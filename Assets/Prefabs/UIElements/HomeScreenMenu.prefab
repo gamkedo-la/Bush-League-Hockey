@@ -1466,35 +1466,40 @@ MonoBehaviour:
     hockey net, hockey puck], animation rigging, animation (authored and procedural/physics/IK),
     AI, net, local multiplayer, goalie mechanics, keyboard and gamepad support, scoring
     and possession rules, camera behavior,  sounds (crowd, hit post, boards bounce,
-    goalie check), audio implementation, ragdolls, assorted bug fixing, animation
-    compatibility with instant replay
+    goalie check, possession, puck catch), audio implementation, rag dolls, assorted
+    bug fixing, animation compatibility with instant replay, usability improvements,
+    overtime, controller support
 
 
-    Christer "McFunkypants" Kaitila: Slo-mo
-    / instant replay system, scene models (bleachers, rocks, snow banks, grass, side
-    boards, bush, tree, horizon treeline), scene lightingimproved goal tender appearance
+    Christer "McFunkypants" Kaitila: Slo-mo /
+    instant replay system, scene models (bleachers, rocks, snow banks, grass, side
+    boards, bush, tree, horizon tree line), scene lighting improved goal tender appearance
 
 
-    Tyler
-    Funk: Body check and related input, rink scratches
+    Neil
+    Urwin: Computer controller opponent AI
 
 
-    Gabriel Cornish: Crowd
-    effect, start menu
+    Tyler Funk: Body check and related
+    input, rink scratches
 
 
-    Stebs: Puck model with variations, crowd reactions
+    Gabriel Cornish: Crowd effect, start menu
 
 
-    Rob
-    Tunstall: Sounds for skating, puck hit, and puck bouncing off boards
+    Stebs:
+    Puck model with variations, crowd reactions
 
 
-    Andy
-    King: Ice tracks shader
+    Rob Tunstall: Sounds for skating,
+    puck hit, and puck bouncing off boards
 
 
-    Chris DeLeon: Puck trail effect'
+    Andy King: Ice tracks shader
+
+
+    Chris
+    DeLeon: Puck trail effect'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2771,6 +2776,7 @@ MonoBehaviour:
   mainDisplay: {fileID: 8812850747737266443}
   chooseSidesMenu: {fileID: 8812850749087428887}
   acceptButton: {fileID: 8812850747711366863}
+  helpDisplay: {fileID: 1901960582}
   creditsDisplay: {fileID: 315470019944943551}
   backButton: {fileID: 7652295195482646259}
 --- !u!114 &1172342745

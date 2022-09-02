@@ -14,6 +14,7 @@ public class GameStartScript : MonoBehaviour
     List<GameObject> menuIcons;
     public GameObject chooseSidesMenu;
     public GameObject acceptButton;
+    public GameObject helpDisplay;
     [Header("Credits View")]
     public GameObject creditsDisplay;
     public GameObject backButton;
@@ -28,12 +29,14 @@ public class GameStartScript : MonoBehaviour
         mainDisplay.SetActive(true);
         creditsDisplay.SetActive(false);
         chooseSidesMenu.SetActive(false);
+        helpDisplay.SetActive(true);
         // disable choose sides menu script
         EventSystem.current.SetSelectedGameObject(playButton);
     }
     public void SwitchToCreditsView(){
         creditsDisplay.SetActive(true);
         mainDisplay.SetActive(false);
+        helpDisplay.SetActive(false);
         EventSystem.current.SetSelectedGameObject(backButton);
     }
     public void SetPlayerInputSides(){
