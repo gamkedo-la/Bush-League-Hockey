@@ -104,7 +104,7 @@ public class Goaltender : MonoBehaviour
         if(!windingUpPass) return;
         windingUpPass = false;
         if(teamMember.hasPosession){
-            teamMember.BreakPosession();
+            StartCoroutine(teamMember.BreakPosession());
             audioManager.PlayPassSFX();
             gameSystem.puckObject.GetComponent<Rigidbody>().AddForce(passDirection * (passPower + extraPassPower), ForceMode.Impulse);
         }
@@ -124,7 +124,7 @@ public class Goaltender : MonoBehaviour
         if(!teamMember.windingUp) return;
         teamMember.windingUp = false;
         if(teamMember.hasPosession){
-            teamMember.BreakPosession();
+            StartCoroutine(teamMember.BreakPosession());
             audioManager.PlayShotSFX();
             gameSystem.puckObject.GetComponent<Rigidbody>().AddForce(shotDirection * (shotPower + extraPower), ForceMode.Impulse);
         }

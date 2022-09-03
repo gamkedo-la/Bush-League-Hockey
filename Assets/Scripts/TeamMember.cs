@@ -23,6 +23,8 @@ public class TeamMember : MonoBehaviour
         if(canTakePosession){
             canTakePosession = false;
             hasPosession = true;
+            // teleports the puck to the position marker.
+            // allows it to teleport through the objects.
             gameSystem.puckObject.transform.position = puckPositionMarker.transform.position;
             if(!puckPositionMarker.GetComponent<FixedJoint>()){
                 audioManager.PlayTakePossessionSFX();
@@ -31,7 +33,7 @@ public class TeamMember : MonoBehaviour
         }
     }
     public void DisableInteractions(){
-        BreakPosession();
+        StartCoroutine(BreakPosession());
         windingUp = false;
         skaterPosessionTrigger.SetActive(false);
     }
@@ -39,18 +41,11 @@ public class TeamMember : MonoBehaviour
         skaterPosessionTrigger.SetActive(true);
         canTakePosession = true;
     }
-    public IEnumerator PreventPosession(){
+    public IEnumerator BreakPosession(){
+        puckPositionMarker.GetComponent<PuckHandleJoint>().BreakFixedJoint();
+        hasPosession = false;
         canTakePosession = false;
         yield return new WaitForSeconds(posessionCooldownTime);
         canTakePosession = true;
-    }
-    public IEnumerator LostPosession(){
-        hasPosession = false;
-        yield return new WaitForSeconds(posessionCooldownTime);
-        canTakePosession = true;
-    }
-    public void BreakPosession(){
-        puckPositionMarker.GetComponent<PuckHandleJoint>().BreakFixedJoint();
-        StartCoroutine(LostPosession());
     }
 }

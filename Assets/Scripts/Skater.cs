@@ -105,7 +105,7 @@ public class Skater : MonoBehaviour
         if(!windingUpPass || isKnockedDown) return;
         windingUpPass = false;
         if(teamMember.hasPosession){
-            teamMember.BreakPosession();
+            StartCoroutine(teamMember.BreakPosession());
             audioManager.PlayPassSFX();
             skaterAnimationScript.skaterAnimator.SetTrigger("AnimatePassFollowThru");
             gameSystem.puckObject.GetComponent<Rigidbody>().AddForce(bodycheckDirection * (passPower + extraPassPower), ForceMode.Impulse);
@@ -130,7 +130,7 @@ public class Skater : MonoBehaviour
         if(!windingUpShot || isKnockedDown) return;
         windingUpShot = false;
         if(teamMember.hasPosession){
-            teamMember.BreakPosession();
+            StartCoroutine(teamMember.BreakPosession());
             audioManager.PlayShotSFX();
             skaterAnimationScript.skaterAnimator.SetTrigger("AnimateShotFollowThru");
             gameSystem.puckObject.GetComponent<Rigidbody>().AddForce(shotDirection * (shotPower + extraShotPower), ForceMode.Impulse);
@@ -175,7 +175,7 @@ public class Skater : MonoBehaviour
         GetComponent<Collider>().enabled = false;
         teamMember.DisableInteractions();
         StartCoroutine(audioManager.PlayBodycheckHitAndReaction());
-        teamMember.BreakPosession();
+        StartCoroutine(teamMember.BreakPosession());
         StartCoroutine(skaterAnimationScript.RagdollThenReset(incomingHitPower, hitDirection, 3f));
         // at the end of this, in RagdollThenReset() we trigger an instant replay
     }

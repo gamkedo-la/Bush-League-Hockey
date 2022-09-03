@@ -181,10 +181,10 @@ public class GameSystem : MonoBehaviour
         awaySkater.GetComponent<Skater>().ResetSkaterActions();
         awaySkater.GetComponent<Skater>().ResetSkaterMotion();
         // break posession
-        homeSkater.GetComponent<TeamMember>().BreakPosession();
-        awaySkater.GetComponent<TeamMember>().BreakPosession();
-        homeGoaltender.GetComponent<TeamMember>().BreakPosession();
-        awayGoaltender.GetComponent<TeamMember>().BreakPosession();
+        StartCoroutine(homeSkater.GetComponent<TeamMember>().BreakPosession());
+        StartCoroutine(awaySkater.GetComponent<TeamMember>().BreakPosession());
+        StartCoroutine(homeGoaltender.GetComponent<TeamMember>().BreakPosession());
+        StartCoroutine(awayGoaltender.GetComponent<TeamMember>().BreakPosession());
         // position players
         homeSkater.transform.position = homeFaceOffOrigin.position;
         homeSkater.transform.rotation = homeFaceOffOrigin.rotation;
