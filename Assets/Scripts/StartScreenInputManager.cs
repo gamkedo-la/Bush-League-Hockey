@@ -11,9 +11,7 @@ public class StartScreenInputManager : MonoBehaviour
     [SerializeField] public GameObject genericControllerIcon;
     [SerializeField] public GameObject xboxControllerIcon;
     public void JoinNewPlayer(PlayerInput playerInput){
-        Debug.Log($"input type: {playerInput.currentControlScheme}");
-        switch (playerInput.currentControlScheme)
-        {
+        switch (playerInput.currentControlScheme){
             case "Keyboard&Mouse":
             Debug.Log($"case Keyboard and Mouse");
                 playerInput.GetComponent<MenuController>().chooseSidesMenuIcon = keyboardIcon;
@@ -29,6 +27,7 @@ public class StartScreenInputManager : MonoBehaviour
                 break;
         }
         playerInput.GetComponent<MenuController>().InitializeController();
-        playerInput.GetComponent<MultiplayerEventSystem>().firstSelectedGameObject = GetComponent<GameStartScript>().playButton;
+        // set the firstSelectedGame
+        playerInput.GetComponent<MultiplayerEventSystem>().firstSelectedGameObject = GetComponent<GameStartScript>().currentItem;
     }
 }

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem.UI;
 using UnityEngine.EventSystems;
 public class GameStartScript : MonoBehaviour
 {
@@ -18,26 +19,31 @@ public class GameStartScript : MonoBehaviour
     [Header("Credits View")]
     public GameObject creditsDisplay;
     public GameObject backButton;
+    [HideInInspector] public GameObject currentItem;
+    public void SetActiveMenuItemForAllPlayers(GameObject menuItem){
+        currentItem = menuItem;
+        foreach (MultiplayerEventSystem eventSystem in FindObjectsOfType<MultiplayerEventSystem>())
+        {
+            eventSystem.SetSelectedGameObject(menuItem);
+        }
+    }
     public void SwitchToChooseSideMenu(){
         mainDisplay.SetActive(false);
         chooseSidesMenu.SetActive(true);
-        EventSystem.current.SetSelectedGameObject(acceptButton);
-        // get all the player inputs
-        MenuController[] playerInputs = FindObjectsOfType<MenuController>();
+        SetActiveMenuItemForAllPlayers(acceptButton);
     }
     public void SwitchToMainDisplay(){
         mainDisplay.SetActive(true);
         creditsDisplay.SetActive(false);
         chooseSidesMenu.SetActive(false);
         helpDisplay.SetActive(true);
-        // disable choose sides menu script
-        EventSystem.current.SetSelectedGameObject(playButton);
+        SetActiveMenuItemForAllPlayers(playButton);
     }
     public void SwitchToCreditsView(){
         creditsDisplay.SetActive(true);
         mainDisplay.SetActive(false);
         helpDisplay.SetActive(false);
-        EventSystem.current.SetSelectedGameObject(backButton);
+        SetActiveMenuItemForAllPlayers(backButton);
     }
     public void SetPlayerInputSides(){
         StartScreenInputManager inputManager = FindObjectOfType<StartScreenInputManager>();
@@ -49,7 +55,7 @@ public class GameStartScript : MonoBehaviour
         SceneManager.LoadScene("Hat-Trick");        
     }
     private void Start() {
-        EventSystem.current?.SetSelectedGameObject(playButton);
+        SetActiveMenuItemForAllPlayers(playButton);
     }
     public void QuitGame(){
         Application.Quit();

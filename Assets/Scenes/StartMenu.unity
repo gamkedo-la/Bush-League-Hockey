@@ -475,14 +475,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1352372132}
-  m_LocalRotation: {x: 0.41695866, y: -0.21844585, z: 0.10395942, w: 0.87613887}
-  m_LocalPosition: {x: 9.4, y: 14.4, z: -9.3}
+  m_LocalRotation: {x: 0.4982143, y: -0.20759544, z: 0.12421872, w: 0.8326202}
+  m_LocalPosition: {x: 7.96, y: 13.1, z: -6.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 50.9, y: -28, z: 0}
+  m_LocalEulerAnglesHint: {x: 61.79, y: -28, z: 0}
 --- !u!1001 &1797447930
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -612,6 +612,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1901960583, guid: aa7630dd4734edb42a770c0315a18250, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 291.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1901960583, guid: aa7630dd4734edb42a770c0315a18250, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 265.7
+      objectReference: {fileID: 0}
     - target: {fileID: 8812850748197191539, guid: aa7630dd4734edb42a770c0315a18250, type: 3}
       propertyPath: m_Name
       value: HomeScreenManager
@@ -698,6 +706,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8812850748197191551, guid: aa7630dd4734edb42a770c0315a18250, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812850749087428887, guid: aa7630dd4734edb42a770c0315a18250, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

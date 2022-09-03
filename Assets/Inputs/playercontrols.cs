@@ -524,6 +524,15 @@ public partial class @Playercontrols : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
+                    ""name"": ""Submit"",
+                    ""type"": ""Button"",
+                    ""id"": ""e8adbd0e-69f1-4a58-84c9-c213165782b6"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""Cancel"",
                     ""type"": ""Button"",
                     ""id"": ""491d12a3-f517-425d-88f6-1f6c4730aaf9"",
@@ -536,15 +545,6 @@ public partial class @Playercontrols : IInputActionCollection2, IDisposable
                     ""name"": ""UnPause"",
                     ""type"": ""Button"",
                     ""id"": ""32357f4f-3cc2-4362-bdbc-9d8ad08a9f3d"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""AcceptSelection"",
-                    ""type"": ""Button"",
-                    ""id"": ""2e607aeb-8c84-4647-b055-6b325dd0aef1"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -884,45 +884,45 @@ public partial class @Playercontrols : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""19862b40-45ba-4f8a-8408-5dd7e7a96e51"",
+                    ""id"": ""ee8ba133-5a33-43dc-ae53-bcfd29e10f18"",
                     ""path"": ""<Gamepad>/buttonSouth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
-                    ""action"": ""AcceptSelection"",
+                    ""action"": ""Submit"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
-                    ""id"": ""9e92bb26-7e3b-4ec4-b06b-3c8f8e498ddc"",
+                    ""id"": ""e539d3b2-cead-487f-b28b-a02448835f87"",
                     ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""AcceptSelection"",
+                    ""action"": ""Submit"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
-                    ""id"": ""1bfc4bb1-eac9-45b4-a15d-1922d2d07147"",
+                    ""id"": ""0584ec70-e78d-423e-9493-fa9d10ed0ed8"",
                     ""path"": ""<DualShockGamepad>/buttonSouth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""PS4"",
-                    ""action"": ""AcceptSelection"",
+                    ""action"": ""Submit"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
-                    ""id"": ""7ad5fb8b-f59b-4823-bd9e-3581f85c3422"",
+                    ""id"": ""9c013228-3d91-4d5b-b830-83768773f31c"",
                     ""path"": ""<XInputController>/buttonSouth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""XBox"",
-                    ""action"": ""AcceptSelection"",
+                    ""action"": ""Submit"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1317,9 +1317,9 @@ public partial class @Playercontrols : IInputActionCollection2, IDisposable
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
+        m_UI_Submit = m_UI.FindAction("Submit", throwIfNotFound: true);
         m_UI_Cancel = m_UI.FindAction("Cancel", throwIfNotFound: true);
         m_UI_UnPause = m_UI.FindAction("UnPause", throwIfNotFound: true);
-        m_UI_AcceptSelection = m_UI.FindAction("AcceptSelection", throwIfNotFound: true);
         // NeutralInput
         m_NeutralInput = asset.FindActionMap("NeutralInput", throwIfNotFound: true);
         m_NeutralInput_Navigate = m_NeutralInput.FindAction("Navigate", throwIfNotFound: true);
@@ -1473,17 +1473,17 @@ public partial class @Playercontrols : IInputActionCollection2, IDisposable
     private readonly InputActionMap m_UI;
     private IUIActions m_UIActionsCallbackInterface;
     private readonly InputAction m_UI_Navigate;
+    private readonly InputAction m_UI_Submit;
     private readonly InputAction m_UI_Cancel;
     private readonly InputAction m_UI_UnPause;
-    private readonly InputAction m_UI_AcceptSelection;
     public struct UIActions
     {
         private @Playercontrols m_Wrapper;
         public UIActions(@Playercontrols wrapper) { m_Wrapper = wrapper; }
         public InputAction @Navigate => m_Wrapper.m_UI_Navigate;
+        public InputAction @Submit => m_Wrapper.m_UI_Submit;
         public InputAction @Cancel => m_Wrapper.m_UI_Cancel;
         public InputAction @UnPause => m_Wrapper.m_UI_UnPause;
-        public InputAction @AcceptSelection => m_Wrapper.m_UI_AcceptSelection;
         public InputActionMap Get() { return m_Wrapper.m_UI; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1496,15 +1496,15 @@ public partial class @Playercontrols : IInputActionCollection2, IDisposable
                 @Navigate.started -= m_Wrapper.m_UIActionsCallbackInterface.OnNavigate;
                 @Navigate.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnNavigate;
                 @Navigate.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnNavigate;
+                @Submit.started -= m_Wrapper.m_UIActionsCallbackInterface.OnSubmit;
+                @Submit.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnSubmit;
+                @Submit.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnSubmit;
                 @Cancel.started -= m_Wrapper.m_UIActionsCallbackInterface.OnCancel;
                 @Cancel.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnCancel;
                 @Cancel.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnCancel;
                 @UnPause.started -= m_Wrapper.m_UIActionsCallbackInterface.OnUnPause;
                 @UnPause.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnUnPause;
                 @UnPause.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnUnPause;
-                @AcceptSelection.started -= m_Wrapper.m_UIActionsCallbackInterface.OnAcceptSelection;
-                @AcceptSelection.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnAcceptSelection;
-                @AcceptSelection.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnAcceptSelection;
             }
             m_Wrapper.m_UIActionsCallbackInterface = instance;
             if (instance != null)
@@ -1512,15 +1512,15 @@ public partial class @Playercontrols : IInputActionCollection2, IDisposable
                 @Navigate.started += instance.OnNavigate;
                 @Navigate.performed += instance.OnNavigate;
                 @Navigate.canceled += instance.OnNavigate;
+                @Submit.started += instance.OnSubmit;
+                @Submit.performed += instance.OnSubmit;
+                @Submit.canceled += instance.OnSubmit;
                 @Cancel.started += instance.OnCancel;
                 @Cancel.performed += instance.OnCancel;
                 @Cancel.canceled += instance.OnCancel;
                 @UnPause.started += instance.OnUnPause;
                 @UnPause.performed += instance.OnUnPause;
                 @UnPause.canceled += instance.OnUnPause;
-                @AcceptSelection.started += instance.OnAcceptSelection;
-                @AcceptSelection.performed += instance.OnAcceptSelection;
-                @AcceptSelection.canceled += instance.OnAcceptSelection;
             }
         }
     }
@@ -1625,9 +1625,9 @@ public partial class @Playercontrols : IInputActionCollection2, IDisposable
     public interface IUIActions
     {
         void OnNavigate(InputAction.CallbackContext context);
+        void OnSubmit(InputAction.CallbackContext context);
         void OnCancel(InputAction.CallbackContext context);
         void OnUnPause(InputAction.CallbackContext context);
-        void OnAcceptSelection(InputAction.CallbackContext context);
     }
     public interface INeutralInputActions
     {

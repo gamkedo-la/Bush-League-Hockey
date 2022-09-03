@@ -12,14 +12,10 @@ public class MenuController : MonoBehaviour
     private Vector2 movementInput;
     private PlayerInput playerInput;
     [Header("Choose Sides")]
-    public GameObject chooseSidesMenuIcon;
+    [HideInInspector] public GameObject chooseSidesMenuIcon;
     private string[] teamSelectionChoices = {"home", "neutral", "away"};
     [HideInInspector] public string teamSelectionStatus = "neutral";
     private bool movementIsOnCooldown = false;
-    public void Awake(){
-        gameSystem = FindObjectOfType<GameSystem>();
-        playerInput = GetComponent<PlayerInput>();
-    }
     private void IncrementChooseSideChoice(){
         Debug.Log($"moving right");
         for (int i = 0; i < teamSelectionChoices.Length; i++){
@@ -38,6 +34,10 @@ public class MenuController : MonoBehaviour
     }
     public void InitializeController(){
         teamSelectionStatus = teamSelectionChoices[1];
+        playerInput = GetComponent<PlayerInput>();
+        playerInput.SwitchCurrentActionMap("UI");
+        playerInput.GetComponent<InputSystemUIInputModule>().actionsAsset = playerInput.actions;
+        playerInput.uiInputModule = GetComponent<InputSystemUIInputModule>();
     }
     private IEnumerator ChangeTeamStatusAndCooldown(Vector2 input){
         movementIsOnCooldown = true;
@@ -52,8 +52,6 @@ public class MenuController : MonoBehaviour
     public void MovementInputHandler(InputAction.CallbackContext context){
         if(context.performed){
             movementInput = context.ReadValue<Vector2>();
-            // is this controller the one controlling the UI?
-            // if not make it so
             if(FindObjectOfType<ChooseSidesMenuScript>()?.enabled == true && !movementIsOnCooldown){
                 StartCoroutine(ChangeTeamStatusAndCooldown(movementInput));
             }
@@ -63,8 +61,5 @@ public class MenuController : MonoBehaviour
         if(context.performed){
             FindObjectOfType<GameSystem>()?.HandleResume();
         }
-    }
-    private void Start() {
-        teamSelectionStatus = teamSelectionChoices[1];
     }
 }

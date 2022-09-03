@@ -87,7 +87,7 @@ public class GameSystem : MonoBehaviour
         int homeTeamMemberCount = 0;
         int awayTeamMemberCount = 0;
         foreach(MenuController ctrl in FindObjectsOfType<MenuController>()){
-            // read the teamSelectionStatus of MenuController
+            // ctrl.InitializeController();
             switch (ctrl.teamSelectionStatus){
                 case "home":
                     ctrl.GetComponent<PlayerController>().SetToHomeTeam();
@@ -131,6 +131,12 @@ public class GameSystem : MonoBehaviour
     public void DeactivateAllPlayerInputs(){
         foreach (PlayerInput ctrl in FindObjectsOfType<PlayerInput>()){
             ctrl.DeactivateInput();
+        }
+    }
+    public void SetActiveMenuItemForAllPlayers(GameObject menuItem){
+        foreach (MultiplayerEventSystem eventSystem in FindObjectsOfType<MultiplayerEventSystem>())
+        {
+            eventSystem.SetSelectedGameObject(menuItem);
         }
     }
     public void UnFreeze(){
@@ -358,14 +364,13 @@ public class GameSystem : MonoBehaviour
     }
     public void HandlePause(){
         gamMenuButtonPanel.SetActive(true);
-        EventSystem.current.SetSelectedGameObject(rematchButton);
-        // Deactivate all PlayerInputs
-        // Activate the current PlayerInput
+        SetActiveMenuItemForAllPlayers(rematchButton);
     }
     public void BeginGame(){
         DeactivateGoals();
         audioManager.PlayBaseCrowdTrack();
         SetPlayersToTeams();
+        SetActiveMenuItemForAllPlayers(rematchButton);
         StartCoroutine(CountDownAndDropPuck());
     }
     private void Start(){
