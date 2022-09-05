@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
 public class GameSystem : MonoBehaviour
@@ -34,18 +33,21 @@ public class GameSystem : MonoBehaviour
     [HideInInspector] public GameObject puckObject;
     [HideInInspector] public Rigidbody puckRigidBody;
     [Header("Controls Management")]
-    [HideInInspector] public List<GameObject> localPlayerControllers;
-    private int homeScore = 0;
-    private int awayScore = 0;
-    private bool gameOn = false;
+    [SerializeField] public GameObject ps4ControllerIcon;
+    [SerializeField] public GameObject keyboardIcon;
+    [SerializeField] public GameObject genericControllerIcon;
+    [SerializeField] public GameObject xboxControllerIcon;
     [Header("Scorekeeping")]
     [SerializeField] public GameObject homeNet;
     [SerializeField] public GameObject awayNet;
     [SerializeField] TextMeshProUGUI homeScoreText;
     [SerializeField] TextMeshProUGUI awayScoreText;
     [SerializeField] TextMeshProUGUI timerText;
-    private bool clockIsRunning = false;
+    private int homeScore = 0;
+    private int awayScore = 0;
     private float timeRemaining = 300;
+    private bool gameOn = false;
+    private bool clockIsRunning = false;
     private bool isSuddenDeath = false;
     [Header("Onscreen Messages / Menus")]
     [SerializeField] public GameObject GoalScoredDisplay;
@@ -70,7 +72,6 @@ public class GameSystem : MonoBehaviour
         cameraPausePosition = Vector3.zero;
     }
     public void PreserveKeyGameElements(){
-        // player inputs
         foreach(PlayerInput ctrl in FindObjectsOfType<PlayerInput>()){
             DontDestroyOnLoad(ctrl.gameObject);
         }
@@ -79,15 +80,31 @@ public class GameSystem : MonoBehaviour
         return q.x == 0 && q.y == 0 && q.z == 0 && q.w == 0;
     }
     public void JoinNewPlayer(PlayerInput playerInput){
-        playerInput.GetComponent<PlayerController>().SetToHomeTeam();
-        SetPlayersToTeams();
-        // open choose sides menu
+        Debug.Log($"New Player: {playerInput.currentControlScheme}");
+        switch (playerInput.currentControlScheme){
+            case "Keyboard&Mouse":
+                playerInput.GetComponent<MenuController>().chooseSidesMenuIcon = keyboardIcon;
+                break;
+            case "PS4":
+                playerInput.GetComponent<MenuController>().chooseSidesMenuIcon = ps4ControllerIcon;
+                break;
+            case "XBox":
+                playerInput.GetComponent<MenuController>().chooseSidesMenuIcon = xboxControllerIcon;
+                break;
+            case "Gamepad":
+                playerInput.GetComponent<MenuController>().chooseSidesMenuIcon = genericControllerIcon;
+                break;
+        }
+        // FreezeGame();
+        // SetAllActionMapsToUI();
+        playerInput.GetComponent<MenuController>().InitializeController();
+        // FindObjectOfType<InGameMenu>().SwitchToChooseSideMenu();
     }
-    private void SetPlayersToTeams(){
+    public void SetPlayersToTeams(){
         int homeTeamMemberCount = 0;
         int awayTeamMemberCount = 0;
         foreach(MenuController ctrl in FindObjectsOfType<MenuController>()){
-            // ctrl.InitializeController();
+            Debug.Log($"Setting player {ctrl} to {ctrl.teamSelectionStatus}");
             switch (ctrl.teamSelectionStatus){
                 case "home":
                     ctrl.GetComponent<PlayerController>().SetToHomeTeam();
@@ -104,39 +121,24 @@ public class GameSystem : MonoBehaviour
                     break;
             }
         }
-        foreach (AIPlayerController aI in FindObjectsOfType<AIPlayerController>())
-        {
-            Destroy(aI.gameObject);
+        foreach (AIPlayerController aI in FindObjectsOfType<AIPlayerController>()){
+            DestroyImmediate(aI.gameObject);
         }
         if(homeTeamMemberCount == 0){
-            GameObject aiPlayer = Instantiate(AIControllerPrefab);
-            aiPlayer.GetComponent<AIPlayerController>().SetToHomeTeam();
+            Instantiate(AIControllerPrefab).GetComponent<AIPlayerController>().SetToHomeTeam();
         }
         if(awayTeamMemberCount == 0){
-            GameObject aiPlayer = Instantiate(AIControllerPrefab);
-            aiPlayer.GetComponent<AIPlayerController>().SetToAwayTeam();
+            Instantiate(AIControllerPrefab).GetComponent<AIPlayerController>().SetToAwayTeam();
         }
-        SetAllActionMapsToPlayer();
     }
-    private void SetAllActionMapsToUI(){
+    public void SetAllActionMapsToUI(){
         foreach (PlayerInput ctrl in FindObjectsOfType<PlayerInput>()){
             ctrl.SwitchCurrentActionMap("UI");
         }
     }
-    private void SetAllActionMapsToPlayer(){
+    public void SetAllActionMapsToPlayer(){
         foreach (PlayerInput ctrl in FindObjectsOfType<PlayerInput>()){
             ctrl.SwitchCurrentActionMap("Player");
-        }
-    }
-    public void DeactivateAllPlayerInputs(){
-        foreach (PlayerInput ctrl in FindObjectsOfType<PlayerInput>()){
-            ctrl.DeactivateInput();
-        }
-    }
-    public void SetActiveMenuItemForAllPlayers(GameObject menuItem){
-        foreach (MultiplayerEventSystem eventSystem in FindObjectsOfType<MultiplayerEventSystem>())
-        {
-            eventSystem.SetSelectedGameObject(menuItem);
         }
     }
     public void UnFreeze(){
@@ -145,7 +147,6 @@ public class GameSystem : MonoBehaviour
     public void FreezeGame(){
         // doesn't actually effect game physics or coroutines?
         Time.timeScale = 0;
-        // other stuff 
     }
     public void QuitGame(){
         Application.Quit();
@@ -153,8 +154,6 @@ public class GameSystem : MonoBehaviour
     public void RestartScene(){
         PreserveKeyGameElements();
         SceneManager.LoadScene("Hat-Trick");
-        // what is the current scene?
-        // SceneLoader current scene     
     }
     public void LoadMainMenu(){
         // PreserveKeyGameElements();
@@ -357,20 +356,11 @@ public class GameSystem : MonoBehaviour
             StartCoroutine(EndOfGameHandler());
         }
     }
-    public void HandleResume(){
-        gamMenuButtonPanel.SetActive(false);
-        // activate all PlayerInputs
-        SetAllActionMapsToPlayer();
-    }
-    public void HandlePause(){
-        gamMenuButtonPanel.SetActive(true);
-        SetActiveMenuItemForAllPlayers(rematchButton);
-    }
     public void BeginGame(){
         DeactivateGoals();
         audioManager.PlayBaseCrowdTrack();
         SetPlayersToTeams();
-        SetActiveMenuItemForAllPlayers(rematchButton);
+        SetAllActionMapsToPlayer();
         StartCoroutine(CountDownAndDropPuck());
     }
     private void Start(){

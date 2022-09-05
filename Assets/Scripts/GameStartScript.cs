@@ -49,7 +49,6 @@ public class GameStartScript : MonoBehaviour
         StartScreenInputManager inputManager = FindObjectOfType<StartScreenInputManager>();
         foreach (MenuController ctrl in FindObjectsOfType<MenuController>()){
             Debug.Log($"status: {ctrl.teamSelectionStatus}");
-            ctrl.GetComponent<PlayerController>().isHomeTeam = ctrl.GetComponent<MenuController>().teamSelectionStatus == "home";
             DontDestroyOnLoad(ctrl.gameObject);
         }
         SceneManager.LoadScene("Hat-Trick");        

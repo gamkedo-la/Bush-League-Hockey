@@ -10,8 +10,7 @@ public class ChooseSidesMenuScript : MonoBehaviour
     [SerializeField] List<Transform> awaySlots;
     [SerializeField] List<Transform> neutralSlots;
     [SerializeField] Button acceptbutton;
-    private bool acceptButtonIsEnabled = false;
-    //add in icons for different controllers
+    [HideInInspector] GameObject currentlySelectedMenuItem;
     public void PositionInputControllerIcons(){
         foreach(GameObject icon in GameObject.FindGameObjectsWithTag("ControllerMenuIcon")){
             Destroy(icon);
@@ -50,7 +49,8 @@ public class ChooseSidesMenuScript : MonoBehaviour
         if(playersThatHaveATeam != 0){
             if(acceptbutton.interactable == false){
                 acceptbutton.interactable = true;
-                EventSystem.current.SetSelectedGameObject(acceptbutton.gameObject);
+                FindObjectOfType<InGameMenu>()?.SetActiveMenuItemForAllPlayers(acceptbutton.gameObject);
+                FindObjectOfType<GameStartScript>()?.SetActiveMenuItemForAllPlayers(acceptbutton.gameObject);
             }
         } else {
             acceptbutton.interactable = false;

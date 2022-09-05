@@ -14,10 +14,9 @@ public class MenuController : MonoBehaviour
     [Header("Choose Sides")]
     [HideInInspector] public GameObject chooseSidesMenuIcon;
     private string[] teamSelectionChoices = {"home", "neutral", "away"};
-    [HideInInspector] public string teamSelectionStatus = "neutral";
+    public string teamSelectionStatus;
     private bool movementIsOnCooldown = false;
     private void IncrementChooseSideChoice(){
-        Debug.Log($"moving right");
         for (int i = 0; i < teamSelectionChoices.Length; i++){
             if (teamSelectionChoices[i] == teamSelectionStatus){
                 teamSelectionStatus = i < teamSelectionChoices.Length-1 ? teamSelectionChoices[i+1] : teamSelectionChoices[i];
@@ -25,17 +24,18 @@ public class MenuController : MonoBehaviour
         }
     }
     private void DecrementChooseSideChoice(){
-        Debug.Log($"moving left");
         for (int i = 0; i < teamSelectionChoices.Length; i++){
             if (teamSelectionChoices[i] == teamSelectionStatus){
                 teamSelectionStatus = i > 0 ? teamSelectionChoices[i - 1] : teamSelectionChoices[i];
             }
         }
     }
+    private bool StatusIsSet(){
+        return teamSelectionStatus == "home" || teamSelectionStatus == "away" || teamSelectionStatus == "neutral";
+    }
     public void InitializeController(){
-        teamSelectionStatus = teamSelectionChoices[1];
+        if(!StatusIsSet()){teamSelectionStatus = teamSelectionChoices[1];}
         playerInput = GetComponent<PlayerInput>();
-        playerInput.SwitchCurrentActionMap("UI");
         playerInput.GetComponent<InputSystemUIInputModule>().actionsAsset = playerInput.actions;
         playerInput.uiInputModule = GetComponent<InputSystemUIInputModule>();
     }
@@ -59,7 +59,7 @@ public class MenuController : MonoBehaviour
     }
     public void UnPause(InputAction.CallbackContext context){
         if(context.performed){
-            FindObjectOfType<GameSystem>()?.HandleResume();
+            FindObjectOfType<InGameMenu>()?.HandleResume();
         }
     }
 }

@@ -17,7 +17,6 @@ public class PlayerController : MonoBehaviour
     private TeamMember selectedTeamMember;
     private Goaltender goaltender;
     private TeamMember goaltenderTeamMember;
-    public bool isHomeTeam;
     private void Awake(){
         gameSystem = FindObjectOfType<GameSystem>();
         playerInput = GetComponent<PlayerInput>();
@@ -44,7 +43,7 @@ public class PlayerController : MonoBehaviour
     }
     public void Pause(InputAction.CallbackContext context){
         if(context.performed){
-            FindObjectOfType<GameSystem>()?.HandlePause();
+            FindObjectOfType<InGameMenu>()?.HandlePause();
             GetComponent<PlayerInput>().SwitchCurrentActionMap("UI");
         }
     }

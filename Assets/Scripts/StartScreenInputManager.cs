@@ -13,7 +13,6 @@ public class StartScreenInputManager : MonoBehaviour
     public void JoinNewPlayer(PlayerInput playerInput){
         switch (playerInput.currentControlScheme){
             case "Keyboard&Mouse":
-            Debug.Log($"case Keyboard and Mouse");
                 playerInput.GetComponent<MenuController>().chooseSidesMenuIcon = keyboardIcon;
                 break;
             case "PS4":
@@ -27,7 +26,6 @@ public class StartScreenInputManager : MonoBehaviour
                 break;
         }
         playerInput.GetComponent<MenuController>().InitializeController();
-        // set the firstSelectedGame
         playerInput.GetComponent<MultiplayerEventSystem>().firstSelectedGameObject = GetComponent<GameStartScript>().currentItem;
     }
 }
