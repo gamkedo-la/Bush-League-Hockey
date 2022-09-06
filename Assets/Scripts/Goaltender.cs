@@ -105,7 +105,7 @@ public class Goaltender : MonoBehaviour
         windingUpPass = false;
         if(teamMember.hasPosession){
             StartCoroutine(teamMember.BreakPosession());
-            audioManager.PlayPassSFX();
+            StartCoroutine(audioManager.PlayPassSFX());
             gameSystem.puckObject.GetComponent<Rigidbody>().AddForce(passDirection * (passPower + extraPassPower), ForceMode.Impulse);
         }
     }

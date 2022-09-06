@@ -45,6 +45,12 @@ public class GameSystem : MonoBehaviour
     [SerializeField] TextMeshProUGUI timerText;
     private int homeScore = 0;
     private int awayScore = 0;
+    public int homeHits = 0;
+    public int awayHits = 0;
+    public int homeShots = 0;
+    public int awayShots = 0;
+    public int homePasses = 0;
+    public int awayPasses = 0;
     private float timeRemaining = 300;
     private bool gameOn = false;
     private bool clockIsRunning = false;
@@ -95,10 +101,7 @@ public class GameSystem : MonoBehaviour
                 playerInput.GetComponent<MenuController>().chooseSidesMenuIcon = genericControllerIcon;
                 break;
         }
-        // FreezeGame();
-        // SetAllActionMapsToUI();
         playerInput.GetComponent<MenuController>().InitializeController();
-        // FindObjectOfType<InGameMenu>().SwitchToChooseSideMenu();
     }
     public void SetPlayersToTeams(){
         int homeTeamMemberCount = 0;
@@ -227,6 +230,7 @@ public class GameSystem : MonoBehaviour
     }
     public IEnumerator CountDownAndDropPuck(){
         countdownDisplayPanel.SetActive(true);
+        audioManager.PlayReadySound();
         for (int i = 3; i > 0; i--){
             countdownCountText.text = i.ToString();
             yield return new WaitForSeconds(1);
@@ -316,7 +320,7 @@ public class GameSystem : MonoBehaviour
         }
         audioManager.PlayGoalHorn();
         audioManager.PlayCrowdCelebration();
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(4);
     }
     private IEnumerator EndOfGameHandler(){
         audioManager.PlayFaceOffSound();
@@ -324,6 +328,7 @@ public class GameSystem : MonoBehaviour
         if(homeScore == awayScore){
             isSuddenDeath = true;
             timerText.text = "sudden death";
+            audioManager.PlaySuddenDeath();
             yield return StartCoroutine(FlashingOnScreenMessage(suddenDeathDisplay, 12));
             StartCoroutine(CountDownAndDropPuck());
         } else {
@@ -331,7 +336,7 @@ public class GameSystem : MonoBehaviour
             timerText.text = "final";
             yield return StartCoroutine(EndOfGamePresentation());
             SetAllActionMapsToUI();
-            gamMenuButtonPanel.SetActive(true);
+            FindObjectOfType<InGameMenu>().SwitchToEndGameMenu();
         }
     }
     private void HandleCameraPositioning(){

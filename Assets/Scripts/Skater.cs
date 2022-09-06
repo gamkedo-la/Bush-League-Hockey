@@ -106,9 +106,15 @@ public class Skater : MonoBehaviour
         windingUpPass = false;
         if(teamMember.hasPosession){
             StartCoroutine(teamMember.BreakPosession());
-            audioManager.PlayPassSFX();
+            StartCoroutine(audioManager.PlayPassSFX());
             skaterAnimationScript.skaterAnimator.SetTrigger("AnimatePassFollowThru");
             gameSystem.puckObject.GetComponent<Rigidbody>().AddForce(bodycheckDirection * (passPower + extraPassPower), ForceMode.Impulse);
+            if (gameObject.tag == "awaySkater"){
+                gameSystem.awayPasses++;
+            }
+            else if (gameObject.tag == "homeSkater"){
+                gameSystem.homePasses++;
+            }
         } else{
             ResetSkaterActions();
         }
@@ -162,10 +168,11 @@ public class Skater : MonoBehaviour
         windingUpBodycheck = false;
         teamMember.canTakePosession = true;
         skaterAnimationScript.skaterAnimator.SetTrigger("AnimateBodycheckFollowThru");
+        audioManager.PlayBodyCheckGrunt();
         StartCoroutine(CooldownBodycheck());
         bodycheckHitZone.hitPower = checkPower + extraBodycheckPower + (skaterRigidBody.velocity.magnitude/2);
         bodycheckHitZone.hitDirection = (bodycheckDirection + Vector3.up).normalized;
-        skaterRigidBody.AddForce(bodycheckDirection*((checkPower + extraBodycheckPower)/3), ForceMode.VelocityChange);
+        skaterRigidBody.AddForce(bodycheckDirection*((checkPower + extraBodycheckPower)/3), ForceMode.VelocityChange);        
     }
     public void ReceiveBodyCheck(float incomingHitPower, Vector3 hitDirection){
         ResetSkaterActions();
@@ -177,6 +184,14 @@ public class Skater : MonoBehaviour
         StartCoroutine(audioManager.PlayBodycheckHitAndReaction());
         StartCoroutine(teamMember.BreakPosession());
         StartCoroutine(skaterAnimationScript.RagdollThenReset(incomingHitPower, hitDirection, 3f));
+        //if home hit homehits++
+        ///else if away hit awayhits++
+        if (gameObject.tag == "awaySkater"){
+            gameSystem.homeHits++;
+        }
+        else if (gameObject.tag == "homeSkater"){
+            gameSystem.awayHits++;
+        }
         // at the end of this, in RagdollThenReset() we trigger an instant replay
     }
     private float GetBodyCheckPower(){

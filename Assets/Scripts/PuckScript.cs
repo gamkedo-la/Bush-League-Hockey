@@ -25,7 +25,7 @@ public class PuckScript : MonoBehaviour
             audioManager.PlayPuckOnBoardSound(volumeFactor);
         }
         if (other.gameObject.name.Contains("DEF") ||  other.gameObject.name.Contains("Goaltender")) {
-            audioManager.PlayPuckPlayerHitSound(volumeFactor*3);
+            StartCoroutine(audioManager.PlayPuckPlayerHitSound(volumeFactor*3));
         }
     }
     private void Update() {
