@@ -24,7 +24,7 @@ public class AudioManager : MonoBehaviour
     [SerializeField] public AudioClip[] puckOnPostSfx;
     [SerializeField] public AudioClip[] puckOnBoardSfx;
     [SerializeField] public AudioClip[] puckOnPlayerSfx;
-    [SerializeField] public AudioClip[] OuchSfx;
+    [SerializeField] public AudioClip[] hitBySmallObjectSfx;
     [SerializeField] public AudioClip[] modelCollisionSfx;
     private bool modelCollisionSoundReady = true;
     [SerializeField] public AudioClip[] shotSfx;
@@ -85,7 +85,7 @@ public class AudioManager : MonoBehaviour
     public IEnumerator PlayPuckPlayerHitSound(float volumeFactor){
         PlayRandomlyFromList(puckOnPlayerSfx, sfxWorldOrigin, volumeFactor);
         yield return new WaitForSeconds(0.2f);
-        PlayRandomlyFromList(OuchSfx, sfxWorldOrigin, volumeFactor);
+        PlayRandomlyFromList(hitBySmallObjectSfx, sfxWorldOrigin, volumeFactor);
     }
     public void PlayPostHitSound(float volumeFactor){
         PlayRandomlyFromList(puckOnPostSfx, sfxWorldOrigin, volumeFactor);

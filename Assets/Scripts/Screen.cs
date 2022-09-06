@@ -9,16 +9,14 @@ public class Screen : MonoBehaviour
     private void Awake() {
         videoPlayer = GetComponent<VideoPlayer>();
     }
-    private IEnumerator PlayRandomGameplayClip(){
+    private void PlayRandomGameplayClip(){
         int clipIndex = Random.Range(0, videoClips.Length);
         videoPlayer.clip = videoClips[clipIndex];
         videoPlayer.time = Random.Range(0f, (float)videoPlayer.length/2f);
         videoPlayer.Play();
-        yield return new WaitForSeconds((float)(videoPlayer.length - videoPlayer.time));
-        StartCoroutine(PlayRandomGameplayClip());
     }
     void Start()
     {
-        StartCoroutine(PlayRandomGameplayClip());
+        PlayRandomGameplayClip();
     }
 }
