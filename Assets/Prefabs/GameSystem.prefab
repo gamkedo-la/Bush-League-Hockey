@@ -228,7 +228,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &105717778
 RectTransform:
   m_ObjectHideFlags: 0
@@ -11644,6 +11644,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameMenuButtonPanel: {fileID: 1497583516}
+  endOfGameDisplay: {fileID: 1367619467240139813}
+  controlsHelpDisplay: {fileID: 1484427155}
   rematchButton: {fileID: 1945923977}
   chooseSidesMenu: {fileID: 2049632790}
   acceptButton: {fileID: 1679985260}

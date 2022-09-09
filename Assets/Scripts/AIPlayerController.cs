@@ -11,7 +11,7 @@ public class AIPlayerController : MonoBehaviour
 
     public float AIUpdateTime = 0.5f;
     public float AIShotDistance = 10f;
-    public float AIBodyCheckDistance = 1f;
+    public float AIBodyCheckDistance = 7f;
 
     #endregion
 
@@ -45,10 +45,7 @@ public class AIPlayerController : MonoBehaviour
         goaltender = GameObject.FindWithTag("homeGoaltender").GetComponent<Goaltender>();
         opponentSkater = GameObject.FindWithTag("awaySkater").GetComponent<Skater>();
         opponentGoaltender = GameObject.FindWithTag("awayGoaltender").GetComponent<Goaltender>();
-
-
         gameObject.name = "AI Controller Home";
-
         InitializeTeamObjects();
     }
     public void SetToAwayTeam()
@@ -57,9 +54,7 @@ public class AIPlayerController : MonoBehaviour
         goaltender = GameObject.FindWithTag("awayGoaltender").GetComponent<Goaltender>();
         opponentSkater = GameObject.FindWithTag("homeSkater").GetComponent<Skater>();
         opponentGoaltender = GameObject.FindWithTag("homeGoaltender").GetComponent<Goaltender>();
-
         gameObject.name = "AI Controller Away";
-
         InitializeTeamObjects();
     }
     private void InitializeTeamObjects()
@@ -70,6 +65,26 @@ public class AIPlayerController : MonoBehaviour
         awayGoalOrigin = GameObject.Find("AwayGoalOrigin").transform;
         goaltender.FindMyNet();
     }
+    public bool SomeoneHasPosession(){
+        bool hasPosession = false;
+        foreach (TeamMember tm in FindObjectsOfType<TeamMember>())
+        {
+            if (tm.hasPosession)
+            {
+                hasPosession = true;
+                break;
+            }
+        }
+        return hasPosession;
+    }
+    public bool PuckIsGoingToMyNet(){
+        Debug.Log(
+            $"Line:{(goaltender.myNet.transform.position - puckTransform.position).normalized}\n"
+            + $"velocity:{puckTransform.gameObject.GetComponent<Rigidbody>().velocity}"
+        );
+        float angle = Vector3.Angle(goaltender.myNet.transform.position - puckTransform.position, puckTransform.gameObject.GetComponent<Rigidbody>().velocity);
+        return angle < 35;
+    }
     private void HandleMovement()
     { // based on 'Skater' -> MovementInputHandler()
         // move in the given direction
@@ -79,8 +94,10 @@ public class AIPlayerController : MonoBehaviour
     private IEnumerator Shoot()
     {
         StartCoroutine(selectedSkater.WindUpShot());
+        StartCoroutine(goaltender.WindUpShot());
         yield return null;
         selectedSkater.ShootPuck();
+        goaltender.ShootPuck();
     }
 
     public void CommandShot()
@@ -95,9 +112,21 @@ public class AIPlayerController : MonoBehaviour
 
     private IEnumerator Bodycheck()
     {
-        selectedSkater.WindUpBodyCheck();
-        yield return new WaitForSeconds(0.3f);
+        StartCoroutine(selectedSkater.WindUpBodyCheck());
+        yield return new WaitForSeconds(0.1f);
         selectedSkater.DeliverBodyCheck();
+    }
+    public void CommandPass()
+    {
+        StartCoroutine(Pass());
+    }
+    private IEnumerator Pass()
+    {
+        StartCoroutine(selectedSkater.WindUpPass());
+        StartCoroutine(goaltender.WindUpPass());
+        yield return new WaitForSeconds(0.4f);
+        selectedSkater.PassPuck();
+        goaltender.PassPuck();
     }
 
     void Start()
@@ -106,35 +135,52 @@ public class AIPlayerController : MonoBehaviour
         stateDictionary.Add("Waiting", new WaitingState(this));
         stateDictionary.Add("Chase", new ChaseState(this));
         stateDictionary.Add("Attacking", new AttackingState(this));
+        stateDictionary.Add("GoalieMakePass", new GoalieMakePass(this));
         stateDictionary.Add("Shooting", new ShootingState(this));
         stateDictionary.Add("GoalieDefend", new GoalieDefendState(this));
-
+        // State for goalie to make a play
         currentState = stateDictionary[WaitingState.StateName];
         currentState.OnEnter();
     }
-
     private void OnEnable()
     {
         PuckScript.onPuckSpawned += PuckSpawned;
+        TeamMember.takenPosession += PosessionChanged;
     }
-
     private void OnDisable()
     {
         PuckScript.onPuckSpawned -= PuckSpawned;
+        TeamMember.takenPosession -= PosessionChanged;
     }
-
     private void PuckSpawned(object sender, EventArgs e)
     {
         puckTransform = (sender as PuckScript).transform;
         ChangeState(ChaseState.StateName);
     }
-
+    private bool IsOnMyTeam(TeamMember tm){
+        return(
+            (tm.gameObject.tag.Contains("home") && selectedTeamMember.gameObject.tag.Contains("home"))
+            || (tm.gameObject.tag.Contains("away") && selectedTeamMember.gameObject.tag.Contains("away"))
+        );
+    }
+    private void PosessionChanged(object sender, EventArgs e)
+    {
+        // did my team get it?
+        if(IsOnMyTeam(sender as TeamMember)){
+            if((sender as TeamMember).tag.Contains("Goaltender")){
+                ChangeState(GoalieMakePass.StateName);
+            }
+            if((sender as TeamMember).tag.Contains("Skater")){
+                ChangeState(AttackingState.StateName);
+            }
+        } else {
+            ChangeState(ChaseState.StateName);
+        }
+    }
     void Update()
     {
-
         currentState.OnUpdate();
     }
-
     public void ChangeState(string newState)
     {
         currentState.OnExit();
@@ -145,8 +191,6 @@ public class AIPlayerController : MonoBehaviour
             currentState.OnEnter();
             return;
         }
-
-
         Debug.Log($"{newState}: Not found in StateDictionary");
     }
 }

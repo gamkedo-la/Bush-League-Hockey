@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,9 +13,10 @@ public class TeamMember : MonoBehaviour
     [SerializeField] GameObject skaterPosessionTrigger;
     [SerializeField] GameObject puckPositionMarker;
     private FixedJoint puckHandleJoint;
+    public static EventHandler<EventArgs> takenPosession;
     [HideInInspector] public bool canTakePosession = true;
     [HideInInspector] public bool hasPosession = false;
-    private float posessionCooldownTime = 0.3f;
+    private float posessionCooldownTime = 0.2f;
     private void Awake(){
         gameSystem = GameObject.Find("GameSystem").GetComponent<GameSystem>();
         audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
@@ -26,6 +28,9 @@ public class TeamMember : MonoBehaviour
             // teleports the puck to the position marker.
             // allows it to teleport through the objects.
             gameSystem.puckObject.transform.position = puckPositionMarker.transform.position;
+            // invoke gained posession event
+            // event args, home/away
+            takenPosession?.Invoke(this, EventArgs.Empty);
             if(!puckPositionMarker.GetComponent<FixedJoint>()){
                 audioManager.PlayTakePossessionSFX();
                 puckPositionMarker.GetComponent<PuckHandleJoint>().AttachPuckToHandleJoint(gameSystem.puckRigidBody);

@@ -5,9 +5,7 @@ using UnityEngine;
 
 public class PuckScript : MonoBehaviour
 {
-
     public static EventHandler<EventArgs> onPuckSpawned;
-
     private AudioManager audioManager;
     private Rigidbody puckRigidbody;
     [SerializeField] GameObject puckLocationIndicator;

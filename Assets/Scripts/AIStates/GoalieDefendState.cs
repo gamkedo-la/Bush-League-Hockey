@@ -24,16 +24,11 @@ public class GoalieDefendState : AbstractAIState
 
     public override void OnUpdate()
     {
-        base.OnUpdate();
-
-        if(!ShouldControlGoaltender()){
-            aiPlayerController.ChangeState(ChaseState.StateName);
+        if(ShouldControlGoaltender()){
+            Move(GetGoalTenderMovementPointer());
+            return;
         }
-
-        Vector3 targetPoint = GetGoalTenderMovementPointer(puckTransform.position);
-
-        Move(targetPoint);
-
+        aiPlayerController.ChangeState(ChaseState.StateName);
     }
 
 

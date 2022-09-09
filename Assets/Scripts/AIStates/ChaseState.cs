@@ -7,6 +7,7 @@ public class ChaseState : AbstractAIState
 {
 
     public static new string StateName = "Chase";
+    private static float bodycheckDistance = 5f;
 
     public ChaseState(AIPlayerController aiPlayerController) : base(aiPlayerController)
     {
@@ -22,6 +23,17 @@ public class ChaseState : AbstractAIState
     {
 
     }
+    private bool ShouldBodyCheck()
+    {
+        // within range?
+        // opponent is in front?  (angle between forward and line to opponent)
+        // opponent isn't knocked down
+        return (
+            Vector3.Distance(selectedTeamMember.transform.position, opponentTeamMember.transform.position) < bodycheckDistance
+            && Vector3.Angle(selectedTeamMember.transform.forward, opponentTeamMember.transform.position - selectedTeamMember.transform.position) < 90
+            && !opponentSkater.isKnockedDown
+        );
+    }
 
     public override void OnUpdate()
     {
@@ -33,12 +45,16 @@ public class ChaseState : AbstractAIState
             return;
         }
 
+        if (goaltender.GetComponent<TeamMember>().hasPosession){
+            aiPlayerController.ChangeState(GoalieMakePass.StateName);
+            return;
+        }
+
         if (ShouldControlGoaltender())
         {
             aiPlayerController.ChangeState(GoalieDefendState.StateName);
         }
-
-        if (Vector3.Distance(opponentSkater.transform.position, selectedSkater.transform.position) < aiPlayerController.AIBodyCheckDistance){
+        if (ShouldBodyCheck()){
             aiPlayerController.CommandBodyCheck();
         }
 

@@ -47,7 +47,6 @@ public abstract class AbstractAIState
 
         timeSinceLastUpdate = 0;
     }
-
     protected Vector3 GetMovementPointer(Vector3 targetPosition)
     {
         Vector3 movementVector = targetPosition - selectedTeamMember.transform.position;
@@ -79,21 +78,12 @@ public abstract class AbstractAIState
         );
     }
 
-    protected Vector3 GetGoalTenderMovementPointer(Vector3 targetPosition)
+    protected Vector3 GetGoalTenderMovementPointer()
     {
-        Vector3 goalToPuck = targetPosition - goaltender.myNet.transform.position;
-        // zero the y axis (only moving in x, z)
-        goalToPuck.y = 0;
-        // normalize the vector
-        goalToPuck.Normalize();
-
-        Vector3 movementVector = goalToPuck - goaltender.transform.position;
-        // zero the y axis (only moving in x, z)
+        // line from goalie to player
+        Vector3 movementVector = puckTransform.position - goaltender.transform.position;
         movementVector.y = 0;
-        // normalize the vector
-        movementVector.Normalize();
-        // Set movementPointer to the normalized vector
-        return movementVector;
+        return movementVector.normalized;
     }
 
     protected void Move(Vector3 targetPoint)
@@ -104,26 +94,15 @@ public abstract class AbstractAIState
 
     protected bool ShouldControlGoaltender()
     {
-
-        if (Vector3.Distance(puckTransform.position, goaltender.transform.position) < (aiPlayerController.AIShotDistance + 1))
-        {
-
-            if (opponentTeamMember.hasPosession)
-            {
-                return true;
-            }
-
-            RaycastHit hitInfo;
-            if (Physics.Raycast(puckTransform.position, puckTransform.GetComponent<Rigidbody>().velocity, out hitInfo, 10f))
-            {
-                if (hitInfo.collider.tag == "homeNet" || hitInfo.collider.tag == "awayNet")
-                {
-                    return true;
-                }
-            }
-
-        }
-        return false;
+        // other skater has posession on your side of the ice
+        Debug.Log(
+            $"Someone has it:{aiPlayerController.SomeoneHasPosession()}\nOn Net:{aiPlayerController.PuckIsGoingToMyNet()}"
+        );
+        // Nobody has posession, puck is going towards your net
+        return (
+            (opponentTeamMember.hasPosession && (Vector3.Distance(goaltender.myNet.transform.position, opponentSkater.transform.position) < 16))
+            || (!aiPlayerController.SomeoneHasPosession() && aiPlayerController.PuckIsGoingToMyNet())
+        );
     }
 
     protected bool BehindGoal()

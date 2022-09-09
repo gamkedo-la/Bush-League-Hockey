@@ -718,7 +718,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 421, y: 287}
+  m_AnchoredPosition: {x: 291.2, y: 265.7}
   m_SizeDelta: {x: 543.1, y: 500}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1901960585
@@ -2244,6 +2244,10 @@ MonoBehaviour:
     Puck model with variations, crowd reactions
 
 
+    Mark Varnell:  Announcer voice
+    & sounds, audio scripting, playtesting
+
+
     Rob Tunstall: Sounds for skating,
     puck hit, and puck bouncing off boards
 
@@ -3419,7 +3423,7 @@ GameObject:
   - component: {fileID: 8812850748197191548}
   - component: {fileID: 1172342745}
   - component: {fileID: 1172342746}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: HomeScreenMenu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3532,6 +3536,7 @@ MonoBehaviour:
   helpDisplay: {fileID: 1901960582}
   creditsDisplay: {fileID: 315470019944943551}
   backButton: {fileID: 7652295195482646259}
+  currentItem: {fileID: 0}
 --- !u!114 &1172342745
 MonoBehaviour:
   m_ObjectHideFlags: 0
