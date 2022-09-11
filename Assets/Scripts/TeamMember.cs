@@ -49,6 +49,7 @@ public class TeamMember : MonoBehaviour
         canTakePosession = true;
     }
     public IEnumerator BreakPosession(){
+        if(!gameSystem.puckObject){yield break;}
         puckPositionMarker.GetComponent<PuckHandleJoint>().BreakFixedJoint();
         hasPosession = false;
         canTakePosession = false;

@@ -78,10 +78,10 @@ public class AIPlayerController : MonoBehaviour
         return hasPosession;
     }
     public bool PuckIsGoingToMyNet(){
-        Debug.Log(
-            $"Line:{(goaltender.myNet.transform.position - puckTransform.position).normalized}\n"
-            + $"velocity:{puckTransform.gameObject.GetComponent<Rigidbody>().velocity}"
-        );
+        // Debug.Log(
+        //     $"Line:{(goaltender.myNet.transform.position - puckTransform.position).normalized}\n"
+        //     + $"velocity:{puckTransform.gameObject.GetComponent<Rigidbody>().velocity}"
+        // );
         float angle = Vector3.Angle(goaltender.myNet.transform.position - puckTransform.position, puckTransform.gameObject.GetComponent<Rigidbody>().velocity);
         return angle < 35;
     }

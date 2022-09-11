@@ -13,11 +13,13 @@ public class PosessionCollider : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other){
         if(other.tag == "puck" && !teamMember.hasPosession){
+            // dispossess the other player
+            // break the fixed joint
             teamMember.ControlPuck();
         }
     }
     void OnTriggerExit(Collider other){
-        if(other.tag == "puck"){
+        if(other.tag == "puck" && teamMember.hasPosession){
             StartCoroutine(teamMember.BreakPosession());
         }
     }

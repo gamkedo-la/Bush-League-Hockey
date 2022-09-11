@@ -38,8 +38,8 @@ public class Skater : MonoBehaviour
     [SerializeField] private BodycheckHitZone bodycheckHitZone;
     [SerializeField] private LayerMask skaterMask;
     [SerializeField] private AnimationCurve checkPowerCurve;
-    [SerializeField] [Range(4f, 12f)] private float checkPower;
-    [SerializeField] [Range(8f, 64f)] private float checkPowerMax;
+    [SerializeField] [Range(1f, 6f)] private float checkPower;
+    [SerializeField] [Range(4f, 64f)] private float checkPowerMax;
     [SerializeField] [Range(1f, 12f)] private float checkPowerWindUpRate;
     [SerializeField] [Range(0.2f, 3f)] private float bodycheckCooldownTime;
     private bool windingUpBodycheck;
@@ -158,7 +158,7 @@ public class Skater : MonoBehaviour
         extraBodycheckPower = 0f;
         skaterAnimationScript.skaterAnimator.SetBool("AnimateBodychecking", true);
         skaterAnimationScript.DisableRigExceptHead();
-        while(teamMember.windingUp){
+        while(windingUpBodycheck){
             yield return new WaitForSeconds((Time.deltaTime));
             if(checkPower + extraBodycheckPower < checkPowerMax){extraBodycheckPower += (checkPowerWindUpRate * Time.deltaTime);}
         }
@@ -170,8 +170,9 @@ public class Skater : MonoBehaviour
         skaterAnimationScript.skaterAnimator.SetTrigger("AnimateBodycheckFollowThru");
         audioManager.PlayBodyCheckGrunt();
         StartCoroutine(CooldownBodycheck());
-        bodycheckHitZone.hitPower = checkPower + extraBodycheckPower + (skaterRigidBody.velocity.magnitude/4);
-        bodycheckHitZone.hitDirection = (bodycheckDirection + Vector3.up).normalized;
+        bodycheckHitZone.hitPower = checkPower + extraBodycheckPower + (skaterRigidBody.velocity.magnitude*0.6f);
+        bodycheckHitZone.hitDirection = (bodycheckDirection + Vector3.up*0.75f).normalized;
+        Debug.Log($"P: {checkPower}   EP: {extraBodycheckPower}   V: {skaterRigidBody.velocity.magnitude}");
         skaterRigidBody.AddForce(bodycheckDirection*((checkPower + extraBodycheckPower)/3), ForceMode.VelocityChange);        
     }
     public void ReceiveBodyCheck(float incomingHitPower, Vector3 hitDirection){

@@ -9,6 +9,7 @@ public class PuckScript : MonoBehaviour
     private AudioManager audioManager;
     private Rigidbody puckRigidbody;
     [SerializeField] GameObject puckLocationIndicator;
+
     private void Awake(){
         audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
         puckRigidbody = GetComponent<Rigidbody>();

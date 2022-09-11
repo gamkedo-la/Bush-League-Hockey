@@ -341,7 +341,7 @@ public class GameSystem : MonoBehaviour
         yield return new WaitForSeconds(4);
     }
     private IEnumerator EndOfGameHandler(){
-        audioManager.PlayFaceOffSound();
+        audioManager.PlayWoodWhistle();
         yield return new WaitForSeconds(2.5f);
         if(homeScore == awayScore){
             isSuddenDeath = true;
