@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     private PlayerInput playerInput;
     private Vector2 movementInput;
     private Vector3 cameraRelativeMovementPointer;
+    private bool canSpeedBoost = true;
     [Header("Team Management")]
     private Skater selectedSkater;
     private TeamMember selectedTeamMember;
@@ -55,6 +56,11 @@ public class PlayerController : MonoBehaviour
     public void CancelInstantReplay(InputAction.CallbackContext context){
         if(context.performed){
             FindObjectOfType<InstantReplay>()?.StopInstantReplay();
+        }
+    }
+    public void TrashTalk(InputAction.CallbackContext context){
+        if(context.performed){
+            FindObjectOfType<AudioManager>()?.PlayTrashTalk();
         }
     }
     public void MovementInputHandler(InputAction.CallbackContext context){
@@ -104,6 +110,19 @@ public class PlayerController : MonoBehaviour
             selectedSkater.DeliverBodyCheck();
         } else if(context.started){
             StartCoroutine(selectedSkater.WindUpBodyCheck());
+        }
+    }
+    private IEnumerator SpeedBoostAndCooldown(){
+        canSpeedBoost = false;
+        StartCoroutine(goaltender.Slide());
+        StartCoroutine(selectedSkater.Speedboost());
+        yield return new WaitForSeconds(5f);
+        canSpeedBoost = true;
+    }
+    public void SpeedBoost(InputAction.CallbackContext context){
+        if(context.performed && canSpeedBoost){
+            Debug.Log($"Speed Boost");
+            StartCoroutine(SpeedBoostAndCooldown());
         }
     }
 }

@@ -170,7 +170,7 @@ public class Skater : MonoBehaviour
         skaterAnimationScript.skaterAnimator.SetTrigger("AnimateBodycheckFollowThru");
         audioManager.PlayBodyCheckGrunt();
         StartCoroutine(CooldownBodycheck());
-        bodycheckHitZone.hitPower = checkPower + extraBodycheckPower + (skaterRigidBody.velocity.magnitude/2);
+        bodycheckHitZone.hitPower = checkPower + extraBodycheckPower + (skaterRigidBody.velocity.magnitude/4);
         bodycheckHitZone.hitDirection = (bodycheckDirection + Vector3.up).normalized;
         skaterRigidBody.AddForce(bodycheckDirection*((checkPower + extraBodycheckPower)/3), ForceMode.VelocityChange);        
     }
@@ -198,6 +198,12 @@ public class Skater : MonoBehaviour
         var t = checkPower / checkPowerMax;
         var curveT = checkPowerCurve.Evaluate(t);
         return ((checkPowerMax - checkPower) * curveT) + checkPower;
+    }
+    public IEnumerator Speedboost(){
+        Debug.Log($"Skater Speed boost");
+        skaterAcceleration *= 1.5f;
+        yield return new WaitForSeconds(1);
+        skaterAcceleration /= 1.5f;
     }
     public void HandleMove(){
         if(movementPointer.magnitude <= 0.1f || WindingUp() || isKnockedDown) return;

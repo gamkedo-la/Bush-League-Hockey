@@ -387,6 +387,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4892079755114552448}
+  - {fileID: 661086627362025291}
   - {fileID: 8593472284916475096}
   - {fileID: 4369130167348493989}
   m_Father: {fileID: 0}
@@ -483,6 +484,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2835e1381b3c3748bbe7000afa61ad7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  teamMember: {fileID: 0}
   movementSpeed: 4
   myNet: {fileID: 0}
   myOriginPoint: {fileID: 0}
@@ -507,8 +509,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   windingUp: 0
   isHomeTeam: 1
+  desiredPuckPosition: {fileID: 661086627362025291}
   skaterPosessionTrigger: {fileID: 7246921096608301403}
   puckPositionMarker: {fileID: 6150768726563883133}
+  puckControlSpeed: 4
   canTakePosession: 1
   hasPosession: 0
 --- !u!1 &3081960321174340687
@@ -794,7 +798,7 @@ Transform:
   - {fileID: 215568057863312244}
   - {fileID: 1324668348742360180}
   m_Father: {fileID: 3007017574672762252}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!1 &4117487158527637702
 GameObject:
@@ -1014,8 +1018,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5791120376811143108}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.7, y: -0.215, z: 0}
-  m_LocalScale: {x: 1.6, y: 3.76, z: 0.43}
+  m_LocalPosition: {x: 1.1, y: -0.215, z: 0}
+  m_LocalScale: {x: 1.96, y: 3.76, z: 0.43}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3007017574672762252}
@@ -1191,12 +1195,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6150768726563883133}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2, y: -0.45, z: 0}
+  m_LocalPosition: {x: 2.78, y: -0.45, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3007017574672762252}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &6598066034405330678
 Rigidbody:
@@ -1353,6 +1357,37 @@ Transform:
   - {fileID: 3103725944138880811}
   m_Father: {fileID: 2448175848026150241}
   m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7790770873298586012
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 661086627362025291}
+  m_Layer: 0
+  m_Name: DesiredPuckPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &661086627362025291
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7790770873298586012}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2.74, y: -0.455, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3007017574672762252}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8366088340235949632
 GameObject:

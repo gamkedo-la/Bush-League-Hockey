@@ -43,18 +43,19 @@ public class GameSystem : MonoBehaviour
     [SerializeField] TextMeshProUGUI homeScoreText;
     [SerializeField] TextMeshProUGUI awayScoreText;
     [SerializeField] TextMeshProUGUI timerText;
-    private int homeScore = 0;
-    private int awayScore = 0;
+    public int homeScore = 0;
+    public int awayScore = 0;
     public int homeHits = 0;
     public int awayHits = 0;
-    public int homeShots = 0;
-    public int awayShots = 0;
+    public int homeSaves = 0;
+    public int awaySaves = 0;
     public int homePasses = 0;
     public int awayPasses = 0;
     private float timeRemaining = 300;
     private bool gameOn = false;
     private bool clockIsRunning = false;
     private bool isSuddenDeath = false;
+    private bool saveCooldownDone = true;
     [Header("Onscreen Messages / Menus")]
     [SerializeField] public GameObject GoalScoredDisplay;
     [SerializeField] public GameObject FaceOffMessageDisplay;
@@ -102,6 +103,21 @@ public class GameSystem : MonoBehaviour
                 break;
         }
         playerInput.GetComponent<MenuController>().InitializeController();
+    }
+    private IEnumerator SaveCooldown(){
+        saveCooldownDone = false;
+        yield return new WaitForSeconds(.4f);
+        saveCooldownDone = true;
+    }
+    public void CountSave(bool homeSave){
+        if(saveCooldownDone){
+            StartCoroutine(SaveCooldown());
+            if(homeSave){
+                homeSaves++;
+            } else {
+                awaySaves++;
+            }
+        }
     }
     public void SetPlayersToTeams(){
         int homeTeamMemberCount = 0;
@@ -264,7 +280,7 @@ public class GameSystem : MonoBehaviour
         audioManager.PlayCrowdCelebration();
         if(scoredOnHomeNet)
         {
-            awayScore++; 
+            awayScore++;
             StartCoroutine(crowdReactionManager.transform.GetComponent<CrowdReactionManagerScriptComponent>().HandleAwayTeamScoringAGoal());
         }
         else
@@ -285,7 +301,9 @@ public class GameSystem : MonoBehaviour
         StartCoroutine(CountDownAndDropPuck());
     }
     public void PuckOutOfBounds(){
-        StartCoroutine(OutOfBoundsReset());
+        if(gameOn){
+            StartCoroutine(OutOfBoundsReset());
+        }
         // Trigger crowd effects
     }
     private IEnumerator RunClock(){

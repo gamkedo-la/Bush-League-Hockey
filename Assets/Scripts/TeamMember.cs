@@ -10,8 +10,10 @@ public class TeamMember : MonoBehaviour
     [SerializeField] public bool isHomeTeam;
     private Rigidbody thisPlayersRigidBody;
     [Header("Puck Control")]
+    [SerializeField] Transform desiredPuckPosition;
     [SerializeField] GameObject skaterPosessionTrigger;
     [SerializeField] GameObject puckPositionMarker;
+    [SerializeField] float puckControlSpeed;
     private FixedJoint puckHandleJoint;
     public static EventHandler<EventArgs> takenPosession;
     [HideInInspector] public bool canTakePosession = true;
@@ -27,7 +29,7 @@ public class TeamMember : MonoBehaviour
             hasPosession = true;
             // teleports the puck to the position marker.
             // allows it to teleport through the objects.
-            gameSystem.puckObject.transform.position = puckPositionMarker.transform.position;
+            puckPositionMarker.transform.position = gameSystem.puckObject.transform.position;
             // invoke gained posession event
             // event args, home/away
             takenPosession?.Invoke(this, EventArgs.Empty);
@@ -52,5 +54,14 @@ public class TeamMember : MonoBehaviour
         canTakePosession = false;
         yield return new WaitForSeconds(posessionCooldownTime);
         canTakePosession = true;
+    }
+    public void PuckPositionHandler(){
+        if(hasPosession){
+            // move towards the desired position
+            puckPositionMarker.transform.position = Vector3.MoveTowards(puckPositionMarker.transform.position, desiredPuckPosition.position, puckControlSpeed*Time.deltaTime);
+        }
+    }
+    private void Update() {
+        PuckPositionHandler();
     }
 }

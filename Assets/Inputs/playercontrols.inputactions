@@ -42,6 +42,24 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "GoalieSlide",
+                    "type": "Button",
+                    "id": "caf54b28-7255-4ef5-b3c1-290a17db1fb1",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press(behavior=1)",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "TrashTalk",
+                    "type": "Button",
+                    "id": "0e834cd0-8133-4aa5-bb50-d9b17ef15bbd",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press(behavior=1)",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "StickControl",
                     "type": "Value",
                     "id": "9cf88caf-6547-4a02-a537-40516af6eab1",
@@ -445,10 +463,10 @@
                 {
                     "name": "",
                     "id": "f10b2ef5-49b9-45da-9825-18d758d7182a",
-                    "path": "<Keyboard>/t",
+                    "path": "<Keyboard>/c",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Keyboard&Mouse",
                     "action": "CancelInstantReplay",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -483,6 +501,94 @@
                     "processors": "",
                     "groups": "XBox",
                     "action": "CancelInstantReplay",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "dd1e8331-1dcd-4ae1-be44-b92e72958b47",
+                    "path": "<Keyboard>/ctrl",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "GoalieSlide",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f4c411a0-132b-402f-909a-65d3edba2b51",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "GoalieSlide",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8d3d1ed7-1315-49c1-a870-b16d1dfbc983",
+                    "path": "<DualShockGamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "PS4",
+                    "action": "GoalieSlide",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c0e90a99-d1bb-4fae-9365-c09b83db69b8",
+                    "path": "<XInputController>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "XBox",
+                    "action": "GoalieSlide",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7d887976-8860-464f-adae-741f02774012",
+                    "path": "<Keyboard>/t",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "TrashTalk",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "bf41c52f-ad10-49f1-b16b-0dbbf44b277b",
+                    "path": "<Gamepad>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "TrashTalk",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "98b424f0-8259-4f91-a5f9-0c70cc3ea0bd",
+                    "path": "<DualShockGamepad>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "PS4",
+                    "action": "TrashTalk",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "424c915f-1719-40c5-bf1a-bbb9bee9cb7f",
+                    "path": "<XInputController>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "XBox",
+                    "action": "TrashTalk",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

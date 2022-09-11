@@ -102,6 +102,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 680e385bc0263174bb19cebac5bd801f, type: 3}
   - {fileID: 8300000, guid: f7bbddbb3286f7644b52fb32a16399f3, type: 3}
   - {fileID: 8300000, guid: b03e2d9a2f9e13440ad578c468d409e2, type: 3}
+  - {fileID: 8300000, guid: c3a2edfeaa635734cab3a5006def2026, type: 3}
   deliveryCheckGruntSfx:
   - {fileID: 8300000, guid: 01d56e3c5ed7cce4e90aa2340169a288, type: 3}
   - {fileID: 8300000, guid: 4ffb0515b6a684340a8823e836a177cb, type: 3}
@@ -135,6 +136,12 @@ MonoBehaviour:
   - {fileID: 8300000, guid: dc80fc6253dba9f46bbcfde75100fdd8, type: 3}
   - {fileID: 8300000, guid: 39ad689a83af18340940832501b86578, type: 3}
   - {fileID: 8300000, guid: c34457f437af8234887b17ad5199da0f, type: 3}
+  trashTalkSfx:
+  - {fileID: 8300000, guid: a6bcee7783ae6304f80eb76d5f955012, type: 3}
+  - {fileID: 8300000, guid: f9385c391d5925944a10edc52ba239a0, type: 3}
+  - {fileID: 8300000, guid: c9f78baae8240824e8863733f738b0c3, type: 3}
+  - {fileID: 8300000, guid: 20aaa27ebe0a41749a500cb80003c83c, type: 3}
+  - {fileID: 8300000, guid: e5adfaa86cce595459a5a86f42b57ae6, type: 3}
   hitBySmallObjectSfx:
   - {fileID: 8300000, guid: c2a60661ce05d1849916af4a9bb42387, type: 3}
   - {fileID: 8300000, guid: d9488febd96f1a54db49db89ee439105, type: 3}
@@ -167,7 +174,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 4b517b99188b30a46b5b502b18a14f62, type: 3}
   - {fileID: 8300000, guid: 17090c36c2bdcff4dbd42610803845d7, type: 3}
   - {fileID: 8300000, guid: 5984b41de2430ab4594d6ed017f809bf, type: 3}
-  faceOffSfx: {fileID: 8300000, guid: 0020115717323364a9292db38d626c4a, type: 3}
+  woodWhistleSfx: {fileID: 8300000, guid: 80c07f05dcb6e4a499c0ef8101c82fa6, type: 3}
   suddenDeathSfx: {fileID: 8300000, guid: bba4e05df6ac77a429207e5336d0c5d9, type: 3}
   ReadySfx:
   - {fileID: 8300000, guid: 024971abe6c3c1947b96e146cae9865e, type: 3}

@@ -90,7 +90,6 @@ public class AIPlayerController : MonoBehaviour
         // move in the given direction
         selectedSkater.SetPointers(movementPointer);
     }
-
     private IEnumerator Shoot()
     {
         StartCoroutine(selectedSkater.WindUpShot());
@@ -138,7 +137,6 @@ public class AIPlayerController : MonoBehaviour
         stateDictionary.Add("GoalieMakePass", new GoalieMakePass(this));
         stateDictionary.Add("Shooting", new ShootingState(this));
         stateDictionary.Add("GoalieDefend", new GoalieDefendState(this));
-        // State for goalie to make a play
         currentState = stateDictionary[WaitingState.StateName];
         currentState.OnEnter();
     }

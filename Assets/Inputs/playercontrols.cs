@@ -64,6 +64,24 @@ public partial class @Playercontrols : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""GoalieSlide"",
+                    ""type"": ""Button"",
+                    ""id"": ""caf54b28-7255-4ef5-b3c1-290a17db1fb1"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press(behavior=1)"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""TrashTalk"",
+                    ""type"": ""Button"",
+                    ""id"": ""0e834cd0-8133-4aa5-bb50-d9b17ef15bbd"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press(behavior=1)"",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""StickControl"",
                     ""type"": ""Value"",
                     ""id"": ""9cf88caf-6547-4a02-a537-40516af6eab1"",
@@ -467,10 +485,10 @@ public partial class @Playercontrols : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""f10b2ef5-49b9-45da-9825-18d758d7182a"",
-                    ""path"": ""<Keyboard>/t"",
+                    ""path"": ""<Keyboard>/c"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""CancelInstantReplay"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -505,6 +523,94 @@ public partial class @Playercontrols : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""XBox"",
                     ""action"": ""CancelInstantReplay"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""dd1e8331-1dcd-4ae1-be44-b92e72958b47"",
+                    ""path"": ""<Keyboard>/ctrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""GoalieSlide"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f4c411a0-132b-402f-909a-65d3edba2b51"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""GoalieSlide"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8d3d1ed7-1315-49c1-a870-b16d1dfbc983"",
+                    ""path"": ""<DualShockGamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""PS4"",
+                    ""action"": ""GoalieSlide"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c0e90a99-d1bb-4fae-9365-c09b83db69b8"",
+                    ""path"": ""<XInputController>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""XBox"",
+                    ""action"": ""GoalieSlide"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7d887976-8860-464f-adae-741f02774012"",
+                    ""path"": ""<Keyboard>/t"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""TrashTalk"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""bf41c52f-ad10-49f1-b16b-0dbbf44b277b"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""TrashTalk"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""98b424f0-8259-4f91-a5f9-0c70cc3ea0bd"",
+                    ""path"": ""<DualShockGamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""PS4"",
+                    ""action"": ""TrashTalk"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""424c915f-1719-40c5-bf1a-bbb9bee9cb7f"",
+                    ""path"": ""<XInputController>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""XBox"",
+                    ""action"": ""TrashTalk"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1310,6 +1416,8 @@ public partial class @Playercontrols : IInputActionCollection2, IDisposable
         m_Player_Fire = m_Player.FindAction("Fire", throwIfNotFound: true);
         m_Player_Pass = m_Player.FindAction("Pass", throwIfNotFound: true);
         m_Player_BodyCheck = m_Player.FindAction("BodyCheck", throwIfNotFound: true);
+        m_Player_GoalieSlide = m_Player.FindAction("GoalieSlide", throwIfNotFound: true);
+        m_Player_TrashTalk = m_Player.FindAction("TrashTalk", throwIfNotFound: true);
         m_Player_StickControl = m_Player.FindAction("StickControl", throwIfNotFound: true);
         m_Player_Pause = m_Player.FindAction("Pause", throwIfNotFound: true);
         m_Player_StartInstantReplay = m_Player.FindAction("StartInstantReplay", throwIfNotFound: true);
@@ -1387,6 +1495,8 @@ public partial class @Playercontrols : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Fire;
     private readonly InputAction m_Player_Pass;
     private readonly InputAction m_Player_BodyCheck;
+    private readonly InputAction m_Player_GoalieSlide;
+    private readonly InputAction m_Player_TrashTalk;
     private readonly InputAction m_Player_StickControl;
     private readonly InputAction m_Player_Pause;
     private readonly InputAction m_Player_StartInstantReplay;
@@ -1399,6 +1509,8 @@ public partial class @Playercontrols : IInputActionCollection2, IDisposable
         public InputAction @Fire => m_Wrapper.m_Player_Fire;
         public InputAction @Pass => m_Wrapper.m_Player_Pass;
         public InputAction @BodyCheck => m_Wrapper.m_Player_BodyCheck;
+        public InputAction @GoalieSlide => m_Wrapper.m_Player_GoalieSlide;
+        public InputAction @TrashTalk => m_Wrapper.m_Player_TrashTalk;
         public InputAction @StickControl => m_Wrapper.m_Player_StickControl;
         public InputAction @Pause => m_Wrapper.m_Player_Pause;
         public InputAction @StartInstantReplay => m_Wrapper.m_Player_StartInstantReplay;
@@ -1424,6 +1536,12 @@ public partial class @Playercontrols : IInputActionCollection2, IDisposable
                 @BodyCheck.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBodyCheck;
                 @BodyCheck.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBodyCheck;
                 @BodyCheck.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBodyCheck;
+                @GoalieSlide.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnGoalieSlide;
+                @GoalieSlide.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnGoalieSlide;
+                @GoalieSlide.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnGoalieSlide;
+                @TrashTalk.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnTrashTalk;
+                @TrashTalk.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnTrashTalk;
+                @TrashTalk.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnTrashTalk;
                 @StickControl.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnStickControl;
                 @StickControl.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnStickControl;
                 @StickControl.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnStickControl;
@@ -1452,6 +1570,12 @@ public partial class @Playercontrols : IInputActionCollection2, IDisposable
                 @BodyCheck.started += instance.OnBodyCheck;
                 @BodyCheck.performed += instance.OnBodyCheck;
                 @BodyCheck.canceled += instance.OnBodyCheck;
+                @GoalieSlide.started += instance.OnGoalieSlide;
+                @GoalieSlide.performed += instance.OnGoalieSlide;
+                @GoalieSlide.canceled += instance.OnGoalieSlide;
+                @TrashTalk.started += instance.OnTrashTalk;
+                @TrashTalk.performed += instance.OnTrashTalk;
+                @TrashTalk.canceled += instance.OnTrashTalk;
                 @StickControl.started += instance.OnStickControl;
                 @StickControl.performed += instance.OnStickControl;
                 @StickControl.canceled += instance.OnStickControl;
@@ -1617,6 +1741,8 @@ public partial class @Playercontrols : IInputActionCollection2, IDisposable
         void OnFire(InputAction.CallbackContext context);
         void OnPass(InputAction.CallbackContext context);
         void OnBodyCheck(InputAction.CallbackContext context);
+        void OnGoalieSlide(InputAction.CallbackContext context);
+        void OnTrashTalk(InputAction.CallbackContext context);
         void OnStickControl(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
         void OnStartInstantReplay(InputAction.CallbackContext context);

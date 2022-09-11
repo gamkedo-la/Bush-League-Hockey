@@ -95,9 +95,6 @@ public abstract class AbstractAIState
     protected bool ShouldControlGoaltender()
     {
         // other skater has posession on your side of the ice
-        Debug.Log(
-            $"Someone has it:{aiPlayerController.SomeoneHasPosession()}\nOn Net:{aiPlayerController.PuckIsGoingToMyNet()}"
-        );
         // Nobody has posession, puck is going towards your net
         return (
             (opponentTeamMember.hasPosession && (Vector3.Distance(goaltender.myNet.transform.position, opponentSkater.transform.position) < 16))

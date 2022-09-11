@@ -22,6 +22,10 @@ public class InGameMenu : MonoBehaviour
     [SerializeField] TextMeshProUGUI awayHitsText;
     [SerializeField] TextMeshProUGUI homePassesText;
     [SerializeField] TextMeshProUGUI awayPassesText;
+    [SerializeField] TextMeshProUGUI homeShotsText;
+    [SerializeField] TextMeshProUGUI awayShotsText;
+    [SerializeField] TextMeshProUGUI homeSavesText;
+    [SerializeField] TextMeshProUGUI awaySavesText;
 
     public void SetActiveMenuItemForAllPlayers(GameObject menuItem){
         foreach (MultiplayerEventSystem eventSystem in FindObjectsOfType<MultiplayerEventSystem>())
@@ -78,5 +82,9 @@ public class InGameMenu : MonoBehaviour
         awayHitsText.text = FindObjectOfType<GameSystem>().awayHits.ToString();
         homePassesText.text = FindObjectOfType<GameSystem>().homePasses.ToString();
         awayPassesText.text = FindObjectOfType<GameSystem>().awayPasses.ToString();
+        homeShotsText.text = (FindObjectOfType<GameSystem>().homeScore + FindObjectOfType<GameSystem>().awaySaves).ToString();
+        awayShotsText.text = (FindObjectOfType<GameSystem>().awayScore + FindObjectOfType<GameSystem>().homeSaves).ToString();
+        homeSavesText.text = FindObjectOfType<GameSystem>().homeSaves.ToString();
+        awaySavesText.text = FindObjectOfType<GameSystem>().awaySaves.ToString();
     }
 }

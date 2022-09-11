@@ -24,11 +24,13 @@ public class AudioManager : MonoBehaviour
     [SerializeField] public AudioClip[] puckOnPostSfx;
     [SerializeField] public AudioClip[] puckOnBoardSfx;
     [SerializeField] public AudioClip[] puckOnPlayerSfx;
+    [SerializeField] public AudioClip[] trashTalkSfx;
     [SerializeField] public AudioClip[] hitBySmallObjectSfx;
     [SerializeField] public AudioClip[] modelCollisionSfx;
     private bool modelCollisionSoundReady = true;
+    private bool trashTalkReady = true;
     [SerializeField] public AudioClip[] shotSfx;
-    [SerializeField] public AudioClip faceOffSfx;
+    [SerializeField] public AudioClip woodWhistleSfx;
 
     [SerializeField] public AudioClip suddenDeathSfx;
 
@@ -40,6 +42,11 @@ public class AudioManager : MonoBehaviour
     private void PlayRandomlyFromList(AudioClip[] soundList, GameObject origin, float volumeFactor){
         int randomSFXIndex = Random.Range(0, soundList.Length);
         origin.GetComponent<AudioSource>().PlayOneShot(soundList[randomSFXIndex], volumeFactor);
+    }
+    private void SetRandomTrackToOrigin(AudioClip[] soundList, GameObject origin, float volumeFactor){
+        int randomSFXIndex = Random.Range(0, soundList.Length);
+        origin.GetComponent<AudioSource>().clip = soundList[randomSFXIndex];
+        origin.GetComponent<AudioSource>().Play(0);
     }
     public IEnumerator PlayPassSFX(){
         PlayRandomlyFromList(passSfx, sfxWorldOrigin, worldSfxVolume);
@@ -75,12 +82,25 @@ public class AudioManager : MonoBehaviour
     public void PlayFaceOffSound(){
         PlayRandomlyFromList(GoSfx, sfxUniversalOrigin, universalSfxVolume*9);
     }
-
+    public void PlayWoodWhistle(){
+        sfxWorldOrigin.GetComponent<AudioSource>().PlayOneShot(woodWhistleSfx, worldSfxVolume);
+    }
      public void PlayReadySound(){
         PlayRandomlyFromList(ReadySfx, sfxUniversalOrigin, universalSfxVolume*6);
     }
     public void PlaySuddenDeath (){
         sfxUniversalOrigin.GetComponent<AudioSource>().PlayOneShot(suddenDeathSfx, universalSfxVolume*10);
+    }
+    private IEnumerator CooldownTrashTalk(){
+        trashTalkReady = false;
+        yield return new WaitForSeconds(5);
+        trashTalkReady = true;
+    }
+    public void PlayTrashTalk(){
+        if(trashTalkReady){
+            PlayRandomlyFromList(trashTalkSfx, sfxWorldOrigin, worldSfxVolume*5);
+            StartCoroutine(CooldownTrashTalk());
+        }
     }
     public IEnumerator PlayPuckPlayerHitSound(float volumeFactor){
         PlayRandomlyFromList(puckOnPlayerSfx, sfxWorldOrigin, volumeFactor);

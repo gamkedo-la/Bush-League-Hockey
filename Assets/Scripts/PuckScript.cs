@@ -25,6 +25,9 @@ public class PuckScript : MonoBehaviour
         if (other.gameObject.name.Contains("DEF") ||  other.gameObject.name.Contains("Goaltender")) {
             StartCoroutine(audioManager.PlayPuckPlayerHitSound(volumeFactor*3));
         }
+        if(other.gameObject.name.Contains("Goaltender")){
+            FindObjectOfType<GameSystem>().CountSave(other.gameObject.tag.Contains("home"));
+        }
     }
     private void Update() {
         // position a VFX object directly underneath the puck

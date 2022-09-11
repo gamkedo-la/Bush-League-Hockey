@@ -8,7 +8,7 @@ public class PuckHandleJoint : MonoBehaviour
     public void AttachPuckToHandleJoint(Rigidbody puckRigidBody){
         puckHandleJoint = gameObject.AddComponent(typeof(FixedJoint)) as FixedJoint;
         puckHandleJoint.connectedBody = puckRigidBody;
-        puckHandleJoint.breakForce = 5000f;
+        puckHandleJoint.breakForce = 150000f;
     }
     public void BreakFixedJoint(){
         Destroy(puckHandleJoint);

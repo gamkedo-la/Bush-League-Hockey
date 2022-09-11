@@ -57,6 +57,12 @@ public class Goaltender : MonoBehaviour
         }
         transform.position = myOriginPoint.transform.position;
     }
+    public IEnumerator Slide(){
+        Debug.Log($"goalie slide");
+        movementSpeed *= 2;
+        yield return new WaitForSeconds(0.5f);
+        movementSpeed /= 2;
+    }
     public void SetPointers(Vector3 movementPointer){
         displacementVector = movementSpeed * movementPointer * Time.deltaTime;
         if(movementPointer.magnitude == 0){
@@ -107,6 +113,12 @@ public class Goaltender : MonoBehaviour
             StartCoroutine(teamMember.BreakPosession());
             StartCoroutine(audioManager.PlayPassSFX());
             gameSystem.puckObject.GetComponent<Rigidbody>().AddForce(passDirection * (passPower + extraPassPower), ForceMode.Impulse);
+        }
+        if (gameObject.tag == "awayGoaltender"){
+            gameSystem.awayPasses++;
+        }
+        else if (gameObject.tag == "homeGoaltender"){
+            gameSystem.homePasses++;
         }
     }
     public IEnumerator WindUpShot(){

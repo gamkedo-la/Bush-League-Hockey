@@ -48,7 +48,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d667c22cb386c144a650a1dd6eb833d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isHomeTeam: 0
 --- !u!114 &1349838862923450303
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -222,10 +221,6 @@ MonoBehaviour:
     m_ActionName: UI/New action
   - m_PersistentCalls:
       m_Calls: []
-    m_ActionId: 2e607aeb-8c84-4647-b055-6b325dd0aef1
-    m_ActionName: UI/AcceptSelection[/Keyboard/space]
-  - m_PersistentCalls:
-      m_Calls: []
     m_ActionId: 56f7be28-1041-4b6e-a8c6-8c5624903d60
     m_ActionName: NeutralInput/Navigate[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]
   - m_PersistentCalls:
@@ -264,6 +259,42 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: ee3f2596-1b41-4c08-b819-c14958010d42
     m_ActionName: Player/CancelInstantReplay[/Keyboard/t,/DualShock3GamepadHID/buttonEast,/DualShock4GamepadHID/buttonEast,/XInputControllerWindows/buttonEast]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1326392306507441094}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: SpeedBoost
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: caf54b28-7255-4ef5-b3c1-290a17db1fb1
+    m_ActionName: Player/GoalieSlide[/Keyboard/ctrl,/DualShock3GamepadHID/buttonEast,/DualShock4GamepadHID/buttonEast,/XInputControllerWindows/buttonEast]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: e8adbd0e-69f1-4a58-84c9-c213165782b6
+    m_ActionName: UI/Submit[/DualShock3GamepadHID/buttonSouth,/DualShock4GamepadHID/buttonSouth,/XInputControllerWindows/buttonSouth,/Keyboard/space]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1326392306507441094}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: TrashTalk
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 0e834cd0-8133-4aa5-bb50-d9b17ef15bbd
+    m_ActionName: Player/GoalieSlide1[/Keyboard/ctrl,/DualShock3GamepadHID/buttonEast,/DualShock4GamepadHID/buttonEast,/XInputControllerWindows/buttonEast]
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: 
   m_DefaultActionMap: UI
