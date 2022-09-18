@@ -139,9 +139,10 @@ MonoBehaviour:
   trashTalkSfx:
   - {fileID: 8300000, guid: a6bcee7783ae6304f80eb76d5f955012, type: 3}
   - {fileID: 8300000, guid: f9385c391d5925944a10edc52ba239a0, type: 3}
-  - {fileID: 8300000, guid: c9f78baae8240824e8863733f738b0c3, type: 3}
   - {fileID: 8300000, guid: 20aaa27ebe0a41749a500cb80003c83c, type: 3}
   - {fileID: 8300000, guid: e5adfaa86cce595459a5a86f42b57ae6, type: 3}
+  - {fileID: 8300000, guid: 0c8ed3c277d9d4b409bd18d8c9c64db2, type: 3}
+  - {fileID: 8300000, guid: 445a5d7c35e73164d969c9c99b9b7aa9, type: 3}
   hitBySmallObjectSfx:
   - {fileID: 8300000, guid: c2a60661ce05d1849916af4a9bb42387, type: 3}
   - {fileID: 8300000, guid: d9488febd96f1a54db49db89ee439105, type: 3}

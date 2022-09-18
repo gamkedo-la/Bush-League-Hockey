@@ -68,6 +68,7 @@ public class Skater : MonoBehaviour
         extraShotPower = 0;
         extraBodycheckPower = 0;
         extraPassPower = 0;
+        skaterAnimationScript.DeactivateBodycheck();
         skaterAnimationScript.ResetAnimations();
         skaterAnimationScript.ResetRagdoll();
     }

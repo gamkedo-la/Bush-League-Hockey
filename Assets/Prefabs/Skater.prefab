@@ -800,7 +800,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2533384822332519914}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 5e5170e8ec5e92141b27282ea97412ac, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.2745489
@@ -820,8 +820,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skaterAnimationScript: {fileID: 3792185025071796481}
-  skaterAcceleration: 100
-  skaterMaximumSpeed: 14
+  skaterAcceleration: 85
+  skaterMaximumSpeed: 13
   skaterTurnSpeed: 10
   angleAccelerationLimit: 15
   angleTurnLimit: 60
@@ -861,8 +861,8 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   checkPower: 2
-  checkPowerMax: 8
-  checkPowerWindUpRate: 5
+  checkPowerMax: 10
+  checkPowerWindUpRate: 6
   bodycheckCooldownTime: 1
   isKnockedDown: 0
 --- !u!114 &2533384822332519913

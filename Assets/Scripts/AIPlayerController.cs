@@ -127,7 +127,6 @@ public class AIPlayerController : MonoBehaviour
         selectedSkater.PassPuck();
         goaltender.PassPuck();
     }
-
     void Start()
     {
         stateDictionary = new Dictionary<string, AbstractAIState>();
