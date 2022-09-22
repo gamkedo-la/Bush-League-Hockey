@@ -24,7 +24,7 @@ public class Skater : MonoBehaviour
     [SerializeField] [Range(0.5f, 4f)] float shotPowerWindUpRate; // extraPower / second
     [SerializeField] [Range(8f, 20f)] float shotPowerMax;
     [SerializeField] [Range(4f, 16f)] float shotPower;
-    private bool windingUpShot;
+    public bool windingUpShot;
     private float extraShotPower;
     private Vector3 shotDirection;
     [Header("Passing")]
@@ -32,7 +32,7 @@ public class Skater : MonoBehaviour
     [SerializeField] [Range(6f, 12f)] float passPowerMax;
     [SerializeField] [Range(1f, 8f)] float passPower;
     private float extraPassPower;
-    private bool windingUpPass;
+    public bool windingUpPass;
     [Header("Colliding/Checking")]
     [SerializeField] GameObject skaterModel;
     [SerializeField] private BodycheckHitZone bodycheckHitZone;
@@ -42,7 +42,7 @@ public class Skater : MonoBehaviour
     [SerializeField] [Range(4f, 64f)] private float checkPowerMax;
     [SerializeField] [Range(1f, 12f)] private float checkPowerWindUpRate;
     [SerializeField] [Range(0.2f, 3f)] private float bodycheckCooldownTime;
-    private bool windingUpBodycheck;
+    public bool windingUpBodycheck;
     private float extraBodycheckPower;
     private bool bodycheckReady = true;
     [HideInInspector] public bool isKnockedDown;

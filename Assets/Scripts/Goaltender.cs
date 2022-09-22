@@ -25,14 +25,14 @@ public class Goaltender : MonoBehaviour
     [SerializeField] [Range(1f, 5f)] float shotPower;
     private Vector3 shotDirection;
     private float extraPower;
-    private bool windingUpShot;
+    public bool windingUpShot;
     [Header("Passing")]
     [SerializeField] [Range(0.5f, 6f)] float passPowerWindUpRate; // extraPassPower / second
     [SerializeField] [Range(6f, 12f)] float passPowerMax;
     [SerializeField] [Range(1f, 8f)] float passPower;
     private Vector3 passDirection;
     private float extraPassPower;
-    private bool windingUpPass;
+    public bool windingUpPass;
     [Header("Bodycheck")]
     [SerializeField] [Range(1f, 8f)] float goalieHitPower;
 

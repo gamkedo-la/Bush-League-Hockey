@@ -76,9 +76,8 @@ public abstract class AbstractAIState
         netToGoalie.y = 0;
         goalieToPuck.y = 0;
         Vector3 angleCross = Vector3.Cross(goalieToPuck, netToPuck);
-        Debug.Log($"cross: {angleCross.y}");
         movementPointer = Vector3.Cross(netToGoalie, Vector3.up) * (angleCross.y/Mathf.Abs(angleCross.y)); //(netToPuckYAngle - goalieToPuckYAngle)/(Mathf.Abs(netToPuckYAngle - goalieToPuckYAngle));
-        //movementPointer = movementPointer.normalized + goalieToPuck.normalized;
+        movementPointer = movementPointer.normalized + goalieToPuck.normalized;
         Debug.Log($"net movement: {movementPointer}");
         return movementPointer.normalized;
     }
@@ -92,9 +91,12 @@ public abstract class AbstractAIState
         // other skater has posession on your side of the ice
         // Nobody has posession, puck is going towards your net
         // other player or goalie is winding up a shot
+        // my skater is knocked down
         return (
             (opponentTeamMember.hasPosession && (Vector3.Distance(goaltender.myNet.transform.position, opponentSkater.transform.position) < 16))
             || (!aiPlayerController.SomeoneHasPosession() && aiPlayerController.PuckIsGoingToMyNet())
+            || (opponentSkater.windingUpShot || opponentGoaltender.windingUpShot)
+            || selectedSkater.isKnockedDown
         );
     }
     protected bool BehindGoal()
