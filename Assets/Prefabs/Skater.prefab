@@ -820,17 +820,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skaterAnimationScript: {fileID: 3792185025071796481}
-  skaterAcceleration: 85
-  skaterMaximumSpeed: 13
-  skaterTurnSpeed: 10
-  angleAccelerationLimit: 15
-  angleTurnLimit: 60
+  skaterPresets: {fileID: 11400000, guid: a8c85117e36db0a43ac442558576a20b, type: 2}
   shotPowerWindUpRate: 2
   shotPowerMax: 15
   shotPower: 10
+  windingUpShot: 0
   passPowerWindUpRate: 2
   passPowerMax: 10
   passPower: 7
+  windingUpPass: 0
   skaterModel: {fileID: 910919187423737594}
   bodycheckHitZone: {fileID: 892617025}
   skaterMask:
@@ -864,6 +862,7 @@ MonoBehaviour:
   checkPowerMax: 10
   checkPowerWindUpRate: 6
   bodycheckCooldownTime: 1
+  windingUpBodycheck: 0
   isKnockedDown: 0
 --- !u!114 &2533384822332519913
 MonoBehaviour:

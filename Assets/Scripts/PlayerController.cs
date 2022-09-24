@@ -115,7 +115,6 @@ public class PlayerController : MonoBehaviour
     private IEnumerator SpeedBoostAndCooldown(){
         canSpeedBoost = false;
         StartCoroutine(goaltender.Slide());
-        StartCoroutine(selectedSkater.Speedboost());
         yield return new WaitForSeconds(5f);
         canSpeedBoost = true;
     }

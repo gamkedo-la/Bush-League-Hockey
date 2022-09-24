@@ -5,55 +5,33 @@ using UnityEditor;
 using UnityEngine.InputSystem;
 public class Skater : MonoBehaviour
 {
+    [SerializeField] public SkaterPresets skaterPresets;
     [SerializeField] SkaterAnimationScript skaterAnimationScript;
     private GameSystem gameSystem;
     private AudioManager audioManager;
-    [Header("Skating")]
-    [SerializeField] float skaterAcceleration;
-    [SerializeField] float skaterMaximumSpeed;
-    [SerializeField] float skaterTurnSpeed;
-    [SerializeField] float angleAccelerationLimit;
-    [SerializeField] float angleTurnLimit;
     private float angleMovementDelta;
     private Rigidbody skaterRigidBody;
     private Vector3 movementPointer;
     private Vector3 stickControlPointer;
     private Quaternion desiredRotation;
     private Quaternion rotationThisFrame;
-    [Header("Shooting")]
-    [SerializeField] [Range(0.5f, 4f)] float shotPowerWindUpRate; // extraPower / second
-    [SerializeField] [Range(8f, 20f)] float shotPowerMax;
-    [SerializeField] [Range(4f, 16f)] float shotPower;
     public bool windingUpShot;
     private float extraShotPower;
     private Vector3 shotDirection;
-    [Header("Passing")]
-    [SerializeField] [Range(0.5f, 6f)] float passPowerWindUpRate; // extraPassPower / second
-    [SerializeField] [Range(6f, 12f)] float passPowerMax;
-    [SerializeField] [Range(1f, 8f)] float passPower;
     private float extraPassPower;
     public bool windingUpPass;
-    [Header("Colliding/Checking")]
     [SerializeField] GameObject skaterModel;
     [SerializeField] private BodycheckHitZone bodycheckHitZone;
-    [SerializeField] private LayerMask skaterMask;
-    [SerializeField] private AnimationCurve checkPowerCurve;
-    [SerializeField] [Range(1f, 6f)] private float checkPower;
-    [SerializeField] [Range(4f, 64f)] private float checkPowerMax;
-    [SerializeField] [Range(1f, 12f)] private float checkPowerWindUpRate;
-    [SerializeField] [Range(0.2f, 3f)] private float bodycheckCooldownTime;
     public bool windingUpBodycheck;
     private float extraBodycheckPower;
     private bool bodycheckReady = true;
-    [HideInInspector] public bool isKnockedDown;
+    public bool isKnockedDown;
     private Vector3 bodycheckDirection;
-    private Collider[] boxCastHits;
     private TeamMember teamMember;
     private void Awake(){
         skaterRigidBody = GetComponent<Rigidbody>();
         gameSystem = GameObject.Find("GameSystem").GetComponent<GameSystem>();
         audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
-        boxCastHits = new Collider[3];
         teamMember = GetComponent<TeamMember>();
     }
     public void ResetSkaterMotion(){
@@ -98,7 +76,7 @@ public class Skater : MonoBehaviour
         skaterAnimationScript.DisableRigExceptHead();
         while(WindingUp()){
             yield return new WaitForSeconds((Time.deltaTime));
-            if(passPower + extraPassPower < passPowerMax){extraPassPower += (passPowerWindUpRate * Time.deltaTime);}
+            if(skaterPresets.passPower + extraPassPower < skaterPresets.passPowerMax){extraPassPower += (skaterPresets.passPowerWindUpRate * Time.deltaTime);}
         }
     }
     public void PassPuck(){
@@ -109,7 +87,7 @@ public class Skater : MonoBehaviour
             StartCoroutine(teamMember.BreakPosession());
             StartCoroutine(audioManager.PlayPassSFX());
             skaterAnimationScript.skaterAnimator.SetTrigger("AnimatePassFollowThru");
-            gameSystem.puckObject.GetComponent<Rigidbody>().AddForce(bodycheckDirection * (passPower + extraPassPower), ForceMode.Impulse);
+            gameSystem.puckObject.GetComponent<Rigidbody>().AddForce(bodycheckDirection * (skaterPresets.passPower + extraPassPower), ForceMode.Impulse);
             if (gameObject.tag == "awaySkater"){
                 gameSystem.awayPasses++;
             }
@@ -129,7 +107,7 @@ public class Skater : MonoBehaviour
         skaterAnimationScript.DisableRigExceptHead();
         while(windingUpShot){
             yield return new WaitForSeconds((Time.deltaTime));
-            if(shotPower + extraShotPower < shotPowerMax){extraShotPower += (shotPowerWindUpRate * Time.deltaTime);}
+            if(skaterPresets.shotPower + extraShotPower < skaterPresets.shotPowerMax){extraShotPower += (skaterPresets.shotPowerWindUpRate * Time.deltaTime);}
         }
     }
     public void ShootPuck(){
@@ -140,14 +118,14 @@ public class Skater : MonoBehaviour
             StartCoroutine(teamMember.BreakPosession());
             audioManager.PlayShotSFX();
             skaterAnimationScript.skaterAnimator.SetTrigger("AnimateShotFollowThru");
-            gameSystem.puckObject.GetComponent<Rigidbody>().AddForce(shotDirection * (shotPower + extraShotPower), ForceMode.Impulse);
+            gameSystem.puckObject.GetComponent<Rigidbody>().AddForce(shotDirection * (skaterPresets.shotPower + extraShotPower), ForceMode.Impulse);
         } else{
             ResetSkaterActions();
         }
     }
     public IEnumerator CooldownBodycheck(){
         bodycheckReady = false;
-        yield return new WaitForSeconds(bodycheckCooldownTime);
+        yield return new WaitForSeconds(skaterPresets.bodycheckCooldownTime);
         bodycheckReady = true;
     }
     public IEnumerator WindUpBodyCheck(){
@@ -161,7 +139,7 @@ public class Skater : MonoBehaviour
         skaterAnimationScript.DisableRigExceptHead();
         while(windingUpBodycheck){
             yield return new WaitForSeconds((Time.deltaTime));
-            if(checkPower + extraBodycheckPower < checkPowerMax){extraBodycheckPower += (checkPowerWindUpRate * Time.deltaTime);}
+            if(skaterPresets.checkPower + extraBodycheckPower < skaterPresets.checkPowerMax){extraBodycheckPower += (skaterPresets.checkPowerWindUpRate * Time.deltaTime);}
         }
     }
     public void DeliverBodyCheck(){
@@ -171,10 +149,10 @@ public class Skater : MonoBehaviour
         skaterAnimationScript.skaterAnimator.SetTrigger("AnimateBodycheckFollowThru");
         audioManager.PlayBodyCheckGrunt();
         StartCoroutine(CooldownBodycheck());
-        bodycheckHitZone.hitPower = checkPower + extraBodycheckPower + (skaterRigidBody.velocity.magnitude*0.6f);
+        bodycheckHitZone.hitPower = skaterPresets.checkPower + extraBodycheckPower + (skaterRigidBody.velocity.magnitude*0.6f);
         bodycheckHitZone.hitDirection = (bodycheckDirection + Vector3.up*0.75f).normalized;
-        Debug.Log($"P: {checkPower}   EP: {extraBodycheckPower}   V: {skaterRigidBody.velocity.magnitude}");
-        skaterRigidBody.AddForce(bodycheckDirection*((checkPower + extraBodycheckPower)/3), ForceMode.VelocityChange);        
+        Debug.Log($"P: {skaterPresets.checkPower}   EP: {extraBodycheckPower}   V: {skaterRigidBody.velocity.magnitude}");
+        skaterRigidBody.AddForce(bodycheckDirection*((skaterPresets.checkPower + extraBodycheckPower)/3), ForceMode.VelocityChange);        
     }
     public void ReceiveBodyCheck(float incomingHitPower, Vector3 hitDirection){
         ResetSkaterActions();
@@ -185,7 +163,7 @@ public class Skater : MonoBehaviour
         teamMember.DisableInteractions();
         StartCoroutine(audioManager.PlayBodycheckHitAndReaction());
         StartCoroutine(teamMember.BreakPosession());
-        StartCoroutine(skaterAnimationScript.RagdollThenReset(incomingHitPower, hitDirection, 3f));
+        StartCoroutine(skaterAnimationScript.RagdollThenReset(incomingHitPower, hitDirection, skaterPresets.bodyCheckRecoverTime));
         //if home hit homehits++
         ///else if away hit awayhits++
         if (gameObject.tag == "awaySkater"){
@@ -196,38 +174,27 @@ public class Skater : MonoBehaviour
         }
         // at the end of this, in RagdollThenReset() we trigger an instant replay
     }
-    private float GetBodyCheckPower(){
-        var t = checkPower / checkPowerMax;
-        var curveT = checkPowerCurve.Evaluate(t);
-        return ((checkPowerMax - checkPower) * curveT) + checkPower;
-    }
-    public IEnumerator Speedboost(){
-        Debug.Log($"Skater Speed boost");
-        skaterAcceleration *= 1.5f;
-        yield return new WaitForSeconds(1);
-        skaterAcceleration /= 1.5f;
-    }
     public void HandleMove(){
         if(movementPointer.magnitude <= 0.1f || WindingUp() || isKnockedDown) return;
         if(skaterRigidBody.angularVelocity.magnitude > 0){skaterRigidBody.angularVelocity = Vector3.zero;}
         angleMovementDelta = Vector3.Angle(skaterRigidBody.velocity, movementPointer);
-        if(angleMovementDelta <= angleAccelerationLimit || angleMovementDelta >= angleTurnLimit){
+        if(angleMovementDelta <= skaterPresets.angleAccelerationLimit || angleMovementDelta >= skaterPresets.angleTurnLimit){
             skaterRigidBody.AddForce(
                 movementPointer
-                *skaterAcceleration
-                *(1 - skaterRigidBody.velocity.magnitude/skaterMaximumSpeed)
+                *skaterPresets.skaterAcceleration
+                *(1 - skaterRigidBody.velocity.magnitude/skaterPresets.skaterMaximumSpeed)
             );
             // Procedural skate cycle is on
         }
-        if(angleMovementDelta < angleTurnLimit){
+        if(angleMovementDelta < skaterPresets.angleTurnLimit){
             skaterRigidBody.velocity = Vector3.RotateTowards(
                 skaterRigidBody.velocity,
                 movementPointer*skaterRigidBody.velocity.magnitude,
-                skaterTurnSpeed * Time.deltaTime,
-                skaterAcceleration
+                skaterPresets.skaterTurnSpeed * Time.deltaTime,
+                skaterPresets.skaterAcceleration
             );
         }
-        if(angleMovementDelta >= angleTurnLimit){
+        if(angleMovementDelta >= skaterPresets.angleTurnLimit){
             skaterRigidBody.velocity *= 0.985f;
         }
     }
@@ -243,7 +210,7 @@ public class Skater : MonoBehaviour
         if(!gameSystem.IsZeroQuaternion(desiredRotation)){
             // player is turning, modify skate cycle
             // modify waypoint position based on magnitude of change
-            rotationThisFrame = Quaternion.Lerp(transform.rotation, desiredRotation, skaterTurnSpeed * Time.deltaTime);
+            rotationThisFrame = Quaternion.Lerp(transform.rotation, desiredRotation, skaterPresets.skaterTurnSpeed * Time.deltaTime);
             transform.rotation = rotationThisFrame;
         }
     }
