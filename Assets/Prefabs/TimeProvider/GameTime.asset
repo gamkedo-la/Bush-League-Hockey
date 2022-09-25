@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d06bad3371527b74ca55842de53afb96, type: 3}
   m_Name: GameTime
   m_EditorClassIdentifier: 
-  time: 0
+  time: 1002.5977
   deltaTime: 0
+  fixedDeltaTime: 0.02
   timeScale: 0

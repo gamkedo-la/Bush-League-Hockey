@@ -5,6 +5,7 @@ using UnityEngine;
 public class Goaltender : MonoBehaviour
 {
     private GameSystem gameSystem;
+    [SerializeField] TimeProvider timeProvider;
     private AudioManager audioManager;
     public TeamMember teamMember;
     [Header("Movement")]
@@ -58,13 +59,12 @@ public class Goaltender : MonoBehaviour
         transform.position = myOriginPoint.transform.position;
     }
     public IEnumerator Slide(){
-        Debug.Log($"goalie slide");
         movementSpeed *= 2;
         yield return new WaitForSeconds(0.5f);
         movementSpeed /= 2;
     }
     public void SetPointers(Vector3 movementPointer){
-        displacementVector = movementSpeed * movementPointer * Time.deltaTime;
+        displacementVector = movementSpeed * movementPointer * timeProvider.deltaTime;
         if(movementPointer.magnitude == 0){
             shotDirection = transform.forward;
             passDirection = transform.forward;
@@ -101,8 +101,8 @@ public class Goaltender : MonoBehaviour
         windingUpPass = true;
         extraPassPower = 0f;
         while(WindingUp()){
-            yield return new WaitForSeconds((Time.deltaTime));
-            if(passPower + extraPassPower < passPowerMax){extraPassPower += (passPowerWindUpRate * Time.deltaTime);}
+            yield return new WaitForSeconds((timeProvider.deltaTime));
+            if(passPower + extraPassPower < passPowerMax){extraPassPower += (passPowerWindUpRate * timeProvider.deltaTime);}
         }
     }
     public void PassPuck(){
@@ -127,8 +127,8 @@ public class Goaltender : MonoBehaviour
         extraPower = 0f;
         teamMember.windingUp = true;
         while(teamMember.windingUp){
-            yield return new WaitForSeconds((Time.deltaTime));
-            if(shotPower + extraPower < shotPowerMax){extraPower += (shotPowerWindUpRate * Time.deltaTime);}
+            yield return new WaitForSeconds((timeProvider.deltaTime));
+            if(shotPower + extraPower < shotPowerMax){extraPower += (shotPowerWindUpRate * timeProvider.deltaTime);}
         }
     }
     public void ShootPuck(){

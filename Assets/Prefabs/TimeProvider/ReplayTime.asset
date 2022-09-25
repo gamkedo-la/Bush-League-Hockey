@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: ReplayTime
   m_EditorClassIdentifier: 
   time: 0
-  deltaTime: 0
-  timeScale: 0
+  deltaTime: 0.00729085
+  timeScale: 0.5

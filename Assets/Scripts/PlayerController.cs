@@ -120,7 +120,6 @@ public class PlayerController : MonoBehaviour
     }
     public void SpeedBoost(InputAction.CallbackContext context){
         if(context.performed && canSpeedBoost){
-            Debug.Log($"Speed Boost");
             StartCoroutine(SpeedBoostAndCooldown());
         }
     }

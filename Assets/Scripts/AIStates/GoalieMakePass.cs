@@ -22,7 +22,6 @@ public class GoalieMakePass : AbstractAIState
         // choose pass or shot
         willPass = Random.Range(0, 2) > 0;
         moveDirection = Random.Range(0, 3);
-        Debug.Log($"moving option: {willPass},  direction: {moveDirection}");
     }
 
     public override void OnExit()

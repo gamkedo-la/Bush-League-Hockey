@@ -484,6 +484,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2835e1381b3c3748bbe7000afa61ad7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timeProvider: {fileID: 11400000, guid: 3f9f5f34b5c8944489bd5de6a7a7da6e, type: 2}
   teamMember: {fileID: 0}
   movementSpeed: 4
   myNet: {fileID: 0}
@@ -491,9 +492,11 @@ MonoBehaviour:
   shotPowerWindUpRate: 5
   shotPowerMax: 14
   shotPower: 4
+  windingUpShot: 0
   passPowerWindUpRate: 1
   passPowerMax: 10
   passPower: 6
+  windingUpPass: 0
   goalieHitPower: 3
 --- !u!114 &7572892403236936459
 MonoBehaviour:

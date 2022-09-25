@@ -5,13 +5,19 @@ using UnityEngine;
 public class TimeManager : MonoBehaviour
 {
     public TimeProvider gameTime;
+    public TimeProvider gameClock;
     public TimeProvider replayTime;
     public TimeProvider menuTime;
-    private void FixedUpdate() {
-        
+    private void FixedUpdate()
+    {
+        gameTime.fixedDeltaTime = Time.fixedDeltaTime;
+        replayTime.fixedDeltaTime = Time.fixedDeltaTime;
     }
     void Update()
     {
-        
+        gameTime.deltaTime = Time.deltaTime * gameTime.timeScale;
+        gameTime.time += Time.deltaTime * gameTime.timeScale;
+        replayTime.deltaTime = Time.deltaTime * replayTime.timeScale;
+        replayTime.time += Time.deltaTime * replayTime.timeScale;
     }
 }

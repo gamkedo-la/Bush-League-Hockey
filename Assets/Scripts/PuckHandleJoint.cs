@@ -11,7 +11,6 @@ public class PuckHandleJoint : MonoBehaviour
         puckHandleJoint.breakForce = 150000f;
     }
     public void BreakFixedJoint(){
-        Debug.Log($"BreakFixedJoint");
         Destroy(puckHandleJoint);
     }
 }

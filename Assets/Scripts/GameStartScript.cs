@@ -48,7 +48,6 @@ public class GameStartScript : MonoBehaviour
     public void SetPlayerInputSides(){
         StartScreenInputManager inputManager = FindObjectOfType<StartScreenInputManager>();
         foreach (MenuController ctrl in FindObjectsOfType<MenuController>()){
-            Debug.Log($"status: {ctrl.teamSelectionStatus}");
             DontDestroyOnLoad(ctrl.gameObject);
         }
         SceneManager.LoadScene("Hat-Trick");        

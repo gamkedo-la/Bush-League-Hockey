@@ -7,6 +7,7 @@ public class Skater : MonoBehaviour
 {
     [SerializeField] public SkaterPresets skaterPresets;
     [SerializeField] SkaterAnimationScript skaterAnimationScript;
+    [SerializeField] TimeProvider timeProvider;
     private GameSystem gameSystem;
     private AudioManager audioManager;
     private float angleMovementDelta;
@@ -75,7 +76,7 @@ public class Skater : MonoBehaviour
         skaterAnimationScript.skaterAnimator.SetBool("AnimatePassWindUp", true);
         skaterAnimationScript.DisableRigExceptHead();
         while(WindingUp()){
-            yield return new WaitForSeconds((Time.deltaTime));
+            yield return new WaitForSeconds((timeProvider.deltaTime));
             if(skaterPresets.passPower + extraPassPower < skaterPresets.passPowerMax){extraPassPower += (skaterPresets.passPowerWindUpRate * Time.deltaTime);}
         }
     }
@@ -106,8 +107,8 @@ public class Skater : MonoBehaviour
         skaterAnimationScript.skaterAnimator.SetBool("AnimateShotWindUp", true);
         skaterAnimationScript.DisableRigExceptHead();
         while(windingUpShot){
-            yield return new WaitForSeconds((Time.deltaTime));
-            if(skaterPresets.shotPower + extraShotPower < skaterPresets.shotPowerMax){extraShotPower += (skaterPresets.shotPowerWindUpRate * Time.deltaTime);}
+            yield return new WaitForSeconds((timeProvider.deltaTime));
+            if(skaterPresets.shotPower + extraShotPower < skaterPresets.shotPowerMax){extraShotPower += (skaterPresets.shotPowerWindUpRate * timeProvider.deltaTime);}
         }
     }
     public void ShootPuck(){
@@ -138,8 +139,8 @@ public class Skater : MonoBehaviour
         skaterAnimationScript.skaterAnimator.SetBool("AnimateBodychecking", true);
         skaterAnimationScript.DisableRigExceptHead();
         while(windingUpBodycheck){
-            yield return new WaitForSeconds((Time.deltaTime));
-            if(skaterPresets.checkPower + extraBodycheckPower < skaterPresets.checkPowerMax){extraBodycheckPower += (skaterPresets.checkPowerWindUpRate * Time.deltaTime);}
+            yield return new WaitForSeconds((timeProvider.deltaTime));
+            if(skaterPresets.checkPower + extraBodycheckPower < skaterPresets.checkPowerMax){extraBodycheckPower += (skaterPresets.checkPowerWindUpRate * timeProvider.deltaTime);}
         }
     }
     public void DeliverBodyCheck(){
@@ -151,7 +152,6 @@ public class Skater : MonoBehaviour
         StartCoroutine(CooldownBodycheck());
         bodycheckHitZone.hitPower = skaterPresets.checkPower + extraBodycheckPower + (skaterRigidBody.velocity.magnitude*0.6f);
         bodycheckHitZone.hitDirection = (bodycheckDirection + Vector3.up*0.75f).normalized;
-        Debug.Log($"P: {skaterPresets.checkPower}   EP: {extraBodycheckPower}   V: {skaterRigidBody.velocity.magnitude}");
         skaterRigidBody.AddForce(bodycheckDirection*((skaterPresets.checkPower + extraBodycheckPower)/3), ForceMode.VelocityChange);        
     }
     public void ReceiveBodyCheck(float incomingHitPower, Vector3 hitDirection){
@@ -190,7 +190,7 @@ public class Skater : MonoBehaviour
             skaterRigidBody.velocity = Vector3.RotateTowards(
                 skaterRigidBody.velocity,
                 movementPointer*skaterRigidBody.velocity.magnitude,
-                skaterPresets.skaterTurnSpeed * Time.deltaTime,
+                skaterPresets.skaterTurnSpeed * timeProvider.deltaTime,
                 skaterPresets.skaterAcceleration
             );
         }
@@ -210,7 +210,7 @@ public class Skater : MonoBehaviour
         if(!gameSystem.IsZeroQuaternion(desiredRotation)){
             // player is turning, modify skate cycle
             // modify waypoint position based on magnitude of change
-            rotationThisFrame = Quaternion.Lerp(transform.rotation, desiredRotation, skaterPresets.skaterTurnSpeed * Time.deltaTime);
+            rotationThisFrame = Quaternion.Lerp(transform.rotation, desiredRotation, skaterPresets.skaterTurnSpeed * timeProvider.deltaTime);
             transform.rotation = rotationThisFrame;
         }
     }

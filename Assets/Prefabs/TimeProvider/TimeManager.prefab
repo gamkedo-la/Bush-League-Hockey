@@ -44,3 +44,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a357123f386d803498daeee4d76b73ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameTime: {fileID: 11400000, guid: 3f9f5f34b5c8944489bd5de6a7a7da6e, type: 2}
+  replayTime: {fileID: 11400000, guid: e5777ecc18a5a9d4d88f653219435e9a, type: 2}
+  menuTime: {fileID: 0}

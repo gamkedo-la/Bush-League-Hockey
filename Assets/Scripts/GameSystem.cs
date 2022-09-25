@@ -17,6 +17,8 @@ public class GameSystem : MonoBehaviour
     private Vector3 lineToDesiredTarget;
     private Quaternion desiredCameraRotation;
     [Header("Game Management")]
+    public TimeManager timeManager;
+    public TimeProvider activeTimeProvider;
     private AudioManager audioManager;
     [SerializeField] private GameObject crowdReactionManager;
     [SerializeField] GameObject homeSkater;
@@ -77,6 +79,7 @@ public class GameSystem : MonoBehaviour
         mainCamera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
         audioManager = FindObjectOfType<AudioManager>();
         cameraPausePosition = Vector3.zero;
+        timeManager = FindObjectOfType<TimeManager>();
     }
     public void PreserveKeyGameElements(){
         foreach(PlayerInput ctrl in FindObjectsOfType<PlayerInput>()){
@@ -161,11 +164,11 @@ public class GameSystem : MonoBehaviour
         }
     }
     public void UnFreeze(){
-        Time.timeScale = 1;
+        timeManager.gameTime.timeScale = 1;
     }
     public void FreezeGame(){
         // doesn't actually effect game physics or coroutines?
-        Time.timeScale = 0;
+        timeManager.gameTime.timeScale = 0;
     }
     public void QuitGame(){
         Application.Quit();
@@ -255,10 +258,16 @@ public class GameSystem : MonoBehaviour
         DropPuck();
     }
     private IEnumerator CelebrateThenReset(){
+        InstantReplay instantReplay = FindObjectOfType<InstantReplay>();
         yield return StartCoroutine(TemporaryGoalMessage());
-        instantReplayController?.GetComponent<InstantReplay>()?.startInstantReplay();
+        // Switch to replay state
+        // GameTime freezes
+        // save the current state of objects in the scene
+        // disable all controllers (player and AI)
+        // begin the replay:  Should play back at ReplayTime.deltatime
+        // replay finishes or is cancelled: return to the saved state
         // point a spotlight on the player who scored
-        yield return new WaitForSeconds(3);
+        yield return StartCoroutine(instantReplay.startInstantReplay()); // new WaitForSeconds(3);
         // is it sudden death? declare the winner
         if(isSuddenDeath){
             isSuddenDeath = false;
@@ -309,8 +318,8 @@ public class GameSystem : MonoBehaviour
     private IEnumerator RunClock(){
         clockIsRunning = true;
         while(clockIsRunning){
-            yield return new WaitForSeconds(Time.deltaTime);
-            timeRemaining -= Time.deltaTime*1.4f;
+            yield return new WaitForSeconds(timeManager.gameTime.deltaTime);
+            timeRemaining -= timeManager.gameTime.deltaTime*1.4f;
             clockIsRunning = gameOn;
             UpdateScoreBoard();
         }

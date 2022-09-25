@@ -78,7 +78,6 @@ public abstract class AbstractAIState
         Vector3 angleCross = Vector3.Cross(goalieToPuck, netToPuck);
         movementPointer = Vector3.Cross(netToGoalie, Vector3.up) * (angleCross.y/Mathf.Abs(angleCross.y)); //(netToPuckYAngle - goalieToPuckYAngle)/(Mathf.Abs(netToPuckYAngle - goalieToPuckYAngle));
         movementPointer = movementPointer.normalized + goalieToPuck.normalized;
-        Debug.Log($"net movement: {movementPointer}");
         return movementPointer.normalized;
     }
     protected void Move(Vector3 targetPoint)
