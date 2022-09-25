@@ -35,7 +35,6 @@ public class InstantReplay : MonoBehaviour
     private Transform[] bones1;
     private Transform[] bones2;
     public bool playingBack = false;
-    public float playbackSpeed = 0.5f;
     public int RecordingLength = 300;
 
     private Vector3[] p1pos;
@@ -49,7 +48,6 @@ public class InstantReplay : MonoBehaviour
     private Quaternion[] g1rot;
     private Quaternion[] g2rot;
     private Quaternion[] puckrot;
-
     // these should probably be private
     public float recordingTimespan = 0;
     public float playbackTime = 0f;
@@ -65,7 +63,6 @@ public class InstantReplay : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
         if (instantReplayGUI) instantReplayGUI.SetActive(false);
         
         // create an empty array
@@ -146,11 +143,12 @@ public class InstantReplay : MonoBehaviour
     // called same # of times per second on all computers
     void FixedUpdate()
     {
-        // recording state?
         // recording in FixedUpdate gives us a recording with a constant time interval between frames
         // this makes the playback as smooth as possible
         // We also get more replay time out of each frame we store; fixedDeltaTime is longer than deltaTIme
+        // should we record frame data?
         if(!playingBack){
+
             ticks++;
             // the % makes us wrap around to the start of the array once it's full
             newestIndex = ticks % RecordingLength;
