@@ -14,7 +14,7 @@ public class AIPlayerController : MonoBehaviour
     public float AIBodyCheckDistance = 7f;
 
     #endregion
-
+    private GameSystem gameSystem;
     private Vector3 movementPointer;
     public Skater selectedSkater;
     public TeamMember selectedTeamMember;
@@ -33,6 +33,10 @@ public class AIPlayerController : MonoBehaviour
     private bool isDoingSomething = false;
 
     public Transform PuckTransform { get => puckTransform; }
+    private void Awake() {
+        gameSystem = FindObjectOfType<GameSystem>();
+        puckTransform = gameSystem.puckObject.transform;
+    }
 
     // If one team doesn't have a player, this object is assigned to that team.
     // Whereas the 'PlayerController' prefab uses player input to trigger functions resulting in behaviour

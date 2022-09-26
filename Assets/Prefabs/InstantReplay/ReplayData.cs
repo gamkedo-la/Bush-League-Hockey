@@ -7,4 +7,5 @@ public class ReplayData : ScriptableObject
 {
     // Replay config values here
     public float timeSinceFrameWasSwitched;
+    public int recordingFrameCountMax = 250;
 }

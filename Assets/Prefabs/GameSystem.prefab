@@ -10786,19 +10786,20 @@ MonoBehaviour:
   mainCamera: {fileID: 0}
   zoom: 0
   cameraRotationSpeed: 0
+  timeManager: {fileID: 0}
+  activeTimeProvider: {fileID: 0}
   crowdReactionManager: {fileID: 0}
   homeSkater: {fileID: 0}
   awaySkater: {fileID: 0}
-  puckPrefab: {fileID: 237812582925331672, guid: d5c53f26915d88b43a0a8ded0048f0cb, type: 3}
+  homeGoaltender: {fileID: 0}
+  awayGoaltender: {fileID: 0}
+  puckObject: {fileID: 0}
   AIControllerPrefab: {fileID: 203228621541005135, guid: 213145f513f87b0438b315177d3202ab, type: 3}
   homeGoalOrigin: {fileID: 0}
   homeFaceOffOrigin: {fileID: 0}
   awayGoalOrigin: {fileID: 0}
   awayFaceOffOrigin: {fileID: 0}
   puckDropOrigin: {fileID: 0}
-  homeGoaltender: {fileID: 0}
-  awayGoaltender: {fileID: 0}
-  puckObject: {fileID: 0}
   puckRigidBody: {fileID: 0}
   ps4ControllerIcon: {fileID: 1108483890370392552, guid: 3a32e836a133d7f499ab393f14452a09, type: 3}
   keyboardIcon: {fileID: 6159651959183943885, guid: ee3846684ecc8094b8446bcd24e4f5f9, type: 3}

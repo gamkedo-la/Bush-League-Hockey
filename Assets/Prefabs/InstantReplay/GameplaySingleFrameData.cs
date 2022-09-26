@@ -5,25 +5,21 @@ using UnityEngine;
 public class GameplaySingleFrameData : MonoBehaviour
 {
     // This class represents the information required to recreate one frame of gameplay
-    Vector3 p1Position;
-    Vector3 p2Position;
-    Quaternion p1Rotation;
-    Quaternion p2Rotation;
-    Vector3 p1Velocity = new Vector3(0, 0, 0);
-    Vector3 p2Velocity = new Vector3(0, 0, 0);
-    Vector3 g1Position;
-    Vector3 g2Position;
-    Quaternion g1Rotation;
-    Quaternion g2Rotation;
-    Vector3 puckPosition;
-    Quaternion puckRotation;
-    Vector3 puckVelocity = new Vector3(0, 0, 0);
-    Transform bonesRig1;
-    Vector3[,] bones1pos;
-    Quaternion[,] bones1rot;
-    Transform bonesRig2;
-    Vector3[,] bones2pos;
-    Quaternion[,] bones2rot;
-    Transform[] bones1;
-    Transform[] bones2;
+    public Vector3 p1Position;
+    public Vector3 p2Position;
+    public Quaternion p1Rotation;
+    public Quaternion p2Rotation;
+    public Vector3 p1Velocity = new Vector3(0, 0, 0);
+    public Vector3 p2Velocity = new Vector3(0, 0, 0);
+    public Vector3 g1Position;
+    public Vector3 g2Position;
+    public Quaternion g1Rotation;
+    public Quaternion g2Rotation;
+    public Vector3 puckPosition;
+    public Quaternion puckRotation;
+    public Vector3 puckVelocity = new Vector3(0, 0, 0);
+    public Vector3[] bones1pos = new Vector3[32];
+    public Quaternion[] bones1rot = new Quaternion[32];
+    public Vector3[] bones2pos = new Vector3[32];
+    public Quaternion[] bones2rot = new Quaternion[32];
 }

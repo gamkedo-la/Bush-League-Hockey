@@ -21,18 +21,18 @@ public class GameSystem : MonoBehaviour
     public TimeProvider activeTimeProvider;
     private AudioManager audioManager;
     [SerializeField] private GameObject crowdReactionManager;
-    [SerializeField] GameObject homeSkater;
-    [SerializeField] GameObject awaySkater;
-    [SerializeField] GameObject puckPrefab;
+    [SerializeField] public GameObject homeSkater;
+    [SerializeField] public GameObject awaySkater;
+    [SerializeField] public GameObject homeGoaltender;
+    [SerializeField] public GameObject awayGoaltender;
+    [SerializeField] public GameObject puckObject;
     [SerializeField] GameObject AIControllerPrefab;
     [SerializeField] public Transform homeGoalOrigin;
     [SerializeField] public Transform homeFaceOffOrigin;
     [SerializeField] public Transform awayGoalOrigin;
     [SerializeField] public Transform awayFaceOffOrigin;
     [SerializeField] public Transform puckDropOrigin;
-    [SerializeField] public GameObject homeGoaltender;
-    [SerializeField] public GameObject awayGoaltender;
-    [HideInInspector] public GameObject puckObject;
+    
     [HideInInspector] public Rigidbody puckRigidBody;
     [Header("Controls Management")]
     [SerializeField] public GameObject ps4ControllerIcon;
@@ -80,6 +80,7 @@ public class GameSystem : MonoBehaviour
         audioManager = FindObjectOfType<AudioManager>();
         cameraPausePosition = Vector3.zero;
         timeManager = FindObjectOfType<TimeManager>();
+        puckRigidBody = puckObject.GetComponent<Rigidbody>();
     }
     public void PreserveKeyGameElements(){
         foreach(PlayerInput ctrl in FindObjectsOfType<PlayerInput>()){
@@ -233,15 +234,10 @@ public class GameSystem : MonoBehaviour
         GoalScoredDisplay.SetActive(false);
         SetupPlayersForFaceOff();
         StartCoroutine(TemporaryFaceOffMessage());
-        if(puckObject){
-            puckObject.transform.position = puckDropOrigin.position;
-            puckObject.transform.rotation = puckDropOrigin.rotation;
-            puckObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
-            puckObject.GetComponent<TrailRenderer>().Clear();
-        } else {
-            puckObject = Instantiate(puckPrefab, puckDropOrigin.position, puckDropOrigin.rotation);
-            puckRigidBody = puckObject.GetComponent<Rigidbody>();
-        }
+        puckObject.transform.position = puckDropOrigin.position;
+        puckObject.transform.rotation = puckDropOrigin.rotation;
+        puckObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        puckObject.GetComponent<TrailRenderer>().Clear();
         gameOn = true;
         audioManager.PlayFaceOffSound();
         focalObject = puckObject;

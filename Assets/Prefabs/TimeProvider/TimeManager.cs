@@ -10,8 +10,8 @@ public class TimeManager : MonoBehaviour
     public TimeProvider menuTime;
     private void FixedUpdate()
     {
-        gameTime.fixedDeltaTime = Time.fixedDeltaTime;
-        replayTime.fixedDeltaTime = Time.fixedDeltaTime;
+        gameTime.fixedDeltaTime = Time.fixedDeltaTime * gameTime.timeScale;
+        replayTime.fixedDeltaTime = Time.fixedDeltaTime * replayTime.timeScale;
     }
     void Update()
     {

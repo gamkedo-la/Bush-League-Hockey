@@ -218,7 +218,6 @@ MonoBehaviour:
   bonesRig1: {fileID: 0}
   bonesRig2: {fileID: 0}
   playingBack: 0
-  playbackSpeed: 0.25
   RecordingLength: 200
   recordingTimespan: 0
   playbackTime: 0
@@ -245,7 +244,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4583726619675112603
 RectTransform:
   m_ObjectHideFlags: 0

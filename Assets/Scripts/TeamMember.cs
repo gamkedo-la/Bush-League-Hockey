@@ -20,8 +20,8 @@ public class TeamMember : MonoBehaviour
     [HideInInspector] public bool hasPosession = false;
     private float posessionCooldownTime = 0.2f;
     private void Awake(){
-        gameSystem = GameObject.Find("GameSystem").GetComponent<GameSystem>();
-        audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
+        gameSystem = FindObjectOfType<GameSystem>();
+        audioManager = FindObjectOfType<AudioManager>();
     }
     public void ControlPuck(){
         if(canTakePosession){
