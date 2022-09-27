@@ -2,13 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Random = UnityEngine.Random;
-
 public class AIPlayerController : MonoBehaviour
 {
-
     #region AIParameters
-
     public float AIUpdateTime = 0.5f;
     public float AIShotDistance = 10f;
     public float AIBodyCheckDistance = 7f;
@@ -19,25 +15,19 @@ public class AIPlayerController : MonoBehaviour
     public Skater selectedSkater;
     public TeamMember selectedTeamMember;
     public Goaltender goaltender;
-
     public Skater opponentSkater;
     public TeamMember opponentTeamMember;
     public Goaltender opponentGoaltender;
-
     private Transform puckTransform;
     public Transform homeGoalOrigin, awayGoalOrigin;
-
     AbstractAIState currentState;
-
     Dictionary<string, AbstractAIState> stateDictionary;
     private bool isDoingSomething = false;
-
     public Transform PuckTransform { get => puckTransform; }
     private void Awake() {
         gameSystem = FindObjectOfType<GameSystem>();
         puckTransform = gameSystem.puckObject.transform;
     }
-
     // If one team doesn't have a player, this object is assigned to that team.
     // Whereas the 'PlayerController' prefab uses player input to trigger functions resulting in behaviour
     // This object will use it's own logic to emulate those same input values.
@@ -102,17 +92,14 @@ public class AIPlayerController : MonoBehaviour
         selectedSkater.ShootPuck();
         goaltender.ShootPuck();
     }
-
     public void CommandShot()
     {
         StartCoroutine(Shoot());
     }
-
     public void CommandBodyCheck()
     {
         StartCoroutine(Bodycheck());
     }
-
     private IEnumerator Bodycheck()
     {
         StartCoroutine(selectedSkater.WindUpBodyCheck());

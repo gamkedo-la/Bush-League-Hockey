@@ -164,6 +164,16 @@ public class GameSystem : MonoBehaviour
             ctrl.SwitchCurrentActionMap("Player");
         }
     }
+    public void SetAllActionMapsToReplay(){
+        foreach (PlayerInput ctrl in FindObjectsOfType<PlayerInput>()){
+            ctrl.SwitchCurrentActionMap("Replay");
+        }
+    }
+    public void SetAIActiveState(bool activeState){
+        foreach (AIPlayerController aI in Resources.FindObjectsOfTypeAll<AIPlayerController>()){
+            aI.gameObject.SetActive(activeState);
+        }
+    }
     public void UnFreeze(){
         timeManager.gameTime.timeScale = 1;
     }

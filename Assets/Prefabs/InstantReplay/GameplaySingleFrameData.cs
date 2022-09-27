@@ -18,8 +18,8 @@ public class GameplaySingleFrameData : MonoBehaviour
     public Vector3 puckPosition;
     public Quaternion puckRotation;
     public Vector3 puckVelocity = new Vector3(0, 0, 0);
-    public Vector3[] bones1pos = new Vector3[32];
-    public Quaternion[] bones1rot = new Quaternion[32];
-    public Vector3[] bones2pos = new Vector3[32];
-    public Quaternion[] bones2rot = new Quaternion[32];
+    public Vector3[] bones1pos = new Vector3[29];
+    public Quaternion[] bones1rot = new Quaternion[29];
+    public Vector3[] bones2pos = new Vector3[29];
+    public Quaternion[] bones2rot = new Quaternion[29];
 }

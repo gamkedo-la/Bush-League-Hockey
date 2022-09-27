@@ -617,6 +617,173 @@ public partial class @Playercontrols : IInputActionCollection2, IDisposable
             ]
         },
         {
+            ""name"": ""Replay"",
+            ""id"": ""a22882ee-69d3-4b17-a8e7-f6d60571c130"",
+            ""actions"": [
+                {
+                    ""name"": ""TrashTalk"",
+                    ""type"": ""Button"",
+                    ""id"": ""ee08a32c-3d40-466c-a7e6-f9934d3510f3"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press(behavior=1)"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""0b7c56f7-7ce9-4349-86fd-b36a2820162b"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""CancelInstantReplay"",
+                    ""type"": ""Button"",
+                    ""id"": ""58e77632-de9c-4641-818b-a8aab87915f8"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""d3b0232a-7eb8-4d9e-84a7-0bea6aa335af"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""905c5abf-b2fa-41c7-b89d-7b2ea104f70f"",
+                    ""path"": ""<DualShockGamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""PS4"",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""36df94f9-9e2d-4a49-8edf-7a331dba3d5c"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f6d7f373-9d38-4119-ae11-06680b197857"",
+                    ""path"": ""<XInputController>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""XBox"",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""824512f8-268d-4c61-b5e1-681bdab3cec4"",
+                    ""path"": ""<Keyboard>/c"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""CancelInstantReplay"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""95a26aed-3e3b-4ff9-8da8-88d5fd150333"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""CancelInstantReplay"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1ee7a184-7810-4547-9823-3708a4f014de"",
+                    ""path"": ""<DualShockGamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""PS4"",
+                    ""action"": ""CancelInstantReplay"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a427f9cb-d4cc-4b69-8b59-8d96ea06d47e"",
+                    ""path"": ""<XInputController>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""XBox"",
+                    ""action"": ""CancelInstantReplay"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5c786124-d7d2-4138-abb2-2159e7a63052"",
+                    ""path"": ""<Keyboard>/t"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""TrashTalk"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2b47498c-4665-45b0-8457-8a61df9ffb75"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""TrashTalk"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a8112ee5-12dd-4834-baa0-8e220944e55f"",
+                    ""path"": ""<DualShockGamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""PS4"",
+                    ""action"": ""TrashTalk"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d8e4823c-637c-47ab-919d-75cddea1839b"",
+                    ""path"": ""<XInputController>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""XBox"",
+                    ""action"": ""TrashTalk"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
             ""name"": ""UI"",
             ""id"": ""2badf10d-a8ff-4795-88bf-497c74feb407"",
             ""actions"": [
@@ -1422,6 +1589,11 @@ public partial class @Playercontrols : IInputActionCollection2, IDisposable
         m_Player_Pause = m_Player.FindAction("Pause", throwIfNotFound: true);
         m_Player_StartInstantReplay = m_Player.FindAction("StartInstantReplay", throwIfNotFound: true);
         m_Player_CancelInstantReplay = m_Player.FindAction("CancelInstantReplay", throwIfNotFound: true);
+        // Replay
+        m_Replay = asset.FindActionMap("Replay", throwIfNotFound: true);
+        m_Replay_TrashTalk = m_Replay.FindAction("TrashTalk", throwIfNotFound: true);
+        m_Replay_Pause = m_Replay.FindAction("Pause", throwIfNotFound: true);
+        m_Replay_CancelInstantReplay = m_Replay.FindAction("CancelInstantReplay", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1593,6 +1765,55 @@ public partial class @Playercontrols : IInputActionCollection2, IDisposable
     }
     public PlayerActions @Player => new PlayerActions(this);
 
+    // Replay
+    private readonly InputActionMap m_Replay;
+    private IReplayActions m_ReplayActionsCallbackInterface;
+    private readonly InputAction m_Replay_TrashTalk;
+    private readonly InputAction m_Replay_Pause;
+    private readonly InputAction m_Replay_CancelInstantReplay;
+    public struct ReplayActions
+    {
+        private @Playercontrols m_Wrapper;
+        public ReplayActions(@Playercontrols wrapper) { m_Wrapper = wrapper; }
+        public InputAction @TrashTalk => m_Wrapper.m_Replay_TrashTalk;
+        public InputAction @Pause => m_Wrapper.m_Replay_Pause;
+        public InputAction @CancelInstantReplay => m_Wrapper.m_Replay_CancelInstantReplay;
+        public InputActionMap Get() { return m_Wrapper.m_Replay; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(ReplayActions set) { return set.Get(); }
+        public void SetCallbacks(IReplayActions instance)
+        {
+            if (m_Wrapper.m_ReplayActionsCallbackInterface != null)
+            {
+                @TrashTalk.started -= m_Wrapper.m_ReplayActionsCallbackInterface.OnTrashTalk;
+                @TrashTalk.performed -= m_Wrapper.m_ReplayActionsCallbackInterface.OnTrashTalk;
+                @TrashTalk.canceled -= m_Wrapper.m_ReplayActionsCallbackInterface.OnTrashTalk;
+                @Pause.started -= m_Wrapper.m_ReplayActionsCallbackInterface.OnPause;
+                @Pause.performed -= m_Wrapper.m_ReplayActionsCallbackInterface.OnPause;
+                @Pause.canceled -= m_Wrapper.m_ReplayActionsCallbackInterface.OnPause;
+                @CancelInstantReplay.started -= m_Wrapper.m_ReplayActionsCallbackInterface.OnCancelInstantReplay;
+                @CancelInstantReplay.performed -= m_Wrapper.m_ReplayActionsCallbackInterface.OnCancelInstantReplay;
+                @CancelInstantReplay.canceled -= m_Wrapper.m_ReplayActionsCallbackInterface.OnCancelInstantReplay;
+            }
+            m_Wrapper.m_ReplayActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @TrashTalk.started += instance.OnTrashTalk;
+                @TrashTalk.performed += instance.OnTrashTalk;
+                @TrashTalk.canceled += instance.OnTrashTalk;
+                @Pause.started += instance.OnPause;
+                @Pause.performed += instance.OnPause;
+                @Pause.canceled += instance.OnPause;
+                @CancelInstantReplay.started += instance.OnCancelInstantReplay;
+                @CancelInstantReplay.performed += instance.OnCancelInstantReplay;
+                @CancelInstantReplay.canceled += instance.OnCancelInstantReplay;
+            }
+        }
+    }
+    public ReplayActions @Replay => new ReplayActions(this);
+
     // UI
     private readonly InputActionMap m_UI;
     private IUIActions m_UIActionsCallbackInterface;
@@ -1746,6 +1967,12 @@ public partial class @Playercontrols : IInputActionCollection2, IDisposable
         void OnStickControl(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
         void OnStartInstantReplay(InputAction.CallbackContext context);
+        void OnCancelInstantReplay(InputAction.CallbackContext context);
+    }
+    public interface IReplayActions
+    {
+        void OnTrashTalk(InputAction.CallbackContext context);
+        void OnPause(InputAction.CallbackContext context);
         void OnCancelInstantReplay(InputAction.CallbackContext context);
     }
     public interface IUIActions

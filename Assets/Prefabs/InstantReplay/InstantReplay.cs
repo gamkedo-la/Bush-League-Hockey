@@ -42,10 +42,10 @@ public class InstantReplay : MonoBehaviour
     {
         bones1 = bonesRig1.GetComponentsInChildren<Transform>();
         bones2 = bonesRig2.GetComponentsInChildren<Transform>();
-        //Debug.Log("Replay bones found: " + bones1.Length);
-        // for (int i=0; i<bones1.Length; i++) {
-        //     Debug.Log("Bone "+i+" is named "+bones2[i].name);
-        // }
+        Debug.Log("Replay bones found: " + bones1.Length);
+        for (int i=0; i<bones1.Length; i++) {
+            Debug.Log("Bone "+i+" is named "+bones1[i].name);
+        }
     }
     private void TurnOffAnimators(){
         p1.gameObject.GetComponentInChildren<Animator>().enabled = false;
@@ -59,41 +59,69 @@ public class InstantReplay : MonoBehaviour
         //g1.gameObject.GetComponentInChildren<Animator>().enabled = true;
         //g2.gameObject.GetComponentInChildren<Animator>().enabled = true;
     }
-    void Update()
+    private void ZeroObjectVelocities(){
+        foreach (Rigidbody rb in FindObjectsOfType<Rigidbody>()) {
+            rb.velocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
+        }
+    }
+    private void MapFrameDataToObjects(GameplaySingleFrameData frame){
+        Debug.Log($"frame: {playbackFrame}/{recordingFrameData.Length-1}");
+        p1.position = frame.p1Position; p1.rotation = frame.p1Rotation;
+        p2.position = frame.p2Position; p2.rotation = frame.p2Rotation;
+        g1.position = frame.g1Position; g1.rotation = frame.g1Rotation;
+        g2.position = frame.g2Position; g2.rotation = frame.g2Rotation;
+        puck.position = frame.puckPosition; puck.rotation = frame.puckRotation;
+        // Apply bone transforms for each Rig
+        for (int b=0; b<bones1.Length; b++) {
+            bones1[b].position = recordingFrameData[playbackFrame].bones1pos[b];
+            bones1[b].rotation = recordingFrameData[playbackFrame].bones1rot[b];
+        }
+        for (int b=0; b<bones2.Length; b++) {
+            bones2[b].position = recordingFrameData[playbackFrame].bones2pos[b]; 
+            bones2[b].rotation = recordingFrameData[playbackFrame].bones2rot[b];
+        }
+        ZeroObjectVelocities();
+    }
+    private void LerpObjectsTowardsNextFrame(){
+        // interpolation amount = what fraction of fixedDeltaTime has passed?
+        float interpolationPercent = replayTime.deltaTime / Time.fixedDeltaTime;
+        // Debug.Log($"interpolate: {interpolationPercent} = {replayTime.deltaTime}/{Time.fixedDeltaTime}");
+        p1.position = Vector3.Lerp(p1.position, nextFrameData.p1Position, interpolationPercent);
+        p1.rotation = Quaternion.Lerp(p1.rotation, nextFrameData.p1Rotation, interpolationPercent);
+        p2.position = Vector3.Lerp(p2.position, nextFrameData.p2Position, interpolationPercent);
+        p2.rotation = Quaternion.Lerp(p2.rotation, nextFrameData.p2Rotation, interpolationPercent);
+        g1.position = Vector3.Lerp(g1.position, nextFrameData.g1Position, interpolationPercent);
+        g1.rotation = Quaternion.Lerp(g1.rotation, nextFrameData.g1Rotation, interpolationPercent);
+        g2.position = Vector3.Lerp(g2.position, nextFrameData.g2Position, interpolationPercent);
+        g2.rotation = Quaternion.Lerp(g2.rotation, nextFrameData.g2Rotation, interpolationPercent);
+        puck.position = Vector3.Lerp(puck.position, nextFrameData.puckPosition, interpolationPercent);
+        puck.rotation = Quaternion.Lerp(puck.rotation, nextFrameData.puckRotation, interpolationPercent);
+        for (int b=0; b<bones1.Length; b++) {
+            bones1[b].position = Vector3.Lerp(bones1[b].position, nextFrameData.bones1pos[b], interpolationPercent);
+            bones1[b].rotation = Quaternion.Lerp(bones1[b].rotation, nextFrameData.bones1rot[b], interpolationPercent);
+        }
+        for (int b=0; b<bones2.Length; b++) {
+            bones2[b].position = Vector3.Lerp(bones2[b].position, nextFrameData.bones2pos[b], interpolationPercent);
+            bones2[b].rotation = Quaternion.Lerp(bones2[b].rotation, nextFrameData.bones2rot[b], interpolationPercent);
+        }
+        ZeroObjectVelocities();
+    }
+    void LateUpdate()
     {
         // press [R] for replay anytime
         if (playingBack){
-            // lerp towards the next frame transforms
-            // current frame, next frame
-            // fixed deltatime, deltatime, lerpt % = deltatime / fixed deltatime
-            float interpolationPercent = Time.deltaTime / Time.fixedDeltaTime;
-            Debug.Log($"interpolate: {interpolationPercent} = {Time.deltaTime}/{Time.fixedDeltaTime}");
-            p1.position = Vector3.Lerp(p1.position, nextFrameData.p1Position, interpolationPercent);
-            p1.rotation = Quaternion.Lerp(p1.rotation, nextFrameData.p1Rotation, interpolationPercent);
-            p2.position = Vector3.Lerp(p2.position, nextFrameData.p2Position, interpolationPercent);
-            p2.rotation = Quaternion.Lerp(p2.rotation, nextFrameData.p2Rotation, interpolationPercent);
-            g1.position = Vector3.Lerp(g1.position, nextFrameData.g1Position, interpolationPercent);
-            g1.rotation = Quaternion.Lerp(g1.rotation, nextFrameData.g1Rotation, interpolationPercent);
-            g2.position = Vector3.Lerp(g2.position, nextFrameData.g2Position, interpolationPercent);
-            g2.rotation = Quaternion.Lerp(g2.rotation, nextFrameData.g2Rotation, interpolationPercent);
-            puck.position = Vector3.Lerp(puck.position, nextFrameData.puckPosition, interpolationPercent);
-            puck.rotation = Quaternion.Lerp(puck.rotation, nextFrameData.puckRotation, interpolationPercent);
-
-            for (int b=0; b<bones1.Length; b++) {
-                bones1[b].position = Vector3.Lerp(bones1[b].position, nextFrameData.bones1pos[b], interpolationPercent);
-                bones1[b].rotation = Quaternion.Lerp(bones1[b].rotation, nextFrameData.bones1rot[b], interpolationPercent);
-            }
-            for (int b=0; b<bones2.Length; b++) {
-                bones2[b].position = Vector3.Lerp(bones2[b].position, nextFrameData.bones2pos[b], interpolationPercent);
-                bones2[b].rotation = Quaternion.Lerp(bones2[b].rotation, nextFrameData.bones2rot[b], interpolationPercent);
-            }
+            // Fixed update will apply transforms from recorded data
+            // LateUpdate will lerp between current frame and next
+            LerpObjectsTowardsNextFrame();
+            replayData.timeSinceFrameWasSwitched += replayTime.deltaTime;
         }
     }
     void FixedUpdate()
     {
         // recording in FixedUpdate gives us a recording with a constant time interval between frames
         // this means playback with timescale will be as smooth as possible
-        // We also get more replay time out of each frame we store; fixedDeltaTime is longer than deltaTIme
+        // We also get more replay time out of each frame we store
         if(!playingBack){
             // Not in playback mode, record replay data
             currentFrameData = new GameplaySingleFrameData();
@@ -113,81 +141,51 @@ public class InstantReplay : MonoBehaviour
             }
             // is our recording at max capacity?
             if(recordingFrameDataQueue.Count >= replayData.recordingFrameCountMax){
-                // remove the oldest frame(s)
-                // is it possible to store more than 1 frame over limit?
-                for (int i = 0; i <= recordingFrameDataQueue.Count - replayData.recordingFrameCountMax; i++)
-                {
-                    recordingFrameDataQueue.Dequeue();
-                }
+                recordingFrameDataQueue.Dequeue(); // removes the oldest frame
             }
             recordingFrameDataQueue.Enqueue(currentFrameData);
         }
-
         if(playingBack)
         {
-            // playback mode
-            // increment the current frame based on replay timescale
-            // Update() will Lerp() towards next transform set
-            //if(replayData.timeSinceFrameWasSwitched >= Time.fixedDeltaTime){
+            // FixedUpdate maps frame data and zeroes object velocities
+            if(replayData.timeSinceFrameWasSwitched >= Time.fixedDeltaTime){
                 // switch to the next frame index
-                // reset the frame timer
-                //replayData.timeSinceFrameWasSwitched = 0f;
                 playbackFrame++;
-                 // replay finished?
+                // replay finished?
                 if (playbackFrame < recordingFrameData.Length -1)
                 {
+                    MapFrameDataToObjects(recordingFrameData[playbackFrame]);
                     nextFrameData = recordingFrameData[playbackFrame+1];
-                } else 
+                }
+                else 
                 {
                     StopInstantReplay();
                     return;
                 }
-                Debug.Log($"i: {playbackFrame}/{recordingFrameData.Length-1}");
-                p1.position = recordingFrameData[playbackFrame].p1Position; p1.rotation = recordingFrameData[playbackFrame].p1Rotation;
-                p2.position = recordingFrameData[playbackFrame].p2Position; p2.rotation = recordingFrameData[playbackFrame].p2Rotation;
-                g1.position = recordingFrameData[playbackFrame].g1Position; g1.rotation = recordingFrameData[playbackFrame].g1Rotation;
-                g2.position = recordingFrameData[playbackFrame].g2Position; g2.rotation = recordingFrameData[playbackFrame].g2Rotation;
-                puck.position = recordingFrameData[playbackFrame].puckPosition; puck.rotation = recordingFrameData[playbackFrame].puckRotation;
-                
-                if (replayCamera!=null && puck!=null) {
-                    replayCamera.enabled = true;
-                    replayCamera.transform.position = new Vector3(
-                        puck.position.x + replayCameraOffset.x,
-                        puck.position.y + replayCameraOffset.y,
-                        puck.position.z + replayCameraOffset.z);
-                    replayCamera.transform.LookAt(puck);
-                } 
-                if (replayCamera2!=null && replayTarget2!=null) {
-                    replayCamera2.enabled = true;
-                    replayCamera2.transform.position = new Vector3(
-                        replayTarget2.position.x + replayCameraOffset2.x,
-                        replayTarget2.position.y + replayCameraOffset2.y,
-                        replayTarget2.position.z + replayCameraOffset2.z);
-                    replayCamera2.transform.LookAt(replayTarget2);
-                } 
-                if (replayCamera3!=null && replayTarget3!=null) {
-                    replayCamera3.enabled = true;
-                    replayCamera3.transform.position = new Vector3(
-                        replayTarget3.position.x + replayCameraOffset3.x,
-                        replayTarget3.position.y + replayCameraOffset3.y,
-                        replayTarget3.position.z + replayCameraOffset3.z);
-                    replayCamera3.transform.LookAt(replayTarget3);
-                }
-                // playback all 30 or so bones for each avatar
-                for (int b=0; b<bones1.Length; b++) {
-                    bones1[b].position = recordingFrameData[playbackFrame].bones1pos[b];
-                    bones1[b].rotation = recordingFrameData[playbackFrame].bones1rot[b]; 
-                }
-                for (int b=0; b<bones2.Length; b++) {
-                    bones2[b].position = recordingFrameData[playbackFrame].bones2pos[b]; 
-                    bones2[b].rotation = recordingFrameData[playbackFrame].bones2rot[b];
-                }
-            //}
-            //replayData.timeSinceFrameWasSwitched += Time.fixedDeltaTime;
+                replayCamera.transform.position = new Vector3(
+                    puck.position.x + replayCameraOffset.x,
+                    puck.position.y + replayCameraOffset.y,
+                    puck.position.z + replayCameraOffset.z);
+                replayCamera.transform.LookAt(puck);
+                replayCamera2.transform.position = new Vector3(
+                    replayTarget2.position.x + replayCameraOffset2.x,
+                    replayTarget2.position.y + replayCameraOffset2.y,
+                    replayTarget2.position.z + replayCameraOffset2.z);
+                replayCamera2.transform.LookAt(replayTarget2);
+                replayCamera3.transform.position = new Vector3(
+                    replayTarget3.position.x + replayCameraOffset3.x,
+                    replayTarget3.position.y + replayCameraOffset3.y,
+                    replayTarget3.position.z + replayCameraOffset3.z);
+                replayCamera3.transform.LookAt(replayTarget3);
+                replayData.timeSinceFrameWasSwitched = 0;
+            }
         }
     }
     public void StopInstantReplay(){
+        Debug.Log($"stop IR");
         gameSystem.UnFreeze();
+        gameSystem.SetAllActionMapsToPlayer();
+        gameSystem.SetAIActiveState(true);
         TurnOnAnimators();
         playingBack = false;
         playbackFrame = 0;
@@ -206,12 +204,15 @@ public class InstantReplay : MonoBehaviour
         //copy the contents of the queue into an array
         recordingFrameData = new GameplaySingleFrameData[recordingFrameDataQueue.Count];
         recordingFrameDataQueue.CopyTo(recordingFrameData, 0);
+        nextFrameData = recordingFrameData[1];
         instantReplayGUI.SetActive(true);
         replayCamera.enabled = true;
         replayCamera2.enabled = true;
         replayCamera3.enabled = true;
         playingBack = true;
         gameSystem.FreezeGame();
+        gameSystem.SetAllActionMapsToReplay();
+        gameSystem.SetAIActiveState(false);
         TurnOffAnimators();
         puck.gameObject.GetComponent<TrailRenderer>().Clear();
         puck.gameObject.GetComponent<TrailRenderer>().time = 5f;
