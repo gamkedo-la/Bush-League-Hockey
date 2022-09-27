@@ -85,15 +85,6 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
-                },
-                {
-                    "name": "CancelInstantReplay",
-                    "type": "Button",
-                    "id": "ee3f2596-1b41-4c08-b819-c14958010d42",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -457,50 +448,6 @@
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "StartInstantReplay",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "f10b2ef5-49b9-45da-9825-18d758d7182a",
-                    "path": "<Keyboard>/c",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "CancelInstantReplay",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "4ea670aa-2957-465d-9e0a-31e1bf3df342",
-                    "path": "<Gamepad>/buttonEast",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "CancelInstantReplay",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "bb9384f2-db0b-445c-af06-612f50cf4906",
-                    "path": "<DualShockGamepad>/buttonEast",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "PS4",
-                    "action": "CancelInstantReplay",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "e9959a45-a2ca-4f97-81f7-5ef3517fd78c",
-                    "path": "<XInputController>/buttonEast",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "XBox",
-                    "action": "CancelInstantReplay",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

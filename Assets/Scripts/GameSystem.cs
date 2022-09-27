@@ -240,7 +240,6 @@ public class GameSystem : MonoBehaviour
         awayNet.GetComponent<Goal>().goalIsActive = true;
     }
     public void DropPuck(){
-        instantReplayController?.GetComponent<InstantReplay>()?.StopInstantReplay();
         GoalScoredDisplay.SetActive(false);
         SetupPlayersForFaceOff();
         StartCoroutine(TemporaryFaceOffMessage());

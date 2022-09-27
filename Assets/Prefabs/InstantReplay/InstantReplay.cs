@@ -6,6 +6,7 @@ public class InstantReplay : MonoBehaviour
     [SerializeField] GameObject instantReplayGUI;
     [SerializeField] TimeProvider replayTime;
     [SerializeField] ReplayData replayData;
+    [SerializeField] GameplayState beforeReplayState;
     private GameSystem gameSystem;
     private Queue<GameplaySingleFrameData> recordingFrameDataQueue = new Queue<GameplaySingleFrameData>();
     private GameplaySingleFrameData[] recordingFrameData;
@@ -65,6 +66,24 @@ public class InstantReplay : MonoBehaviour
             rb.angularVelocity = Vector3.zero;
         }
     }
+    private GameplaySingleFrameData GetCurrentFrameData(){
+        currentFrameData = new GameplaySingleFrameData();
+        currentFrameData.p1Position = p1.position; currentFrameData.p1Rotation = p1.rotation;
+        currentFrameData.p2Position = p2.position; currentFrameData.p2Rotation = p2.rotation;
+        currentFrameData.g1Position = g1.position; currentFrameData.g1Rotation = g1.rotation;
+        currentFrameData.g2Position = g2.position; currentFrameData.g2Rotation = g2.rotation;
+        currentFrameData.puckPosition = puck.position; currentFrameData.puckRotation = puck.rotation;
+        // record all 30 or so bone pos+rot for each avatar
+        for (int b=0; b<bones1.Length; b++) {
+            currentFrameData.bones1pos[b] = bones1[b].position; 
+            currentFrameData.bones1rot[b] = bones1[b].rotation;
+        }
+        for (int b=0; b<bones2.Length; b++) {
+            currentFrameData.bones2pos[b] = bones2[b].position; 
+            currentFrameData.bones2rot[b] = bones2[b].rotation;
+        }
+        return currentFrameData;
+    }
     private void MapFrameDataToObjects(GameplaySingleFrameData frame){
         Debug.Log($"frame: {playbackFrame}/{recordingFrameData.Length-1}");
         p1.position = frame.p1Position; p1.rotation = frame.p1Rotation;
@@ -120,42 +139,27 @@ public class InstantReplay : MonoBehaviour
     void FixedUpdate()
     {
         // recording in FixedUpdate gives us a recording with a constant time interval between frames
-        // this means playback with timescale will be as smooth as possible
+        // this makes our data as true to the original gameplay as possible
         // We also get more replay time out of each frame we store
         if(!playingBack){
             // Not in playback mode, record replay data
-            currentFrameData = new GameplaySingleFrameData();
-            currentFrameData.p1Position = p1.position; currentFrameData.p1Rotation = p1.rotation;
-            currentFrameData.p2Position = p2.position; currentFrameData.p2Rotation = p2.rotation;
-            currentFrameData.g1Position = g1.position; currentFrameData.g1Rotation = g1.rotation;
-            currentFrameData.g2Position = g2.position; currentFrameData.g2Rotation = g2.rotation;
-            currentFrameData.puckPosition = puck.position; currentFrameData.puckRotation = puck.rotation;
-            // record all 30 or so bone pos+rot for each avatar
-            for (int b=0; b<bones1.Length; b++) {
-                currentFrameData.bones1pos[b] = bones1[b].position; 
-                currentFrameData.bones1rot[b] = bones1[b].rotation;
-            }
-            for (int b=0; b<bones2.Length; b++) {
-                currentFrameData.bones2pos[b] = bones2[b].position; 
-                currentFrameData.bones2rot[b] = bones2[b].rotation;
-            }
             // is our recording at max capacity?
             if(recordingFrameDataQueue.Count >= replayData.recordingFrameCountMax){
                 recordingFrameDataQueue.Dequeue(); // removes the oldest frame
             }
-            recordingFrameDataQueue.Enqueue(currentFrameData);
+            recordingFrameDataQueue.Enqueue(GetCurrentFrameData());
         }
         if(playingBack)
         {
-            // FixedUpdate maps frame data and zeroes object velocities
+            // FixedUpdate maps frame data, update lerps towards next frame
             if(replayData.timeSinceFrameWasSwitched >= Time.fixedDeltaTime){
                 // switch to the next frame index
                 playbackFrame++;
                 // replay finished?
-                if (playbackFrame < recordingFrameData.Length -1)
+                if (playbackFrame < recordingFrameData.Length-1)
                 {
                     MapFrameDataToObjects(recordingFrameData[playbackFrame]);
-                    nextFrameData = recordingFrameData[playbackFrame+1];
+                    nextFrameData = recordingFrameData[playbackFrame+1]; // LateUpdate uses this
                 }
                 else 
                 {
@@ -182,10 +186,10 @@ public class InstantReplay : MonoBehaviour
         }
     }
     public void StopInstantReplay(){
-        Debug.Log($"stop IR");
         gameSystem.UnFreeze();
         gameSystem.SetAllActionMapsToPlayer();
         gameSystem.SetAIActiveState(true);
+        MapFrameDataToObjects(beforeReplayState.frame);
         TurnOnAnimators();
         playingBack = false;
         playbackFrame = 0;
@@ -205,6 +209,7 @@ public class InstantReplay : MonoBehaviour
         recordingFrameData = new GameplaySingleFrameData[recordingFrameDataQueue.Count];
         recordingFrameDataQueue.CopyTo(recordingFrameData, 0);
         nextFrameData = recordingFrameData[1];
+        beforeReplayState.frame = GetCurrentFrameData();
         instantReplayGUI.SetActive(true);
         replayCamera.enabled = true;
         replayCamera2.enabled = true;

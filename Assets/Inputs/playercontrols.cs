@@ -107,15 +107,6 @@ public partial class @Playercontrols : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""CancelInstantReplay"",
-                    ""type"": ""Button"",
-                    ""id"": ""ee3f2596-1b41-4c08-b819-c14958010d42"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -479,50 +470,6 @@ public partial class @Playercontrols : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""StartInstantReplay"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""f10b2ef5-49b9-45da-9825-18d758d7182a"",
-                    ""path"": ""<Keyboard>/c"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""CancelInstantReplay"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""4ea670aa-2957-465d-9e0a-31e1bf3df342"",
-                    ""path"": ""<Gamepad>/buttonEast"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""CancelInstantReplay"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""bb9384f2-db0b-445c-af06-612f50cf4906"",
-                    ""path"": ""<DualShockGamepad>/buttonEast"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""PS4"",
-                    ""action"": ""CancelInstantReplay"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""e9959a45-a2ca-4f97-81f7-5ef3517fd78c"",
-                    ""path"": ""<XInputController>/buttonEast"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""XBox"",
-                    ""action"": ""CancelInstantReplay"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -1588,7 +1535,6 @@ public partial class @Playercontrols : IInputActionCollection2, IDisposable
         m_Player_StickControl = m_Player.FindAction("StickControl", throwIfNotFound: true);
         m_Player_Pause = m_Player.FindAction("Pause", throwIfNotFound: true);
         m_Player_StartInstantReplay = m_Player.FindAction("StartInstantReplay", throwIfNotFound: true);
-        m_Player_CancelInstantReplay = m_Player.FindAction("CancelInstantReplay", throwIfNotFound: true);
         // Replay
         m_Replay = asset.FindActionMap("Replay", throwIfNotFound: true);
         m_Replay_TrashTalk = m_Replay.FindAction("TrashTalk", throwIfNotFound: true);
@@ -1672,7 +1618,6 @@ public partial class @Playercontrols : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_StickControl;
     private readonly InputAction m_Player_Pause;
     private readonly InputAction m_Player_StartInstantReplay;
-    private readonly InputAction m_Player_CancelInstantReplay;
     public struct PlayerActions
     {
         private @Playercontrols m_Wrapper;
@@ -1686,7 +1631,6 @@ public partial class @Playercontrols : IInputActionCollection2, IDisposable
         public InputAction @StickControl => m_Wrapper.m_Player_StickControl;
         public InputAction @Pause => m_Wrapper.m_Player_Pause;
         public InputAction @StartInstantReplay => m_Wrapper.m_Player_StartInstantReplay;
-        public InputAction @CancelInstantReplay => m_Wrapper.m_Player_CancelInstantReplay;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1723,9 +1667,6 @@ public partial class @Playercontrols : IInputActionCollection2, IDisposable
                 @StartInstantReplay.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnStartInstantReplay;
                 @StartInstantReplay.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnStartInstantReplay;
                 @StartInstantReplay.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnStartInstantReplay;
-                @CancelInstantReplay.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCancelInstantReplay;
-                @CancelInstantReplay.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCancelInstantReplay;
-                @CancelInstantReplay.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCancelInstantReplay;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -1757,9 +1698,6 @@ public partial class @Playercontrols : IInputActionCollection2, IDisposable
                 @StartInstantReplay.started += instance.OnStartInstantReplay;
                 @StartInstantReplay.performed += instance.OnStartInstantReplay;
                 @StartInstantReplay.canceled += instance.OnStartInstantReplay;
-                @CancelInstantReplay.started += instance.OnCancelInstantReplay;
-                @CancelInstantReplay.performed += instance.OnCancelInstantReplay;
-                @CancelInstantReplay.canceled += instance.OnCancelInstantReplay;
             }
         }
     }
@@ -1967,7 +1905,6 @@ public partial class @Playercontrols : IInputActionCollection2, IDisposable
         void OnStickControl(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
         void OnStartInstantReplay(InputAction.CallbackContext context);
-        void OnCancelInstantReplay(InputAction.CallbackContext context);
     }
     public interface IReplayActions
     {

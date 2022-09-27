@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3700023411494599592
 Transform:
   m_ObjectHideFlags: 0
@@ -202,6 +202,7 @@ MonoBehaviour:
   instantReplayGUI: {fileID: 4583726619675112607}
   replayTime: {fileID: 11400000, guid: e5777ecc18a5a9d4d88f653219435e9a, type: 2}
   replayData: {fileID: 11400000, guid: f47b691fc788e634b8048028dcf4701c, type: 2}
+  beforeReplayState: {fileID: 11400000, guid: 6cd67a21fdbf0944d85c55a1fda02ab6, type: 2}
   replayCamera: {fileID: 4583726620965581814}
   replayCameraOffset: {x: 0, y: 3, z: -7}
   replayTarget2: {fileID: 0}
@@ -218,14 +219,7 @@ MonoBehaviour:
   bonesRig1: {fileID: 0}
   bonesRig2: {fileID: 0}
   playingBack: 0
-  RecordingLength: 200
-  recordingTimespan: 0
-  playbackTime: 0
   playbackFrame: 0
-  ticks: 0
-  newestIndex: 0
-  playbackStartFrame: -999
-  playbackEndFrame: -999
 --- !u!1 &4583726619675112607
 GameObject:
   m_ObjectHideFlags: 0
@@ -479,7 +473,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4583726620965581812
 Transform:
   m_ObjectHideFlags: 0
@@ -554,7 +548,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7521973828675467550
 Transform:
   m_ObjectHideFlags: 0

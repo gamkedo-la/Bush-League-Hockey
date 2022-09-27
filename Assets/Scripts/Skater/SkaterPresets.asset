@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 415ac667cddfc5e478c1062a2ff015f5, type: 3}
   m_Name: SkaterPresets
   m_EditorClassIdentifier: 
-  skaterAcceleration: 85
+  skaterAcceleration: 75
   skaterMaximumSpeed: 13
   skaterTurnSpeed: 10
   angleAccelerationLimit: 15
