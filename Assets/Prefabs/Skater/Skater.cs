@@ -67,7 +67,6 @@ public class Skater : MonoBehaviour
     public bool WindingUp(){
         return windingUpShot || windingUpBodycheck || windingUpPass;
     }
-    
     public IEnumerator WindUpPass(){
         // blocked when: already winding up, knocked down
         if(WindingUp() || isKnockedDown) yield break;

@@ -10,6 +10,7 @@ public class GameSystem : MonoBehaviour
     [Header("Main Camera")]
     [HideInInspector] public Camera mainCamera;
     private Vector3 cameraPausePosition;
+    private Vector3 cameraDesiredPosition;
     private Quaternion cameraPauseRotation;
     [SerializeField] [Range(15f, .5f)] float zoom;
     private GameObject focalObject;
@@ -375,9 +376,14 @@ public class GameSystem : MonoBehaviour
         }
     }
     private void HandleCameraPositioning(){
-        if(puckObject){
-            mainCamera.transform.position = new Vector3((puckObject.transform.position.x / 1.75f), mainCamera.transform.position.y, mainCamera.transform.position.z);
-        }
+        cameraDesiredPosition.x = 0.4f*puckObject.transform.position.x;
+        cameraDesiredPosition.y = mainCamera.transform.position.y;
+        cameraDesiredPosition.z = mainCamera.transform.position.z;
+        mainCamera.transform.position = Vector3.Lerp(
+            mainCamera.transform.position,
+            cameraDesiredPosition,
+            Time.fixedDeltaTime
+        );
     }
     private void HandleGameTimer(){
         // Should the clock start running?
