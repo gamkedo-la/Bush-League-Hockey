@@ -61,7 +61,7 @@ public class AIPlayerController : MonoBehaviour
     }
     public bool SomeoneHasPosession(){
         bool hasPosession = false;
-        foreach (TeamMember tm in FindObjectsOfType<TeamMember>())
+        foreach (TeamMember tm in gameSystem.allTeamMemberScripts)
         {
             if (tm.hasPosession)
             {

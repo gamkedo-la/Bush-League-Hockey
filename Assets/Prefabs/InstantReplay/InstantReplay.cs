@@ -20,11 +20,13 @@ public class InstantReplay : MonoBehaviour
     public Transform replayTarget3;
     public Camera replayCamera3;
     public Vector3 replayCameraOffset3;
+    private List<Rigidbody> gamePieceRigidbodies;
     public Transform p1;
     public Transform g1;
     public Transform p2;
     public Transform g2;
     public Transform puck;
+    private TrailRenderer puckTrail;
     public Transform bonesRig1;
     public Transform bonesRig2;
     private Transform[] bones1;
@@ -38,6 +40,7 @@ public class InstantReplay : MonoBehaviour
         g1 = gameSystem.homeGoaltender.transform;
         g2 = gameSystem.awayGoaltender.transform;
         puck = gameSystem.puckObject.transform;
+        puckTrail = puck.GetComponent<TrailRenderer>();
     }
     void Start()
     {
@@ -47,21 +50,44 @@ public class InstantReplay : MonoBehaviour
         for (int i=0; i<bones1.Length; i++) {
             Debug.Log("Bone "+i+" is named "+bones1[i].name);
         }
+        gamePieceRigidbodies = GetGamePieceRigidbodies();
     }
-    private void TurnOffAnimators(){
+    private void DisableAnimators()
+    {
         p1.gameObject.GetComponentInChildren<Animator>().enabled = false;
         p2.gameObject.GetComponentInChildren<Animator>().enabled = false;
         //g1.gameObject.GetComponentInChildren<Animator>().enabled = false;
         //g2.gameObject.GetComponentInChildren<Animator>().enabled = false;
     }
-    private void TurnOnAnimators(){
+    private void EnableAnimators()
+    {
         p1.gameObject.GetComponentInChildren<Animator>().enabled = true;
         p2.gameObject.GetComponentInChildren<Animator>().enabled = true;
         //g1.gameObject.GetComponentInChildren<Animator>().enabled = true;
         //g2.gameObject.GetComponentInChildren<Animator>().enabled = true;
     }
-    private void ZeroObjectVelocities(){
-        foreach (Rigidbody rb in FindObjectsOfType<Rigidbody>()) {
+    private List<Rigidbody> GetGamePieceRigidbodies()
+    {
+        List<Rigidbody> rigidbodies = new List<Rigidbody>();
+        rigidbodies.Add(p1.gameObject.GetComponent<Rigidbody>());
+        rigidbodies.Add(p2.gameObject.GetComponent<Rigidbody>());
+        rigidbodies.Add(g1.gameObject.GetComponent<Rigidbody>());
+        rigidbodies.Add(g2.gameObject.GetComponent<Rigidbody>());
+        rigidbodies.Add(puck.gameObject.GetComponent<Rigidbody>());
+        foreach (Rigidbody rb in bonesRig1.GetComponentsInChildren<Rigidbody>())
+        {
+            rigidbodies.Add(rb);
+        }
+        foreach (Rigidbody rb in bonesRig2.GetComponentsInChildren<Rigidbody>())
+        {
+            rigidbodies.Add(rb);
+        }
+        return rigidbodies;
+    }
+    private void ZeroRigidbodyVelocities()
+    {
+        foreach (Rigidbody rb in gamePieceRigidbodies)
+        {
             rb.velocity = Vector3.zero;
             rb.angularVelocity = Vector3.zero;
         }
@@ -85,7 +111,6 @@ public class InstantReplay : MonoBehaviour
         return currentFrameData;
     }
     private void MapFrameDataToObjects(GameplaySingleFrameData frame){
-        Debug.Log($"frame: {playbackFrame}/{recordingFrameData.Length-1}");
         p1.position = frame.p1Position; p1.rotation = frame.p1Rotation;
         p2.position = frame.p2Position; p2.rotation = frame.p2Rotation;
         g1.position = frame.g1Position; g1.rotation = frame.g1Rotation;
@@ -93,18 +118,18 @@ public class InstantReplay : MonoBehaviour
         puck.position = frame.puckPosition; puck.rotation = frame.puckRotation;
         // Apply bone transforms for each Rig
         for (int b=0; b<bones1.Length; b++) {
-            bones1[b].position = recordingFrameData[playbackFrame].bones1pos[b];
-            bones1[b].rotation = recordingFrameData[playbackFrame].bones1rot[b];
+            bones1[b].position = frame.bones1pos[b];
+            bones1[b].rotation = frame.bones1rot[b];
         }
         for (int b=0; b<bones2.Length; b++) {
-            bones2[b].position = recordingFrameData[playbackFrame].bones2pos[b]; 
-            bones2[b].rotation = recordingFrameData[playbackFrame].bones2rot[b];
+            bones2[b].position = frame.bones2pos[b]; 
+            bones2[b].rotation = frame.bones2rot[b];
         }
-        ZeroObjectVelocities();
+        ZeroRigidbodyVelocities();
     }
     private void LerpObjectsTowardsNextFrame(){
         // interpolation amount = what fraction of fixedDeltaTime has passed?
-        float interpolationPercent = replayTime.deltaTime / Time.fixedDeltaTime;
+        float interpolationPercent = 1; // replayTime.deltaTime / Time.fixedDeltaTime;
         // Debug.Log($"interpolate: {interpolationPercent} = {replayTime.deltaTime}/{Time.fixedDeltaTime}");
         p1.position = Vector3.Lerp(p1.position, nextFrameData.p1Position, interpolationPercent);
         p1.rotation = Quaternion.Lerp(p1.rotation, nextFrameData.p1Rotation, interpolationPercent);
@@ -124,7 +149,7 @@ public class InstantReplay : MonoBehaviour
             bones2[b].position = Vector3.Lerp(bones2[b].position, nextFrameData.bones2pos[b], interpolationPercent);
             bones2[b].rotation = Quaternion.Lerp(bones2[b].rotation, nextFrameData.bones2rot[b], interpolationPercent);
         }
-        ZeroObjectVelocities();
+        ZeroRigidbodyVelocities();
     }
     void LateUpdate()
     {
@@ -132,7 +157,8 @@ public class InstantReplay : MonoBehaviour
         if (playingBack){
             // Fixed update will apply transforms from recorded data
             // LateUpdate will lerp between current frame and next
-            LerpObjectsTowardsNextFrame();
+            // LerpObjectsTowardsNextFrame();
+            MapFrameDataToObjects(recordingFrameData[playbackFrame]);
             replayData.timeSinceFrameWasSwitched += replayTime.deltaTime;
         }
     }
@@ -159,13 +185,14 @@ public class InstantReplay : MonoBehaviour
                 if (playbackFrame < recordingFrameData.Length-1)
                 {
                     MapFrameDataToObjects(recordingFrameData[playbackFrame]);
-                    nextFrameData = recordingFrameData[playbackFrame+1]; // LateUpdate uses this
+                    nextFrameData = recordingFrameData[playbackFrame]; // LateUpdate uses this
                 }
                 else 
                 {
                     StopInstantReplay();
                     return;
                 }
+                if(playbackFrame == 1){puckTrail.Clear();}
                 replayCamera.transform.position = new Vector3(
                     puck.position.x + replayCameraOffset.x,
                     puck.position.y + replayCameraOffset.y,
@@ -185,42 +212,39 @@ public class InstantReplay : MonoBehaviour
             }
         }
     }
-    public void StopInstantReplay(){
+    public void StopInstantReplay()
+    {
         gameSystem.UnFreeze();
         gameSystem.SetAllActionMapsToPlayer();
         gameSystem.SetAIActiveState(true);
-        MapFrameDataToObjects(beforeReplayState.frame);
-        TurnOnAnimators();
+        MapFrameDataToObjects(beforeReplayState.frame); // return to before replay state
+        EnableAnimators();
         playingBack = false;
         playbackFrame = 0;
         instantReplayGUI.SetActive(false);
-        replayCamera.enabled = false;
-        replayCamera2.enabled = false;
-        replayCamera3.enabled = false;
-        puck.gameObject.GetComponent<TrailRenderer>().time = 1.4f;
-        // return the players to the beforeReplayGameState
+        replayCamera.gameObject.SetActive(false);
+        replayCamera2.gameObject.SetActive(false);
+        replayCamera3.gameObject.SetActive(false);
+        puckTrail.time = 1.4f;
     }
     public IEnumerator startInstantReplay() // called by the game manager when someone scores or does something cool
     {
         playbackFrame = 0;
-        gameSystem = FindObjectOfType<GameSystem>();
-        puck = gameSystem.puckObject.transform;
         //copy the contents of the queue into an array
         recordingFrameData = new GameplaySingleFrameData[recordingFrameDataQueue.Count];
         recordingFrameDataQueue.CopyTo(recordingFrameData, 0);
         nextFrameData = recordingFrameData[1];
         beforeReplayState.frame = GetCurrentFrameData();
         instantReplayGUI.SetActive(true);
-        replayCamera.enabled = true;
-        replayCamera2.enabled = true;
-        replayCamera3.enabled = true;
+        replayCamera.gameObject.SetActive(true);
+        replayCamera2.gameObject.SetActive(true);
+        replayCamera3.gameObject.SetActive(true);
         playingBack = true;
         gameSystem.FreezeGame();
         gameSystem.SetAllActionMapsToReplay();
         gameSystem.SetAIActiveState(false);
-        TurnOffAnimators();
-        puck.gameObject.GetComponent<TrailRenderer>().Clear();
-        puck.gameObject.GetComponent<TrailRenderer>().time = 5f;
+        DisableAnimators();
+        puckTrail.time = 4f;
         while(playingBack) {
             yield return new WaitForFixedUpdate();
         }

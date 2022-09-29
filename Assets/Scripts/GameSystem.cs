@@ -32,6 +32,7 @@ public class GameSystem : MonoBehaviour
     [SerializeField] public Transform awayGoalOrigin;
     [SerializeField] public Transform awayFaceOffOrigin;
     [SerializeField] public Transform puckDropOrigin;
+    [HideInInspector] public TeamMember[] allTeamMemberScripts;
     
     [HideInInspector] public Rigidbody puckRigidBody;
     [Header("Controls Management")]
@@ -81,6 +82,7 @@ public class GameSystem : MonoBehaviour
         cameraPausePosition = Vector3.zero;
         timeManager = FindObjectOfType<TimeManager>();
         puckRigidBody = puckObject.GetComponent<Rigidbody>();
+        allTeamMemberScripts = FindObjectsOfType<TeamMember>();
     }
     public void PreserveKeyGameElements(){
         foreach(PlayerInput ctrl in FindObjectsOfType<PlayerInput>()){
@@ -213,6 +215,7 @@ public class GameSystem : MonoBehaviour
         FaceOffMessageDisplay.SetActive(false);
     }
     private void SetupPlayersForFaceOff(){
+        timeManager.gameTime.timeScale = 1;
         // reset animations windups etc
         homeSkater.GetComponent<Skater>().ResetSkaterActions();
         homeSkater.GetComponent<Skater>().ResetSkaterMotion();
@@ -376,13 +379,6 @@ public class GameSystem : MonoBehaviour
             mainCamera.transform.position = new Vector3((puckObject.transform.position.x / 1.75f), mainCamera.transform.position.y, mainCamera.transform.position.z);
         }
     }
-    private void HandleCameraFocus(){
-        if(focalObject){
-            lineToDesiredTarget = Vector3.Normalize(focalObject.transform.position - mainCamera.transform.position);
-            desiredCameraRotation = Quaternion.LookRotation(lineToDesiredTarget, Vector3.up);
-            mainCamera.transform.rotation = Quaternion.Lerp(mainCamera.transform.rotation, desiredCameraRotation, cameraRotationSpeed);
-        }
-    }
     private void HandleGameTimer(){
         // Should the clock start running?
         if(gameOn && !clockIsRunning && !isSuddenDeath){StartCoroutine(RunClock());}
@@ -406,6 +402,5 @@ public class GameSystem : MonoBehaviour
     void Update(){
         HandleGameTimer();
         HandleCameraPositioning();
-        HandleCameraFocus();
     }
 }
