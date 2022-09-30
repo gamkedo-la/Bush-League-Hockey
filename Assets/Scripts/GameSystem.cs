@@ -1,7 +1,6 @@
+using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using TMPro;
 using UnityEngine.SceneManagement;
@@ -18,6 +17,7 @@ public class GameSystem : MonoBehaviour
     private Vector3 lineToDesiredTarget;
     private Quaternion desiredCameraRotation;
     [Header("Game Management")]
+    public static EventHandler<EventArgs> dropPuck;
     public TimeManager timeManager;
     public TimeProvider activeTimeProvider;
     private AudioManager audioManager;
@@ -258,6 +258,7 @@ public class GameSystem : MonoBehaviour
         awayNet.GetComponent<Goal>().goalIsActive = true;
     }
     public void DropPuck(){
+        dropPuck?.Invoke(this, EventArgs.Empty);
         GoalScoredDisplay.SetActive(false);
         SetupPlayersForFaceOff();
         StartCoroutine(TemporaryFaceOffMessage());

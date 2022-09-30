@@ -132,17 +132,17 @@ public class AIPlayerController : MonoBehaviour
     }
     private void OnEnable()
     {
-        PuckScript.onPuckSpawned += PuckSpawned;
+        GameSystem.dropPuck += DropPuck;
         TeamMember.takenPosession += PosessionChanged;
     }
     private void OnDisable()
     {
-        PuckScript.onPuckSpawned -= PuckSpawned;
+        GameSystem.dropPuck -= DropPuck;
         TeamMember.takenPosession -= PosessionChanged;
     }
-    private void PuckSpawned(object sender, EventArgs e)
+    private void DropPuck(object sender, EventArgs e)
     {
-        puckTransform = (sender as PuckScript).transform;
+        puckTransform = gameSystem.puckObject.transform;
         ChangeState(ChaseState.StateName);
     }
     private bool IsOnMyTeam(TeamMember tm){
