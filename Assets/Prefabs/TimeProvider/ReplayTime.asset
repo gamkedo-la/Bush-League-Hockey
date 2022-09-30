@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d06bad3371527b74ca55842de53afb96, type: 3}
   m_Name: ReplayTime
   m_EditorClassIdentifier: 
-  time: 5785.671
-  deltaTime: 0.0020872601
-  fixedDeltaTime: 0.0069999998
-  timeScale: 0.35
+  time: 6693.056
+  deltaTime: 0.0070309998
+  fixedDeltaTime: 0.008
+  timeScale: 0.4

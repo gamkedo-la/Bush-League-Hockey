@@ -36,6 +36,8 @@ public class GameSystem : MonoBehaviour
     [HideInInspector] public TeamMember[] allTeamMemberScripts;
     
     [HideInInspector] public Rigidbody puckRigidBody;
+    [HideInInspector] public Rigidbody homeSkaterRigidBody;
+    [HideInInspector] public Rigidbody awaySkaterRigidBody;
     [Header("Controls Management")]
     [SerializeField] public GameObject ps4ControllerIcon;
     [SerializeField] public GameObject keyboardIcon;
@@ -83,6 +85,8 @@ public class GameSystem : MonoBehaviour
         cameraPausePosition = Vector3.zero;
         timeManager = FindObjectOfType<TimeManager>();
         puckRigidBody = puckObject.GetComponent<Rigidbody>();
+        homeSkaterRigidBody = homeSkater.GetComponent<Rigidbody>();
+        awaySkaterRigidBody = awaySkater.GetComponent<Rigidbody>();
         allTeamMemberScripts = FindObjectsOfType<TeamMember>();
     }
     public void PreserveKeyGameElements(){
@@ -214,6 +218,16 @@ public class GameSystem : MonoBehaviour
         FaceOffMessageDisplay.SetActive(true);
         yield return new WaitForSeconds(2);
         FaceOffMessageDisplay.SetActive(false);
+    }
+    public void ApplyGameplayFrameData(GameplaySingleFrameData frame){
+        homeSkater.transform.position = frame.p1Position; homeSkater.transform.rotation = frame.p1Rotation;
+        homeSkaterRigidBody.velocity = frame.p1Velocity;
+        awaySkater.transform.position = frame.p2Position; awaySkater.transform.rotation = frame.p2Rotation;
+        awaySkaterRigidBody.velocity = frame.p1Velocity;
+        homeGoaltender.transform.position = frame.g1Position; homeGoaltender.transform.rotation = frame.g1Rotation;
+        awayGoaltender.transform.position = frame.g2Position; awayGoaltender.transform.rotation = frame.g2Rotation;
+        puckObject.transform.position = frame.puckPosition; puckObject.transform.rotation = frame.puckRotation;
+        puckRigidBody.velocity = frame.puckVelocity;
     }
     private void SetupPlayersForFaceOff(){
         timeManager.gameTime.timeScale = 1;

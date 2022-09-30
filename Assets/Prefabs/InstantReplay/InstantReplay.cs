@@ -22,10 +22,13 @@ public class InstantReplay : MonoBehaviour
     public Vector3 replayCameraOffset3;
     private List<Rigidbody> gamePieceRigidbodies;
     public Transform p1;
+    public Rigidbody p1Rigidbody;
     public Transform g1;
     public Transform p2;
+    public Rigidbody p2Rigidbody;
     public Transform g2;
     public Transform puck;
+    public Rigidbody puckRigidbody;
     private TrailRenderer puckTrail;
     public Transform bonesRig1;
     public Transform bonesRig2;
@@ -36,10 +39,13 @@ public class InstantReplay : MonoBehaviour
     private void Awake() {
         gameSystem = FindObjectOfType<GameSystem>();
         p1 = gameSystem.homeSkater.transform;
+        p1Rigidbody = p1.GetComponent<Rigidbody>();
         p2 = gameSystem.awaySkater.transform;
+        p2Rigidbody = p2.GetComponent<Rigidbody>();
         g1 = gameSystem.homeGoaltender.transform;
         g2 = gameSystem.awayGoaltender.transform;
         puck = gameSystem.puckObject.transform;
+        puckRigidbody = puck.GetComponent<Rigidbody>();
         puckTrail = puck.GetComponent<TrailRenderer>();
     }
     void Start()
@@ -95,10 +101,13 @@ public class InstantReplay : MonoBehaviour
     private GameplaySingleFrameData GetCurrentFrameData(){
         currentFrameData = new GameplaySingleFrameData();
         currentFrameData.p1Position = p1.position; currentFrameData.p1Rotation = p1.rotation;
+        currentFrameData.p1Velocity = p1Rigidbody.velocity;
         currentFrameData.p2Position = p2.position; currentFrameData.p2Rotation = p2.rotation;
+        currentFrameData.p2Velocity = p2Rigidbody.velocity;
         currentFrameData.g1Position = g1.position; currentFrameData.g1Rotation = g1.rotation;
         currentFrameData.g2Position = g2.position; currentFrameData.g2Rotation = g2.rotation;
         currentFrameData.puckPosition = puck.position; currentFrameData.puckRotation = puck.rotation;
+        currentFrameData.puckVelocity = puckRigidbody.velocity;
         // record all 30 or so bone pos+rot for each avatar
         for (int b=0; b<bones1.Length; b++) {
             currentFrameData.bones1pos[b] = bones1[b].position; 
@@ -129,8 +138,8 @@ public class InstantReplay : MonoBehaviour
     }
     private void LerpObjectsTowardsNextFrame(){
         // interpolation amount = what fraction of fixedDeltaTime has passed?
-        float interpolationPercent = 1; // replayTime.deltaTime / Time.fixedDeltaTime;
-        // Debug.Log($"interpolate: {interpolationPercent} = {replayTime.deltaTime}/{Time.fixedDeltaTime}");
+        float interpolationPercent = replayTime.deltaTime / Time.fixedDeltaTime;
+        Debug.Log($"interpolate: {interpolationPercent} = {replayTime.deltaTime}/{Time.fixedDeltaTime}");
         p1.position = Vector3.Lerp(p1.position, nextFrameData.p1Position, interpolationPercent);
         p1.rotation = Quaternion.Lerp(p1.rotation, nextFrameData.p1Rotation, interpolationPercent);
         p2.position = Vector3.Lerp(p2.position, nextFrameData.p2Position, interpolationPercent);
@@ -157,7 +166,7 @@ public class InstantReplay : MonoBehaviour
         if (playingBack){
             // Fixed update will apply transforms from recorded data
             // LateUpdate will lerp between current frame and next
-            // LerpObjectsTowardsNextFrame();
+            //LerpObjectsTowardsNextFrame();
             MapFrameDataToObjects(recordingFrameData[playbackFrame]);
             replayData.timeSinceFrameWasSwitched += replayTime.deltaTime;
         }
@@ -185,7 +194,7 @@ public class InstantReplay : MonoBehaviour
                 if (playbackFrame < recordingFrameData.Length-1)
                 {
                     MapFrameDataToObjects(recordingFrameData[playbackFrame]);
-                    nextFrameData = recordingFrameData[playbackFrame]; // LateUpdate uses this
+                    nextFrameData = recordingFrameData[playbackFrame+1]; // LateUpdate uses this
                 }
                 else 
                 {
@@ -217,7 +226,7 @@ public class InstantReplay : MonoBehaviour
         gameSystem.UnFreeze();
         gameSystem.SetAllActionMapsToPlayer();
         gameSystem.SetAIActiveState(true);
-        MapFrameDataToObjects(beforeReplayState.frame); // return to before replay state
+        gameSystem.ApplyGameplayFrameData(beforeReplayState.frame); // return to before replay state
         EnableAnimators();
         playingBack = false;
         playbackFrame = 0;

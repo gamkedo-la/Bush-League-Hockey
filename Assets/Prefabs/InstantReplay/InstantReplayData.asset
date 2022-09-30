@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5029612e612d9545b903d59c4b07937, type: 3}
   m_Name: InstantReplayData
   m_EditorClassIdentifier: 
-  timeSinceFrameWasSwitched: 0
+  timeSinceFrameWasSwitched: 0.02221716
+  recordingFrameCountMax: 200
