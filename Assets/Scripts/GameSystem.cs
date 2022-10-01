@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
 public class GameSystem : MonoBehaviour
@@ -114,6 +115,7 @@ public class GameSystem : MonoBehaviour
                 break;
         }
         playerInput.GetComponent<MenuController>().InitializeController();
+        playerInput.GetComponent<MultiplayerEventSystem>().firstSelectedGameObject = GetComponent<GameMenuScript>().currentItem;
     }
     private IEnumerator SaveCooldown(){
         saveCooldownDone = false;

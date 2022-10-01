@@ -142,6 +142,7 @@ public class AIPlayerController : MonoBehaviour
     }
     private void DropPuck(object sender, EventArgs e)
     {
+        print("DropPuck detected");
         puckTransform = gameSystem.puckObject.transform;
         ChangeState(ChaseState.StateName);
     }

@@ -819,7 +819,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc4cd9f8307e6fb48be6c00abb8659e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skaterPresets: {fileID: 11400000, guid: 997a0175654c2674fac6d161ad233a94, type: 2}
+  skaterPresets: {fileID: 11400000, guid: a8c85117e36db0a43ac442558576a20b, type: 2}
   skaterAnimationScript: {fileID: 3792185025071796481}
   timeProvider: {fileID: 11400000, guid: 3f9f5f34b5c8944489bd5de6a7a7da6e, type: 2}
   windingUpShot: 0
