@@ -28,15 +28,15 @@ public class GameSystem : MonoBehaviour
     [SerializeField] public GameObject homeGoaltender;
     [SerializeField] public GameObject awayGoaltender;
     [SerializeField] public GameObject puckObject;
+    [HideInInspector] public Rigidbody puckRigidBody;
+    [HideInInspector] public TrailRenderer puckTrail;
+    [SerializeField] public Transform puckDropOrigin;
     [SerializeField] GameObject AIControllerPrefab;
     [SerializeField] public Transform homeGoalOrigin;
     [SerializeField] public Transform homeFaceOffOrigin;
     [SerializeField] public Transform awayGoalOrigin;
     [SerializeField] public Transform awayFaceOffOrigin;
-    [SerializeField] public Transform puckDropOrigin;
     [HideInInspector] public TeamMember[] allTeamMemberScripts;
-    
-    [HideInInspector] public Rigidbody puckRigidBody;
     [HideInInspector] public Rigidbody homeSkaterRigidBody;
     [HideInInspector] public Rigidbody awaySkaterRigidBody;
     [Header("Controls Management")]
@@ -86,6 +86,7 @@ public class GameSystem : MonoBehaviour
         cameraPausePosition = Vector3.zero;
         timeManager = FindObjectOfType<TimeManager>();
         puckRigidBody = puckObject.GetComponent<Rigidbody>();
+        puckTrail = puckObject.GetComponent<TrailRenderer>();
         homeSkaterRigidBody = homeSkater.GetComponent<Rigidbody>();
         awaySkaterRigidBody = awaySkater.GetComponent<Rigidbody>();
         allTeamMemberScripts = FindObjectsOfType<TeamMember>();
@@ -153,7 +154,7 @@ public class GameSystem : MonoBehaviour
                     break;
             }
         }
-        foreach (AIPlayerController aI in FindObjectsOfType<AIPlayerController>()){
+        foreach(AIPlayerController aI in FindObjectsOfType<AIPlayerController>()){
             DestroyImmediate(aI.gameObject);
         }
         if(homeTeamMemberCount == 0){
@@ -231,7 +232,7 @@ public class GameSystem : MonoBehaviour
         puckObject.transform.position = frame.puckPosition; puckObject.transform.rotation = frame.puckRotation;
         puckRigidBody.velocity = frame.puckVelocity;
     }
-    private void SetupPlayersForFaceOff(){
+    public void SetupPlayersForFaceOff(){
         timeManager.gameTime.timeScale = 1;
         // reset animations windups etc
         homeSkater.GetComponent<Skater>().ResetSkaterActions();
@@ -259,18 +260,34 @@ public class GameSystem : MonoBehaviour
         homeNet.GetComponent<Goal>().goalIsActive = true;
         awayNet.GetComponent<Goal>().goalIsActive = true;
     }
+    public void PuckToCenterOrigin(){
+        puckObject.transform.position = puckDropOrigin.position;
+        puckObject.transform.rotation = puckDropOrigin.rotation;
+        puckRigidBody.velocity = Vector3.zero;
+        puckTrail.Clear();
+    }
     public void DropPuck(){
         dropPuck?.Invoke(this, EventArgs.Empty);
         GoalScoredDisplay.SetActive(false);
         SetupPlayersForFaceOff();
         StartCoroutine(TemporaryFaceOffMessage());
-        puckObject.transform.position = puckDropOrigin.position;
-        puckObject.transform.rotation = puckDropOrigin.rotation;
-        puckObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
-        puckObject.GetComponent<TrailRenderer>().Clear();
+        PuckToCenterOrigin();
         gameOn = true;
         audioManager.PlayFaceOffSound();
         focalObject = puckObject;
+        ActivateGoals();
+    }
+    public void CasualGoalScored(){
+        StartCoroutine(CasualDropPuck());
+    }
+    public IEnumerator CasualDropPuck(){
+        DeactivateGoals();
+        float elapsedTime = 0;
+        while(elapsedTime < 3){
+            yield return new WaitForFixedUpdate();
+            elapsedTime += Time.fixedDeltaTime;
+        }
+        PuckToCenterOrigin();
         ActivateGoals();
     }
     public IEnumerator CountDownAndDropPuck(){
@@ -420,9 +437,10 @@ public class GameSystem : MonoBehaviour
         StartCoroutine(CountDownAndDropPuck());
     }
     private void Start(){
-        BeginGame();
+        //BeginGame();
     }
     void Update(){
+        // current state -> OnStateUpdate
         HandleGameTimer();
         HandleCameraPositioning();
     }

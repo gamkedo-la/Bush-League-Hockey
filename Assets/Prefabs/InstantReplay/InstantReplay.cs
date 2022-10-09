@@ -52,10 +52,10 @@ public class InstantReplay : MonoBehaviour
     {
         bones1 = bonesRig1.GetComponentsInChildren<Transform>();
         bones2 = bonesRig2.GetComponentsInChildren<Transform>();
-        Debug.Log("Replay bones found: " + bones1.Length);
-        for (int i=0; i<bones1.Length; i++) {
-            Debug.Log("Bone "+i+" is named "+bones1[i].name);
-        }
+        //Debug.Log("Replay bones found: " + bones1.Length);
+        // for (int i=0; i<bones1.Length; i++) {
+        //     Debug.Log("Bone "+i+" is named "+bones1[i].name);
+        // }
         gamePieceRigidbodies = GetGamePieceRigidbodies();
     }
     private void DisableAnimators()
@@ -166,6 +166,7 @@ public class InstantReplay : MonoBehaviour
         if (playingBack){
             // Fixed update will apply transforms from recorded data
             // LateUpdate will lerp between current frame and next
+            // theory not actually working in practice
             //LerpObjectsTowardsNextFrame();
             MapFrameDataToObjects(recordingFrameData[playbackFrame]);
             replayData.timeSinceFrameWasSwitched += replayTime.deltaTime;

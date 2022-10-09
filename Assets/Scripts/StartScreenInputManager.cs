@@ -1,9 +1,7 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
-using UnityEngine.EventSystems;
 public class StartScreenInputManager : MonoBehaviour
 {
     [SerializeField] public GameObject ps4ControllerIcon;

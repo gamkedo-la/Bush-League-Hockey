@@ -4,13 +4,13 @@ using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem.UI;
 public class GameMenuScript : MonoBehaviour
 {
+    List<GameObject> menuIcons;
     [Header("Main Menu")]
     [SerializeField] public GameObject playButton;
     public GameObject creditsButton;
     public GameObject quitButton;
     public GameObject mainDisplay;
     [Header("Choose Sides Menu")]
-    List<GameObject> menuIcons;
     public GameObject chooseSidesMenu;
     public GameObject acceptButton;
     public GameObject helpDisplay;

@@ -1,12 +1,21 @@
+using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class MainMenuState : StateMachineBehaviour
 {
+    private GameSystem gameSystem;
+    public static EventHandler<EventArgs> dropPuck;
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-       
+        Debug.Log("Main menu start");
+        gameSystem = FindObjectOfType<GameSystem>();
+        dropPuck.Invoke(this, EventArgs.Empty); // triggers the AI to start playing
+        Goal.awayGoalScored += GoalScored;
+    }
+    public void GoalScored(object sender, EventArgs e)
+    {
+        gameSystem.CasualGoalScored();
     }
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
@@ -14,7 +23,9 @@ public class MainMenuState : StateMachineBehaviour
     }
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-       
+        Debug.Log("Main menu exit");
+        //Main menu is disabled
+        Goal.awayGoalScored -= GoalScored;
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()

@@ -77,7 +77,7 @@ public class AIPlayerController : MonoBehaviour
         //     + $"velocity:{puckTransform.gameObject.GetComponent<Rigidbody>().velocity}"
         // );
         float angle = Vector3.Angle(goaltender.myNet.transform.position - puckTransform.position, puckTransform.gameObject.GetComponent<Rigidbody>().velocity);
-        return angle < 35 && puckTransform.gameObject.GetComponent<Rigidbody>().velocity.magnitude > 0.1f;
+        return angle < 35 && puckTransform.gameObject.GetComponent<Rigidbody>().velocity.magnitude > 2f;
     }
     private void HandleMovement()
     { // based on 'Skater' -> MovementInputHandler()
