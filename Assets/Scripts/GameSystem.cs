@@ -18,6 +18,7 @@ public class GameSystem : MonoBehaviour
     private Vector3 lineToDesiredTarget;
     private Quaternion desiredCameraRotation;
     [Header("Game Management")]
+    [SerializeField] private GameObject mainMenu;
     public static EventHandler<EventArgs> dropPuck;
     public TimeManager timeManager;
     public TimeProvider activeTimeProvider;
@@ -31,7 +32,8 @@ public class GameSystem : MonoBehaviour
     [HideInInspector] public Rigidbody puckRigidBody;
     [HideInInspector] public TrailRenderer puckTrail;
     [SerializeField] public Transform puckDropOrigin;
-    [SerializeField] GameObject AIControllerPrefab;
+    [SerializeField] GameObject AIControllerHome;
+    [SerializeField] GameObject AIControllerAway;
     [SerializeField] public Transform homeGoalOrigin;
     [SerializeField] public Transform homeFaceOffOrigin;
     [SerializeField] public Transform awayGoalOrigin;
@@ -116,7 +118,7 @@ public class GameSystem : MonoBehaviour
                 break;
         }
         playerInput.GetComponent<MenuController>().InitializeController();
-        playerInput.GetComponent<MultiplayerEventSystem>().firstSelectedGameObject = GetComponent<GameMenuScript>().currentItem;
+        playerInput.GetComponent<MultiplayerEventSystem>().firstSelectedGameObject = mainMenu.GetComponent<MainMenuScript>().currentItem;
     }
     private IEnumerator SaveCooldown(){
         saveCooldownDone = false;
@@ -136,14 +138,18 @@ public class GameSystem : MonoBehaviour
     public void SetPlayersToTeams(){
         int homeTeamMemberCount = 0;
         int awayTeamMemberCount = 0;
+        AIControllerAway.SetActive(true);
+        AIControllerHome.SetActive(true);
         foreach(MenuController ctrl in FindObjectsOfType<MenuController>()){
             Debug.Log($"Setting player {ctrl} to {ctrl.teamSelectionStatus}");
             switch (ctrl.teamSelectionStatus){
                 case "home":
+                    AIControllerHome.SetActive(false);
                     ctrl.GetComponent<PlayerController>().SetToHomeTeam();
                     homeTeamMemberCount++;
                     break;
                 case "away":
+                    AIControllerAway.SetActive(false);
                     ctrl.GetComponent<PlayerController>().SetToAwayTeam();
                     awayTeamMemberCount++;
                     break;
@@ -153,15 +159,6 @@ public class GameSystem : MonoBehaviour
                 default:
                     break;
             }
-        }
-        foreach(AIPlayerController aI in FindObjectsOfType<AIPlayerController>()){
-            DestroyImmediate(aI.gameObject);
-        }
-        if(homeTeamMemberCount == 0){
-            Instantiate(AIControllerPrefab).GetComponent<AIPlayerController>().SetToHomeTeam();
-        }
-        if(awayTeamMemberCount == 0){
-            Instantiate(AIControllerPrefab).GetComponent<AIPlayerController>().SetToAwayTeam();
         }
     }
     public void SetAllActionMapsToUI(){
@@ -265,9 +262,9 @@ public class GameSystem : MonoBehaviour
         puckObject.transform.rotation = puckDropOrigin.rotation;
         puckRigidBody.velocity = Vector3.zero;
         puckTrail.Clear();
+        dropPuck?.Invoke(this, EventArgs.Empty);
     }
     public void DropPuck(){
-        dropPuck?.Invoke(this, EventArgs.Empty);
         GoalScoredDisplay.SetActive(false);
         SetupPlayersForFaceOff();
         StartCoroutine(TemporaryFaceOffMessage());

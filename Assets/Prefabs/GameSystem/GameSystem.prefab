@@ -1568,7 +1568,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 412}
+  m_AnchoredPosition: {x: 0, y: 420}
   m_SizeDelta: {x: 900, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &297604944
@@ -6197,7 +6197,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1236668169
 RectTransform:
   m_ObjectHideFlags: 0
@@ -15624,7 +15624,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6619080286672928150}
   - component: {fileID: 6619080286672928151}
-  - component: {fileID: 3790814638514437766}
   - component: {fileID: 6619080286672928149}
   - component: {fileID: 1183346748}
   m_Layer: 0
@@ -15667,6 +15666,7 @@ MonoBehaviour:
   mainCamera: {fileID: 0}
   zoom: 0
   cameraRotationSpeed: 0
+  mainMenu: {fileID: 1236668168}
   timeManager: {fileID: 0}
   activeTimeProvider: {fileID: 0}
   crowdReactionManager: {fileID: 0}
@@ -15675,14 +15675,16 @@ MonoBehaviour:
   homeGoaltender: {fileID: 0}
   awayGoaltender: {fileID: 0}
   puckObject: {fileID: 0}
-  AIControllerPrefab: {fileID: 203228621541005135, guid: 213145f513f87b0438b315177d3202ab, type: 3}
+  puckRigidBody: {fileID: 0}
+  puckTrail: {fileID: 0}
+  puckDropOrigin: {fileID: 0}
+  AIControllerHome: {fileID: 0}
+  AIControllerAway: {fileID: 0}
   homeGoalOrigin: {fileID: 0}
   homeFaceOffOrigin: {fileID: 0}
   awayGoalOrigin: {fileID: 0}
   awayFaceOffOrigin: {fileID: 0}
-  puckDropOrigin: {fileID: 0}
   allTeamMemberScripts: []
-  puckRigidBody: {fileID: 0}
   homeSkaterRigidBody: {fileID: 0}
   awaySkaterRigidBody: {fileID: 0}
   ps4ControllerIcon: {fileID: 1108483890370392552, guid: 3a32e836a133d7f499ab393f14452a09, type: 3}
@@ -15718,28 +15720,6 @@ MonoBehaviour:
   endOfGameAwayScoreText: {fileID: 4085591855281253670}
   endOfGameHomeWinnerTag: {fileID: 4713071754922767466}
   endOfGameAwayWinnerTag: {fileID: 8928931743794008467}
---- !u!114 &3790814638514437766
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6619080286672928144}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 28bed7200488e4846b480707743865d4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playButton: {fileID: 0}
-  creditsButton: {fileID: 0}
-  quitButton: {fileID: 0}
-  mainDisplay: {fileID: 0}
-  chooseSidesMenu: {fileID: 0}
-  acceptButton: {fileID: 0}
-  helpDisplay: {fileID: 0}
-  creditsDisplay: {fileID: 0}
-  backButton: {fileID: 0}
-  currentItem: {fileID: 0}
 --- !u!114 &6619080286672928149
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15807,7 +15787,7 @@ Animator:
   m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 0243e88ad2908ee44bd98b297a4f5400, type: 2}
-  m_CullingMode: 2
+  m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0

@@ -50,7 +50,7 @@ public class ChooseSidesMenuScript : MonoBehaviour
             if(acceptbutton.interactable == false){
                 acceptbutton.interactable = true;
                 FindObjectOfType<InGameMenu>()?.SetActiveMenuItemForAllPlayers(acceptbutton.gameObject);
-                FindObjectOfType<GameMenuScript>()?.SetActiveMenuItemForAllPlayers(acceptbutton.gameObject);
+                FindObjectOfType<MainMenuScript>()?.SetActiveMenuItemForAllPlayers(acceptbutton.gameObject);
             }
         } else {
             acceptbutton.interactable = false;

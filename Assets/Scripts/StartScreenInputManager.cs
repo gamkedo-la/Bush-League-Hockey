@@ -24,6 +24,6 @@ public class StartScreenInputManager : MonoBehaviour
                 break;
         }
         playerInput.GetComponent<MenuController>().InitializeController();
-        playerInput.GetComponent<MultiplayerEventSystem>().firstSelectedGameObject = GetComponent<GameMenuScript>().currentItem;
+        playerInput.GetComponent<MultiplayerEventSystem>().firstSelectedGameObject = GetComponent<MainMenuScript>().currentItem;
     }
 }

@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 public abstract class AbstractAIState
 {
     public static string StateName;
@@ -18,7 +17,6 @@ public abstract class AbstractAIState
     protected AbstractAIState(AIPlayerController aiPlayerController)
     {
         this.aiPlayerController = aiPlayerController;
-
         selectedSkater = aiPlayerController.selectedSkater;
         goaltender = aiPlayerController.goaltender;
         opponentSkater = aiPlayerController.opponentSkater;
@@ -29,7 +27,6 @@ public abstract class AbstractAIState
     }
     public abstract void OnEnter();
     public abstract void OnExit();
-        
     public virtual void OnUpdate(){
         timeSinceLastUpdate += Time.deltaTime;
 

@@ -27,6 +27,19 @@ public class AIPlayerController : MonoBehaviour
     private void Awake() {
         gameSystem = FindObjectOfType<GameSystem>();
         puckTransform = gameSystem.puckObject.transform;
+        if(gameObject.name.Contains("Home")){
+            SetToHomeTeam();
+        } else {
+            SetToAwayTeam();
+        }
+        stateDictionary = new Dictionary<string, AbstractAIState>();
+        stateDictionary.Add("Waiting", new WaitingState(this));
+        stateDictionary.Add("Chase", new ChaseState(this));
+        stateDictionary.Add("Attacking", new AttackingState(this));
+        stateDictionary.Add("GoalieMakePass", new GoalieMakePass(this));
+        stateDictionary.Add("Shooting", new ShootingState(this));
+        stateDictionary.Add("GoalieDefend", new GoalieDefendState(this));
+        currentState = stateDictionary[WaitingState.StateName];
     }
     // If one team doesn't have a player, this object is assigned to that team.
     // Whereas the 'PlayerController' prefab uses player input to trigger functions resulting in behaviour
@@ -39,7 +52,6 @@ public class AIPlayerController : MonoBehaviour
         goaltender = GameObject.FindWithTag("homeGoaltender").GetComponent<Goaltender>();
         opponentSkater = GameObject.FindWithTag("awaySkater").GetComponent<Skater>();
         opponentGoaltender = GameObject.FindWithTag("awayGoaltender").GetComponent<Goaltender>();
-        gameObject.name = "AI Controller Home";
         InitializeTeamObjects();
     }
     public void SetToAwayTeam()
@@ -48,7 +60,6 @@ public class AIPlayerController : MonoBehaviour
         goaltender = GameObject.FindWithTag("awayGoaltender").GetComponent<Goaltender>();
         opponentSkater = GameObject.FindWithTag("homeSkater").GetComponent<Skater>();
         opponentGoaltender = GameObject.FindWithTag("homeGoaltender").GetComponent<Goaltender>();
-        gameObject.name = "AI Controller Away";
         InitializeTeamObjects();
     }
     private void InitializeTeamObjects()
@@ -120,14 +131,6 @@ public class AIPlayerController : MonoBehaviour
     }
     void Start()
     {
-        stateDictionary = new Dictionary<string, AbstractAIState>();
-        stateDictionary.Add("Waiting", new WaitingState(this));
-        stateDictionary.Add("Chase", new ChaseState(this));
-        stateDictionary.Add("Attacking", new AttackingState(this));
-        stateDictionary.Add("GoalieMakePass", new GoalieMakePass(this));
-        stateDictionary.Add("Shooting", new ShootingState(this));
-        stateDictionary.Add("GoalieDefend", new GoalieDefendState(this));
-        currentState = stateDictionary[WaitingState.StateName];
         currentState.OnEnter();
     }
     private void OnEnable()

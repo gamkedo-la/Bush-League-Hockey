@@ -2,10 +2,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem.UI;
-public class GameMenuScript : MonoBehaviour
+public class MainMenuScript : MonoBehaviour
 {
     List<GameObject> menuIcons;
-    [Header("Main Menu")]
+    [Header("Title Screen")]
     [SerializeField] public GameObject playButton;
     public GameObject creditsButton;
     public GameObject quitButton;
@@ -20,7 +20,7 @@ public class GameMenuScript : MonoBehaviour
     [HideInInspector] public GameObject currentItem;
     public void SetActiveMenuItemForAllPlayers(GameObject menuItem){
         currentItem = menuItem;
-        foreach (MultiplayerEventSystem eventSystem in FindObjectsOfType<MultiplayerEventSystem>())
+        foreach(MultiplayerEventSystem eventSystem in FindObjectsOfType<MultiplayerEventSystem>())
         {
             eventSystem.SetSelectedGameObject(menuItem);
         }
