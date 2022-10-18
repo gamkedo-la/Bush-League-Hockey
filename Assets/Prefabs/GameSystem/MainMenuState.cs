@@ -3,22 +3,20 @@ using System.Collections;
 using UnityEngine;
 public class MainMenuState : StateMachineBehaviour
 {
-    private MainMenuScript menuScript;
     private GameSystem gameSystem;
+    public static EventHandler<EventArgs> onEnter;
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         Debug.Log("Main menu start");
         gameSystem = FindObjectOfType<GameSystem>();
-        menuScript = FindObjectOfType<MainMenuScript>();
         Goal.awayGoalScored += GoalScored;
         Goal.homeGoalScored += GoalScored;
+        onEnter.Invoke(this, EventArgs.Empty);
         // Setup the AI to play casually
         gameSystem.SetPlayersToTeams();
         gameSystem.SetupPlayersForFaceOff();
         gameSystem.PuckToCenterOrigin();
         gameSystem.ActivateGoals();
-        // open the main menu
-        menuScript.SwitchToMainDisplay();
     }
     public void GoalScored(object sender, EventArgs e)
     {
