@@ -1,10 +1,12 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem.UI;
 public class MainMenuScript : MonoBehaviour
 {
     List<GameObject> menuIcons;
+    GameSystem gameSystem;
+    Animator masterStateMachine;
     [Header("Title Screen")]
     [SerializeField] public GameObject playButton;
     public GameObject creditsButton;
@@ -18,6 +20,14 @@ public class MainMenuScript : MonoBehaviour
     public GameObject creditsDisplay;
     public GameObject backButton;
     [HideInInspector] public GameObject currentItem;
+    private void Awake() {
+        gameSystem = FindObjectOfType<GameSystem>();
+        masterStateMachine = gameSystem.GetComponent<Animator>();
+        MainMenuState.onStateEnter += MainMenuEnter;
+    }
+    private void MainMenuEnter(object sender, EventArgs e){
+        SwitchToMainMenu();
+    }
     public void SetActiveMenuItemForAllPlayers(GameObject menuItem){
         currentItem = menuItem;
         foreach(MultiplayerEventSystem eventSystem in FindObjectsOfType<MultiplayerEventSystem>())
@@ -25,30 +35,31 @@ public class MainMenuScript : MonoBehaviour
             eventSystem.SetSelectedGameObject(menuItem);
         }
     }
-    public void SwitchToChooseSideMenu(){
+    public void CloseMenus(){
         mainDisplay.SetActive(false);
+        creditsDisplay.SetActive(false);
+        chooseSidesMenu.SetActive(false);
+        helpDisplay.SetActive(false);
+    }
+    public void SwitchToChooseSideMenu(){
+        CloseMenus();
         chooseSidesMenu.SetActive(true);
         SetActiveMenuItemForAllPlayers(acceptButton);
     }
-    public void SwitchToMainDisplay(){
+    public void SwitchToMainMenu(){
+        CloseMenus();
         mainDisplay.SetActive(true);
-        creditsDisplay.SetActive(false);
-        chooseSidesMenu.SetActive(false);
         helpDisplay.SetActive(true);
         SetActiveMenuItemForAllPlayers(playButton);
     }
     public void SwitchToCreditsView(){
+        CloseMenus();
         creditsDisplay.SetActive(true);
-        mainDisplay.SetActive(false);
-        helpDisplay.SetActive(false);
         SetActiveMenuItemForAllPlayers(backButton);
     }
-    public void SetPlayerInputSides(){
-        StartScreenInputManager inputManager = FindObjectOfType<StartScreenInputManager>();
-        foreach (MenuController ctrl in FindObjectsOfType<MenuController>()){
-            DontDestroyOnLoad(ctrl.gameObject);
-        }
-        SceneManager.LoadScene("Hat-Trick");        
+    public void AcceptSideSelection(){
+        masterStateMachine.SetTrigger("BeginGame");
+        CloseMenus();
     }
     private void Start() {
         SetActiveMenuItemForAllPlayers(playButton);

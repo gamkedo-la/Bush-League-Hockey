@@ -227,7 +227,7 @@ public class InstantReplay : MonoBehaviour
         gameSystem.UnFreeze();
         gameSystem.SetAllActionMapsToPlayer();
         gameSystem.SetAIActiveState(true);
-        gameSystem.ApplyGameplayFrameData(beforeReplayState.frame); // return to before replay state
+        gameSystem.ApplyGameplayFrameData(beforeReplayState.frameData); // return to before replay state
         EnableAnimators();
         playingBack = false;
         playbackFrame = 0;
@@ -244,7 +244,7 @@ public class InstantReplay : MonoBehaviour
         recordingFrameData = new GameplaySingleFrameData[recordingFrameDataQueue.Count];
         recordingFrameDataQueue.CopyTo(recordingFrameData, 0);
         nextFrameData = recordingFrameData[1];
-        beforeReplayState.frame = GetCurrentFrameData();
+        beforeReplayState.frameData = GetCurrentFrameData();
         instantReplayGUI.SetActive(true);
         replayCamera.gameObject.SetActive(true);
         replayCamera2.gameObject.SetActive(true);

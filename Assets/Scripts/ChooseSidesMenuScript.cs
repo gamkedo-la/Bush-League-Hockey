@@ -1,9 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
-
 public class ChooseSidesMenuScript : MonoBehaviour
 {
     [SerializeField] List<Transform> homeSlots;
@@ -11,6 +8,7 @@ public class ChooseSidesMenuScript : MonoBehaviour
     [SerializeField] List<Transform> neutralSlots;
     [SerializeField] Button acceptbutton;
     [HideInInspector] GameObject currentlySelectedMenuItem;
+    private MenuController[] menuControllers;
     public void PositionInputControllerIcons(){
         foreach(GameObject icon in GameObject.FindGameObjectsWithTag("ControllerMenuIcon")){
             Destroy(icon);
@@ -18,27 +16,28 @@ public class ChooseSidesMenuScript : MonoBehaviour
         int numberOfHomePlayers = 0;
         int numberOfAwayPlayers = 0;
         int numberOfNeutralPlayers = 0;
-        foreach (MenuController menuController in FindObjectsOfType<MenuController>()){
+        foreach (MenuController menuController in menuControllers){
             GameObject menuIcon = Instantiate(
                 menuController.chooseSidesMenuIcon, 
                 Vector3.zero,
                 Quaternion.identity
             );
+            Debug.Log($"{menuIcon}");
+            // set bg colour for menuIcons
             if(menuController.teamSelectionStatus == "neutral"){
-                menuIcon.transform.SetParent(neutralSlots[numberOfNeutralPlayers], false);
+                menuIcon.transform.SetParent(neutralSlots[numberOfNeutralPlayers].transform, false);
                 numberOfNeutralPlayers ++;
-            }else if(menuController.teamSelectionStatus == "home"){
-                menuIcon.transform.SetParent(homeSlots[numberOfHomePlayers], false);
+            } else if(menuController.teamSelectionStatus == "home"){
+                menuIcon.transform.SetParent(homeSlots[numberOfHomePlayers].transform, false);
                 numberOfHomePlayers ++;
-            }else if (menuController.teamSelectionStatus == "away"){
-                menuIcon.transform.SetParent(awaySlots[numberOfAwayPlayers], false);
+            } else if (menuController.teamSelectionStatus == "away"){
+                menuIcon.transform.SetParent(awaySlots[numberOfHomePlayers].transform, false);
                 numberOfAwayPlayers ++;
             }
         }
     }
     private void CheckButtonStatus(){
         // AcceptButton - make sure there is at least 1 home or away player
-        MenuController[] menuControllers = FindObjectsOfType<MenuController>();
         int playersThatHaveATeam = 0;
         for(int i = 0; i < menuControllers.Length; i++){
             if(menuControllers[i].teamSelectionStatus == "home" || menuControllers[i].teamSelectionStatus == "away"){
@@ -56,9 +55,9 @@ public class ChooseSidesMenuScript : MonoBehaviour
             acceptbutton.interactable = false;
         }
     }
-    
     void Update()
     {
+        menuControllers = FindObjectsOfType<MenuController>();
         CheckButtonStatus();
         PositionInputControllerIcons();
     }

@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     private GameSystem gameSystem;
+    private Camera mainCamera;
     [Header("Player Input Management")]
     private Vector3 forwardForce;
     private Vector3 sideForce;
@@ -20,6 +21,7 @@ public class PlayerController : MonoBehaviour
     private TeamMember goaltenderTeamMember;
     private void Awake(){
         gameSystem = FindObjectOfType<GameSystem>();
+        mainCamera = Camera.main;
         playerInput = GetComponent<PlayerInput>();
     }
     public void SetToHomeTeam(){
@@ -66,8 +68,8 @@ public class PlayerController : MonoBehaviour
     public void MovementInputHandler(InputAction.CallbackContext context){
         if(selectedSkater && goaltender){
             movementInput = context.ReadValue<Vector2>();
-            forwardForce = movementInput.y * gameSystem.mainCamera.transform.forward;
-            sideForce = movementInput.x * Vector3.Cross(gameSystem.mainCamera.transform.forward, -gameSystem.mainCamera.transform.up);
+            forwardForce = movementInput.y * mainCamera.transform.forward;
+            sideForce = movementInput.x * Vector3.Cross(mainCamera.transform.forward, -mainCamera.transform.up);
             cameraRelativeMovementPointer = Vector3.Normalize(new Vector3((forwardForce.x + sideForce.x), 0f, (forwardForce.z + sideForce.z)));
             selectedSkater.SetPointers(cameraRelativeMovementPointer);
             goaltender.SetPointers(cameraRelativeMovementPointer);
@@ -76,8 +78,8 @@ public class PlayerController : MonoBehaviour
     public void StickControlInputHandler(InputAction.CallbackContext context){
         if(selectedSkater && goaltender){
             movementInput = context.ReadValue<Vector2>();
-            forwardForce = movementInput.y * gameSystem.mainCamera.transform.forward;
-            sideForce = movementInput.x * Vector3.Cross(gameSystem.mainCamera.transform.forward, -gameSystem.mainCamera.transform.up);
+            forwardForce = movementInput.y * mainCamera.transform.forward;
+            sideForce = movementInput.x * Vector3.Cross(mainCamera.transform.forward, -mainCamera.transform.up);
             cameraRelativeMovementPointer = Vector3.Normalize(new Vector3((forwardForce.x + sideForce.x), 0f, (forwardForce.z + sideForce.z)));
             selectedSkater.SetStickControlPointer(cameraRelativeMovementPointer);
         }

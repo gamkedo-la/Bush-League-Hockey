@@ -13,10 +13,10 @@ public class Goal : MonoBehaviour
         if(other.tag == "puck" && goalIsActive){
             goalIsActive = false;
             if(gameObject.tag == "homeGoal"){
-                awayGoalScored.Invoke(this, EventArgs.Empty);
+                awayGoalScored?.Invoke(this, EventArgs.Empty);
             }
             else{
-                homeGoalScored.Invoke(this, EventArgs.Empty);
+                homeGoalScored?.Invoke(this, EventArgs.Empty);
             }
         }
     }
