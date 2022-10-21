@@ -68,7 +68,7 @@ public class GameSystem : MonoBehaviour
     [SerializeField] public GameObject gamMenuButtonPanel;
     [SerializeField] public GameObject rematchButton;
     [SerializeField] public GameObject countdownDisplayPanel;
-    [SerializeField] TextMeshProUGUI countdownCountText;
+    [SerializeField] public TextMeshProUGUI countdownCountText;
     [SerializeField] public GameObject endOfGameMenu;
     [SerializeField] public GameObject endOfGameHomeScoreBox;
     [SerializeField] public GameObject endOfGameAwayScoreBox;

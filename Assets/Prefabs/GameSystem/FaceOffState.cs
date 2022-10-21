@@ -7,25 +7,25 @@ public class FaceOffState : StateMachineBehaviour
     private TimeProvider gameTimeProvider;
     public static EventHandler<EventArgs> onStateEnter;
     public static EventHandler<EventArgs> onStateExit;
-    float countdownTimer = 3f;
+    float countdownTimer = 4f;
     bool faceOffCountDown = false;
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
        Debug.Log("FaceOffState Enter");
        gameSystem = FindObjectOfType<GameSystem>();
        gameTimeProvider = gameSystem.timeManager.gameTime;
-       countdownTimer = 3;
+       countdownTimer = 4;
        faceOffCountDown = true;
        gameSystem.countdownDisplayPanel.SetActive(true);
        gameSystem.audioManager.PlayReadySound();
     }
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        // Animator update mode -> Physics
-        countdownTimer -= gameTimeProvider.deltaTime;
+        countdownTimer -= gameTimeProvider.fixedDeltaTime;// Animator update mode -> Physics, makes this function run during FixedUpdate
+        gameSystem.countdownCountText.text = ((int)countdownTimer).ToString();
         if(countdownTimer <= 0 && faceOffCountDown){
             faceOffCountDown = false;
-            countdownTimer = 3;
+            countdownTimer = 4;
             gameSystem.countdownDisplayPanel.SetActive(false);
             gameSystem.audioManager.PlayFaceOffSound();
             gameSystem.ActivateGoals();
