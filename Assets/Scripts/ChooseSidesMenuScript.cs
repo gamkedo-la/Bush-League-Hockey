@@ -22,7 +22,6 @@ public class ChooseSidesMenuScript : MonoBehaviour
                 Vector3.zero,
                 Quaternion.identity
             );
-            Debug.Log($"{menuIcon}");
             // set bg colour for menuIcons
             if(menuController.teamSelectionStatus == "neutral"){
                 menuIcon.transform.SetParent(neutralSlots[numberOfNeutralPlayers].transform, false);

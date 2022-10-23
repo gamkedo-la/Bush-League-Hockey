@@ -9,8 +9,8 @@ public class VCamCoordinator : MonoBehaviour
 
     private void Awake(){
         MainMenuState.onStateEnter += SwitchToMainMenuVCam;
-        GameOnState.onStateEnter += SwitchToGameplayVCam;
         BeginGameState.onStateEnter += SwitchToFaceOffVCam;
+        GameOnState.onStateEnter += SwitchToGameplayVCam;
     }
     private void AllCamsOff(){
         vCamMainMenu.gameObject.SetActive(false);
@@ -27,6 +27,6 @@ public class VCamCoordinator : MonoBehaviour
     }
     private void SwitchToGameplayVCam(object sender, EventArgs e){
         AllCamsOff();
-        vCamFaceOff.gameObject.SetActive(true);
+        vCamGameplay.gameObject.SetActive(true);
     }
 }

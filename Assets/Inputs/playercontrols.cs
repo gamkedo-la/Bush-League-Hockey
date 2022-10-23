@@ -1459,6 +1459,34 @@ public partial class @Playercontrols : IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Disabled"",
+            ""id"": ""cd9ead83-1e10-4288-b4dd-51c47a1322f0"",
+            ""actions"": [
+                {
+                    ""name"": ""New action"",
+                    ""type"": ""Button"",
+                    ""id"": ""bec79bbb-030c-492b-a1d0-b1d482e4dba3"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""40c9d2f9-e6da-48c6-b55b-d4d4d7ae9f6c"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""New action"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -1550,6 +1578,9 @@ public partial class @Playercontrols : IInputActionCollection2, IDisposable
         m_NeutralInput = asset.FindActionMap("NeutralInput", throwIfNotFound: true);
         m_NeutralInput_Navigate = m_NeutralInput.FindAction("Navigate", throwIfNotFound: true);
         m_NeutralInput_Join = m_NeutralInput.FindAction("Join", throwIfNotFound: true);
+        // Disabled
+        m_Disabled = asset.FindActionMap("Disabled", throwIfNotFound: true);
+        m_Disabled_Newaction = m_Disabled.FindAction("New action", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -1849,6 +1880,39 @@ public partial class @Playercontrols : IInputActionCollection2, IDisposable
         }
     }
     public NeutralInputActions @NeutralInput => new NeutralInputActions(this);
+
+    // Disabled
+    private readonly InputActionMap m_Disabled;
+    private IDisabledActions m_DisabledActionsCallbackInterface;
+    private readonly InputAction m_Disabled_Newaction;
+    public struct DisabledActions
+    {
+        private @Playercontrols m_Wrapper;
+        public DisabledActions(@Playercontrols wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Newaction => m_Wrapper.m_Disabled_Newaction;
+        public InputActionMap Get() { return m_Wrapper.m_Disabled; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(DisabledActions set) { return set.Get(); }
+        public void SetCallbacks(IDisabledActions instance)
+        {
+            if (m_Wrapper.m_DisabledActionsCallbackInterface != null)
+            {
+                @Newaction.started -= m_Wrapper.m_DisabledActionsCallbackInterface.OnNewaction;
+                @Newaction.performed -= m_Wrapper.m_DisabledActionsCallbackInterface.OnNewaction;
+                @Newaction.canceled -= m_Wrapper.m_DisabledActionsCallbackInterface.OnNewaction;
+            }
+            m_Wrapper.m_DisabledActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @Newaction.started += instance.OnNewaction;
+                @Newaction.performed += instance.OnNewaction;
+                @Newaction.canceled += instance.OnNewaction;
+            }
+        }
+    }
+    public DisabledActions @Disabled => new DisabledActions(this);
     private int m_KeyboardMouseSchemeIndex = -1;
     public InputControlScheme KeyboardMouseScheme
     {
@@ -1923,5 +1987,9 @@ public partial class @Playercontrols : IInputActionCollection2, IDisposable
     {
         void OnNavigate(InputAction.CallbackContext context);
         void OnJoin(InputAction.CallbackContext context);
+    }
+    public interface IDisabledActions
+    {
+        void OnNewaction(InputAction.CallbackContext context);
     }
 }

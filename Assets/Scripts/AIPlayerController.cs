@@ -145,7 +145,6 @@ public class AIPlayerController : MonoBehaviour
     }
     private void DropPuck(object sender, EventArgs e)
     {
-        print("DropPuck detected");
         puckTransform = gameSystem.puckObject.transform;
         ChangeState(ChaseState.StateName);
     }
@@ -176,7 +175,7 @@ public class AIPlayerController : MonoBehaviour
     public void ChangeState(string newState)
     {
         currentState.OnExit();
-        print($"{gameObject.name} changed from {currentState} to {newState}");
+        //print($"{gameObject.name} changed from {currentState} to {newState}");
         if (stateDictionary.TryGetValue(newState, out AbstractAIState state))
         {
             currentState = state;

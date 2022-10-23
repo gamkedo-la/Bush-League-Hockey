@@ -1734,7 +1734,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: sudden death
+  m_text: 0:00
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2583bc867c330154a9f575a4e8763846, type: 2}
   m_sharedMaterial: {fileID: 1637194989738610465, guid: 2583bc867c330154a9f575a4e8763846, type: 2}
@@ -7504,50 +7504,6 @@ MonoBehaviour:
   m_YawDamping: 0
   m_RollDamping: 0
   m_AngularDamping: 0
---- !u!1 &1399062637
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1399062639}
-  - component: {fileID: 1399062638}
-  m_Layer: 0
-  m_Name: GameTimer
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1399062639
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1399062637}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 6619080286672928150}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1399062638
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1399062637}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b86838680fb2ebc4d947228e1d061eb9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1410871195
 GameObject:
   m_ObjectHideFlags: 0
@@ -16255,7 +16211,6 @@ Transform:
   - {fileID: 6619080287446195114}
   - {fileID: 1236668169}
   - {fileID: 967397100}
-  - {fileID: 1399062639}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -16298,7 +16253,6 @@ MonoBehaviour:
   genericControllerIcon: {fileID: 1867821702154790369, guid: 7a2ce8b66c8b465479a1f212f192dce2, type: 3}
   xboxControllerIcon: {fileID: 1108483890370392552, guid: 37eb2c91d3554d0449612d504cdf2149, type: 3}
   currentGameData: {fileID: 11400000, guid: 00a2b9cf1dfcc3647b735ec427e5934b, type: 2}
-  gameTimer: {fileID: 1399062638}
   homeNet: {fileID: 0}
   awayNet: {fileID: 0}
   homeScoreText: {fileID: 6619080287748541273}
@@ -17599,13 +17553,14 @@ GameObject:
   - component: {fileID: 6619080288192628386}
   - component: {fileID: 6619080288192628384}
   - component: {fileID: 6619080288192628385}
+  - component: {fileID: 54515318}
   m_Layer: 0
   m_Name: ScoreboardArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6619080288192628386
 RectTransform:
   m_ObjectHideFlags: 0
@@ -17667,6 +17622,22 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &54515318
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6619080288192628387}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b86838680fb2ebc4d947228e1d061eb9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentGameplayState: {fileID: 11400000, guid: 00a2b9cf1dfcc3647b735ec427e5934b, type: 2}
+  gameTimerText: {fileID: 330889156}
+  homeScoreText: {fileID: 6619080287748541273}
+  awayScoreText: {fileID: 6619080286894361404}
 --- !u!1 &6619080288503917100
 GameObject:
   m_ObjectHideFlags: 0

@@ -11,14 +11,14 @@ public class BeginGameState : StateMachineBehaviour
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         Debug.Log("Begin Game");
-        gameSystem = FindObjectOfType<GameSystem>();
-        gameSystem.SetPlayersToTeams();
-        gameSystem.SetAllActionMapsToPlayer();
-        gameSystem.DeactivateGoals();
         currentGameplayState.currentPeriod = 1;
         currentGameplayState.homeScore = 0;
         currentGameplayState.awayScore = 0;
         currentGameplayState.gameClockTime = 300f;
+        gameSystem = FindObjectOfType<GameSystem>();
+        gameSystem.SetPlayersToTeams();
+        gameSystem.SetAllActionMapsToPlayer();
+        gameSystem.DeactivateGoals();
         gameSystem.audioManager.PlayBaseCrowdTrack();
         gameSystem.inGameHUD.SetActive(true);
         onStateEnter?.Invoke(this, EventArgs.Empty);

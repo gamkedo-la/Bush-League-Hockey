@@ -38,7 +38,6 @@ public class GameSystem : MonoBehaviour
     [SerializeField] public GameObject xboxControllerIcon;
     [Header("Scorekeeping")]
     [SerializeField] public GameplayState currentGameData;
-    [SerializeField] public GameTimer gameTimer;
     [SerializeField] public GameObject homeNet;
     [SerializeField] public GameObject awayNet;
     [SerializeField] TextMeshProUGUI homeScoreText;
@@ -85,8 +84,6 @@ public class GameSystem : MonoBehaviour
         homeSkaterRigidBody = homeSkater.GetComponent<Rigidbody>();
         awaySkaterRigidBody = awaySkater.GetComponent<Rigidbody>();
         allTeamMemberScripts = FindObjectsOfType<TeamMember>();
-        GameOnState.onStateEnter += GameOn;
-        GameOnState.onStateExit += GameStopped;
     }
     public void PreserveKeyGameElements(){
         foreach(PlayerInput ctrl in FindObjectsOfType<PlayerInput>()){
@@ -133,8 +130,7 @@ public class GameSystem : MonoBehaviour
     public void SetPlayersToTeams(){
         int homeTeamMemberCount = 0;
         int awayTeamMemberCount = 0;
-        AIControllerAway.SetActive(true);
-        AIControllerHome.SetActive(true);
+        SetAIActiveState(true);
         foreach(MenuController ctrl in FindObjectsOfType<MenuController>()){
             Debug.Log($"Setting player {ctrl} to {ctrl.teamSelectionStatus}");
             switch (ctrl.teamSelectionStatus){
@@ -171,10 +167,14 @@ public class GameSystem : MonoBehaviour
             ctrl.SwitchCurrentActionMap("Replay");
         }
     }
-    public void SetAIActiveState(bool activeState){
-        foreach (AIPlayerController aI in Resources.FindObjectsOfTypeAll<AIPlayerController>()){
-            aI.gameObject.SetActive(activeState);
+    public void SetAllActionMapsToDisabled(){
+        foreach (PlayerInput ctrl in FindObjectsOfType<PlayerInput>()){
+            ctrl.SwitchCurrentActionMap("Disabled");
         }
+    }
+    public void SetAIActiveState(bool activeState){
+        AIControllerAway.SetActive(activeState);
+        AIControllerHome.SetActive(activeState);
     }
     public void UnFreeze(){
         timeManager.gameTime.timeScale = 1;
@@ -260,12 +260,8 @@ public class GameSystem : MonoBehaviour
         dropPuck?.Invoke(this, EventArgs.Empty);
     }
     public void DropPuck(){
-        GoalScoredDisplay.SetActive(false);
-        SetupPlayersForFaceOff();
         StartCoroutine(TemporaryFaceOffMessage());
         PuckToCenterOrigin();
-        masterStateMachine.SetBool("GameOn", true);
-        gameOn = true;
     }
     public void CasualGoalScored(){
         StartCoroutine(CasualDropPuck());
@@ -311,9 +307,6 @@ public class GameSystem : MonoBehaviour
         homeScoreText.text = endOfGameHomeScoreText.text = homeScore.ToString();
         awayScoreText.text = endOfGameAwayScoreText.text = awayScore.ToString();
         if(!isSuddenDeath){
-            string minutes = $"{(int)timeRemaining/60}";
-            string seconds = (int)timeRemaining % 60 < 10 ? $"0{(int)timeRemaining % 60}" : $"{(int)timeRemaining % 60}";
-            timerText.text = $"{minutes}:{seconds}";
         }
     }
     public void GoalScored(bool scoredOnHomeNet){
@@ -347,15 +340,6 @@ public class GameSystem : MonoBehaviour
             StartCoroutine(OutOfBoundsReset());
         }
         // Trigger crowd effects
-    }
-    private IEnumerator RunClock(){
-        clockIsRunning = true;
-        while(clockIsRunning){
-            yield return new WaitForSeconds(timeManager.gameTime.deltaTime);
-            timeRemaining -= timeManager.gameTime.deltaTime*1.4f;
-            clockIsRunning = gameOn;
-            UpdateScoreBoard();
-        }
     }
     private IEnumerator EndOfGamePresentation(){
         // make sure all canvas elements are in the correct state
@@ -401,25 +385,12 @@ public class GameSystem : MonoBehaviour
     }
     private void HandleGameTimer(){
         // Should the clock start running?
-        if(gameOn && !clockIsRunning && !isSuddenDeath){StartCoroutine(RunClock());}
         if(timeRemaining <= 0  && gameOn && !isSuddenDeath){
             gameOn = false;
             timeRemaining = 0;
             DeactivateGoals();
             StartCoroutine(EndOfGameHandler());
         }
-    }
-    private void GameOn(object sender, EventArgs e){
-        // gameon state enter fired
-        // clock starts running
-        gameTimer.gameObject.SetActive(true);
-        ActivateGoals();
-    }
-    private void GameStopped(object sender, EventArgs e){
-        // gameon state exit fired
-        // clock stops
-        gameTimer.gameObject.SetActive(false);
-        DeactivateGoals();
     }
     void Update(){
         HandleGameTimer();
