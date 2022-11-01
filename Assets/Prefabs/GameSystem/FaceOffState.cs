@@ -17,21 +17,22 @@ public class FaceOffState : StateMachineBehaviour
        countdownTimer = 4;
        faceOffCountDown = true;
        gameSystem.countdownDisplayPanel.SetActive(true);
-       gameSystem.SetupPlayersForFaceOff();
        gameSystem.audioManager.PlayReadySound();
+       onStateEnter?.Invoke(this, EventArgs.Empty);
     }
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         countdownTimer -= gameTimeProvider.fixedDeltaTime;// Animator update mode -> Physics, makes this function run during FixedUpdate
         gameSystem.countdownCountText.text = ((int)countdownTimer).ToString();
-        gameSystem.puckObject.transform.position = gameSystem.puckDropOrigin.position;
-        gameSystem.puckObject.transform.rotation = gameSystem.puckDropOrigin.rotation;
+        // gameSystem.puckObject.transform.position = gameSystem.puckDropOrigin.position;
+        // gameSystem.puckObject.transform.rotation = gameSystem.puckDropOrigin.rotation;
         if(countdownTimer <= 0 && faceOffCountDown){
             faceOffCountDown = false;
             countdownTimer = 4;
             gameSystem.countdownDisplayPanel.SetActive(false);
             gameSystem.audioManager.PlayFaceOffSound();
             gameSystem.ActivateGoals();
+            gameSystem.SetupPlayersForFaceOff();
             gameSystem.DropPuck();
             gameSystem.masterStateMachine.SetBool("GameOn", true);
         }

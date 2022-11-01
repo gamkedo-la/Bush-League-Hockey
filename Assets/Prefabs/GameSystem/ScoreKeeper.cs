@@ -15,7 +15,7 @@ public class ScoreKeeper : MonoBehaviour
     }
     public void AwayGoalScored(object sender, EventArgs e)
     {
-        Debug.Log($"Scorekeeper - AwayGoal");
+        Debug.Log($"AwayGoal");
         currentGameplayState.awayScore++;
         awayScoreText.text = currentGameplayState.awayScore.ToString();
         //StartCoroutine(crowdReactionManager.transform.GetComponent<CrowdReactionManagerScriptComponent>().HandleAwayTeamScoringAGoal());
@@ -23,19 +23,16 @@ public class ScoreKeeper : MonoBehaviour
     }
     public void HomeGoalScored(object sender, EventArgs e)
     {
-        Debug.Log($"Scorekeeper - AwayGoal");
+        Debug.Log($"AwayGoal");
         currentGameplayState.homeScore++;
         homeScoreText.text = currentGameplayState.homeScore.ToString();
         //gameSystem.GoalScored(false);
     }
-    void FixedUpdate()
-    {
+    private void Update() {
         minutes = ((int)(currentGameplayState.gameClockTime/60)).ToString();
-        if((int)currentGameplayState.gameClockTime % 60 < 10){
-            seconds = $"0{(int)currentGameplayState.gameClockTime % 60}";
-        } else {
-            seconds = $"{(int)currentGameplayState.gameClockTime % 60}";
-        }
+        seconds = currentGameplayState.gameClockTime % 60 < 10 ?
+            $"0{(int)currentGameplayState.gameClockTime % 60}" :
+            $"{(int)currentGameplayState.gameClockTime % 60}";
         gameTimerText.text = $"{minutes}:{seconds}";
     }
 }

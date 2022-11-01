@@ -15,6 +15,11 @@ public class WaitingState : AbstractAIState
     {
 
     }
+    public override void OnUpdate()
+    {
+        base.OnUpdate();
+        Move(Vector3.zero);
+    }
 
     public override void OnExit()
     {

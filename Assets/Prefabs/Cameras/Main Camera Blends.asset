@@ -14,21 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_CustomBlends:
   - m_From: VCamMainMenu
-    m_To: VCamGamePlay
-    m_Blend:
-      m_Style: 1
-      m_Time: 1.25
-      m_CustomCurve:
-        serializedVersion: 2
-        m_Curve: []
-        m_PreInfinity: 0
-        m_PostInfinity: 0
-        m_RotationOrder: 0
-  - m_From: VCamGamePlay
     m_To: VCamFaceOff
     m_Blend:
-      m_Style: 1
-      m_Time: 0.75
+      m_Style: 2
+      m_Time: 4
       m_CustomCurve:
         serializedVersion: 2
         m_Curve: []
@@ -39,7 +28,18 @@ MonoBehaviour:
     m_To: VCamGamePlay
     m_Blend:
       m_Style: 1
-      m_Time: 0.75
+      m_Time: 0.5
+      m_CustomCurve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 0
+        m_PostInfinity: 0
+        m_RotationOrder: 0
+  - m_From: VCamGamePlay
+    m_To: VCamFaceOff
+    m_Blend:
+      m_Style: 1
+      m_Time: 4
       m_CustomCurve:
         serializedVersion: 2
         m_Curve: []
@@ -50,7 +50,7 @@ MonoBehaviour:
     m_To: VCamMainMenu
     m_Blend:
       m_Style: 1
-      m_Time: 4
+      m_Time: 1.5
       m_CustomCurve:
         serializedVersion: 2
         m_Curve: []

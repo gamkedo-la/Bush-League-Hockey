@@ -137,11 +137,15 @@ public class AIPlayerController : MonoBehaviour
     {
         GameSystem.dropPuck += DropPuck;
         TeamMember.takenPosession += PosessionChanged;
+        FaceOffState.onStateEnter += SwitchToWaiting;
     }
     private void OnDisable()
     {
         GameSystem.dropPuck -= DropPuck;
         TeamMember.takenPosession -= PosessionChanged;
+    }
+    private void SwitchToWaiting(object sender, EventArgs e){
+        ChangeState(WaitingState.StateName);
     }
     private void DropPuck(object sender, EventArgs e)
     {
