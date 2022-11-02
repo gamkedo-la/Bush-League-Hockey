@@ -12,12 +12,12 @@ public class TimeManager : MonoBehaviour
     {
         gameTime.fixedDeltaTime = Time.fixedDeltaTime * gameTime.timeScale;
         replayTime.fixedDeltaTime = Time.fixedDeltaTime * replayTime.timeScale;
+        gameTime.time += Time.fixedDeltaTime * gameTime.timeScale;
+        replayTime.time += Time.fixedDeltaTime * replayTime.timeScale;
     }
     void Update()
     {
         gameTime.deltaTime = Time.deltaTime * gameTime.timeScale;
-        gameTime.time += Time.deltaTime * gameTime.timeScale;
         replayTime.deltaTime = Time.deltaTime * replayTime.timeScale;
-        replayTime.time += Time.deltaTime * replayTime.timeScale;
     }
 }

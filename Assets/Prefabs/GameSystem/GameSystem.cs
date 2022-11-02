@@ -10,6 +10,7 @@ public class GameSystem : MonoBehaviour
     [Header("Game Management")]
     public Animator masterStateMachine;
     public static EventHandler<EventArgs> dropPuck;
+    public static EventHandler<EventArgs> outOfBounds;
     public TimeManager timeManager;
     public TimeProvider activeTimeProvider;
     public AudioManager audioManager;
@@ -84,6 +85,8 @@ public class GameSystem : MonoBehaviour
         homeSkaterRigidBody = homeSkater.GetComponent<Rigidbody>();
         awaySkaterRigidBody = awaySkater.GetComponent<Rigidbody>();
         allTeamMemberScripts = FindObjectsOfType<TeamMember>();
+        Goal.awayGoalScored += GoalScored;
+        Goal.homeGoalScored += GoalScored;
     }
     public void PreserveKeyGameElements(){
         foreach(PlayerInput ctrl in FindObjectsOfType<PlayerInput>()){
@@ -309,23 +312,10 @@ public class GameSystem : MonoBehaviour
         if(!isSuddenDeath){
         }
     }
-    public void GoalScored(bool scoredOnHomeNet){
-        DeactivateGoals();
+    public void GoalScored(object sender, EventArgs e){
         audioManager.PlayGoalHorn();
         audioManager.PlayCrowdCelebration();
-        if(scoredOnHomeNet)
-        {
-            awayScore++;
-            StartCoroutine(crowdReactionManager.transform.GetComponent<CrowdReactionManagerScriptComponent>().HandleAwayTeamScoringAGoal());
-        }
-        else
-        {
-            homeScore++;
-            StartCoroutine(crowdReactionManager.transform.GetComponent<CrowdReactionManagerScriptComponent>().HandleHomeTeamScoringAGoal());
-        }
-        UpdateScoreBoard();
-        gameOn = false;
-        StartCoroutine(CelebrateThenReset());
+        masterStateMachine.SetTrigger("GoalScored");
     }
     private IEnumerator OutOfBoundsReset(){
         gameOn = false;
@@ -336,9 +326,7 @@ public class GameSystem : MonoBehaviour
         StartCoroutine(CountDownAndDropPuck());
     }
     public void PuckOutOfBounds(){
-        if(gameOn){
-            StartCoroutine(OutOfBoundsReset());
-        }
+        StartCoroutine(OutOfBoundsReset());
         // Trigger crowd effects
     }
     private IEnumerator EndOfGamePresentation(){

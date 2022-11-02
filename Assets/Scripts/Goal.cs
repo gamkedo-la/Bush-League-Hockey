@@ -8,6 +8,10 @@ public class Goal : MonoBehaviour
     [HideInInspector] public bool goalIsActive = true;
     private void Awake(){
         gameSystem = FindObjectOfType<GameSystem>();
+        GameOnState.onStateEnter += ReactivateGoal;
+    }
+    private void ReactivateGoal(object sender, EventArgs e){
+        goalIsActive = true;
     }
     private void OnTriggerEnter(Collider other){
         if(other.tag == "puck" && goalIsActive){

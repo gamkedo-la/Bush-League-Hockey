@@ -23,12 +23,12 @@ public class ScoreKeeper : MonoBehaviour
     }
     public void HomeGoalScored(object sender, EventArgs e)
     {
-        Debug.Log($"AwayGoal");
+        Debug.Log($"HomeGoal");
         currentGameplayState.homeScore++;
         homeScoreText.text = currentGameplayState.homeScore.ToString();
         //gameSystem.GoalScored(false);
     }
-    private void Update() {
+    private void FixedUpdate() {
         minutes = ((int)(currentGameplayState.gameClockTime/60)).ToString();
         seconds = currentGameplayState.gameClockTime % 60 < 10 ?
             $"0{(int)currentGameplayState.gameClockTime % 60}" :

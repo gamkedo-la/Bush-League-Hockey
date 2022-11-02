@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,8 +18,15 @@ public class CrowdReactionManagerScriptComponent : MonoBehaviour
     private void Awake()
     {
         InitializeArrays();
+        Goal.awayGoalScored += HomeGoal;
+        Goal.homeGoalScored += AwayGoal;
     }
-
+    private void AwayGoal(object sender, EventArgs e){
+        StartCoroutine(HandleAwayTeamScoringAGoal());
+    }
+    private void HomeGoal(object sender, EventArgs e){
+        StartCoroutine(HandleHomeTeamScoringAGoal());
+    }
     public IEnumerator HandleAwayTeamScoringAGoal()
     {
         AddExcitementToAwayTeam();
@@ -128,5 +136,8 @@ public class CrowdReactionManagerScriptComponent : MonoBehaviour
                 listOfAwayTeamEggPeople.Add(childEggPerson.gameObject);
             }
         }
+    }
+    private void FixedUpdate() {
+        
     }    
 }
