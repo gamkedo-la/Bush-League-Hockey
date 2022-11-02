@@ -16,7 +16,7 @@ public class Goal : MonoBehaviour
     private void OnTriggerEnter(Collider other){
         if(other.tag == "puck" && goalIsActive){
             goalIsActive = false;
-            if(gameObject.tag == "homeGoal"){
+            if(gameObject.tag == "homeNet"){
                 awayGoalScored?.Invoke(this, EventArgs.Empty);
             }
             else{

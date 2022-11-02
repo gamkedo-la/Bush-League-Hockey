@@ -327,7 +327,6 @@ public class GameSystem : MonoBehaviour
     }
     public void PuckOutOfBounds(){
         StartCoroutine(OutOfBoundsReset());
-        // Trigger crowd effects
     }
     private IEnumerator EndOfGamePresentation(){
         // make sure all canvas elements are in the correct state

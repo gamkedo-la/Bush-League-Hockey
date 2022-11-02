@@ -30,7 +30,7 @@ public class GameOnState : StateMachineBehaviour
         if(currentGameplayState.gameClockTime <= 0){
             gameSystem.DeactivateGoals();
             //change state to period end
-            animator.SetTrigger("EndOfGame");
+            animator.SetTrigger("EndOfPeriod");
         }
     }
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

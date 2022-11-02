@@ -14,7 +14,7 @@ public class BeginGameState : StateMachineBehaviour
         currentGameplayState.currentPeriod = 1;
         currentGameplayState.homeScore = 0;
         currentGameplayState.awayScore = 0;
-        currentGameplayState.gameClockTime = 300f;
+        currentGameplayState.gameClockTime = 5f;
         gameSystem = FindObjectOfType<GameSystem>();
         gameSystem.SetPlayersToTeams();
         gameSystem.SetAllActionMapsToPlayer();
