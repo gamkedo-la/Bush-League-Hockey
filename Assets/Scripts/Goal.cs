@@ -2,25 +2,29 @@ using System;
 using UnityEngine;
 public class Goal : MonoBehaviour
 {
-    public static EventHandler<EventArgs> homeGoalScored;
-    public static EventHandler<EventArgs> awayGoalScored;
+    public static EventHandler<EventArgs> homeGoalTrigger;
+    public static EventHandler<EventArgs> awayGoalTrigger;
     private GameSystem gameSystem;
     [HideInInspector] public bool goalIsActive = true;
     private void Awake(){
         gameSystem = FindObjectOfType<GameSystem>();
-        GameOnState.onStateEnter += ReactivateGoal;
+        GameOnState.onStateEnter += ActivateGoal;
+        GameOnState.onStateExit += DeactivateGoal;
     }
-    private void ReactivateGoal(object sender, EventArgs e){
+    private void ActivateGoal(object sender, EventArgs e){
         goalIsActive = true;
+    }
+    private void DeactivateGoal(object sender, EventArgs e){
+        goalIsActive = false;
     }
     private void OnTriggerEnter(Collider other){
         if(other.tag == "puck" && goalIsActive){
             goalIsActive = false;
             if(gameObject.tag == "homeNet"){
-                awayGoalScored?.Invoke(this, EventArgs.Empty);
+                awayGoalTrigger?.Invoke(this, EventArgs.Empty);
             }
             else{
-                homeGoalScored?.Invoke(this, EventArgs.Empty);
+                homeGoalTrigger?.Invoke(this, EventArgs.Empty);
             }
         }
     }

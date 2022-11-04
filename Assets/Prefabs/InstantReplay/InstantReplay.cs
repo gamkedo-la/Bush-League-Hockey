@@ -1,8 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 public class InstantReplay : MonoBehaviour
 {
+    public static EventHandler<EventArgs> replayEnd;
     [SerializeField] GameObject instantReplayGUI;
     [SerializeField] TimeProvider replayTime;
     [SerializeField] ReplayData replayData;
@@ -47,6 +49,11 @@ public class InstantReplay : MonoBehaviour
         puck = gameSystem.puckObject.transform;
         puckRigidbody = puck.GetComponent<Rigidbody>();
         puckTrail = puck.GetComponent<TrailRenderer>();
+        GameOnState.onStateUpdate += RecordCurrentFrameData;
+        InstantReplayState.onStateEnter += startInstantReplay;
+        InstantReplayState.onStateUpdate += PlaybackUpdate;
+        PlayerController.replayTrigger += startInstantReplay;
+        PlayerController.replayCancelTrigger += CancelReplay;
     }
     void Start()
     {
@@ -98,7 +105,7 @@ public class InstantReplay : MonoBehaviour
             rb.angularVelocity = Vector3.zero;
         }
     }
-    private GameplaySingleFrameData GetCurrentFrameData(){
+    public GameplaySingleFrameData GetCurrentFrameData(){
         currentFrameData = new GameplaySingleFrameData();
         currentFrameData.p1Position = p1.position; currentFrameData.p1Rotation = p1.rotation;
         currentFrameData.p1Velocity = p1Rigidbody.velocity;
@@ -109,11 +116,11 @@ public class InstantReplay : MonoBehaviour
         currentFrameData.puckPosition = puck.position; currentFrameData.puckRotation = puck.rotation;
         currentFrameData.puckVelocity = puckRigidbody.velocity;
         // record all 30 or so bone pos+rot for each avatar
-        for (int b=0; b<bones1.Length; b++) {
+        for (int b=0; b<bones1.Length; b++){
             currentFrameData.bones1pos[b] = bones1[b].position; 
             currentFrameData.bones1rot[b] = bones1[b].rotation;
         }
-        for (int b=0; b<bones2.Length; b++) {
+        for (int b=0; b<bones2.Length; b++){
             currentFrameData.bones2pos[b] = bones2[b].position; 
             currentFrameData.bones2rot[b] = bones2[b].rotation;
         }
@@ -172,55 +179,65 @@ public class InstantReplay : MonoBehaviour
             replayData.timeSinceFrameWasSwitched += replayTime.deltaTime;
         }
     }
-    void FixedUpdate()
+    public void RecordCurrentFrameData(object sender, EventArgs e)
     {
-        // recording in FixedUpdate gives us a recording with a constant time interval between frames
-        // this makes our data as true to the original gameplay as possible
-        // We also get more replay time out of each frame we store
-        if(!playingBack){
-            // Not in playback mode, record replay data
-            // is our recording at max capacity?
-            if(recordingFrameDataQueue.Count >= replayData.recordingFrameCountMax){
-                recordingFrameDataQueue.Dequeue(); // removes the oldest frame
-            }
-            recordingFrameDataQueue.Enqueue(GetCurrentFrameData());
+        // is our recording at max capacity?
+        if(recordingFrameDataQueue.Count >= replayData.recordingFrameCountMax){
+            recordingFrameDataQueue.Dequeue(); // removes the oldest frame
         }
-        if(playingBack)
-        {
-            // FixedUpdate maps frame data, update lerps towards next frame
-            if(replayData.timeSinceFrameWasSwitched >= Time.fixedDeltaTime){
-                // switch to the next frame index
-                playbackFrame++;
-                // replay finished?
-                if (playbackFrame < recordingFrameData.Length-1)
-                {
-                    MapFrameDataToObjects(recordingFrameData[playbackFrame]);
-                    nextFrameData = recordingFrameData[playbackFrame+1]; // LateUpdate uses this
-                }
-                else 
-                {
-                    StopInstantReplay();
-                    return;
-                }
-                if(playbackFrame == 1){puckTrail.Clear();}
-                replayCamera.transform.position = new Vector3(
-                    puck.position.x + replayCameraOffset.x,
-                    puck.position.y + replayCameraOffset.y,
-                    puck.position.z + replayCameraOffset.z);
-                replayCamera.transform.LookAt(puck);
-                replayCamera2.transform.position = new Vector3(
-                    replayTarget2.position.x + replayCameraOffset2.x,
-                    replayTarget2.position.y + replayCameraOffset2.y,
-                    replayTarget2.position.z + replayCameraOffset2.z);
-                replayCamera2.transform.LookAt(replayTarget2);
-                replayCamera3.transform.position = new Vector3(
-                    replayTarget3.position.x + replayCameraOffset3.x,
-                    replayTarget3.position.y + replayCameraOffset3.y,
-                    replayTarget3.position.z + replayCameraOffset3.z);
-                replayCamera3.transform.LookAt(replayTarget3);
-                replayData.timeSinceFrameWasSwitched = 0;
+        recordingFrameDataQueue.Enqueue(GetCurrentFrameData());
+    }
+    public void StartRecording(object sender, EventArgs e)
+    {
+        // Set the objects we're recording
+        bones1 = bonesRig1.GetComponentsInChildren<Transform>();
+        bones2 = bonesRig2.GetComponentsInChildren<Transform>();
+        //Debug.Log("Replay bones found: " + bones1.Length);
+        // for (int i=0; i<bones1.Length; i++) {
+        //     Debug.Log("Bone "+i+" is named "+bones1[i].name);
+        // }
+        gamePieceRigidbodies = GetGamePieceRigidbodies();
+        recordingFrameDataQueue = new Queue<GameplaySingleFrameData>();
+    }
+    public void PlaybackUpdate(object sender, EventArgs e)
+    {
+        // FixedUpdate maps frame data, update lerps towards next frame
+        if(replayData.timeSinceFrameWasSwitched >= Time.fixedDeltaTime){
+            // switch to the next frame index
+            playbackFrame++;
+            // replay finished?
+            if (playbackFrame < recordingFrameData.Length-1)
+            {
+                MapFrameDataToObjects(recordingFrameData[playbackFrame]);
+                nextFrameData = recordingFrameData[playbackFrame+1]; // LateUpdate uses this
             }
+            else 
+            {
+                StopInstantReplay();
+                return;
+            }
+            if(playbackFrame == 1){puckTrail.Clear();}
+            replayCamera.transform.position = new Vector3(
+                puck.position.x + replayCameraOffset.x,
+                puck.position.y + replayCameraOffset.y,
+                puck.position.z + replayCameraOffset.z);
+            replayCamera.transform.LookAt(puck);
+            replayCamera2.transform.position = new Vector3(
+                replayTarget2.position.x + replayCameraOffset2.x,
+                replayTarget2.position.y + replayCameraOffset2.y,
+                replayTarget2.position.z + replayCameraOffset2.z);
+            replayCamera2.transform.LookAt(replayTarget2);
+            replayCamera3.transform.position = new Vector3(
+                replayTarget3.position.x + replayCameraOffset3.x,
+                replayTarget3.position.y + replayCameraOffset3.y,
+                replayTarget3.position.z + replayCameraOffset3.z);
+            replayCamera3.transform.LookAt(replayTarget3);
+            replayData.timeSinceFrameWasSwitched = 0;
         }
+    }
+    private void CancelReplay(object sender, EventArgs e)
+    {
+        StopInstantReplay();
     }
     public void StopInstantReplay()
     {
@@ -237,8 +254,9 @@ public class InstantReplay : MonoBehaviour
         replayCamera3.gameObject.SetActive(false);
         puckTrail.time = 1.4f;
     }
-    public IEnumerator startInstantReplay() // called by the game manager when someone scores or does something cool
+    public void startInstantReplay(object sender, EventArgs e) // called by the game manager when someone scores or does something cool
     {
+        playingBack = true;
         playbackFrame = 0;
         //copy the contents of the queue into an array
         recordingFrameData = new GameplaySingleFrameData[recordingFrameDataQueue.Count];
@@ -249,14 +267,10 @@ public class InstantReplay : MonoBehaviour
         replayCamera.gameObject.SetActive(true);
         replayCamera2.gameObject.SetActive(true);
         replayCamera3.gameObject.SetActive(true);
-        playingBack = true;
         gameSystem.FreezeGame();
         gameSystem.SetAllActionMapsToReplay();
         gameSystem.SetAIActiveState(false);
         DisableAnimators();
         puckTrail.time = 4f;
-        while(playingBack) {
-            yield return new WaitForFixedUpdate();
-        }
     }
 }

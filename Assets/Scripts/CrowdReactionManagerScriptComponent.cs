@@ -18,8 +18,8 @@ public class CrowdReactionManagerScriptComponent : MonoBehaviour
     private void Awake()
     {
         InitializeArrays();
-        Goal.awayGoalScored += HomeGoal;
-        Goal.homeGoalScored += AwayGoal;
+        CountGoals.awayGoalScored += HomeGoal;
+        CountGoals.homeGoalScored += AwayGoal;
     }
     private void AwayGoal(object sender, EventArgs e){
         StartCoroutine(HandleAwayTeamScoringAGoal());

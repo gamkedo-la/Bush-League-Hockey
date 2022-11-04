@@ -11,8 +11,8 @@ public class MainMenuState : StateMachineBehaviour
         Debug.Log("Main menu start");
         gameSystem = FindObjectOfType<GameSystem>();
         mainMenuScript = gameSystem.mainMenu.GetComponent<MainMenuScript>();
-        Goal.awayGoalScored += GoalScored;
-        Goal.homeGoalScored += GoalScored;
+        Goal.awayGoalTrigger += GoalScored;
+        Goal.homeGoalTrigger += GoalScored;
         onStateEnter.Invoke(this, EventArgs.Empty);
         // Setup the AI to play casually
         gameSystem.mainMenu.SetActive(true);
@@ -33,8 +33,8 @@ public class MainMenuState : StateMachineBehaviour
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         Debug.Log("Main menu exit");
-        Goal.awayGoalScored -= GoalScored;
-        Goal.homeGoalScored -= GoalScored;
+        Goal.awayGoalTrigger -= GoalScored;
+        Goal.homeGoalTrigger -= GoalScored;
         gameSystem.mainMenu.SetActive(false);
         onStateExit?.Invoke(this, EventArgs.Empty);
     }

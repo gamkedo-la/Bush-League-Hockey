@@ -1,5 +1,5 @@
 using UnityEngine;
-
+// change to struct
 public class GameplaySingleFrameData
 {
     // This class represents the information required to recreate one frame of gameplay

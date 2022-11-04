@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine.EventSystems;
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
@@ -8,6 +8,8 @@ public class PlayerController : MonoBehaviour
     private GameSystem gameSystem;
     private Camera mainCamera;
     [Header("Player Input Management")]
+    public static EventHandler<EventArgs> replayTrigger;
+    public static EventHandler<EventArgs> replayCancelTrigger;
     private Vector3 forwardForce;
     private Vector3 sideForce;
     private PlayerInput playerInput;
@@ -52,12 +54,12 @@ public class PlayerController : MonoBehaviour
     }
     public void StartInstantReplay(InputAction.CallbackContext context){
         if(context.performed){
-            FindObjectOfType<InstantReplay>()?.startInstantReplay();
+            replayTrigger?.Invoke(this, EventArgs.Empty);
         }
     }
     public void CancelInstantReplay(InputAction.CallbackContext context){
         if(context.performed){
-            FindObjectOfType<InstantReplay>()?.StopInstantReplay();
+            replayCancelTrigger?.Invoke(this, EventArgs.Empty);
         }
     }
     public void TrashTalk(InputAction.CallbackContext context){

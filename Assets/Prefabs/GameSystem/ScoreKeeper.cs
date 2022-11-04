@@ -10,8 +10,9 @@ public class ScoreKeeper : MonoBehaviour
     private string minutes;
     private string seconds;
     private void Awake() {
-        Goal.awayGoalScored += AwayGoalScored;
-        Goal.homeGoalScored += HomeGoalScored;
+        // Subscribe to stats monitoring events
+        CountGoals.awayGoalScored += AwayGoalScored;
+        CountGoals.homeGoalScored += HomeGoalScored;
     }
     public void AwayGoalScored(object sender, EventArgs e)
     {

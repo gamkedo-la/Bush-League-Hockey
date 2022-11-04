@@ -85,8 +85,6 @@ public class GameSystem : MonoBehaviour
         homeSkaterRigidBody = homeSkater.GetComponent<Rigidbody>();
         awaySkaterRigidBody = awaySkater.GetComponent<Rigidbody>();
         allTeamMemberScripts = FindObjectsOfType<TeamMember>();
-        Goal.awayGoalScored += GoalScored;
-        Goal.homeGoalScored += GoalScored;
     }
     public void PreserveKeyGameElements(){
         foreach(PlayerInput ctrl in FindObjectsOfType<PlayerInput>()){
@@ -299,7 +297,7 @@ public class GameSystem : MonoBehaviour
         // begin the replay:  Should play back at ReplayTime.deltatime
         // replay finishes or is cancelled: return to the saved state
         // point a spotlight on the player who scored
-        yield return StartCoroutine(instantReplay.startInstantReplay()); // new WaitForSeconds(3);
+        // yield return StartCoroutine(instantReplay.startInstantReplay()); // new WaitForSeconds(3);
         // is it sudden death? declare the winner
         if(isSuddenDeath){
             isSuddenDeath = false;
@@ -312,10 +310,9 @@ public class GameSystem : MonoBehaviour
         if(!isSuddenDeath){
         }
     }
-    public void GoalScored(object sender, EventArgs e){
+    public void GoalScored(){
         audioManager.PlayGoalHorn();
         audioManager.PlayCrowdCelebration();
-        masterStateMachine.SetTrigger("GoalScored");
     }
     private IEnumerator OutOfBoundsReset(){
         gameOn = false;
