@@ -1,9 +1,10 @@
 using System;
 using UnityEngine;
 
-public class RegulationState : StateMachineBehaviour
+public class RunClockState : StateMachineBehaviour
 {
     [SerializeField] GameplayState currentGameplayState;
+    public static EventHandler<EventArgs> timerDone;
     private GameSystem gameSystem;
     private TimeProvider gameTimeProvider;
     
@@ -17,6 +18,7 @@ public class RegulationState : StateMachineBehaviour
     {
         currentGameplayState.gameClockTime -= gameTimeProvider.fixedDeltaTime;
         if(currentGameplayState.gameClockTime <= 0){
+            timerDone?.Invoke(this, EventArgs.Empty);
             animator.SetTrigger("EndOfPeriod");
         }
     }

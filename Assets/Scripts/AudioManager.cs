@@ -29,6 +29,7 @@ public class AudioManager : MonoBehaviour
     [SerializeField] public AudioClip[] modelCollisionSfx;
     private bool modelCollisionSoundReady = true;
     private bool trashTalkReady = true;
+    private float woodWhistleStartTime = 0f;
     [SerializeField] public AudioClip[] shotSfx;
     [SerializeField] public AudioClip woodWhistleSfx;
 
@@ -43,6 +44,8 @@ public class AudioManager : MonoBehaviour
         CountGoals.awayGoalScored += GoalScored;
         CountGoals.homeGoalScored += GoalScored;
         FaceOffState.onStateEnter += PlayReadySound;
+        FaceOffState.onStateExit += PlayFaceOffSound;
+        RunClockState.timerDone += PlayWoodWhistle;
     }
     public void GoalScored(object sender, EventArgs e){
         PlayGoalHorn();
@@ -88,11 +91,14 @@ public class AudioManager : MonoBehaviour
     public void PlayCrowdCelebration(){
         PlayRandomlyFromList(crowdCelebrationTracks, sfxCrowdOrigin, crowdSfxVolume*3);
     }
-    public void PlayFaceOffSound(){
+    public void PlayFaceOffSound(object sender, EventArgs e){
         PlayRandomlyFromList(GoSfx, sfxUniversalOrigin, universalSfxVolume*9);
     }
-    public void PlayWoodWhistle(){
-        sfxWorldOrigin.GetComponent<AudioSource>().PlayOneShot(woodWhistleSfx, worldSfxVolume);
+    public void PlayWoodWhistle(object sender, EventArgs e){
+        if(Time.time - woodWhistleStartTime >= 5f){
+            woodWhistleStartTime = Time.time;
+            sfxWorldOrigin.GetComponent<AudioSource>().PlayOneShot(woodWhistleSfx, worldSfxVolume);
+        }
     }
      public void PlayReadySound(object sender, EventArgs e){
         PlayRandomlyFromList(ReadySfx, sfxUniversalOrigin, universalSfxVolume*5);

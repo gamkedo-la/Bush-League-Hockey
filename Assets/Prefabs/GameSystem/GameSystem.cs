@@ -336,7 +336,6 @@ public class GameSystem : MonoBehaviour
         yield return new WaitForSeconds(4);
     }
     private IEnumerator EndOfGameHandler(){
-        audioManager.PlayWoodWhistle();
         yield return new WaitForSeconds(2.5f);
         if(homeScore == awayScore){
             isSuddenDeath = true;
@@ -350,17 +349,5 @@ public class GameSystem : MonoBehaviour
             SetAllActionMapsToUI();
             FindObjectOfType<InGameMenu>().SwitchToEndGameMenu();
         }
-    }
-    private void HandleGameTimer(){
-        // Should the clock start running?
-        if(timeRemaining <= 0  && gameOn && !isSuddenDeath){
-            gameOn = false;
-            timeRemaining = 0;
-            DeactivateGoals();
-            StartCoroutine(EndOfGameHandler());
-        }
-    }
-    void Update(){
-        HandleGameTimer();
     }
 }

@@ -18,7 +18,7 @@ public class InstantReplayState : StateMachineBehaviour
     {
         masterStateMachine.SetBool("InstantReplay", false);
         // Decide to either face off or end game
-        Debug.Log($"Replay Done {masterStateMachine.GetBool("SuddenDeath")}");
+        Debug.Log($"SD? {masterStateMachine.GetBool("SuddenDeath")}");
         if(masterStateMachine.GetBool("SuddenDeath") && currentGameplayState.homeScore != currentGameplayState.awayScore)
         {
             masterStateMachine.SetTrigger("EndGame");

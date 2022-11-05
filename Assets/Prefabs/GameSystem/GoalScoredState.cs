@@ -4,6 +4,7 @@ using UnityEngine;
 public class GoalScoredState : StateMachineBehaviour
 {
     public static EventHandler<EventArgs> onStateEnter;
+    public static EventHandler<EventArgs> onStateUpdate;
     public static EventHandler<EventArgs> onStateExit;
     [Range(0.5f, 4f)] public float idleTime;
     private float startTime;
@@ -20,6 +21,7 @@ public class GoalScoredState : StateMachineBehaviour
         if(Time.time - startTime >= idleTime){
             animator.SetTrigger("InstantReplay");
         }
+        onStateUpdate?.Invoke(this, EventArgs.Empty);
     }
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {

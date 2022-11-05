@@ -49,8 +49,9 @@ public class InstantReplay : MonoBehaviour
         puck = gameSystem.puckObject.transform;
         puckRigidbody = puck.GetComponent<Rigidbody>();
         puckTrail = puck.GetComponent<TrailRenderer>();
-        StateRecordsReplayData.onStateEnter += StartRecording;
+        GameOnState.onStateEnter += StartRecording;
         StateRecordsReplayData.onStateUpdate += RecordCurrentFrameData;
+        GoalScoredState.onStateUpdate += RecordCurrentFrameData;
         InstantReplayState.onStateEnter += startInstantReplay;
         InstantReplayState.onStateUpdate += PlaybackUpdate;
         PlayerController.replayTrigger += startInstantReplay;
@@ -236,7 +237,7 @@ public class InstantReplay : MonoBehaviour
     {
         gameSystem.UnFreeze();
         gameSystem.SetAllActionMapsToPlayer();
-        gameSystem.SetAIActiveState(true);
+        gameSystem.SetPlayersToTeams();
         gameSystem.ApplyGameplayFrameData(beforeReplayState.frameData); // return to before replay state
         EnableAnimators();
         playingBack = false;
