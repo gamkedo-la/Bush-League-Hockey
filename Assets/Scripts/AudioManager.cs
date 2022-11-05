@@ -1,5 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public class AudioManager : MonoBehaviour
@@ -39,12 +39,21 @@ public class AudioManager : MonoBehaviour
     [SerializeField] public AudioClip[] GoSfx;
     [Header("SFX Files")]
     [SerializeField] public AudioClip[] songs;
+    private void Awake() {
+        CountGoals.awayGoalScored += GoalScored;
+        CountGoals.homeGoalScored += GoalScored;
+        FaceOffState.onStateEnter += PlayReadySound;
+    }
+    public void GoalScored(object sender, EventArgs e){
+        PlayGoalHorn();
+        PlayCrowdCelebration();
+    }
     private void PlayRandomlyFromList(AudioClip[] soundList, GameObject origin, float volumeFactor){
-        int randomSFXIndex = Random.Range(0, soundList.Length);
+        int randomSFXIndex = UnityEngine.Random.Range(0, soundList.Length);
         origin.GetComponent<AudioSource>().PlayOneShot(soundList[randomSFXIndex], volumeFactor);
     }
     private void SetRandomTrackToOrigin(AudioClip[] soundList, GameObject origin, float volumeFactor){
-        int randomSFXIndex = Random.Range(0, soundList.Length);
+        int randomSFXIndex = UnityEngine.Random.Range(0, soundList.Length);
         origin.GetComponent<AudioSource>().clip = soundList[randomSFXIndex];
         origin.GetComponent<AudioSource>().Play(0);
     }
@@ -77,7 +86,7 @@ public class AudioManager : MonoBehaviour
         PlayRandomlyFromList(goalHornSfx, sfxUniversalOrigin, universalSfxVolume*0.5f);
     }
     public void PlayCrowdCelebration(){
-        PlayRandomlyFromList(crowdCelebrationTracks, sfxCrowdOrigin, crowdSfxVolume*5);
+        PlayRandomlyFromList(crowdCelebrationTracks, sfxCrowdOrigin, crowdSfxVolume*3);
     }
     public void PlayFaceOffSound(){
         PlayRandomlyFromList(GoSfx, sfxUniversalOrigin, universalSfxVolume*9);
@@ -85,8 +94,8 @@ public class AudioManager : MonoBehaviour
     public void PlayWoodWhistle(){
         sfxWorldOrigin.GetComponent<AudioSource>().PlayOneShot(woodWhistleSfx, worldSfxVolume);
     }
-     public void PlayReadySound(){
-        PlayRandomlyFromList(ReadySfx, sfxUniversalOrigin, universalSfxVolume*6);
+     public void PlayReadySound(object sender, EventArgs e){
+        PlayRandomlyFromList(ReadySfx, sfxUniversalOrigin, universalSfxVolume*5);
     }
     public void PlaySuddenDeath (){
         sfxUniversalOrigin.GetComponent<AudioSource>().PlayOneShot(suddenDeathSfx, universalSfxVolume*10);

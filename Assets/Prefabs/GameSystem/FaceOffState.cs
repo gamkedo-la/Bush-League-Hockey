@@ -17,7 +17,6 @@ public class FaceOffState : StateMachineBehaviour
        countdownTimer = 4;
        faceOffCountDown = true;
        gameSystem.countdownDisplayPanel.SetActive(true);
-       gameSystem.audioManager.PlayReadySound();
        onStateEnter?.Invoke(this, EventArgs.Empty);
     }
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -29,7 +28,6 @@ public class FaceOffState : StateMachineBehaviour
         if(countdownTimer <= 0 && faceOffCountDown){
             faceOffCountDown = false;
             countdownTimer = 4;
-            gameSystem.countdownDisplayPanel.SetActive(false);
             gameSystem.audioManager.PlayFaceOffSound();
             gameSystem.ActivateGoals();
             gameSystem.SetupPlayersForFaceOff();
@@ -39,7 +37,7 @@ public class FaceOffState : StateMachineBehaviour
     }
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-
+        gameSystem.countdownDisplayPanel.SetActive(false);
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()

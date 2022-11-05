@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-
 public class InstantReplayState : StateMachineBehaviour
 {
     [SerializeField] GameplayState currentGameplayState;
@@ -17,8 +16,10 @@ public class InstantReplayState : StateMachineBehaviour
     }
     private void ReplayDone(object sender, EventArgs e)
     {
+        masterStateMachine.SetBool("InstantReplay", false);
         // Decide to either face off or end game
-        if(masterStateMachine.GetBool("SuddenDeath"))
+        Debug.Log($"Replay Done {masterStateMachine.GetBool("SuddenDeath")}");
+        if(masterStateMachine.GetBool("SuddenDeath") && currentGameplayState.homeScore != currentGameplayState.awayScore)
         {
             masterStateMachine.SetTrigger("EndGame");
         }
@@ -33,8 +34,6 @@ public class InstantReplayState : StateMachineBehaviour
     }
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-       // put things back the way they were
-       InstantReplay.replayEnd -= ReplayDone;
        masterStateMachine.SetBool("InstantReplay", false);
     }
 }

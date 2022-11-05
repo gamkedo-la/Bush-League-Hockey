@@ -4,6 +4,8 @@ using UnityEngine;
 public class CountGoals : StateMachineBehaviour
 {
     private Animator masterStateMachine;
+    public static EventHandler<EventArgs> onStateEnter;
+    public static EventHandler<EventArgs> onStateExit;
     public static EventHandler<EventArgs> homeGoalScored;
     public static EventHandler<EventArgs> awayGoalScored;
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -12,6 +14,7 @@ public class CountGoals : StateMachineBehaviour
         Goal.awayGoalTrigger += AwayGoalScored;
         Goal.homeGoalTrigger += HomeGoalScored;
         masterStateMachine = animator;
+        onStateEnter?.Invoke(this, EventArgs.Empty);
     }
     private void AwayGoalScored(object sender, EventArgs e)
     {
@@ -29,5 +32,6 @@ public class CountGoals : StateMachineBehaviour
     {
         Goal.awayGoalTrigger -= AwayGoalScored;
         Goal.homeGoalTrigger -= HomeGoalScored;
+        onStateExit?.Invoke(this, EventArgs.Empty);
     }
 }

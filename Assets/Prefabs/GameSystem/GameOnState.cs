@@ -7,7 +7,7 @@ public class GameOnState : StateMachineBehaviour
     public static EventHandler<EventArgs> onStateExit;
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        Debug.Log("Game On");
+        Debug.Log("GameOn");
         onStateEnter?.Invoke(this, EventArgs.Empty);
     }
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

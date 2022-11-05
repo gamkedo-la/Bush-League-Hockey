@@ -49,7 +49,8 @@ public class InstantReplay : MonoBehaviour
         puck = gameSystem.puckObject.transform;
         puckRigidbody = puck.GetComponent<Rigidbody>();
         puckTrail = puck.GetComponent<TrailRenderer>();
-        GameOnState.onStateUpdate += RecordCurrentFrameData;
+        StateRecordsReplayData.onStateEnter += StartRecording;
+        StateRecordsReplayData.onStateUpdate += RecordCurrentFrameData;
         InstantReplayState.onStateEnter += startInstantReplay;
         InstantReplayState.onStateUpdate += PlaybackUpdate;
         PlayerController.replayTrigger += startInstantReplay;
@@ -189,14 +190,6 @@ public class InstantReplay : MonoBehaviour
     }
     public void StartRecording(object sender, EventArgs e)
     {
-        // Set the objects we're recording
-        bones1 = bonesRig1.GetComponentsInChildren<Transform>();
-        bones2 = bonesRig2.GetComponentsInChildren<Transform>();
-        //Debug.Log("Replay bones found: " + bones1.Length);
-        // for (int i=0; i<bones1.Length; i++) {
-        //     Debug.Log("Bone "+i+" is named "+bones1[i].name);
-        // }
-        gamePieceRigidbodies = GetGamePieceRigidbodies();
         recordingFrameDataQueue = new Queue<GameplaySingleFrameData>();
     }
     public void PlaybackUpdate(object sender, EventArgs e)
@@ -253,6 +246,7 @@ public class InstantReplay : MonoBehaviour
         replayCamera2.gameObject.SetActive(false);
         replayCamera3.gameObject.SetActive(false);
         puckTrail.time = 1.4f;
+        replayEnd?.Invoke(this, EventArgs.Empty);
     }
     public void startInstantReplay(object sender, EventArgs e) // called by the game manager when someone scores or does something cool
     {

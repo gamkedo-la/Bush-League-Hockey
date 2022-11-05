@@ -8,8 +8,8 @@ public class Goal : MonoBehaviour
     [HideInInspector] public bool goalIsActive = true;
     private void Awake(){
         gameSystem = FindObjectOfType<GameSystem>();
-        GameOnState.onStateEnter += ActivateGoal;
-        GameOnState.onStateExit += DeactivateGoal;
+        CountGoals.onStateEnter += ActivateGoal;
+        CountGoals.onStateExit += DeactivateGoal;
     }
     private void ActivateGoal(object sender, EventArgs e){
         goalIsActive = true;

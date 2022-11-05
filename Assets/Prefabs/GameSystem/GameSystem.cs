@@ -277,16 +277,6 @@ public class GameSystem : MonoBehaviour
         PuckToCenterOrigin();
         ActivateGoals();
     }
-    public IEnumerator CountDownAndDropPuck(){
-        countdownDisplayPanel.SetActive(true);
-        audioManager.PlayReadySound();
-        for (int i = 3; i > 0; i--){
-            countdownCountText.text = i.ToString();
-            yield return new WaitForSeconds(1);
-        }
-        countdownDisplayPanel.SetActive(false);
-        DropPuck();
-    }
     private IEnumerator CelebrateThenReset(){
         InstantReplay instantReplay = FindObjectOfType<InstantReplay>();
         yield return StartCoroutine(TemporaryGoalMessage());
@@ -299,10 +289,6 @@ public class GameSystem : MonoBehaviour
         // point a spotlight on the player who scored
         // yield return StartCoroutine(instantReplay.startInstantReplay()); // new WaitForSeconds(3);
         // is it sudden death? declare the winner
-        if(isSuddenDeath){
-            isSuddenDeath = false;
-            StartCoroutine(EndOfGameHandler());
-        }else{StartCoroutine(CountDownAndDropPuck());}
     }
     public void UpdateScoreBoard(){
         homeScoreText.text = endOfGameHomeScoreText.text = homeScore.ToString();
@@ -320,7 +306,6 @@ public class GameSystem : MonoBehaviour
         OutOfBoundsMessageDisplay.SetActive(true);
         yield return new WaitForSeconds(2);
         OutOfBoundsMessageDisplay.SetActive(false);
-        StartCoroutine(CountDownAndDropPuck());
     }
     public void PuckOutOfBounds(){
         StartCoroutine(OutOfBoundsReset());
@@ -358,7 +343,6 @@ public class GameSystem : MonoBehaviour
             timerText.text = "sudden death";
             audioManager.PlaySuddenDeath();
             yield return StartCoroutine(FlashingOnScreenMessage(suddenDeathDisplay, 12));
-            StartCoroutine(CountDownAndDropPuck());
         } else {
             UpdateScoreBoard();
             timerText.text = "final";
