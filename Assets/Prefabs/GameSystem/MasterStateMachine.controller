@@ -185,7 +185,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 117b6ee3b4d90dc45b820e9d877d2b2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  delayBetweenScores: 1.86
+  delayBetweenScores: 2.56
 --- !u!1101 &-4919792782883859699
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -279,7 +279,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22b7d1884bab50e4282103e039b97f03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  delayBeforeCelebration: 3.25
+  delayBeforeCelebration: 0.2
 --- !u!114 &-3201477046619482222
 MonoBehaviour:
   m_ObjectHideFlags: 1

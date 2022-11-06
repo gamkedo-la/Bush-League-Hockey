@@ -6,16 +6,19 @@ public class VCamCoordinator : MonoBehaviour
     [SerializeField] private CinemachineVirtualCamera vCamMainMenu;
     [SerializeField] private CinemachineVirtualCamera vCamFaceOff;
     [SerializeField] private CinemachineVirtualCamera vCamGameplay;
+    [SerializeField] private CinemachineVirtualCamera vCamCrowdPan;
 
     private void Awake(){
         MainMenuState.onStateEnter += SwitchToMainMenuVCam;
-        BeginGameState.onStateEnter += SwitchToFaceOffVCam;
+        FaceOffState.onStateEnter += SwitchToFaceOffVCam;
         GameOnState.onStateEnter += SwitchToGameplayVCam;
+        GoalScoredState.onStateEnter += SwitchToCrowdPanVCam;
     }
     private void AllCamsOff(){
         vCamMainMenu.gameObject.SetActive(false);
         vCamFaceOff.gameObject.SetActive(false);
         vCamGameplay.gameObject.SetActive(false);
+        vCamCrowdPan.gameObject.SetActive(false);
     }
     private void SwitchToMainMenuVCam(object sender, EventArgs e){
         AllCamsOff();
@@ -28,5 +31,9 @@ public class VCamCoordinator : MonoBehaviour
     private void SwitchToGameplayVCam(object sender, EventArgs e){
         AllCamsOff();
         vCamGameplay.gameObject.SetActive(true);
+    }
+    private void SwitchToCrowdPanVCam(object sender, EventArgs e){
+        AllCamsOff();
+        vCamCrowdPan.gameObject.SetActive(true);
     }
 }
