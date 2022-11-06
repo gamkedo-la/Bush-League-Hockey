@@ -28,7 +28,6 @@ public class FaceOffState : StateMachineBehaviour
         if(countdownTimer <= 0 && faceOffCountDown){
             faceOffCountDown = false;
             countdownTimer = 4;
-            gameSystem.ActivateGoals();
             gameSystem.SetupPlayersForFaceOff();
             gameSystem.DropPuck();
             gameSystem.masterStateMachine.SetBool("GameOn", true);

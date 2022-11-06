@@ -17,16 +17,8 @@ public class InstantReplayState : StateMachineBehaviour
     private void ReplayDone(object sender, EventArgs e)
     {
         masterStateMachine.SetBool("InstantReplay", false);
-        // Decide to either face off or end game
-        Debug.Log($"SD? {masterStateMachine.GetBool("SuddenDeath")}");
-        if(masterStateMachine.GetBool("SuddenDeath") && currentGameplayState.homeScore != currentGameplayState.awayScore)
-        {
-            masterStateMachine.SetTrigger("EndGame");
-        }
-        else
-        {
-            masterStateMachine.SetTrigger("FaceOff");
-        }
+        masterStateMachine.SetTrigger("WinCheck");
+        
     }
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {

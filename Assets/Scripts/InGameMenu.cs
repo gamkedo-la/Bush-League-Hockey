@@ -1,14 +1,14 @@
+using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem.UI;
 using TMPro;
 
 public class InGameMenu : MonoBehaviour
 {
+    [SerializeField] GameplayState currentGameplayState;
     [Header("In Game Menu")]
     [SerializeField] public GameObject gameMenuButtonPanel;
-    [SerializeField] public GameObject endOfGameDisplay;
     [SerializeField] public GameObject controlsHelpDisplay;
     [SerializeField] public GameObject rematchButton;
     [Header("Choose Sides Menu")]
@@ -26,7 +26,47 @@ public class InGameMenu : MonoBehaviour
     [SerializeField] TextMeshProUGUI awayShotsText;
     [SerializeField] TextMeshProUGUI homeSavesText;
     [SerializeField] TextMeshProUGUI awaySavesText;
-
+    [Header("Onscreen Messages")]
+    [SerializeField] public GameObject suddenDeathDisplay;
+    [SerializeField] public GameObject endOfGameMenu;
+    [SerializeField] public GameObject endOfGameHomeScoreBox;
+    [SerializeField] public GameObject endOfGameAwayScoreBox;
+    [SerializeField] TextMeshProUGUI endOfGameHomeScoreText;
+    [SerializeField] TextMeshProUGUI endOfGameAwayScoreText;
+    [SerializeField] public GameObject endOfGameHomeWinnerTag;
+    [SerializeField] public GameObject endOfGameAwayWinnerTag;
+    private void Awake() {
+        BeginGameState.onStateEnter += HideMenus;
+        SuddenDeathMessage.onStateEnter += SuddenDeathDisplay;
+        EOGSetup.onStateEnter += SwitchToEndGameMenu;
+        ShowScores.onStateEnter += ShowHomeScore;
+        ShowScores.onStateExit += ShowAwayScore;
+        BigCelebration.celebrate += ShowWinner;
+    }
+    public void HideMenus(object sender, EventArgs e)
+    {
+        endOfGameMenu.SetActive(false);
+        endOfGameHomeScoreBox.SetActive(false);
+        endOfGameAwayScoreBox.SetActive(false);
+        endOfGameHomeWinnerTag.SetActive(false);
+        endOfGameAwayWinnerTag.SetActive(false);
+        gameMenuButtonPanel.SetActive(true);
+        controlsHelpDisplay.SetActive(false);
+        chooseSidesMenu.SetActive(false);
+        gameStatsDisplay.SetActive(false); 
+    }
+    public void SuddenDeathDisplay(object sender, EventArgs e)
+    {
+        StartCoroutine(FlashingOnScreenMessage(suddenDeathDisplay, 10));
+    }
+    public IEnumerator FlashingOnScreenMessage(GameObject messageDisplay, int cycles){
+        for (int i = 0; i < cycles; i++){
+            messageDisplay.SetActive(true);
+            yield return new WaitForSeconds(0.15f);
+            messageDisplay.SetActive(false);
+            yield return new WaitForSeconds(0.075f);
+        }
+    }
     public void SetActiveMenuItemForAllPlayers(GameObject menuItem){
         foreach (MultiplayerEventSystem eventSystem in FindObjectsOfType<MultiplayerEventSystem>())
         {
@@ -63,13 +103,30 @@ public class InGameMenu : MonoBehaviour
         gameStatsDisplay.SetActive(false);
         SetActiveMenuItemForAllPlayers(rematchButton);
     }
-    public void SwitchToEndGameMenu(){
+    public void SwitchToEndGameMenu(object sender, EventArgs e){
+        endOfGameMenu.SetActive(true);
+        endOfGameHomeScoreBox.SetActive(false);
+        endOfGameAwayScoreBox.SetActive(false);
+        endOfGameHomeWinnerTag.SetActive(false);
+        endOfGameAwayWinnerTag.SetActive(false);
         gameMenuButtonPanel.SetActive(true);
-        endOfGameDisplay.SetActive(true);
         controlsHelpDisplay.SetActive(false);
         chooseSidesMenu.SetActive(false);
         gameStatsDisplay.SetActive(false);
         SetActiveMenuItemForAllPlayers(rematchButton);
+    }
+    public void ShowHomeScore(object sender, EventArgs e){
+        endOfGameHomeScoreBox.SetActive(true);
+    }
+    public void ShowAwayScore(object sender, EventArgs e){
+        endOfGameAwayScoreBox.SetActive(true);
+    }
+    public void ShowWinner(object sender, EventArgs e){
+        if(currentGameplayState.homeScore > currentGameplayState.awayScore){
+            endOfGameHomeWinnerTag.SetActive(true);
+        } else {
+            endOfGameAwayWinnerTag.SetActive(true);
+        }
     }
     public void AcceptTeamSelectionChanges(){
         gameMenuButtonPanel.SetActive(false);

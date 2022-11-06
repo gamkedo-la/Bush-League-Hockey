@@ -4,6 +4,7 @@ using UnityEngine;
 public class RunClockState : StateMachineBehaviour
 {
     [SerializeField] GameplayState currentGameplayState;
+    public static EventHandler<EventArgs> onStateUpdate;
     public static EventHandler<EventArgs> timerDone;
     private GameSystem gameSystem;
     private TimeProvider gameTimeProvider;
@@ -19,8 +20,10 @@ public class RunClockState : StateMachineBehaviour
         currentGameplayState.gameClockTime -= gameTimeProvider.fixedDeltaTime;
         if(currentGameplayState.gameClockTime <= 0){
             timerDone?.Invoke(this, EventArgs.Empty);
-            animator.SetTrigger("EndOfPeriod");
+            animator.SetBool("GameOn", false);
+            animator.SetTrigger("WinCheck");
         }
+        onStateUpdate?.Invoke(this, EventArgs.Empty);
     }
     //override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     //{

@@ -20,7 +20,6 @@ public class MainMenuState : StateMachineBehaviour
         gameSystem.SetPlayersToTeams();
         gameSystem.SetupPlayersForFaceOff();
         gameSystem.PuckToCenterOrigin();
-        gameSystem.ActivateGoals();
     }
     public void GoalScored(object sender, EventArgs e)
     {

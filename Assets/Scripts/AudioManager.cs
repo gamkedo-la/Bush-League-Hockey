@@ -46,6 +46,13 @@ public class AudioManager : MonoBehaviour
         FaceOffState.onStateEnter += PlayReadySound;
         FaceOffState.onStateExit += PlayFaceOffSound;
         RunClockState.timerDone += PlayWoodWhistle;
+        SuddenDeathMessage.onStateEnter += PlaySuddenDeath;
+        BigCelebration.celebrate += EndOfGameCelebration;
+    }
+    public void EndOfGameCelebration(object sender, EventArgs e){
+        PlayGoalHorn();
+        PlayCrowdCelebration();
+        BigCelebration.celebrate -= EndOfGameCelebration;
     }
     public void GoalScored(object sender, EventArgs e){
         PlayGoalHorn();
@@ -103,7 +110,7 @@ public class AudioManager : MonoBehaviour
      public void PlayReadySound(object sender, EventArgs e){
         PlayRandomlyFromList(ReadySfx, sfxUniversalOrigin, universalSfxVolume*5);
     }
-    public void PlaySuddenDeath (){
+    public void PlaySuddenDeath(object sender, EventArgs e){
         sfxUniversalOrigin.GetComponent<AudioSource>().PlayOneShot(suddenDeathSfx, universalSfxVolume*10);
     }
     private IEnumerator CooldownTrashTalk(){

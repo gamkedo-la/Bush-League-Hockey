@@ -14,15 +14,17 @@ public class BeginGameState : StateMachineBehaviour
         currentGameplayState.currentPeriod = 1;
         currentGameplayState.homeScore = 0;
         currentGameplayState.awayScore = 0;
-        currentGameplayState.gameClockTime = 5f;
+        currentGameplayState.gameClockTime = 15f;
         gameSystem = FindObjectOfType<GameSystem>();
         gameSystem.SetPlayersToTeams();
         gameSystem.SetAllActionMapsToPlayer();
-        gameSystem.DeactivateGoals();
         gameSystem.audioManager.PlayBaseCrowdTrack();
         gameSystem.inGameHUD.SetActive(true);
         onStateEnter?.Invoke(this, EventArgs.Empty);
-        gameSystem.masterStateMachine.SetTrigger("FaceOff");
+        animator.SetBool("GameOn", false);
+        animator.SetBool("GameOn", false);
+        animator.SetBool("SuddenDeath", false);
+        animator.SetTrigger("FaceOff");
     }
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {

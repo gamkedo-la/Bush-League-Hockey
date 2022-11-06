@@ -13,6 +13,9 @@ public class ScoreKeeper : MonoBehaviour
         // Subscribe to stats monitoring events
         CountGoals.awayGoalScored += AwayGoalScored;
         CountGoals.homeGoalScored += HomeGoalScored;
+        RunClockState.onStateUpdate += ClockUpdate;
+        RunClockState.timerDone += EndOfGame;
+        SuddenDeathMessage.onStateEnter += SuddenDeath;
     }
     public void AwayGoalScored(object sender, EventArgs e)
     {
@@ -29,7 +32,15 @@ public class ScoreKeeper : MonoBehaviour
         homeScoreText.text = currentGameplayState.homeScore.ToString();
         //gameSystem.GoalScored(false);
     }
-    private void FixedUpdate() {
+    public void EndOfGame(object sender, EventArgs e)
+    {
+        gameTimerText.text = "final";
+    }
+    public void SuddenDeath(object sender, EventArgs e)
+    {
+        gameTimerText.text = "sudden death";
+    }
+    private void ClockUpdate(object sender, EventArgs e) {
         minutes = ((int)(currentGameplayState.gameClockTime/60)).ToString();
         seconds = currentGameplayState.gameClockTime % 60 < 10 ?
             $"0{(int)currentGameplayState.gameClockTime % 60}" :

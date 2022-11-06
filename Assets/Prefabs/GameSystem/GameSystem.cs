@@ -197,14 +197,6 @@ public class GameSystem : MonoBehaviour
         // what is the current scene?
         // SceneLoader current scene     
     }
-    public IEnumerator FlashingOnScreenMessage(GameObject messageDisplay, int cycles){
-        for (int i = 0; i < cycles; i++){
-            messageDisplay.SetActive(true);
-            yield return new WaitForSeconds(0.15f);
-            messageDisplay.SetActive(false);
-            yield return new WaitForSeconds(0.075f);
-        }
-    }
     private IEnumerator TemporaryGoalMessage(){
         GoalScoredDisplay.SetActive(true);
         yield return new WaitForSeconds(1.2f);
@@ -245,14 +237,6 @@ public class GameSystem : MonoBehaviour
         homeGoaltender.transform.position = homeGoalOrigin.position;
         awayGoaltender.transform.position = awayGoalOrigin.position;
     }
-    public void DeactivateGoals(){
-        homeNet.GetComponent<Goal>().goalIsActive = false;
-        awayNet.GetComponent<Goal>().goalIsActive = false;
-    }
-    public void ActivateGoals(){
-        homeNet.GetComponent<Goal>().goalIsActive = true;
-        awayNet.GetComponent<Goal>().goalIsActive = true;
-    }
     public void PuckToCenterOrigin(){
         puckObject.transform.position = puckDropOrigin.position;
         puckObject.transform.rotation = puckDropOrigin.rotation;
@@ -268,14 +252,12 @@ public class GameSystem : MonoBehaviour
         StartCoroutine(CasualDropPuck());
     }
     public IEnumerator CasualDropPuck(){
-        DeactivateGoals();
         float elapsedTime = 0;
         while(elapsedTime < 3){
             yield return new WaitForFixedUpdate();
             elapsedTime += Time.fixedDeltaTime;
         }
         PuckToCenterOrigin();
-        ActivateGoals();
     }
     private IEnumerator CelebrateThenReset(){
         InstantReplay instantReplay = FindObjectOfType<InstantReplay>();
@@ -302,7 +284,6 @@ public class GameSystem : MonoBehaviour
     }
     private IEnumerator OutOfBoundsReset(){
         gameOn = false;
-        DeactivateGoals();
         OutOfBoundsMessageDisplay.SetActive(true);
         yield return new WaitForSeconds(2);
         OutOfBoundsMessageDisplay.SetActive(false);
@@ -338,16 +319,10 @@ public class GameSystem : MonoBehaviour
     private IEnumerator EndOfGameHandler(){
         yield return new WaitForSeconds(2.5f);
         if(homeScore == awayScore){
-            isSuddenDeath = true;
-            timerText.text = "sudden death";
-            audioManager.PlaySuddenDeath();
-            yield return StartCoroutine(FlashingOnScreenMessage(suddenDeathDisplay, 12));
+            //yield return StartCoroutine(FlashingOnScreenMessage(suddenDeathDisplay, 12));
         } else {
-            UpdateScoreBoard();
-            timerText.text = "final";
             yield return StartCoroutine(EndOfGamePresentation());
-            SetAllActionMapsToUI();
-            FindObjectOfType<InGameMenu>().SwitchToEndGameMenu();
+            //FindObjectOfType<InGameMenu>().SwitchToEndGameMenu();
         }
     }
 }
