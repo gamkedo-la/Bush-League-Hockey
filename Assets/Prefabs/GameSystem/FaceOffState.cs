@@ -29,7 +29,7 @@ public class FaceOffState : StateMachineBehaviour
             faceOffCountDown = false;
             countdownTimer = 4;
             gameSystem.SetupPlayersForFaceOff();
-            gameSystem.DropPuck();
+            gameSystem.PuckToCenterOrigin();
             gameSystem.masterStateMachine.SetBool("GameOn", true);
         }
     }

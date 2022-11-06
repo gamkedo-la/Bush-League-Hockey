@@ -6,6 +6,7 @@ public class BigCelebration : StateMachineBehaviour
     [SerializeField] [Range(0.2f, 6f)] float delayBeforeCelebration;
     public static EventHandler<EventArgs> onStateEnter;
     public static EventHandler<EventArgs> celebrate;
+    public static EventHandler<EventArgs> onStateExit;
     float entryTime;
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
@@ -18,5 +19,9 @@ public class BigCelebration : StateMachineBehaviour
             entryTime = Time.time;
             celebrate?.Invoke(this, EventArgs.Empty);
         }
+    }
+    override public void OnStateExit(Animator animator, AnimatorStateInfo animatorStateInfo, int layerIndex)
+    {
+        // stuff
     }
 }

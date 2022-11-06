@@ -15,7 +15,7 @@ public class MainMenuState : StateMachineBehaviour
         Goal.homeGoalTrigger += GoalScored;
         onStateEnter.Invoke(this, EventArgs.Empty);
         // Setup the AI to play casually
-        gameSystem.mainMenu.SetActive(true);
+        gameSystem.mainMenu.SetActive(true); // in game menu manager will handle this
         mainMenuScript.SwitchToMainMenu();
         gameSystem.SetPlayersToTeams();
         gameSystem.SetupPlayersForFaceOff();

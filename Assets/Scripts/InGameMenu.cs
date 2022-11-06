@@ -27,6 +27,8 @@ public class InGameMenu : MonoBehaviour
     [SerializeField] TextMeshProUGUI homeSavesText;
     [SerializeField] TextMeshProUGUI awaySavesText;
     [Header("Onscreen Messages")]
+    [SerializeField] public GameObject scoreBoardDisplay;
+    [SerializeField] public GameObject goalScoredDisplay;
     [SerializeField] public GameObject suddenDeathDisplay;
     [SerializeField] public GameObject endOfGameMenu;
     [SerializeField] public GameObject endOfGameHomeScoreBox;
@@ -36,28 +38,40 @@ public class InGameMenu : MonoBehaviour
     [SerializeField] public GameObject endOfGameHomeWinnerTag;
     [SerializeField] public GameObject endOfGameAwayWinnerTag;
     private void Awake() {
-        BeginGameState.onStateEnter += HideMenus;
+        BeginGameState.onStateEnter += HandleGameOn;
+        GoalScoredState.onStateEnter += GoalDisplay;
+        FaceOffState.onStateExit += HandleGameOn;
         SuddenDeathMessage.onStateEnter += SuddenDeathDisplay;
         EOGSetup.onStateEnter += SwitchToEndGameMenu;
         ShowScores.onStateEnter += ShowHomeScore;
         ShowScores.onStateExit += ShowAwayScore;
         BigCelebration.celebrate += ShowWinner;
     }
-    public void HideMenus(object sender, EventArgs e)
+    public void HandleGameOn(object sender, EventArgs e)
+    {
+        HideMenus();
+        scoreBoardDisplay.SetActive(true);
+    }
+    public void HideMenus()
     {
         endOfGameMenu.SetActive(false);
         endOfGameHomeScoreBox.SetActive(false);
         endOfGameAwayScoreBox.SetActive(false);
         endOfGameHomeWinnerTag.SetActive(false);
         endOfGameAwayWinnerTag.SetActive(false);
-        gameMenuButtonPanel.SetActive(true);
+        gameMenuButtonPanel.SetActive(false);
         controlsHelpDisplay.SetActive(false);
         chooseSidesMenu.SetActive(false);
-        gameStatsDisplay.SetActive(false); 
+        gameStatsDisplay.SetActive(false);
+        scoreBoardDisplay.SetActive(false);
     }
     public void SuddenDeathDisplay(object sender, EventArgs e)
     {
         StartCoroutine(FlashingOnScreenMessage(suddenDeathDisplay, 10));
+    }
+    public void GoalDisplay(object sender, EventArgs e)
+    {
+        StartCoroutine(FlashingOnScreenMessage(goalScoredDisplay, 6));
     }
     public IEnumerator FlashingOnScreenMessage(GameObject messageDisplay, int cycles){
         for (int i = 0; i < cycles; i++){
@@ -115,11 +129,16 @@ public class InGameMenu : MonoBehaviour
         gameStatsDisplay.SetActive(false);
         SetActiveMenuItemForAllPlayers(rematchButton);
     }
+    private void UpdateTextFields(){
+
+    }
     public void ShowHomeScore(object sender, EventArgs e){
         endOfGameHomeScoreBox.SetActive(true);
+        endOfGameHomeScoreText.text = currentGameplayState.homeScore.ToString();
     }
     public void ShowAwayScore(object sender, EventArgs e){
         endOfGameAwayScoreBox.SetActive(true);
+        endOfGameAwayScoreText.text = currentGameplayState.awayScore.ToString();
     }
     public void ShowWinner(object sender, EventArgs e){
         if(currentGameplayState.homeScore > currentGameplayState.awayScore){
@@ -139,8 +158,8 @@ public class InGameMenu : MonoBehaviour
         awayHitsText.text = FindObjectOfType<GameSystem>().awayHits.ToString();
         homePassesText.text = FindObjectOfType<GameSystem>().homePasses.ToString();
         awayPassesText.text = FindObjectOfType<GameSystem>().awayPasses.ToString();
-        homeShotsText.text = (FindObjectOfType<GameSystem>().homeScore + FindObjectOfType<GameSystem>().awaySaves).ToString();
-        awayShotsText.text = (FindObjectOfType<GameSystem>().awayScore + FindObjectOfType<GameSystem>().homeSaves).ToString();
+        // homeShotsText.text = (FindObjectOfType<GameSystem>().homeScore + FindObjectOfType<GameSystem>().awaySaves).ToString();
+        // awayShotsText.text = (FindObjectOfType<GameSystem>().awayScore + FindObjectOfType<GameSystem>().homeSaves).ToString();
         homeSavesText.text = FindObjectOfType<GameSystem>().homeSaves.ToString();
         awaySavesText.text = FindObjectOfType<GameSystem>().awaySaves.ToString();
     }

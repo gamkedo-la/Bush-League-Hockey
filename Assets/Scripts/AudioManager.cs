@@ -45,9 +45,9 @@ public class AudioManager : MonoBehaviour
         CountGoals.homeGoalScored += GoalScored;
         FaceOffState.onStateEnter += PlayReadySound;
         FaceOffState.onStateExit += PlayFaceOffSound;
+        EOGSetup.onStateEnter += HandleEndOfGame;
         RunClockState.timerDone += PlayWoodWhistle;
         SuddenDeathMessage.onStateEnter += PlaySuddenDeath;
-        BigCelebration.celebrate += EndOfGameCelebration;
     }
     public void EndOfGameCelebration(object sender, EventArgs e){
         PlayGoalHorn();
@@ -57,6 +57,10 @@ public class AudioManager : MonoBehaviour
     public void GoalScored(object sender, EventArgs e){
         PlayGoalHorn();
         PlayCrowdCelebration();
+    }
+    public void HandleEndOfGame(object sender, EventArgs e)
+    {
+        BigCelebration.celebrate += EndOfGameCelebration;
     }
     private void PlayRandomlyFromList(AudioClip[] soundList, GameObject origin, float volumeFactor){
         int randomSFXIndex = UnityEngine.Random.Range(0, soundList.Length);

@@ -9,36 +9,44 @@ public class ScoreKeeper : MonoBehaviour
     [SerializeField] TextMeshProUGUI awayScoreText;
     private string minutes;
     private string seconds;
-    private void Awake() {
-        // Subscribe to stats monitoring events
+    private void Awake(){
+        GameOnState.onStateEnter += HandleGameOn;
         CountGoals.awayGoalScored += AwayGoalScored;
         CountGoals.homeGoalScored += HomeGoalScored;
-        RunClockState.onStateUpdate += ClockUpdate;
         RunClockState.timerDone += EndOfGame;
         SuddenDeathMessage.onStateEnter += SuddenDeath;
+    }
+    public void HandleGameOn(object sender, EventArgs e)
+    {
+        ScoreUpdate();
+        RunClockState.onStateUpdate += ClockUpdate;
     }
     public void AwayGoalScored(object sender, EventArgs e)
     {
         Debug.Log($"AwayGoal");
         currentGameplayState.awayScore++;
-        awayScoreText.text = currentGameplayState.awayScore.ToString();
-        //StartCoroutine(crowdReactionManager.transform.GetComponent<CrowdReactionManagerScriptComponent>().HandleAwayTeamScoringAGoal());
-        //gameSystem.GoalScored(true);
+        ScoreUpdate();
     }
     public void HomeGoalScored(object sender, EventArgs e)
     {
         Debug.Log($"HomeGoal");
         currentGameplayState.homeScore++;
-        homeScoreText.text = currentGameplayState.homeScore.ToString();
-        //gameSystem.GoalScored(false);
+        ScoreUpdate();
     }
     public void EndOfGame(object sender, EventArgs e)
     {
+        RunClockState.onStateUpdate -= ClockUpdate;
         gameTimerText.text = "final";
     }
     public void SuddenDeath(object sender, EventArgs e)
     {
+        RunClockState.onStateUpdate -= ClockUpdate;
         gameTimerText.text = "sudden death";
+    }
+    public void ScoreUpdate()
+    {
+        awayScoreText.text = currentGameplayState.awayScore.ToString();
+        homeScoreText.text = currentGameplayState.homeScore.ToString();
     }
     private void ClockUpdate(object sender, EventArgs e) {
         minutes = ((int)(currentGameplayState.gameClockTime/60)).ToString();
