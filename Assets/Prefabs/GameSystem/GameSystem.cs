@@ -66,6 +66,18 @@ public class GameSystem : MonoBehaviour
         homeSkaterRigidBody = homeSkater.GetComponent<Rigidbody>();
         awaySkaterRigidBody = awaySkater.GetComponent<Rigidbody>();
         allTeamMemberScripts = FindObjectsOfType<TeamMember>();
+        MainMenuState.onStateEnter += HandleMainMenuEnter;
+        EOGSetup.onStateEnter += HandleEndOfGameEnter;
+    }
+    public void HandleMainMenuEnter(object sender, EventArgs e)
+    {
+        SetAllActionMapsToUI();
+        SetAIActiveState(true);
+        PuckToCenterOrigin();
+    }
+    public void HandleEndOfGameEnter(object sender, EventArgs e)
+    {
+        SetAllActionMapsToUI();
     }
     public bool IsZeroQuaternion(Quaternion q){
         return q.x == 0 && q.y == 0 && q.z == 0 && q.w == 0;

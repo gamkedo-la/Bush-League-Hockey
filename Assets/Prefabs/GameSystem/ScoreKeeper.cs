@@ -13,7 +13,7 @@ public class ScoreKeeper : MonoBehaviour
         GameOnState.onStateEnter += HandleGameOn;
         CountGoals.awayGoalScored += AwayGoalScored;
         CountGoals.homeGoalScored += HomeGoalScored;
-        RunClockState.timerDone += EndOfGame;
+        RunClockState.timerDone += EndOfGame; 
         SuddenDeathMessage.onStateEnter += SuddenDeath;
     }
     public void HandleGameOn(object sender, EventArgs e)

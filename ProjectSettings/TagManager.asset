@@ -24,10 +24,10 @@ TagManager:
   - Puck
   - SkaterWorldPhysics
   - SkaterModelPhysics
-  - 
-  - 
-  - 
-  - 
+  - VCamMainView
+  - VCamPuckFollow
+  - VCamHomeSkaterFollow
+  - VCamAwaySkaterFollow
   - 
   - 
   - 
