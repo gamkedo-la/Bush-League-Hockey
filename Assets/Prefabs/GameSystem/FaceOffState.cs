@@ -6,8 +6,9 @@ public class FaceOffState : StateMachineBehaviour
     private AudioManager audioManager;
     private TimeProvider gameTimeProvider;
     public static EventHandler<EventArgs> onStateEnter;
+    public static EventHandler<FaceOffEventArgs> onStateUpdate;
     public static EventHandler<EventArgs> onStateExit;
-    float countdownTimer = 4f;
+    public float countdownTimer = 4f;
     bool faceOffCountDown = false;
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
@@ -16,13 +17,11 @@ public class FaceOffState : StateMachineBehaviour
        gameTimeProvider = gameSystem.timeManager.gameTime;
        countdownTimer = 4;
        faceOffCountDown = true;
-       gameSystem.countdownDisplayPanel.SetActive(true);
        onStateEnter?.Invoke(this, EventArgs.Empty);
     }
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        countdownTimer -= gameTimeProvider.fixedDeltaTime;// Animator update mode -> Physics, makes this function run during FixedUpdate
-        gameSystem.countdownCountText.text = ((int)countdownTimer).ToString();
+        countdownTimer -= gameTimeProvider.fixedDeltaTime;
         // gameSystem.puckObject.transform.position = gameSystem.puckDropOrigin.position;
         // gameSystem.puckObject.transform.rotation = gameSystem.puckDropOrigin.rotation;
         if(countdownTimer <= 0 && faceOffCountDown){
@@ -32,22 +31,17 @@ public class FaceOffState : StateMachineBehaviour
             gameSystem.PuckToCenterOrigin();
             gameSystem.masterStateMachine.SetBool("GameOn", true);
         }
+        onStateUpdate?.Invoke(this, new FaceOffEventArgs(countdownTimer));
     }
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        gameSystem.countdownDisplayPanel.SetActive(false);
         onStateExit?.Invoke(this, EventArgs.Empty);
     }
-
-    // OnStateMove is called right after Animator.OnAnimatorMove()
-    //override public void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    //{
-    //    // Implement code that processes and affects root motion
-    //}
-
-    // OnStateIK is called right after Animator.OnAnimatorIK()
-    //override public void OnStateIK(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    //{
-    //    // Implement code that sets up animation IK (inverse kinematics)
-    //}
+}
+public class FaceOffEventArgs : EventArgs
+{
+    public float countdownTimer = 4f;
+    public FaceOffEventArgs(float s){
+        countdownTimer = s;
+    }
 }

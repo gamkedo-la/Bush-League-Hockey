@@ -18,8 +18,6 @@ public class BeginGameState : StateMachineBehaviour
         gameSystem = FindObjectOfType<GameSystem>();
         gameSystem.SetPlayersToTeams();
         gameSystem.SetAllActionMapsToPlayer();
-        gameSystem.audioManager.PlayBaseCrowdTrack();
-        gameSystem.inGameHUD.SetActive(true);
         onStateEnter?.Invoke(this, EventArgs.Empty);
         animator.SetBool("GameOn", false);
         animator.SetBool("GameOn", false);

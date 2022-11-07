@@ -41,26 +41,25 @@ public class AudioManager : MonoBehaviour
     [Header("SFX Files")]
     [SerializeField] public AudioClip[] songs;
     private void Awake() {
+        BeginGameState.onStateEnter += HandleBeginGameEnter;
         CountGoals.awayGoalScored += GoalScored;
         CountGoals.homeGoalScored += GoalScored;
         FaceOffState.onStateEnter += PlayReadySound;
         FaceOffState.onStateExit += PlayFaceOffSound;
-        EOGSetup.onStateEnter += HandleEndOfGame;
         RunClockState.timerDone += PlayWoodWhistle;
         SuddenDeathMessage.onStateEnter += PlaySuddenDeath;
+        BigCelebration.celebrate += EndOfGameCelebration;
+    }
+    public void HandleBeginGameEnter(object sender, EventArgs e){
+        PlayBaseCrowdTrack();
     }
     public void EndOfGameCelebration(object sender, EventArgs e){
         PlayGoalHorn();
         PlayCrowdCelebration();
-        BigCelebration.celebrate -= EndOfGameCelebration;
     }
     public void GoalScored(object sender, EventArgs e){
         PlayGoalHorn();
         PlayCrowdCelebration();
-    }
-    public void HandleEndOfGame(object sender, EventArgs e)
-    {
-        BigCelebration.celebrate += EndOfGameCelebration;
     }
     private void PlayRandomlyFromList(AudioClip[] soundList, GameObject origin, float volumeFactor){
         int randomSFXIndex = UnityEngine.Random.Range(0, soundList.Length);

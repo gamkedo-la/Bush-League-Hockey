@@ -12,7 +12,6 @@ public class GameSystem : MonoBehaviour
     public static EventHandler<EventArgs> dropPuck;
     public static EventHandler<EventArgs> outOfBounds;
     public TimeManager timeManager;
-    public AudioManager audioManager;
     [SerializeField] private GameObject crowdReactionManager;
     [SerializeField] public GameObject homeSkater;
     [SerializeField] public GameObject awaySkater;
@@ -40,9 +39,6 @@ public class GameSystem : MonoBehaviour
     [SerializeField] public GameplayState currentGameData;
     [SerializeField] public GameObject homeNet;
     [SerializeField] public GameObject awayNet;
-    [SerializeField] TextMeshProUGUI homeScoreText;
-    [SerializeField] TextMeshProUGUI awayScoreText;
-    [SerializeField] TextMeshProUGUI timerText;
     public int homeHits = 0;
     public int awayHits = 0;
     public int homeSaves = 0;
@@ -53,13 +49,9 @@ public class GameSystem : MonoBehaviour
     [Header("Onscreen Messages / Menus")]
     [SerializeField] public GameObject inGameHUD;
     [SerializeField] public GameObject mainMenu;
-    [SerializeField] public GameObject FaceOffMessageDisplay;
     [SerializeField] public GameObject OutOfBoundsMessageDisplay;
-    [SerializeField] public GameObject countdownDisplayPanel;
-    [SerializeField] public TextMeshProUGUI countdownCountText;
     private void Awake(){
         masterStateMachine = GetComponent<Animator>();
-        audioManager = FindObjectOfType<AudioManager>();
         timeManager = FindObjectOfType<TimeManager>();
         puckRigidBody = puckObject.GetComponent<Rigidbody>();
         puckTrail = puckObject.GetComponent<TrailRenderer>();
@@ -174,11 +166,6 @@ public class GameSystem : MonoBehaviour
     }
     public void QuitGame(){
         Application.Quit();
-    }
-    private IEnumerator TemporaryFaceOffMessage(){
-        FaceOffMessageDisplay.SetActive(true);
-        yield return new WaitForSeconds(2);
-        FaceOffMessageDisplay.SetActive(false);
     }
     public void ApplyGameplayFrameData(GameplaySingleFrameData frame){
         homeSkater.transform.position = frame.p1Position; homeSkater.transform.rotation = frame.p1Rotation;

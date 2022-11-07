@@ -266,7 +266,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4971ea3121ac9944b7840be97fd0edc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  idleTime: 1.3
+  idleTime: 3
 --- !u!114 &-3644595590446293032
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -279,7 +279,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22b7d1884bab50e4282103e039b97f03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  delayBeforeCelebration: 0.2
+  timeProvider: {fileID: 11400000, guid: 3f9f5f34b5c8944489bd5de6a7a7da6e, type: 2}
+  delayBeforeCelebration: 0.41
+  delayBetweenCelebration: 11
 --- !u!114 &-3201477046619482222
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -664,6 +666,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f75aa467efd1b5049bb0e832bd2d1c03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  countdownTimer: 4
 --- !u!114 &762593729433626898
 MonoBehaviour:
   m_ObjectHideFlags: 1

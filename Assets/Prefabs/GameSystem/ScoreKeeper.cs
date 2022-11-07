@@ -23,13 +23,11 @@ public class ScoreKeeper : MonoBehaviour
     }
     public void AwayGoalScored(object sender, EventArgs e)
     {
-        Debug.Log($"AwayGoal");
         currentGameplayState.awayScore++;
         ScoreUpdate();
     }
     public void HomeGoalScored(object sender, EventArgs e)
     {
-        Debug.Log($"HomeGoal");
         currentGameplayState.homeScore++;
         ScoreUpdate();
     }

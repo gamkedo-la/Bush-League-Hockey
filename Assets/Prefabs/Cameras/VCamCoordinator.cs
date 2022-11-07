@@ -13,6 +13,7 @@ public class VCamCoordinator : MonoBehaviour
         FaceOffState.onStateEnter += SwitchToFaceOffVCam;
         GameOnState.onStateEnter += SwitchToGameplayVCam;
         GoalScoredState.onStateEnter += SwitchToCrowdPanVCam;
+        EOGSetup.onStateEnter += SwitchToCrowdPanVCam;
     }
     private void AllCamsOff(){
         vCamMainMenu.gameObject.SetActive(false);

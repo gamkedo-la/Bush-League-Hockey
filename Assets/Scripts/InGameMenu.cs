@@ -29,6 +29,8 @@ public class InGameMenu : MonoBehaviour
     [Header("Onscreen Messages")]
     [SerializeField] public GameObject scoreBoardDisplay;
     [SerializeField] public GameObject goalScoredDisplay;
+    [SerializeField] public GameObject faceOffCountdownDisplay;
+    [SerializeField] TextMeshProUGUI faceOffCountdownText;
     [SerializeField] public GameObject suddenDeathDisplay;
     [SerializeField] public GameObject endOfGameMenu;
     [SerializeField] public GameObject endOfGameHomeScoreBox;
@@ -37,9 +39,11 @@ public class InGameMenu : MonoBehaviour
     [SerializeField] TextMeshProUGUI endOfGameAwayScoreText;
     [SerializeField] public GameObject endOfGameHomeWinnerTag;
     [SerializeField] public GameObject endOfGameAwayWinnerTag;
-    private void Awake() {
+    private void Awake(){
         BeginGameState.onStateEnter += HandleGameOn;
         GoalScoredState.onStateEnter += GoalDisplay;
+        FaceOffState.onStateEnter += HandleFaceOffEnter;
+        FaceOffState.onStateUpdate += HandleFaceOffUpdate;
         FaceOffState.onStateExit += HandleGameOn;
         SuddenDeathMessage.onStateEnter += SuddenDeathDisplay;
         EOGSetup.onStateEnter += SwitchToEndGameMenu;
@@ -54,14 +58,15 @@ public class InGameMenu : MonoBehaviour
     }
     public void HideMenus()
     {
+        controlsHelpDisplay.SetActive(false);
+        chooseSidesMenu.SetActive(false);
         endOfGameMenu.SetActive(false);
         endOfGameHomeScoreBox.SetActive(false);
         endOfGameAwayScoreBox.SetActive(false);
         endOfGameHomeWinnerTag.SetActive(false);
         endOfGameAwayWinnerTag.SetActive(false);
+        faceOffCountdownDisplay.SetActive(false);
         gameMenuButtonPanel.SetActive(false);
-        controlsHelpDisplay.SetActive(false);
-        chooseSidesMenu.SetActive(false);
         gameStatsDisplay.SetActive(false);
         scoreBoardDisplay.SetActive(false);
     }
@@ -72,6 +77,15 @@ public class InGameMenu : MonoBehaviour
     public void GoalDisplay(object sender, EventArgs e)
     {
         StartCoroutine(FlashingOnScreenMessage(goalScoredDisplay, 6));
+    }
+    public void HandleFaceOffEnter(object sender, EventArgs e)
+    {
+        HideMenus();
+        faceOffCountdownDisplay.SetActive(true);
+    }
+    public void HandleFaceOffUpdate(object sender, FaceOffEventArgs e)
+    {
+        faceOffCountdownText.text = $"{(int)e.countdownTimer}";
     }
     public IEnumerator FlashingOnScreenMessage(GameObject messageDisplay, int cycles){
         for (int i = 0; i < cycles; i++){

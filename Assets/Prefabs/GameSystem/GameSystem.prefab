@@ -16398,7 +16398,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   masterStateMachine: {fileID: 0}
   timeManager: {fileID: 0}
-  audioManager: {fileID: 0}
   crowdReactionManager: {fileID: 0}
   homeSkater: {fileID: 0}
   awaySkater: {fileID: 0}
@@ -16424,9 +16423,6 @@ MonoBehaviour:
   currentGameData: {fileID: 11400000, guid: 00a2b9cf1dfcc3647b735ec427e5934b, type: 2}
   homeNet: {fileID: 0}
   awayNet: {fileID: 0}
-  homeScoreText: {fileID: 6619080287748541273}
-  awayScoreText: {fileID: 6619080286894361404}
-  timerText: {fileID: 330889156}
   homeHits: 0
   awayHits: 0
   homeSaves: 0
@@ -16435,10 +16431,7 @@ MonoBehaviour:
   awayPasses: 0
   inGameHUD: {fileID: 6619080288139202445}
   mainMenu: {fileID: 1236668168}
-  FaceOffMessageDisplay: {fileID: 6619080286885391412}
   OutOfBoundsMessageDisplay: {fileID: 6619080287475490092}
-  countdownDisplayPanel: {fileID: 3544748092083665988}
-  countdownCountText: {fileID: 2162067454293530422}
 --- !u!114 &6619080286672928149
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17699,6 +17692,8 @@ MonoBehaviour:
   awaySavesText: {fileID: 4338053916133020330}
   scoreBoardDisplay: {fileID: 6619080288192628387}
   goalScoredDisplay: {fileID: 6619080286999270751}
+  faceOffCountdownDisplay: {fileID: 3544748092083665988}
+  faceOffCountdownText: {fileID: 2162067454293530422}
   suddenDeathDisplay: {fileID: 6588883713815986059}
   endOfGameMenu: {fileID: 1367619467240139813}
   endOfGameHomeScoreBox: {fileID: 5022041546078876373}

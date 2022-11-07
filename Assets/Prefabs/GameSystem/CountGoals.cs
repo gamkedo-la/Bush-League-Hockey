@@ -10,7 +10,6 @@ public class CountGoals : StateMachineBehaviour
     public static EventHandler<EventArgs> awayGoalScored;
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        Debug.Log($"This state counts goals");
         Goal.awayGoalTrigger += AwayGoalScored;
         Goal.homeGoalTrigger += HomeGoalScored;
         masterStateMachine = animator;
