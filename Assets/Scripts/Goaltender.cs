@@ -115,10 +115,10 @@ public class Goaltender : MonoBehaviour
             gameSystem.puckObject.GetComponent<Rigidbody>().AddForce(passDirection * (passPower + extraPassPower), ForceMode.Impulse);
         }
         if (gameObject.tag == "awayGoaltender"){
-            gameSystem.awayPasses++;
+            //gameSystem.awayPasses++;
         }
         else if (gameObject.tag == "homeGoaltender"){
-            gameSystem.homePasses++;
+            //gameSystem.homePasses++;
         }
     }
     public IEnumerator WindUpShot(){

@@ -168,13 +168,13 @@ public class InGameMenu : MonoBehaviour
         SwitchToGameMenu();
     }
     public void SetStatisticsDisplayValues(){
-        homeHitsText.text = FindObjectOfType<GameSystem>().homeHits.ToString();
-        awayHitsText.text = FindObjectOfType<GameSystem>().awayHits.ToString();
-        homePassesText.text = FindObjectOfType<GameSystem>().homePasses.ToString();
-        awayPassesText.text = FindObjectOfType<GameSystem>().awayPasses.ToString();
-        // homeShotsText.text = (FindObjectOfType<GameSystem>().homeScore + FindObjectOfType<GameSystem>().awaySaves).ToString();
-        // awayShotsText.text = (FindObjectOfType<GameSystem>().awayScore + FindObjectOfType<GameSystem>().homeSaves).ToString();
-        homeSavesText.text = FindObjectOfType<GameSystem>().homeSaves.ToString();
-        awaySavesText.text = FindObjectOfType<GameSystem>().awaySaves.ToString();
+        homeHitsText.text = currentGameplayState.homeHits.ToString();
+        awayHitsText.text = currentGameplayState.awayHits.ToString();
+        homePassesText.text = currentGameplayState.homePasses.ToString();
+        awayPassesText.text = currentGameplayState.awayPasses.ToString();
+        homeShotsText.text = (currentGameplayState.homeScore + currentGameplayState.awaySaves).ToString();
+        awayShotsText.text = (currentGameplayState.awayScore + currentGameplayState.homeSaves).ToString();
+        homeSavesText.text = currentGameplayState.homeSaves.ToString();
+        awaySavesText.text = currentGameplayState.awaySaves.ToString();
     }
 }

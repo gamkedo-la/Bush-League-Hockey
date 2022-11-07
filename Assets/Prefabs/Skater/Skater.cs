@@ -89,10 +89,10 @@ public class Skater : MonoBehaviour
             skaterAnimationScript.skaterAnimator.SetTrigger("AnimatePassFollowThru");
             gameSystem.puckObject.GetComponent<Rigidbody>().AddForce(bodycheckDirection * (skaterPresets.passPower + extraPassPower), ForceMode.Impulse);
             if (gameObject.tag == "awaySkater"){
-                gameSystem.awayPasses++;
+                //gameSystem.awayPasses++;
             }
             else if (gameObject.tag == "homeSkater"){
-                gameSystem.homePasses++;
+                //gameSystem.homePasses++;
             }
         } else{
             ResetSkaterActions();
@@ -166,10 +166,10 @@ public class Skater : MonoBehaviour
         //if home hit homehits++
         ///else if away hit awayhits++
         if (gameObject.tag == "awaySkater"){
-            gameSystem.homeHits++;
+            //gameSystem.homeHits++;
         }
         else if (gameObject.tag == "homeSkater"){
-            gameSystem.awayHits++;
+            //gameSystem.awayHits++;
         }
         // at the end of this, in RagdollThenReset() we trigger an instant replay
     }

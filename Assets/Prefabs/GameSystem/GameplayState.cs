@@ -8,4 +8,10 @@ public class GameplayState : ScriptableObject
     public float gameClockTime = 300f;
     public int homeScore = 0;
     public int awayScore = 0;
+    public int homeHits = 0;
+    public int awayHits = 0;
+    public int homeSaves = 0;
+    public int awaySaves = 0;
+    public int homePasses = 0;
+    public int awayPasses = 0;
 }

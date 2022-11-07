@@ -39,12 +39,6 @@ public class GameSystem : MonoBehaviour
     [SerializeField] public GameplayState currentGameData;
     [SerializeField] public GameObject homeNet;
     [SerializeField] public GameObject awayNet;
-    public int homeHits = 0;
-    public int awayHits = 0;
-    public int homeSaves = 0;
-    public int awaySaves = 0;
-    public int homePasses = 0;
-    public int awayPasses = 0;
     private bool saveCooldownDone = true;
     [Header("Onscreen Messages / Menus")]
     [SerializeField] public GameObject inGameHUD;
@@ -102,9 +96,9 @@ public class GameSystem : MonoBehaviour
         if(saveCooldownDone){
             StartCoroutine(SaveCooldown());
             if(homeSave){
-                homeSaves++;
+                //homeSaves++;
             } else {
-                awaySaves++;
+                //awaySaves++;
             }
         }
     }
