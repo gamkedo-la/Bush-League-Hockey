@@ -18,7 +18,6 @@ public class InstantReplayState : StateMachineBehaviour
     {
         masterStateMachine.SetBool("InstantReplay", false);
         masterStateMachine.SetTrigger("WinCheck");
-        
     }
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {

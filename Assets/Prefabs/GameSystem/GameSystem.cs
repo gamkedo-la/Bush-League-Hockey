@@ -53,10 +53,13 @@ public class GameSystem : MonoBehaviour
         awaySkaterRigidBody = awaySkater.GetComponent<Rigidbody>();
         allTeamMemberScripts = FindObjectsOfType<TeamMember>();
         MainMenuState.onStateEnter += HandleMainMenuEnter;
+        GameOnState.onStateEnter += HandleGameOnEnter;
         EOGSetup.onStateEnter += HandleEndOfGameEnter;
+        InstantReplayState.onStateEnter += HandleInstantReplayEnter;
     }
     public void HandleMainMenuEnter(object sender, EventArgs e)
     {
+        mainMenu.SetActive(true);
         SetAllActionMapsToUI();
         SetAIActiveState(true);
         PuckToCenterOrigin();
@@ -64,6 +67,14 @@ public class GameSystem : MonoBehaviour
     public void HandleEndOfGameEnter(object sender, EventArgs e)
     {
         SetAllActionMapsToUI();
+    }
+    public void HandleGameOnEnter(object sender, EventArgs e)
+    {
+        SetAllActionMapsToPlayer();
+    }
+    public void HandleInstantReplayEnter(object sender, EventArgs e)
+    {
+        SetAllActionMapsToReplay();
     }
     public bool IsZeroQuaternion(Quaternion q){
         return q.x == 0 && q.y == 0 && q.z == 0 && q.w == 0;
@@ -136,8 +147,7 @@ public class GameSystem : MonoBehaviour
         foreach (PlayerInput ctrl in FindObjectsOfType<PlayerInput>()){
             ctrl.SwitchCurrentActionMap("Player");
         }
-    }
-    public void SetAllActionMapsToReplay(){
+    }    public void SetAllActionMapsToReplay(){
         foreach (PlayerInput ctrl in FindObjectsOfType<PlayerInput>()){
             ctrl.SwitchCurrentActionMap("Replay");
         }

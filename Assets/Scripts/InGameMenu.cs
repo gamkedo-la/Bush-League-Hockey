@@ -40,6 +40,7 @@ public class InGameMenu : MonoBehaviour
     [SerializeField] public GameObject endOfGameHomeWinnerTag;
     [SerializeField] public GameObject endOfGameAwayWinnerTag;
     private void Awake(){
+        MainMenuState.onStateEnter += HandleMainMenuEnter;
         BeginGameState.onStateEnter += HandleGameOn;
         GoalScoredState.onStateEnter += GoalDisplay;
         FaceOffState.onStateEnter += HandleFaceOffEnter;
@@ -50,6 +51,10 @@ public class InGameMenu : MonoBehaviour
         ShowScores.onStateEnter += ShowHomeScore;
         ShowScores.onStateExit += ShowAwayScore;
         BigCelebration.celebrate += ShowWinner;
+    }
+    public void HandleMainMenuEnter(object sender, EventArgs e)
+    {
+        HideMenus();
     }
     public void HandleGameOn(object sender, EventArgs e)
     {

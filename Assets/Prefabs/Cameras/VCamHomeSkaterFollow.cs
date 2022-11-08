@@ -13,7 +13,7 @@ public class VCamHomeSkaterFollow : MonoBehaviour
     void Start()
     {
         // Find the puck and follow it
-        vCamHomeSkaterFollow.Follow = gameSystem.homeSkater.transform;
-        vCamHomeSkaterFollow.LookAt = gameSystem.homeSkater.transform;
+        // vCamHomeSkaterFollow.Follow = gameSystem.homeSkater.transform;
+        // vCamHomeSkaterFollow.LookAt = gameSystem.homeSkater.transform;
     }
 }

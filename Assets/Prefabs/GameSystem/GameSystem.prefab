@@ -8035,7 +8035,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1497583517
 RectTransform:
   m_ObjectHideFlags: 0
@@ -13171,16 +13171,16 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6619080286672928151}
-        m_TargetAssemblyTypeName: GameSystem, Assembly-CSharp
-        m_MethodName: LoadMainMenu
-        m_Mode: 1
+      - m_Target: {fileID: 1183346748}
+        m_TargetAssemblyTypeName: UnityEngine.Animator, UnityEngine
+        m_MethodName: SetTrigger
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: MainMenu
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!1 &2421277594612533500
@@ -13689,7 +13689,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3202119164545301576}
   m_LocalRotation: {x: 0.38268343, y: 0, z: 0, w: 0.92387956}
-  m_LocalPosition: {x: 2.6563725, y: 15, z: 0}
+  m_LocalPosition: {x: 6.6600633, y: 15, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -16423,12 +16423,6 @@ MonoBehaviour:
   currentGameData: {fileID: 11400000, guid: 00a2b9cf1dfcc3647b735ec427e5934b, type: 2}
   homeNet: {fileID: 0}
   awayNet: {fileID: 0}
-  homeHits: 0
-  awayHits: 0
-  homeSaves: 0
-  awaySaves: 0
-  homePasses: 0
-  awayPasses: 0
   inGameHUD: {fileID: 6619080288139202445}
   mainMenu: {fileID: 1236668168}
   OutOfBoundsMessageDisplay: {fileID: 6619080287475490092}
@@ -18133,7 +18127,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7629704609485015110}
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 2.6563725, y: 15, z: 0}
+  m_LocalPosition: {x: 6.6600633, y: 15, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -18155,7 +18149,7 @@ MonoBehaviour:
   m_Path: {fileID: 2287548711604653705}
   m_UpdateMethod: 1
   m_PositionUnits: 1
-  m_Speed: 2
+  m_Speed: 1.5
   m_Position: 16.154428
 --- !u!1 &7651184522905010076
 GameObject:
@@ -19614,9 +19608,9 @@ MonoBehaviour:
     width: 0.2
   m_Looped: 1
   m_Waypoints:
-  - position: {x: -13.5, y: 15, z: 0}
+  - position: {x: -9.5, y: 15, z: 0}
     roll: 0
-  - position: {x: 14, y: 15, z: 0}
+  - position: {x: 9.5, y: 15, z: 0}
     roll: 0
 --- !u!1 &8928931743794008467
 GameObject:

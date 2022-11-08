@@ -14,4 +14,15 @@ public class GameplayState : ScriptableObject
     public int awaySaves = 0;
     public int homePasses = 0;
     public int awayPasses = 0;
+    public void ResetStats(){
+        currentPeriod = 1;
+        homeScore = 0;
+        awayScore = 0;
+        homeHits = 0;
+        awayHits = 0;
+        homeSaves = 0;
+        awaySaves = 0;
+        homePasses = 0;
+        awayPasses = 0;
+    }
 }

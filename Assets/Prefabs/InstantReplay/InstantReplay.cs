@@ -15,13 +15,8 @@ public class InstantReplay : MonoBehaviour
     private GameplaySingleFrameData currentFrameData;
     private GameplaySingleFrameData nextFrameData;
     public Camera replayCamera;
-    public Vector3 replayCameraOffset;
-    public Transform replayTarget2;
     public Camera replayCamera2;
-    public Vector3 replayCameraOffset2;
-    public Transform replayTarget3;
     public Camera replayCamera3;
-    public Vector3 replayCameraOffset3;
     private List<Rigidbody> gamePieceRigidbodies;
     public Transform p1;
     public Rigidbody p1Rigidbody;
@@ -51,9 +46,9 @@ public class InstantReplay : MonoBehaviour
         puckTrail = puck.GetComponent<TrailRenderer>();
         GameOnState.onStateEnter += StartRecording;
         StateRecordsReplayData.onStateUpdate += RecordCurrentFrameData;
-        GoalScoredState.onStateUpdate += RecordCurrentFrameData;
         InstantReplayState.onStateEnter += startInstantReplay;
         InstantReplayState.onStateUpdate += PlaybackUpdate;
+        InstantReplayState.onStateExit += CancelReplay;
         PlayerController.replayTrigger += startInstantReplay;
         PlayerController.replayCancelTrigger += CancelReplay;
     }
@@ -211,21 +206,6 @@ public class InstantReplay : MonoBehaviour
                 return;
             }
             if(playbackFrame == 1){puckTrail.Clear();}
-            replayCamera.transform.position = new Vector3(
-                puck.position.x + replayCameraOffset.x,
-                puck.position.y + replayCameraOffset.y,
-                puck.position.z + replayCameraOffset.z);
-            replayCamera.transform.LookAt(puck);
-            replayCamera2.transform.position = new Vector3(
-                replayTarget2.position.x + replayCameraOffset2.x,
-                replayTarget2.position.y + replayCameraOffset2.y,
-                replayTarget2.position.z + replayCameraOffset2.z);
-            replayCamera2.transform.LookAt(replayTarget2);
-            replayCamera3.transform.position = new Vector3(
-                replayTarget3.position.x + replayCameraOffset3.x,
-                replayTarget3.position.y + replayCameraOffset3.y,
-                replayTarget3.position.z + replayCameraOffset3.z);
-            replayCamera3.transform.LookAt(replayTarget3);
             replayData.timeSinceFrameWasSwitched = 0;
         }
     }

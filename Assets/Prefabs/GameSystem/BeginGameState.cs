@@ -11,10 +11,8 @@ public class BeginGameState : StateMachineBehaviour
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         Debug.Log("Begin Game");
-        currentGameplayState.currentPeriod = 1;
-        currentGameplayState.homeScore = 0;
-        currentGameplayState.awayScore = 0;
-        currentGameplayState.gameClockTime = 15f;
+        currentGameplayState.ResetStats();
+        currentGameplayState.gameClockTime = 150f;
         gameSystem = FindObjectOfType<GameSystem>();
         gameSystem.SetPlayersToTeams();
         gameSystem.SetAllActionMapsToPlayer();

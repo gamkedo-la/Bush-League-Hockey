@@ -11,11 +11,13 @@ public class CrowdReactionManagerScriptComponent : MonoBehaviour
     public List<GameObject> listOfAwayTeamCrowdGroups = new List<GameObject>();
 
     public List<GameObject> listOfHomeTeamEggPeople = new List<GameObject>();
+    public List<Floater> listOfHomeTeamFloaters = new List<Floater>();
     public List<GameObject> listOfAwayTeamEggPeople = new List<GameObject>();
+    public List<Floater> listOfAwayTeamFloaters = new List<Floater>();
     [Header("Design Settings")]
     [SerializeField] [Range(0, 5f)] private float baseFrequency;
-    [SerializeField] [Range(4f, 12f)] private float goalExcitementFactor;
-    [SerializeField] [Range(6f, 18f)] private float goalAgainstFactor;
+    [SerializeField] [Range(5f, 12f)] private float goalExcitementFactor;
+    [SerializeField] [Range(0.01f, 0.5f)] private float goalAgainstFactor;
     private void Awake()
     {
         gameSystem = FindObjectOfType<GameSystem>();
@@ -26,19 +28,41 @@ public class CrowdReactionManagerScriptComponent : MonoBehaviour
         BigCelebration.celebrate += HandleEndOfGameCelebration;
     }
     private void AwayGoal(object sender, EventArgs e){
-        StartCoroutine(HandleAwayTeamScoringAGoal());
+        foreach (Floater floater in listOfAwayTeamFloaters){
+            floater.SetNewFrequency(goalExcitementFactor);
+        }
+        foreach (Floater floater in listOfHomeTeamFloaters){
+            floater.SetNewFrequency(goalAgainstFactor);
+        }
     }
     private void HomeGoal(object sender, EventArgs e){
-        StartCoroutine(HandleHomeTeamScoringAGoal());
+        foreach (Floater floater in listOfAwayTeamFloaters){
+            floater.SetNewFrequency(goalAgainstFactor);
+        }
+        foreach (Floater floater in listOfHomeTeamFloaters){
+            floater.SetNewFrequency(goalExcitementFactor);
+        }
     }
     private void HandleFaceOffEnter(object sender, EventArgs e){
-        // crowd returns to normal state
+        NormalizeEntireCrowd();
+    }
+    private void NormalizeEntireCrowd()
+    {
+        foreach (Floater f in listOfHomeTeamFloaters)
+        {
+            f.ResetFrequency();
+        }
+        foreach (Floater f in listOfAwayTeamFloaters)
+        {
+            f.ResetFrequency();
+        }
     }
     private void HandleEndOfGameCelebration(object sender, EventArgs e){
+        NormalizeEntireCrowd();
         if(gameSystem.currentGameData.homeScore < gameSystem.currentGameData.awayScore){
-            StartCoroutine(HandleAwayTeamScoringAGoal());
+            AwayGoal(null, null);
         } else {
-            StartCoroutine(HandleHomeTeamScoringAGoal());
+            HomeGoal(null, null);
         }
     }
     public IEnumerator HandleAwayTeamScoringAGoal()
@@ -119,7 +143,6 @@ public class CrowdReactionManagerScriptComponent : MonoBehaviour
             listOfAwayTeamEggPeople[i].transform.GetComponent<Floater>().frequency *= goalAgainstFactor;
         }
     }
-
     private void InitializeArrays()
     {
         GameObject[] crowdGroupAArray = GameObject.FindGameObjectsWithTag("CrowdGroupA");
@@ -129,25 +152,24 @@ public class CrowdReactionManagerScriptComponent : MonoBehaviour
         {
             listOfHomeTeamCrowdGroups.Add(crowdGroupAArray[i]);
         }
-
         for (int i = 0; i < crowdGroupBArray.Length; i++)
         {
             listOfAwayTeamCrowdGroups.Add(crowdGroupBArray[i]);
         }
-
         for (int i = 0; i < listOfHomeTeamCrowdGroups.Count; i++)
         {
             foreach (Transform childEggPerson in listOfHomeTeamCrowdGroups[i].transform)
             {
                 listOfHomeTeamEggPeople.Add(childEggPerson.gameObject);
+                listOfHomeTeamFloaters.Add(childEggPerson.gameObject.GetComponent<Floater>());
             }
         }
-
         for (int i = 0; i < listOfAwayTeamCrowdGroups.Count; i++)
         {
             foreach (Transform childEggPerson in listOfAwayTeamCrowdGroups[i].transform)
             {
                 listOfAwayTeamEggPeople.Add(childEggPerson.gameObject);
+                listOfAwayTeamFloaters.Add(childEggPerson.gameObject.GetComponent<Floater>());
             }
         }
     }
