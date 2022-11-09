@@ -1,9 +1,11 @@
 using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public class Goaltender : MonoBehaviour
 {
+    public static EventHandler<EventArgs> homePass;
+    public static EventHandler<EventArgs> awayPass;
     private GameSystem gameSystem;
     [SerializeField] TimeProvider timeProvider;
     private AudioManager audioManager;
@@ -115,10 +117,11 @@ public class Goaltender : MonoBehaviour
             gameSystem.puckObject.GetComponent<Rigidbody>().AddForce(passDirection * (passPower + extraPassPower), ForceMode.Impulse);
         }
         if (gameObject.tag == "awayGoaltender"){
-            //gameSystem.awayPasses++;
+            awayPass?.Invoke(this, EventArgs.Empty);
         }
         else if (gameObject.tag == "homeGoaltender"){
-            //gameSystem.homePasses++;
+            homePass?.Invoke(this, EventArgs.Empty);
+            
         }
     }
     public IEnumerator WindUpShot(){

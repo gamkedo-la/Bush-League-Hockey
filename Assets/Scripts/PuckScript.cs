@@ -6,7 +6,8 @@ public class PuckScript : MonoBehaviour
     private AudioManager audioManager;
     private Rigidbody puckRigidbody;
     [SerializeField] GameObject puckLocationIndicator;
-
+    public static EventHandler<EventArgs> saveHomeTeam;
+    public static EventHandler<EventArgs> saveAwayTeam;
     private void Awake(){
         audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
         puckRigidbody = GetComponent<Rigidbody>();
@@ -23,7 +24,11 @@ public class PuckScript : MonoBehaviour
             StartCoroutine(audioManager.PlayPuckPlayerHitSound(volumeFactor*3));
         }
         if(other.gameObject.name.Contains("Goaltender")){
-            FindObjectOfType<GameSystem>().CountSave(other.gameObject.tag.Contains("home"));
+            if(other.gameObject.tag.Contains("home")){
+                saveHomeTeam?.Invoke(this, EventArgs.Empty);
+            } else{
+                saveAwayTeam?.Invoke(this, EventArgs.Empty);
+            }
         }
     }
     private void Update() {

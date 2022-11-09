@@ -60,6 +60,7 @@ public class GameSystem : MonoBehaviour
     public void HandleMainMenuEnter(object sender, EventArgs e)
     {
         mainMenu.SetActive(true);
+        inGameHUD.SetActive(false);
         SetAllActionMapsToUI();
         SetAIActiveState(true);
         PuckToCenterOrigin();
@@ -71,6 +72,7 @@ public class GameSystem : MonoBehaviour
     public void HandleGameOnEnter(object sender, EventArgs e)
     {
         SetAllActionMapsToPlayer();
+        inGameHUD.SetActive(true);
     }
     public void HandleInstantReplayEnter(object sender, EventArgs e)
     {

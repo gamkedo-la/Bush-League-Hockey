@@ -1,10 +1,12 @@
 using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEditor;
 using UnityEngine.InputSystem;
 public class Skater : MonoBehaviour
 {
+    public static EventHandler<EventArgs> homeHitLanded;
+    public static EventHandler<EventArgs> awayHitLanded;
     [SerializeField] public SkaterPresets skaterPresets;
     [SerializeField] SkaterAnimationScript skaterAnimationScript;
     [SerializeField] TimeProvider timeProvider;
@@ -166,10 +168,10 @@ public class Skater : MonoBehaviour
         //if home hit homehits++
         ///else if away hit awayhits++
         if (gameObject.tag == "awaySkater"){
-            //gameSystem.homeHits++;
+            homeHitLanded?.Invoke(this, EventArgs.Empty);
         }
         else if (gameObject.tag == "homeSkater"){
-            //gameSystem.awayHits++;
+            awayHitLanded?.Invoke(this, EventArgs.Empty);
         }
         // at the end of this, in RagdollThenReset() we trigger an instant replay
     }

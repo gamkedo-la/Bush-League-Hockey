@@ -834,6 +834,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60d26e63513272e47bb5d09195956acc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentGameplayState: {fileID: 11400000, guid: 00a2b9cf1dfcc3647b735ec427e5934b, type: 2}
 --- !u!1109 &2803433482862880115
 AnimatorTransition:
   m_ObjectHideFlags: 1
@@ -875,6 +876,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60d26e63513272e47bb5d09195956acc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentGameplayState: {fileID: 11400000, guid: 00a2b9cf1dfcc3647b735ec427e5934b, type: 2}
 --- !u!114 &3438750921908050024
 MonoBehaviour:
   m_ObjectHideFlags: 1
