@@ -7,6 +7,8 @@ public class Skater : MonoBehaviour
 {
     public static EventHandler<EventArgs> homeHitLanded;
     public static EventHandler<EventArgs> awayHitLanded;
+    public static EventHandler<EventArgs> homePass;
+    public static EventHandler<EventArgs> awayPass;
     [SerializeField] public SkaterPresets skaterPresets;
     [SerializeField] SkaterAnimationScript skaterAnimationScript;
     [SerializeField] TimeProvider timeProvider;
@@ -91,10 +93,10 @@ public class Skater : MonoBehaviour
             skaterAnimationScript.skaterAnimator.SetTrigger("AnimatePassFollowThru");
             gameSystem.puckObject.GetComponent<Rigidbody>().AddForce(bodycheckDirection * (skaterPresets.passPower + extraPassPower), ForceMode.Impulse);
             if (gameObject.tag == "awaySkater"){
-                //gameSystem.awayPasses++;
+                awayPass?.Invoke(this, EventArgs.Empty);
             }
             else if (gameObject.tag == "homeSkater"){
-                //gameSystem.homePasses++;
+                homePass?.Invoke(this, EventArgs.Empty);
             }
         } else{
             ResetSkaterActions();

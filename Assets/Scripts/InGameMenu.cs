@@ -11,21 +11,12 @@ public class InGameMenu : MonoBehaviour
     [SerializeField] public GameObject gameMenuButtonPanel;
     [SerializeField] public GameObject controlsHelpDisplay;
     [SerializeField] public GameObject rematchButton;
+    [SerializeField] public GameObject gameStatsDisplay;
+    [SerializeField] public GameObject backFromStatsButton;
     [Header("Choose Sides Menu")]
     [SerializeField] public GameObject chooseSidesMenu;
     [SerializeField] public GameObject acceptButton;
     [SerializeField] public GameObject backButton;
-    [Header("Stats Menu")]
-    [SerializeField] public GameObject gameStatsDisplay;
-    [SerializeField] public GameObject backFromStatsButton;
-    [SerializeField] TextMeshProUGUI homeHitsText;
-    [SerializeField] TextMeshProUGUI awayHitsText;
-    [SerializeField] TextMeshProUGUI homePassesText;
-    [SerializeField] TextMeshProUGUI awayPassesText;
-    [SerializeField] TextMeshProUGUI homeShotsText;
-    [SerializeField] TextMeshProUGUI awayShotsText;
-    [SerializeField] TextMeshProUGUI homeSavesText;
-    [SerializeField] TextMeshProUGUI awaySavesText;
     [Header("Onscreen Messages")]
     [SerializeField] public GameObject scoreBoardDisplay;
     [SerializeField] public GameObject goalScoredDisplay;
@@ -127,7 +118,6 @@ public class InGameMenu : MonoBehaviour
         chooseSidesMenu.SetActive(false);
         gameMenuButtonPanel.SetActive(false);
         FindObjectOfType<GameSystem>().SetAllActionMapsToUI();
-        SetStatisticsDisplayValues();
         SetActiveMenuItemForAllPlayers(backFromStatsButton);
     }
     public void SwitchToGameMenu(){
@@ -147,9 +137,6 @@ public class InGameMenu : MonoBehaviour
         chooseSidesMenu.SetActive(false);
         gameStatsDisplay.SetActive(false);
         SetActiveMenuItemForAllPlayers(rematchButton);
-    }
-    private void UpdateTextFields(){
-
     }
     public void ShowHomeScore(object sender, EventArgs e){
         endOfGameHomeScoreBox.SetActive(true);
@@ -171,15 +158,5 @@ public class InGameMenu : MonoBehaviour
         chooseSidesMenu.SetActive(false);
         FindObjectOfType<GameSystem>().SetPlayersToTeams();
         SwitchToGameMenu();
-    }
-    public void SetStatisticsDisplayValues(){
-        homeHitsText.text = currentGameplayState.homeHits.ToString();
-        awayHitsText.text = currentGameplayState.awayHits.ToString();
-        homePassesText.text = currentGameplayState.homePasses.ToString();
-        awayPassesText.text = currentGameplayState.awayPasses.ToString();
-        homeShotsText.text = (currentGameplayState.homeScore + currentGameplayState.awaySaves).ToString();
-        awayShotsText.text = (currentGameplayState.awayScore + currentGameplayState.homeSaves).ToString();
-        homeSavesText.text = currentGameplayState.homeSaves.ToString();
-        awaySavesText.text = currentGameplayState.awaySaves.ToString();
     }
 }

@@ -53,6 +53,7 @@ public class GameSystem : MonoBehaviour
         awaySkaterRigidBody = awaySkater.GetComponent<Rigidbody>();
         allTeamMemberScripts = FindObjectsOfType<TeamMember>();
         MainMenuState.onStateEnter += HandleMainMenuEnter;
+        BeginGameState.onStateEnter += HandleNewGame;
         GameOnState.onStateEnter += HandleGameOnEnter;
         EOGSetup.onStateEnter += HandleEndOfGameEnter;
         InstantReplayState.onStateEnter += HandleInstantReplayEnter;
@@ -64,6 +65,13 @@ public class GameSystem : MonoBehaviour
         SetAllActionMapsToUI();
         SetAIActiveState(true);
         PuckToCenterOrigin();
+    }
+    public void HandleNewGame(object sender, EventArgs e)
+    {
+        mainMenu.SetActive(false);
+        inGameHUD.SetActive(true);
+        SetAllActionMapsToUI();
+        SetPlayersToTeams();
     }
     public void HandleEndOfGameEnter(object sender, EventArgs e)
     {
@@ -99,21 +107,6 @@ public class GameSystem : MonoBehaviour
         }
         playerInput.GetComponent<MenuController>().InitializeController();
         playerInput.GetComponent<MultiplayerEventSystem>().firstSelectedGameObject = mainMenu.GetComponent<MainMenuScript>().currentItem;
-    }
-    private IEnumerator SaveCooldown(){
-        saveCooldownDone = false;
-        yield return new WaitForSeconds(.4f);
-        saveCooldownDone = true;
-    }
-    public void CountSave(bool homeSave){
-        if(saveCooldownDone){
-            StartCoroutine(SaveCooldown());
-            if(homeSave){
-                //homeSaves++;
-            } else {
-                //awaySaves++;
-            }
-        }
     }
     public void SetPlayersToTeams(){
         int homeTeamMemberCount = 0;

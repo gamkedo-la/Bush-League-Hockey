@@ -12,7 +12,7 @@ public class BeginGameState : StateMachineBehaviour
     {
         Debug.Log("Begin Game");
         currentGameplayState.ResetStats();
-        currentGameplayState.gameClockTime = 150f;
+        currentGameplayState.gameClockTime = 10f;
         gameSystem = FindObjectOfType<GameSystem>();
         gameSystem.SetPlayersToTeams();
         gameSystem.SetAllActionMapsToPlayer();
