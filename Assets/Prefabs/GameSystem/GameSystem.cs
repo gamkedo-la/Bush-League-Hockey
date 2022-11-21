@@ -39,7 +39,6 @@ public class GameSystem : MonoBehaviour
     [SerializeField] public GameplayState currentGameData;
     [SerializeField] public GameObject homeNet;
     [SerializeField] public GameObject awayNet;
-    private bool saveCooldownDone = true;
     [Header("Onscreen Messages / Menus")]
     [SerializeField] public GameObject inGameHUD;
     [SerializeField] public GameObject mainMenu;
@@ -52,6 +51,8 @@ public class GameSystem : MonoBehaviour
         homeSkaterRigidBody = homeSkater.GetComponent<Rigidbody>();
         awaySkaterRigidBody = awaySkater.GetComponent<Rigidbody>();
         allTeamMemberScripts = FindObjectsOfType<TeamMember>();
+    }
+    private void Start() {
         MainMenuState.onStateEnter += HandleMainMenuEnter;
         BeginGameState.onStateEnter += HandleNewGame;
         GameOnState.onStateEnter += HandleGameOnEnter;

@@ -12,7 +12,7 @@ public class BeginGameState : StateMachineBehaviour
     {
         Debug.Log("Begin Game");
         currentGameplayState.ResetStats();
-        currentGameplayState.gameClockTime = 10f;
+        currentGameplayState.gameClockTime = 360f;
         gameSystem = FindObjectOfType<GameSystem>();
         gameSystem.SetPlayersToTeams();
         gameSystem.SetAllActionMapsToPlayer();
@@ -21,9 +21,5 @@ public class BeginGameState : StateMachineBehaviour
         animator.SetBool("GameOn", false);
         animator.SetBool("SuddenDeath", false);
         animator.SetTrigger("FaceOff");
-    }
-    override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    {
-       Debug.Log($"Begin Game Exit");
     }
 }

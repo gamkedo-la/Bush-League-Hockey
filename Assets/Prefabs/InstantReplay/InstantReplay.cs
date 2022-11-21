@@ -44,6 +44,9 @@ public class InstantReplay : MonoBehaviour
         puck = gameSystem.puckObject.transform;
         puckRigidbody = puck.GetComponent<Rigidbody>();
         puckTrail = puck.GetComponent<TrailRenderer>();
+    }
+    void Start()
+    {
         GameOnState.onStateEnter += StartRecording;
         StateRecordsReplayData.onStateUpdate += RecordCurrentFrameData;
         InstantReplayState.onStateEnter += startInstantReplay;
@@ -51,9 +54,6 @@ public class InstantReplay : MonoBehaviour
         InstantReplayState.onStateExit += CancelReplay;
         PlayerController.replayTrigger += startInstantReplay;
         PlayerController.replayCancelTrigger += CancelReplay;
-    }
-    void Start()
-    {
         bones1 = bonesRig1.GetComponentsInChildren<Transform>();
         bones2 = bonesRig2.GetComponentsInChildren<Transform>();
         //Debug.Log("Replay bones found: " + bones1.Length);
@@ -103,15 +103,13 @@ public class InstantReplay : MonoBehaviour
         }
     }
     public GameplaySingleFrameData GetCurrentFrameData(){
-        currentFrameData = new GameplaySingleFrameData();
-        currentFrameData.p1Position = p1.position; currentFrameData.p1Rotation = p1.rotation;
-        currentFrameData.p1Velocity = p1Rigidbody.velocity;
-        currentFrameData.p2Position = p2.position; currentFrameData.p2Rotation = p2.rotation;
-        currentFrameData.p2Velocity = p2Rigidbody.velocity;
-        currentFrameData.g1Position = g1.position; currentFrameData.g1Rotation = g1.rotation;
-        currentFrameData.g2Position = g2.position; currentFrameData.g2Rotation = g2.rotation;
-        currentFrameData.puckPosition = puck.position; currentFrameData.puckRotation = puck.rotation;
-        currentFrameData.puckVelocity = puckRigidbody.velocity;
+        currentFrameData = new GameplaySingleFrameData(
+            p1.position, p2.position,
+            p1.rotation, p2.rotation,
+            g1.position, g2.position,
+            g1.rotation, g2.rotation,
+            puck.position, puck.rotation
+        );
         // record all 30 or so bone pos+rot for each avatar
         for (int b=0; b<bones1.Length; b++){
             currentFrameData.bones1pos[b] = bones1[b].position; 
@@ -164,7 +162,7 @@ public class InstantReplay : MonoBehaviour
         }
         ZeroRigidbodyVelocities();
     }
-    void LateUpdate()
+    void Update()
     {
         // press [R] for replay anytime
         if (playingBack){

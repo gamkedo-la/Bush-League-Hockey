@@ -653,6 +653,17 @@ public partial class @Playercontrols : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""4613ae74-9538-4919-b1d5-0f9a576334ca"",
+                    ""path"": ""<Keyboard>/c"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""CancelInstantReplay"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""95a26aed-3e3b-4ff9-8da8-88d5fd150333"",
                     ""path"": ""<Gamepad>/buttonEast"",
                     ""interactions"": """",

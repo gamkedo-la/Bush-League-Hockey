@@ -1218,7 +1218,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentGameplayState: {fileID: 11400000, guid: 00a2b9cf1dfcc3647b735ec427e5934b, type: 2}
-  postWhistleTime: 3.51
+  postWhistleTime: 1.2
 --- !u!114 &6646881107518214472
 MonoBehaviour:
   m_ObjectHideFlags: 1

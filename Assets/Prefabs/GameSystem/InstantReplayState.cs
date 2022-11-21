@@ -23,8 +23,9 @@ public class InstantReplayState : StateMachineBehaviour
     {
        onStateUpdate?.Invoke(this, EventArgs.Empty);
     }
-    override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    {
-       masterStateMachine.SetBool("InstantReplay", false);
-    }
+   override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+   {
+      masterStateMachine.SetBool("InstantReplay", false);
+      onStateExit?.Invoke(this, EventArgs.Empty);
+   }
 }
