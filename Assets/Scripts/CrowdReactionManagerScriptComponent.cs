@@ -22,6 +22,8 @@ public class CrowdReactionManagerScriptComponent : MonoBehaviour
     {
         gameSystem = FindObjectOfType<GameSystem>();
         InitializeArrays();
+    }
+    private void Start() {
         CountGoals.awayGoalScored += AwayGoal;
         CountGoals.homeGoalScored += HomeGoal;
         FaceOffState.onStateEnter += HandleFaceOffEnter;
@@ -63,84 +65,6 @@ public class CrowdReactionManagerScriptComponent : MonoBehaviour
             AwayGoal(null, null);
         } else {
             HomeGoal(null, null);
-        }
-    }
-    public IEnumerator HandleAwayTeamScoringAGoal()
-    {
-        AddExcitementToAwayTeam();
-        AddSadnessToHomeTeam();
-
-        yield return new WaitForSeconds(5);
-
-        RemoveExcitementFromAwayTeam();
-        RemoveSadnessFromHomeTeam();
-    }
-
-    public IEnumerator HandleHomeTeamScoringAGoal()
-    {
-        AddExcitementToHomeTeam();
-        AddSadnessToAwayTeam();
-
-        yield return new WaitForSeconds(5);
-
-        RemoveExcitementFromHomeTeam();
-        RemoveSadnessFromAwayTeam();
-    }
-
-    private void AddExcitementToAwayTeam()
-    {
-        for (int i = 0; i < listOfAwayTeamEggPeople.Count; i++)
-        {
-            listOfAwayTeamEggPeople[i].transform.GetComponent<Floater>().frequency *= goalExcitementFactor;
-        }
-    }
-    private void AddExcitementToHomeTeam()
-    {
-        for (int i = 0; i < listOfHomeTeamEggPeople.Count; i++)
-        {
-            listOfHomeTeamEggPeople[i].transform.GetComponent<Floater>().frequency *= goalExcitementFactor;
-        }
-    }
-    public void RemoveExcitementFromAwayTeam()
-    {
-        for (int i = 0; i < listOfAwayTeamEggPeople.Count; i++)
-        {
-            listOfAwayTeamEggPeople[i].transform.GetComponent<Floater>().frequency /= goalExcitementFactor;
-        }
-    }
-    public void RemoveExcitementFromHomeTeam()
-    {
-        for (int i = 0; i < listOfHomeTeamEggPeople.Count; i++)
-        {
-            listOfHomeTeamEggPeople[i].transform.GetComponent<Floater>().frequency /= goalExcitementFactor;
-        }
-    }
-    private void AddSadnessToHomeTeam()
-    {
-        for (int i = 0; i < listOfHomeTeamEggPeople.Count; i++)
-        {
-            listOfHomeTeamEggPeople[i].transform.GetComponent<Floater>().frequency /= goalAgainstFactor;
-        }
-    }
-    private void AddSadnessToAwayTeam()
-    {
-        for (int i = 0; i < listOfAwayTeamEggPeople.Count; i++)
-        {
-            listOfAwayTeamEggPeople[i].transform.GetComponent<Floater>().frequency /= goalAgainstFactor;
-        }
-    }
-    private void RemoveSadnessFromHomeTeam()
-    {
-        for (int i = 0; i < listOfHomeTeamEggPeople.Count; i++)
-        {
-            listOfHomeTeamEggPeople[i].transform.GetComponent<Floater>().frequency *= goalAgainstFactor;
-        }
-    }
-    private void RemoveSadnessFromAwayTeam()
-    {
-        for (int i = 0; i < listOfAwayTeamEggPeople.Count; i++)
-        {
-            listOfAwayTeamEggPeople[i].transform.GetComponent<Floater>().frequency *= goalAgainstFactor;
         }
     }
     private void InitializeArrays()

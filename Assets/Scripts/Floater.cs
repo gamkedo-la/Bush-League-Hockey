@@ -23,7 +23,7 @@ public class Floater : MonoBehaviour
         transform.position = tempPos;
     }
     public void ResetFrequency(){
-        frequency = defaultFrequency;
+        frequency = defaultFrequency + Random.Range((-0.12f * defaultFrequency), (0.12f * defaultFrequency));
     }
     public void SetNewFrequency(float newFrequency){
         frequency = newFrequency + Random.Range((-0.12f * newFrequency), (0.12f * newFrequency));

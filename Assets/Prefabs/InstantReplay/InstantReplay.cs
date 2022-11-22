@@ -244,6 +244,6 @@ public class InstantReplay : MonoBehaviour
         gameSystem.SetAllActionMapsToReplay();
         gameSystem.SetAIActiveState(false);
         DisableAnimators();
-        puckTrail.time = 4f;
+        puckTrail.time = 6f;
     }
 }
